@@ -1,5 +1,6 @@
 /vendor/
 /tests/output/actual/
 .idea/
+/logs/
 /.phpunit.result.cache
 .php_cs.cache
