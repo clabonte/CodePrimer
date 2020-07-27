@@ -46,9 +46,9 @@ jobs:
         config: phpunit.xml.dist
 
     - name: Monitor code coverage
-        uses: slavcodev/coverage-monitor-action@1.1.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          clover_file: "logs/clover.xml"
-          threshold_alert: 95
-          threshold_warning: 90
+      uses: slavcodev/coverage-monitor-action@1.1.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        clover_file: "logs/clover.xml"
+        threshold_alert: 95
+        threshold_warning: 90
