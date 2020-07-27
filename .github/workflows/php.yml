@@ -15,10 +15,11 @@ jobs:
       - name: PHP-CS-Fixer
         uses: docker://oskarstark/php-cs-fixer-ga
         with:
-          args: --rules=@Symfony
+          args: --dry-run --diff
 
   build:
     runs-on: ubuntu-latest
+    needs: php-cs-fixer
 
     steps:
     - uses: actions/checkout@v2

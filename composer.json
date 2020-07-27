@@ -41,7 +41,7 @@
         }
     },
     "scripts": {
-        "php-cs-fixer": "php-cs-fixer --rules=@Symfony",
+        "php-cs-fixer": "php-cs-fixer",
         "phpunit": "vendor/bin/phpunit -c phpunit.xml.dist"
     }
 }
