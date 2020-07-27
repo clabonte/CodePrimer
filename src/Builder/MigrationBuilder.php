@@ -1,8 +1,6 @@
 <?php
 
-
 namespace CodePrimer\Builder;
-
 
 use CodePrimer\Helper\EntityHelper;
 use CodePrimer\Helper\FieldHelper;
@@ -13,12 +11,9 @@ use CodePrimer\Template\Template;
 
 class MigrationBuilder implements ArtifactBuilder
 {
-
     /**
-     * @param Package $package
-     * @param Template $template
-     * @param TemplateRenderer $renderer
      * @return string[]
+     *
      * @throws \Exception
      */
     public function build(Package $package, Template $template, TemplateRenderer $renderer): array
@@ -38,10 +33,6 @@ class MigrationBuilder implements ArtifactBuilder
     }
 
     /**
-     * @param Package $package
-     * @param Template $template
-     * @param TemplateRenderer $renderer
-     * @return string
      * @throws \Exception
      */
     private function buildDatabaseMigration(Package $package, Template $template, TemplateRenderer $renderer): string
@@ -50,17 +41,13 @@ class MigrationBuilder implements ArtifactBuilder
             'package' => $package,
             'packageHelper' => new PackageHelper(),
             'entityHelper' => new EntityHelper(),
-            'fieldHelper' => new FieldHelper()
+            'fieldHelper' => new FieldHelper(),
         ];
 
         return $renderer->renderToFile($template->getName(), $package, $template, $context);
     }
 
     /**
-     * @param Package $package
-     * @param Template $template
-     * @param TemplateRenderer $renderer
-     * @return string
      * @throws \Exception
      */
     private function buildDoctrineMigration(Package $package, Template $template, TemplateRenderer $renderer): string
@@ -79,7 +66,7 @@ class MigrationBuilder implements ArtifactBuilder
             'model' => $filename,
             'packageHelper' => new PackageHelper(),
             'entityHelper' => new EntityHelper(),
-            'fieldHelper' => new FieldHelper()
+            'fieldHelper' => new FieldHelper(),
         ];
 
         return $renderer->renderToFile($filename, $package, $template, $context);

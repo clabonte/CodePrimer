@@ -21,8 +21,6 @@ class EntityHelperTest extends TestCase
 
     /**
      * @dataProvider repositoryClassProvider
-     * @param Entity $entity
-     * @param string $expected
      */
     public function testGetRepositoryClass(Entity $entity, string $expected)
     {
@@ -36,14 +34,12 @@ class EntityHelperTest extends TestCase
             'SampleName' => [new Entity('SampleName'), 'SampleNameRepository'],
             'SampleNames' => [new Entity('SampleNames'), 'SampleNamesRepository'],
             'Sample Names' => [new Entity('Sample Names'), 'SampleNamesRepository'],
-            'Samples Names' => [new Entity('Samples Names'), 'SamplesNamesRepository']
+            'Samples Names' => [new Entity('Samples Names'), 'SamplesNamesRepository'],
         ];
     }
 
     /**
      * @dataProvider getEntityCreatedTimestampFieldProvider
-     * @param Entity $entity
-     * @param Field|null $expected
      */
     public function testGetEntityCreatedTimestampField(Entity $entity, ?Field $expected)
     {
@@ -62,25 +58,23 @@ class EntityHelperTest extends TestCase
             'unmanaged created field' => [
                 (new Entity('Sample Entity'))
                     ->addField($unmanagedField),
-                null
+                null,
             ],
             'managed created field' => [
                 (new Entity('Sample Entity'))
                     ->addField($managedField),
-                $managedField
+                $managedField,
             ],
             'managed updated field' => [
                 (new Entity('Sample Entity'))
                     ->addField($updatedField),
-                null
+                null,
             ],
         ];
     }
 
     /**
      * @dataProvider getEntityUpdatedTimestampFieldProvider
-     * @param Entity $entity
-     * @param Field|null $expected
      */
     public function testGetEntityUpdatedTimestampField(Entity $entity, ?Field $expected)
     {
@@ -99,25 +93,23 @@ class EntityHelperTest extends TestCase
             'unmanaged updated field' => [
                 (new Entity('Sample Entity'))
                     ->addField($unmanagedField),
-                null
+                null,
             ],
             'managed updated field' => [
                 (new Entity('Sample Entity'))
                     ->addField($managedField),
-                $managedField
+                $managedField,
             ],
             'managed created field' => [
                 (new Entity('Sample Entity'))
                     ->addField($createdField),
-                null
+                null,
             ],
         ];
     }
 
     /**
      * @dataProvider isManagedTimestampProvider
-     * @param Entity $entity
-     * @param bool $expected
      */
     public function testIsManagedTimestamp(Entity $entity, bool $expected)
     {
@@ -141,25 +133,25 @@ class EntityHelperTest extends TestCase
                 (new Entity('Sample Entity'))
                     ->addField($unmanagedUpdatedField)
                     ->addField($unmanagedCreatedField),
-                false
+                false,
             ],
             'managed updated field' => [
                 (new Entity('Sample Entity'))
                     ->addField($managedUpdatedField)
                     ->addField($unmanagedCreatedField),
-                true
+                true,
             ],
             'managed created field' => [
                 (new Entity('Sample Entity'))
                     ->addField($managedCreatedField)
                     ->addField($unmanagedUpdatedField),
-                true
+                true,
             ],
             'managed created and updated fields' => [
                 (new Entity('Sample Entity'))
                     ->addField($managedCreatedField)
                     ->addField($managedUpdatedField),
-                true
+                true,
             ],
         ];
     }

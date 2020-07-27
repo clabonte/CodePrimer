@@ -4,7 +4,6 @@ namespace CodePrimer\Tests\Adapter;
 
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Helper\FieldType;
-use CodePrimer\Helper\PackageHelper;
 use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Database\Index;
 use CodePrimer\Model\Entity;
@@ -28,7 +27,7 @@ class RelationalDatabaseAdapterTest extends TestCase
 
     /**
      * @dataProvider indexesProvider
-     * @param Entity $entity
+     *
      * @param Index[] $expected
      */
     public function testGetIndexes(Entity $entity, array $expected)
@@ -57,15 +56,15 @@ class RelationalDatabaseAdapterTest extends TestCase
                 (new Entity('SampleEntity'))
                     ->addField($field1)
                     ->addUniqueConstraint(new Constraint('uniqueName', Constraint::TYPE_UNIQUE, [$field1])),
-                []
+                [],
             ],
             'one searchable field' => [
                 (new Entity('SampleEntity'))
                     ->addField($index1),
                 [
                     (new Index('first_name_idx', [$index1]))
-                        ->setDescription('To optimize search queries')
-                ]
+                        ->setDescription('To optimize search queries'),
+                ],
             ],
             'two searchable fields' => [
                 (new Entity('SampleEntity'))
@@ -75,8 +74,8 @@ class RelationalDatabaseAdapterTest extends TestCase
                     (new Index('first_name_idx', [$index1]))
                         ->setDescription('To optimize search queries'),
                     (new Index('last_name_idx', [$index2]))
-                        ->setDescription('To optimize search queries')
-                ]
+                        ->setDescription('To optimize search queries'),
+                ],
             ],
             'User indexes' => [
                 $user,
@@ -92,14 +91,13 @@ class RelationalDatabaseAdapterTest extends TestCase
                     (new Index('stats_id_idx', [$user->getField('stats')]))
                         ->setDescription('UserStats foreign key'),
                     (new Index('subscription_id_idx', [$user->getField('subscription')]))
-                        ->setDescription('Subscription foreign key')
-                ]
-            ]
+                        ->setDescription('Subscription foreign key'),
+                ],
+            ],
         ];
     }
 
     /**
-     * @param Index $index
      * @param Index[] $actual
      */
     private function assertIndex(Index $index, array $actual)
@@ -113,7 +111,7 @@ class RelationalDatabaseAdapterTest extends TestCase
             }
         }
 
-        self::assertTrue($found, 'Index ' . $index->getName() . ' not found');
+        self::assertTrue($found, 'Index '.$index->getName().' not found');
     }
 
     public function testGenerateRelationalIdentifierFields()
@@ -184,7 +182,7 @@ class RelationalDatabaseAdapterTest extends TestCase
 
     /**
      * Failure scenario: If an entity already has both an 'id' and '<entity>Id' fields that do not qualify
-     * as identifier, the generateIdentifier method should throw an exception
+     * as identifier, the generateIdentifier method should throw an exception.
      */
     public function testGenerateIdentifierFieldWithExistingPotentialIdentifierFieldsShouldThrowException()
     {
@@ -234,7 +232,7 @@ class RelationalDatabaseAdapterTest extends TestCase
 
     /**
      * Failure scenario: If a foreign entity does not have an identifier field, we should not be able to generate a
-     * foreign key field
+     * foreign key field.
      */
     public function testGenerateForeignKeyFieldWithoutIdentifierShouldThrowException()
     {
@@ -260,7 +258,7 @@ class RelationalDatabaseAdapterTest extends TestCase
 
     /**
      * Failure scenario: If a foreign entity already has a field named with the foreign key, we should not be able to
-     * generate a foreign key field
+     * generate a foreign key field.
      */
     public function testGenerateForeignKeyFieldWithExistingFieldNameShouldThrowException()
     {
@@ -290,7 +288,7 @@ class RelationalDatabaseAdapterTest extends TestCase
 
     /**
      * @dataProvider getDatabaseFieldsProvider
-     * @param Entity $entity
+     *
      * @param Field[] $expectedFields
      */
     public function testGetDatabaseFields(Entity $entity, array $expectedFields)
@@ -323,16 +321,15 @@ class RelationalDatabaseAdapterTest extends TestCase
                     $user->getField('crmId'),
                     $user->getField('activationCode'),
                     $user->getField('stats'),
-                    $user->getField('subscription')
-                ]
-            ]
+                    $user->getField('subscription'),
+                ],
+            ],
         ];
     }
 
     /**
      * @dataProvider getAuditedFieldsProvider
-     * @param Entity $entity
-     * @param bool $includeId
+     *
      * @param Field[] $expectedFields
      */
     public function testGetAuditedFields(Entity $entity, bool $includeId, array $expectedFields)
@@ -366,8 +363,8 @@ class RelationalDatabaseAdapterTest extends TestCase
                     $user->getField('crmId'),
                     $user->getField('activationCode'),
                     $user->getField('stats'),
-                    $user->getField('subscription')
-                ]
+                    $user->getField('subscription'),
+                ],
             ],
             'User without id' => [
                 $user,
@@ -381,17 +378,17 @@ class RelationalDatabaseAdapterTest extends TestCase
                     $user->getField('crmId'),
                     $user->getField('activationCode'),
                     $user->getField('stats'),
-                    $user->getField('subscription')
-                ]
+                    $user->getField('subscription'),
+                ],
             ],
             'Metadata generated field' => [
                 $package->getEntity('Metadata'),
                 false,
                 [
                     $metadata->getField('name'),
-                    $metadata->getField('value')
-                ]
-            ]
+                    $metadata->getField('value'),
+                ],
+            ],
         ];
     }
 }

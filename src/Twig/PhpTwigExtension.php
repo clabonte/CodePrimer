@@ -1,17 +1,17 @@
 <?php
+
 namespace CodePrimer\Twig;
 
 use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Model\Entity;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
-use Doctrine\Common\Inflector\Inflector;
 use Twig\TwigFilter;
 use Twig\TwigTest;
 
 /**
- * Class PhpTwigExtension
- * @package CodePrimer\Twig
+ * Class PhpTwigExtension.
+ *
  * @author Christian Labonté
  */
 class PhpTwigExtension extends LanguageTwigExtension
@@ -36,9 +36,7 @@ class PhpTwigExtension extends LanguageTwigExtension
     }
 
     /**
-     * Checks if the DateTime type is used/required for a given entity
-     * @param Entity $entity
-     * @return bool
+     * Checks if the DateTime type is used/required for a given entity.
      */
     public function dateTimeUsed(Entity $entity): bool
     {
@@ -60,15 +58,14 @@ class PhpTwigExtension extends LanguageTwigExtension
      * Filters a string to transform it to its variable name. Converts 'table_names' to '$tableName'.
      *
      * @param mixed $obj
-     *
-     * @return string
      */
     public function variableFilter($obj): string
     {
         $name = $this->getName($obj);
         if (is_string($name) && !empty($name)) {
-            return '$' . parent::variableFilter($obj);
+            return '$'.parent::variableFilter($obj);
         }
+
         return $name;
     }
 
@@ -76,26 +73,22 @@ class PhpTwigExtension extends LanguageTwigExtension
      * Filters a string to transform it to its member name. Converts 'table_names' to '$this->tableName'.
      *
      * @param mixed $obj
-     *
-     * @return string
      */
     public function memberFilter($obj): string
     {
         $name = $this->getName($obj);
         if (is_string($name) && !empty($name)) {
-            return '$this->' . parent::memberFilter($obj);
+            return '$this->'.parent::memberFilter($obj);
         }
+
         return $name;
     }
 
     /**
-     * Filters a string to transform it to a namespace path. Converts 'Com.Folder.A' or 'Com/Folder/A' to 'Com\Folder\A'
+     * Filters a string to transform it to a namespace path. Converts 'Com.Folder.A' or 'Com/Folder/A' to 'Com\Folder\A'.
      *
-     * @param array $context
+     * @param array          $context
      * @param string|Package $obj
-     * @param string|null $subpackage
-     *
-     * @return string
      */
     public function namespaceFilter($context, $obj, string $subpackage = null): string
     {
@@ -107,25 +100,24 @@ class PhpTwigExtension extends LanguageTwigExtension
             $str = $obj;
         }
 
-        if ($subpackage !== null) {
+        if (null !== $subpackage) {
             if (!empty($subpackage)) {
-                $str .= '\\' . $subpackage;
+                $str .= '\\'.$subpackage;
             }
         } elseif (!empty($context['subpackage'])) {
-            $str .= '\\' . $context['subpackage'];
+            $str .= '\\'.$context['subpackage'];
         }
 
         if (!empty($str)) {
             return str_replace(['.', '/', ' '], '\\', $str);
         }
+
         return '';
     }
 
     /**
-     * @param array $context
      * @param string|Field $field
-     * @param bool $mandatory Whether the field is mandatory in this context
-     * @return string
+     * @param bool         $mandatory Whether the field is mandatory in this context
      */
     public function typeFilter(array $context, $field, bool $mandatory = false): string
     {
@@ -162,7 +154,7 @@ class PhpTwigExtension extends LanguageTwigExtension
             }
 
             if (!$mandatory && !$field->isMandatory()) {
-                $type = '?' . $type;
+                $type = '?'.$type;
             }
         }
 
@@ -170,9 +162,8 @@ class PhpTwigExtension extends LanguageTwigExtension
     }
 
     /**
-     * @param array $context
+     * @param array        $context
      * @param string|Field $field
-     * @return string
      */
     public function listTypeFilter($context, $field): string
     {
@@ -211,10 +202,8 @@ class PhpTwigExtension extends LanguageTwigExtension
     }
 
     /**
-     * @param array $context
      * @param string|Field $field
-     * @param bool $mandatory Whether the field is mandatory in this context
-     * @return string
+     * @param bool         $mandatory Whether the field is mandatory in this context
      */
     public function hintFilter(array $context, $field, bool $mandatory = false): string
     {

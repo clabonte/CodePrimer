@@ -1,6 +1,5 @@
 <?php
 
-
 namespace CodePrimer\Adapter;
 
 use CodePrimer\Helper\FieldHelper;
@@ -17,15 +16,15 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
 {
     /**
      * This function scans a package and add all the missing fields required to adapt the entities for a
-     * relational database
-     * @param Package $package
+     * relational database.
+     *
      * @param string $identifierType The type to use for identifiers, one of FieldType:UUID or FieldType::ID
      */
     public function generateRelationalFields(Package $package, string $identifierType = FieldType::UUID)
     {
         // Start by adding missing identifiers for the various entities
         foreach ($package->getEntities() as $entity) {
-            if ($entity->getIdentifier() === null) {
+            if (null === $entity->getIdentifier()) {
                 $this->generateIdentifierField($entity, $identifierType);
             }
         }
@@ -34,9 +33,9 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
         foreach ($package->getEntities() as $entity) {
             foreach ($entity->getFields() as $field) {
                 $relation = $field->getRelation();
-                if ($relation !== null) {
-                    if (($relation->getRelationship()->getType() == Relationship::ONE_TO_MANY) &&
-                        ($relation->getRemoteSide()->getField() === null)) {
+                if (null !== $relation) {
+                    if ((Relationship::ONE_TO_MANY == $relation->getRelationship()->getType()) &&
+                        (null === $relation->getRemoteSide()->getField())) {
                         $newField = $this->generateForeignKeyField($relation->getRemoteSide()->getEntity(), $entity);
                         $relation->getRemoteSide()->setField($newField);
                     }
@@ -48,11 +47,11 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
     public function generateIdentifierField(Entity $entity, string $identifierType)
     {
         $name = 'id';
-        if ($entity->getField($name) !== null) {
-            $name = Inflector::camelize($entity->getName()) . 'Id';
+        if (null !== $entity->getField($name)) {
+            $name = Inflector::camelize($entity->getName()).'Id';
         }
-        if ($entity->getField($name) !== null) {
-            throw new \RuntimeException('Cannot generate ID field for entity '.$entity->getName().': "id" and "'.$name .'" fields are already defined. Did you forget to specify an identifier for this entity?');
+        if (null !== $entity->getField($name)) {
+            throw new \RuntimeException('Cannot generate ID field for entity '.$entity->getName().': "id" and "'.$name.'" fields are already defined. Did you forget to specify an identifier for this entity?');
         }
 
         $field = new Field($name, $identifierType, 'DB unique identifier field');
@@ -66,15 +65,12 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
      * Extracts the name of a field and transforms it to its column name equivalent.
      * Converts 'fieldName', 'field-name' and 'field name' to 'field_name'
      * or 'field_name_id' if the field represents a foreign key.
-     *
-     * @param Field $field
-     * @return string
      */
     public function getColumnName(Field $field): string
     {
         $name = parent::getColumnName($field);
-        if (($field->getRelation() !== null) && ($this->isValidForeignKey($field->getRelation()))) {
-            if (substr($name, -2) !== 'id') {
+        if ((null !== $field->getRelation()) && ($this->isValidForeignKey($field->getRelation()))) {
+            if ('id' !== substr($name, -2)) {
                 $name .= '_id';
             }
         }
@@ -83,9 +79,7 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
     }
 
     /**
-     * Checks if a relationship side can be mapped to a foreign key
-     * @param RelationshipSide $relationshipSide
-     * @return bool
+     * Checks if a relationship side can be mapped to a foreign key.
      */
     public function isValidForeignKey(RelationshipSide $relationshipSide): bool
     {
@@ -96,7 +90,7 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
                 $result = false;
                 break;
             case Relationship::ONE_TO_MANY:
-                if ($relationshipSide->getSide() == RelationshipSide::LEFT) {
+                if (RelationshipSide::LEFT == $relationshipSide->getSide()) {
                     $result = false;
                 }
                 break;
@@ -108,13 +102,13 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
     public function generateForeignKeyField(Entity $entity, Entity $foreignEntity): Field
     {
         $foreignIdField = $foreignEntity->getIdentifier();
-        if ($foreignIdField === null) {
+        if (null === $foreignIdField) {
             throw new \RuntimeException('No identifier available for foreign entity '.$foreignEntity->getName());
         }
 
         $name = Inflector::camelize($foreignEntity->getName());
-        if ($entity->getField($name) !== null) {
-            throw new \RuntimeException('Cannot generate foreign key field on entity '.$entity->getName().': Field "'.$name .'" field is already defined. Did you provide the right type for this field?');
+        if (null !== $entity->getField($name)) {
+            throw new \RuntimeException('Cannot generate foreign key field on entity '.$entity->getName().': Field "'.$name.'" field is already defined. Did you provide the right type for this field?');
         }
         $field = new Field($name, $foreignEntity->getName(), 'Foreign relationship field');
         $field->setGenerated(true);
@@ -124,8 +118,8 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
     }
 
     /**
-     * Extracts the database indexes to create for a given entity
-     * @param Entity $entity
+     * Extracts the database indexes to create for a given entity.
+     *
      * @return Index[]
      */
     public function getIndexes(Entity $entity): array
@@ -138,15 +132,16 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
         }
         foreach ($entity->getRelations() as $relation) {
             if ($this->isValidForeignKey($relation)) {
-                $indexes[] = $this->createIndex($relation->getField(), $relation->getRemoteSide()->getEntity()->getName() . ' foreign key');
+                $indexes[] = $this->createIndex($relation->getField(), $relation->getRemoteSide()->getEntity()->getName().' foreign key');
             }
         }
+
         return $indexes;
     }
 
     protected function createIndex(Field $field, string $description): Index
     {
-        $name = $this->getColumnName($field) . '_idx';
+        $name = $this->getColumnName($field).'_idx';
 
         $index = new Index($name, [$field]);
         $index->setDescription($description);
@@ -157,7 +152,7 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
     /**
      * Retrieves the list of fields from an entity that must be stored in a relational database table associated with
      * this entity.
-     * @param Entity $entity
+     *
      * @return Field[]
      */
     public function getDatabaseFields(Entity $entity): array
@@ -175,8 +170,7 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
 
     /**
      * Retrieves the list of fields from an entity that must be checked when an audited entity is modified.
-     * @param Entity $entity
-     * @param bool $includeId
+     *
      * @return Field[]
      */
     public function getAuditedFields(Entity $entity, bool $includeId = true): array

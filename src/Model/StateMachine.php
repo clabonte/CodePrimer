@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: cbonte
  * Date: 2019-05-19
- * Time: 3:35 PM
+ * Time: 3:35 PM.
  */
 
 namespace CodePrimer\Model;
-
 
 class StateMachine
 {
@@ -15,39 +14,29 @@ class StateMachine
     private $name;
 
     /** @var State[] */
-    private $states = array();
+    private $states = [];
 
     /** @var Transition[] */
-    private $transitions = array();
+    private $transitions = [];
 
     /**
      * StateMachine constructor.
-     * @param string $name
      */
     public function __construct(string $name)
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param State $state
-     */
     public function addState(State $state)
     {
         $this->states[$state->getName()] = $state;
     }
 
-    /**
-     * @param Transition $transition
-     */
     public function addTransition(Transition $transition)
     {
         $this->transitions[$transition->getName()] = $transition;
@@ -68,5 +57,4 @@ class StateMachine
     {
         return $this->transitions;
     }
-
 }

@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: cbonte
  * Date: 2019-05-19
- * Time: 3:30 PM
+ * Time: 3:30 PM.
  */
 
 namespace CodePrimer\Model;
-
 
 use CodePrimer\Helper\FieldHelper;
 
@@ -26,15 +25,13 @@ class Entity
     private $stateMachine = null;
 
     /** @var Field[] */
-    private $fields = array();
+    private $fields = [];
 
     /** @var Constraint[] */
-    private $uniqueConstraints = array();
+    private $uniqueConstraints = [];
 
     /**
      * DataEntity constructor.
-     * @param string $name
-     * @param string $description
      */
     public function __construct(string $name, string $description = '')
     {
@@ -42,16 +39,12 @@ class Entity
         $this->description = $description;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param string $name
      * @return Entity
      */
     public function setName(string $name): self
@@ -61,16 +54,12 @@ class Entity
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
     /**
-     * @param string $description
      * @return Entity
      */
     public function setDescription(string $description): self
@@ -80,27 +69,18 @@ class Entity
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isAudited(): bool
     {
         return $this->audited;
     }
 
-    /**
-     * @param bool $audited
-     * @return Entity
-     */
     public function setAudited(bool $audited): Entity
     {
         $this->audited = $audited;
+
         return $this;
     }
 
-    /**
-     * @return StateMachine|null
-     */
     public function getStateMachine(): ?StateMachine
     {
         return $this->stateMachine;
@@ -108,6 +88,7 @@ class Entity
 
     /**
      * @param ?StateMachine $stateMachine
+     *
      * @return Entity
      */
     public function setStateMachine(?StateMachine $stateMachine): self
@@ -127,11 +108,12 @@ class Entity
 
     /**
      * @param Field[] $fields
+     *
      * @return Entity
      */
     public function setFields(array $fields): self
     {
-        $this->fields = array();
+        $this->fields = [];
         foreach ($fields as $field) {
             $this->addField($field);
         }
@@ -140,7 +122,6 @@ class Entity
     }
 
     /**
-     * @param Field $field
      * @return Entity
      */
     public function addField(Field $field): self
@@ -152,7 +133,6 @@ class Entity
 
     /**
      * @param $name
-     * @return Field|null
      */
     public function getField($name): ?Field
     {
@@ -164,7 +144,8 @@ class Entity
     }
 
     /**
-     * Retrieves the list of mandatory fields of this entity
+     * Retrieves the list of mandatory fields of this entity.
+     *
      * @return Field[]
      */
     public function getMandatoryFields(): array
@@ -181,7 +162,8 @@ class Entity
     }
 
     /**
-     * Retrieves the list of searchable fields for this entity
+     * Retrieves the list of searchable fields for this entity.
+     *
      * @return Field[]
      */
     public function getSearchableFields(): array
@@ -198,7 +180,8 @@ class Entity
     }
 
     /**
-     * Retrieves the list of managed fields for this entity
+     * Retrieves the list of managed fields for this entity.
+     *
      * @return Field[]
      */
     public function getManagedFields(): array
@@ -215,16 +198,17 @@ class Entity
     }
 
     /**
-     * Returns the list of relations this entity has with other ones
+     * Returns the list of relations this entity has with other ones.
+     *
      * @return RelationshipSide[]
      */
-    public function getRelations() : array
+    public function getRelations(): array
     {
         $relations = [];
 
         foreach ($this->fields as $field) {
             $relation = $field->getRelation();
-            if ($relation !== null) {
+            if (null !== $relation) {
                 $relations[] = $relation;
             }
         }
@@ -232,9 +216,6 @@ class Entity
         return $relations;
     }
 
-    /**
-     * @return Field|null
-     */
     public function getIdentifier(): ?Field
     {
         $fieldHelper = new FieldHelper();
@@ -258,6 +239,7 @@ class Entity
 
     /**
      * @param Constraint[] $uniqueConstraints
+     *
      * @return Entity
      */
     public function setUniqueConstraints(array $uniqueConstraints): self
@@ -272,7 +254,6 @@ class Entity
     }
 
     /**
-     * @param Constraint $constraint
      * @return Entity
      */
     public function addUniqueConstraint(Constraint $constraint): self

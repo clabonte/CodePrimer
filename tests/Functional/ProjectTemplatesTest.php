@@ -5,8 +5,8 @@ namespace CodePrimer\Tests\Functional;
 use CodePrimer\Template\Artifact;
 
 /**
- * Class ProjectTemplatesTest
- * @package CodePrimer\Tests\Functional
+ * Class ProjectTemplatesTest.
+ *
  * @group functional
  */
 class ProjectTemplatesTest extends TemplateTestCase

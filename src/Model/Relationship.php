@@ -1,8 +1,6 @@
 <?php
 
-
 namespace CodePrimer\Model;
-
 
 class Relationship
 {
@@ -21,9 +19,6 @@ class Relationship
 
     /**
      * Relationship constructor.
-     * @param string $type
-     * @param RelationshipSide $leftSide
-     * @param RelationshipSide $rightSide
      */
     public function __construct(string $type, RelationshipSide $leftSide, RelationshipSide $rightSide)
     {
@@ -36,25 +31,16 @@ class Relationship
         $this->rightSide = $rightSide;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @return RelationshipSide
-     */
     public function getLeftSide(): RelationshipSide
     {
         return $this->leftSide;
     }
 
-    /**
-     * @return RelationshipSide
-     */
     public function getRightSide(): RelationshipSide
     {
         return $this->rightSide;

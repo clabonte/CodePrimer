@@ -90,7 +90,7 @@ class TemplateRegistryTest extends TestCase
 
     /**
      * @dataProvider templateProvider
-     * @param Artifact $artifact
+     *
      * @throws \Exception
      */
     public function testGetValidTemplateShouldPass(Artifact $artifact)
@@ -103,7 +103,7 @@ class TemplateRegistryTest extends TestCase
 
     /**
      * @dataProvider templateProvider
-     * @param Artifact $artifact
+     *
      * @throws \Exception
      */
     public function testGetValidTemplateForArtifactShouldPass(Artifact $artifact)

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace CodePrimer\Builder;
 
 use CodePrimer\Helper\EntityHelper;
@@ -13,10 +12,8 @@ use CodePrimer\Template\Template;
 class RepositoryBuilder implements ArtifactBuilder
 {
     /**
-     * @param Package $package
-     * @param Template $template
-     * @param TemplateRenderer $renderer
      * @return string[]
+     *
      * @throws \Exception
      */
     public function build(Package $package, Template $template, TemplateRenderer $renderer): array
@@ -30,11 +27,6 @@ class RepositoryBuilder implements ArtifactBuilder
     }
 
     /**
-     * @param Package $package
-     * @param Entity $entity
-     * @param Template $template
-     * @param TemplateRenderer $renderer
-     * @return string
      * @throws \Exception
      */
     protected function buildRepository(Package $package, Entity $entity, Template $template, TemplateRenderer $renderer): string
@@ -48,7 +40,7 @@ class RepositoryBuilder implements ArtifactBuilder
             'model' => $model,
             'entity' => $entity,
             'entityHelper' => $entityHelper,
-            'fieldHelper' => new FieldHelper()
+            'fieldHelper' => new FieldHelper(),
         ];
 
         return $renderer->renderToFile($model, $package, $template, $context);

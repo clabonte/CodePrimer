@@ -6,8 +6,8 @@ use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Template\Artifact;
 
 /**
- * Class PhpRepositoryTemplatesTest
- * @package App\Tests\Functional
+ * Class PhpRepositoryTemplatesTest.
+ *
  * @group functional
  */
 class PhpRepositoryTemplatesTest extends TemplateTestCase

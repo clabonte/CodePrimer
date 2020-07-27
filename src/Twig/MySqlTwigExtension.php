@@ -1,13 +1,10 @@
 <?php
 
-
 namespace CodePrimer\Twig;
 
-use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\Database\Index;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Package;
 use RuntimeException;
 use Twig\TwigFilter;
 
@@ -18,14 +15,15 @@ class MySqlTwigExtension extends SqlTwigExtension
         $filters = parent::getFilters();
 
         $filters[] = new TwigFilter('attributes', [$this, 'attributesFilter'], ['is_safe' => ['html']]);
+
         return $filters;
     }
 
     /**
      * Formats the MySQL attributes of a field or index.
-     * Attributes are set based on the format defined at: https://dev.mysql.com/doc/refman/8.0/en/create-table.html
+     * Attributes are set based on the format defined at: https://dev.mysql.com/doc/refman/8.0/en/create-table.html.
+     *
      * @param $obj
-     * @return string
      */
     public function attributesFilter($obj): string
     {
@@ -34,7 +32,7 @@ class MySqlTwigExtension extends SqlTwigExtension
         } elseif ($obj instanceof Index) {
             return $this->indexAttributesFilter($obj);
         }
-        throw new RuntimeException("Attributes can only generated for Field or Index instances");
+        throw new RuntimeException('Attributes can only generated for Field or Index instances');
     }
 
     private function indexAttributesFilter(Index $index): string
@@ -51,9 +49,7 @@ class MySqlTwigExtension extends SqlTwigExtension
 
     /**
      * Formats the MySQL attributes of a field.
-     * Attributes are set based on the format defined at: https://dev.mysql.com/doc/refman/8.0/en/create-table.html
-     * @param Field $field
-     * @return string
+     * Attributes are set based on the format defined at: https://dev.mysql.com/doc/refman/8.0/en/create-table.html.
      */
     private function fieldAttributesFilter(Field $field): string
     {
@@ -98,15 +94,14 @@ class MySqlTwigExtension extends SqlTwigExtension
         // [COLLATE collation_name]
         if ($this->fieldHelper->isAsciiString($field)) {
             $value .= ' COLLATE ascii_general_ci';
-        } elseif (($field->getRelation() !== null) && $this->databaseAdapter->isValidForeignKey($field->getRelation())) {
+        } elseif ((null !== $field->getRelation()) && $this->databaseAdapter->isValidForeignKey($field->getRelation())) {
             $primaryKey = $field->getRelation()->getRemoteSide()->getEntity()->getIdentifier();
             if ($this->fieldHelper->isAsciiString($primaryKey)) {
                 $value .= ' COLLATE ascii_general_ci';
             }
         }
 
-
-            // [COLUMN_FORMAT {FIXED|DYNAMIC|DEFAULT}] -- NOT SUPPORTED YET
+        // [COLUMN_FORMAT {FIXED|DYNAMIC|DEFAULT}] -- NOT SUPPORTED YET
         // [STORAGE {DISK|MEMORY}] -- NOT SUPPORTED YET
         return trim($value);
     }
@@ -160,14 +155,14 @@ class MySqlTwigExtension extends SqlTwigExtension
                         $type = 'VARCHAR(255)';
                         break;
                 }
-            } elseif (($field->getRelation() !== null) && $this->databaseAdapter->isValidForeignKey($field->getRelation())) {
+            } elseif ((null !== $field->getRelation()) && $this->databaseAdapter->isValidForeignKey($field->getRelation())) {
                 $primaryKey = $field->getRelation()->getRemoteSide()->getEntity()->getIdentifier();
                 $type = $this->typeFilter($context, $primaryKey, $mandatory);
             } else {
                 throw new RuntimeException("Support for type {$field->getType()} is not implemented yet for MySQL");
             }
         } else {
-            throw new RuntimeException("MySqlTwigExtension only map types for Field objects");
+            throw new RuntimeException('MySqlTwigExtension only map types for Field objects');
         }
 
         return $type;
@@ -194,16 +189,15 @@ class MySqlTwigExtension extends SqlTwigExtension
                 }
                 $column = $this->databaseAdapter->getColumnName($field);
                 if (isset($size)) {
-                    $columns[] = $column . "($size)";
+                    $columns[] = $column."($size)";
                 } else {
                     $columns[] = $column;
                 }
             }
+
             return implode(',', $columns);
         } else {
             return parent::columnFilter($obj);
         }
     }
-
-
 }

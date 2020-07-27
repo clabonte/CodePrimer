@@ -20,9 +20,6 @@ class ArtifactHelperTest extends TestCase
 
     /**
      * @dataProvider getDirectoryProvider
-     * @param Package $package
-     * @param Artifact $artifact
-     * @param string $expected
      */
     public function testGetDirectory(Package $package, Artifact $artifact, string $expected)
     {
@@ -35,55 +32,53 @@ class ArtifactHelperTest extends TestCase
             'Plain PHP Entity' => [
                 TestHelper::getSamplePackage(),
                 new Artifact(Artifact::CODE, 'entity', 'php'),
-                'src/Entity'
+                'src/Entity',
             ],
             'Doctrine ORM PHP Entity' => [
                 TestHelper::getSamplePackage(),
                 new Artifact(Artifact::CODE, 'entity', 'php', 'doctrineOrm'),
-                'src/Entity'
+                'src/Entity',
             ],
             'Plain Java Entity' => [
                 TestHelper::getSamplePackage(),
                 new Artifact(Artifact::CODE, 'entity', 'java'),
-                'src/codeprimer/tests/entity'
+                'src/codeprimer/tests/entity',
             ],
             'PHP Repository' => [
                 TestHelper::getSamplePackage(),
                 new Artifact(Artifact::CODE, 'repository', 'php'),
-                'src/Repository'
+                'src/Repository',
             ],
             'Java Repository' => [
                 TestHelper::getSamplePackage(),
                 new Artifact(Artifact::CODE, 'repository', 'java'),
-                'src/codeprimer/tests/repository'
+                'src/codeprimer/tests/repository',
             ],
             'PHP Unit Tests' => [
                 TestHelper::getSamplePackage(),
                 new Artifact(Artifact::TESTS, 'unit', 'php'),
-                'tests'
+                'tests',
             ],
             'OpenAPI Documentation' => [
                 TestHelper::getSamplePackage(),
                 new Artifact(Artifact::DOCUMENTATION, 'api', 'openapi'),
-                'docs'
+                'docs',
             ],
             'Symfony Project' => [
                 TestHelper::getSamplePackage(),
                 new Artifact(Artifact::PROJECT, 'symfony', 'sh'),
-                '.'
+                '.',
             ],
             'MySQL Migration' => [
                 TestHelper::getSamplePackage(),
                 new Artifact(Artifact::CODE, 'migration', 'mysql', 'CreateDatabase'),
-                'migrations'
+                'migrations',
             ],
         ];
     }
 
     /**
      * @dataProvider getFilenameExtensionProvider
-     * @param Artifact $artifact
-     * @param string $expected
      */
     public function testGetFilenameExtension(Artifact $artifact, string $expected)
     {
@@ -95,35 +90,35 @@ class ArtifactHelperTest extends TestCase
         return [
             'Plain PHP Entity' => [
                 new Artifact(Artifact::CODE, 'entity', 'php'),
-                '.php'
+                '.php',
             ],
             'Doctrine ORM PHP Entity' => [
                 new Artifact(Artifact::CODE, 'entity', 'php', 'doctrineOrm'),
-                '.php'
+                '.php',
             ],
             'Plain Java Entity' => [
                 new Artifact(Artifact::CODE, 'entity', 'java'),
-                '.java'
+                '.java',
             ],
             'PHP Repository' => [
                 new Artifact(Artifact::CODE, 'repository', 'php'),
-                '.php'
+                '.php',
             ],
             'Java Repository' => [
                 new Artifact(Artifact::CODE, 'repository', 'java'),
-                '.java'
+                '.java',
             ],
             'Shell Script' => [
                 new Artifact(Artifact::PROJECT, 'symfony', 'sh'),
-                '.sh'
+                '.sh',
             ],
             'MySQL Migration' => [
                 new Artifact(Artifact::CODE, 'migration', 'mysql'),
-                '.sql'
+                '.sql',
             ],
             'Default' => [
                 new Artifact(Artifact::DOCUMENTATION, 'any', 'any'),
-                '.txt'
+                '.txt',
             ],
         ];
     }

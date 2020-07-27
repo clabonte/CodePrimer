@@ -10,8 +10,7 @@ namespace CodePrimer\Template;
  * - Level 1: Category: Defines the kind of artifact that will be generated for templates of this type. (e.g. code)
  * - Level 2: Type: Defines the type of artifact that will be generated for templates of this type. (e.g. Entity)
  * - Level 3: Format: Defines the format in which the artifact will be generated (e.g. programming language, e.g. php)
- * - Level 4: Variant: Defines the format's variant to apply when generating the template (e.g. Doctrine)
- * @package App\Template
+ * - Level 4: Variant: Defines the format's variant to apply when generating the template (e.g. Doctrine).
  */
 class Artifact
 {
@@ -44,10 +43,6 @@ class Artifact
 
     /**
      * TemplateType constructor.
-     * @param string $category
-     * @param string $type
-     * @param string $format
-     * @param string $variant
      */
     public function __construct(string $category, string $type, string $format, string $variant = '')
     {
@@ -57,33 +52,21 @@ class Artifact
         $this->variant = $variant;
     }
 
-    /**
-     * @return string
-     */
     public function getCategory(): string
     {
         return $this->category;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * @return string
-     */
     public function getFormat(): string
     {
         return $this->format;
     }
 
-    /**
-     * @return string
-     */
     public function getVariant(): string
     {
         return $this->variant;

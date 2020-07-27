@@ -1,9 +1,7 @@
 <?php
 
-
 namespace CodePrimer\Tests\Twig;
 
-use CodePrimer\Model\Package;
 use CodePrimer\Tests\Helper\TestHelper;
 use PHPUnit\Framework\TestCase;
 use Twig\TwigFilter;
@@ -22,9 +20,8 @@ abstract class TwigExtensionTest extends TestCase
     }
 
     /**
-     * @param string $name
+     * @param string       $name
      * @param TwigFilter[] $filters
-     *
      */
     protected function assertTwigFilter($name, array $filters)
     {
@@ -40,9 +37,8 @@ abstract class TwigExtensionTest extends TestCase
     }
 
     /**
-     * @param string $name
+     * @param string     $name
      * @param TwigTest[] $tests
-     *
      */
     protected function assertTwigTest($name, array $tests)
     {
@@ -58,9 +54,8 @@ abstract class TwigExtensionTest extends TestCase
     }
 
     /**
-     * @param string $name
+     * @param string         $name
      * @param TwigFunction[] $functions
-     *
      */
     protected function assertTwigFunction($name, array $functions)
     {

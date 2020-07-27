@@ -1,6 +1,5 @@
 <?php
 
-
 namespace CodePrimer\Tests\Twig;
 
 use CodePrimer\Helper\FieldType;
@@ -46,7 +45,8 @@ class JavaTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider memberDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testMemberFilterShouldPass($obj, $expectedValue)
@@ -79,7 +79,8 @@ class JavaTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider packageDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testPackageFilterShouldPass($obj, $expectedValue)
@@ -114,7 +115,8 @@ class JavaTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider typeDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testTypeFilterShouldPass($obj, $expectedValue)
@@ -127,42 +129,42 @@ class JavaTwigExtensionTest extends TwigExtensionTest
     public function typeDataProvider()
     {
         return [
-            'BOOL' => [new Field("Test", FieldType::BOOL), 'boolean'],
-            'BOOLEAN' => [new Field("Test", FieldType::BOOLEAN), 'boolean'],
-            'DATE' => [new Field("Test", FieldType::DATE), 'Date'],
-            'DATETIME' => [new Field("Test", FieldType::DATETIME), 'Date'],
-            'DECIMAL' => [new Field("Test", FieldType::DECIMAL), 'double'],
-            'DOUBLE' => [new Field("Test", FieldType::DOUBLE), 'double'],
-            'EMAIL' => [new Field("Test", FieldType::EMAIL), 'String'],
-            'FLOAT' => [new Field("Test", FieldType::FLOAT), 'float'],
-            'ID' => [new Field("Test", FieldType::ID), 'long'],
-            'INT' => [new Field("Test", FieldType::INT), 'int'],
-            'INTEGER' => [new Field("Test", FieldType::INTEGER), 'int'],
-            'LONG' => [new Field("Test", FieldType::LONG), 'long'],
-            'PASSWORD' => [new Field("Test", FieldType::PASSWORD), 'String'],
-            'PHONE' => [new Field("Test", FieldType::PHONE), 'String'],
-            'PRICE' => [new Field("Test", FieldType::PRICE), 'double'],
-            'RANDOM_STRING' => [new Field("Test", FieldType::RANDOM_STRING), 'String'],
-            'STRING' => [new Field("Test", FieldType::STRING), 'String'],
-            'TEXT' => [new Field("Test", FieldType::TEXT), 'String'],
-            'TIME' => [new Field("Test", FieldType::TIME), 'long'],
-            'URL' => [new Field("Test", FieldType::URL), 'String'],
-            'UUID' => [new Field("Test", FieldType::UUID), 'String'],
-            'UNKNOWN' => [new Field("Test", 'Unknown'), 'Object'],
+            'BOOL' => [new Field('Test', FieldType::BOOL), 'boolean'],
+            'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), 'boolean'],
+            'DATE' => [new Field('Test', FieldType::DATE), 'Date'],
+            'DATETIME' => [new Field('Test', FieldType::DATETIME), 'Date'],
+            'DECIMAL' => [new Field('Test', FieldType::DECIMAL), 'double'],
+            'DOUBLE' => [new Field('Test', FieldType::DOUBLE), 'double'],
+            'EMAIL' => [new Field('Test', FieldType::EMAIL), 'String'],
+            'FLOAT' => [new Field('Test', FieldType::FLOAT), 'float'],
+            'ID' => [new Field('Test', FieldType::ID), 'long'],
+            'INT' => [new Field('Test', FieldType::INT), 'int'],
+            'INTEGER' => [new Field('Test', FieldType::INTEGER), 'int'],
+            'LONG' => [new Field('Test', FieldType::LONG), 'long'],
+            'PASSWORD' => [new Field('Test', FieldType::PASSWORD), 'String'],
+            'PHONE' => [new Field('Test', FieldType::PHONE), 'String'],
+            'PRICE' => [new Field('Test', FieldType::PRICE), 'double'],
+            'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING), 'String'],
+            'STRING' => [new Field('Test', FieldType::STRING), 'String'],
+            'TEXT' => [new Field('Test', FieldType::TEXT), 'String'],
+            'TIME' => [new Field('Test', FieldType::TIME), 'long'],
+            'URL' => [new Field('Test', FieldType::URL), 'String'],
+            'UUID' => [new Field('Test', FieldType::UUID), 'String'],
+            'UNKNOWN' => [new Field('Test', 'Unknown'), 'Object'],
             'STRING ARRAY' => [
-                (new Field("Test", FieldType::STRING, 'Test Description', true))
+                (new Field('Test', FieldType::STRING, 'Test Description', true))
                     ->setList(true),
-                'List<String>'
+                'List<String>',
             ],
             'ENTITY' => [new Field('Test', 'User', 'Test Description', true), 'User'],
-            'OPTIONAL ENTITY' => [new Field('Test', 'User'), 'User']
-
+            'OPTIONAL ENTITY' => [new Field('Test', 'User'), 'User'],
         ];
     }
 
     /**
      * @dataProvider listTypeDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testListTypeFilterShouldPass($obj, $expectedValue)
@@ -176,125 +178,125 @@ class JavaTwigExtensionTest extends TwigExtensionTest
     {
         return [
             'BOOL' => [
-                (new Field("Test", FieldType::BOOL, 'Test Description', true))
+                (new Field('Test', FieldType::BOOL, 'Test Description', true))
                     ->setList(true),
-                'Boolean'
+                'Boolean',
             ],
             'BOOLEAN' => [
-                (new Field("Test", FieldType::BOOLEAN, 'Test Description', true))
+                (new Field('Test', FieldType::BOOLEAN, 'Test Description', true))
                     ->setList(true),
-                'Boolean'
+                'Boolean',
             ],
             'DATE' => [
-                (new Field("Test", FieldType::DATE, 'Test Description', true))
+                (new Field('Test', FieldType::DATE, 'Test Description', true))
                     ->setList(true),
-                'Date'
+                'Date',
             ],
             'DATETIME' => [
-                (new Field("Test", FieldType::DATETIME, 'Test Description', true))
+                (new Field('Test', FieldType::DATETIME, 'Test Description', true))
                     ->setList(true),
-                'Date'
+                'Date',
             ],
             'DECIMAL' => [
-                (new Field("Test", FieldType::DECIMAL, 'Test Description', true))
+                (new Field('Test', FieldType::DECIMAL, 'Test Description', true))
                     ->setList(true),
-                'Double'
+                'Double',
             ],
             'DOUBLE' => [
-                (new Field("Test", FieldType::DOUBLE, 'Test Description', true))
+                (new Field('Test', FieldType::DOUBLE, 'Test Description', true))
                     ->setList(true),
-                'Double'
+                'Double',
             ],
             'EMAIL' => [
-                (new Field("Test", FieldType::EMAIL, 'Test Description', true))
+                (new Field('Test', FieldType::EMAIL, 'Test Description', true))
                     ->setList(true),
-                'String'
+                'String',
             ],
             'FLOAT' => [
-                (new Field("Test", FieldType::FLOAT, 'Test Description', true))
+                (new Field('Test', FieldType::FLOAT, 'Test Description', true))
                     ->setList(true),
-                'Float'
+                'Float',
             ],
             'ID' => [
-                (new Field("Test", FieldType::ID, 'Test Description', true))
+                (new Field('Test', FieldType::ID, 'Test Description', true))
                     ->setList(true),
-                'Long'
+                'Long',
             ],
             'INT' => [
-                (new Field("Test", FieldType::INT, 'Test Description', true))
+                (new Field('Test', FieldType::INT, 'Test Description', true))
                     ->setList(true),
-                'Integer'
+                'Integer',
             ],
             'INTEGER' => [
-                (new Field("Test", FieldType::INTEGER, 'Test Description', true))
+                (new Field('Test', FieldType::INTEGER, 'Test Description', true))
                     ->setList(true),
-                'Integer'
+                'Integer',
             ],
             'LONG' => [
-                (new Field("Test", FieldType::LONG, 'Test Description', true))
+                (new Field('Test', FieldType::LONG, 'Test Description', true))
                     ->setList(true),
-                'Long'
+                'Long',
             ],
             'PASSWORD' => [
-                (new Field("Test", FieldType::PASSWORD, 'Test Description', true))
+                (new Field('Test', FieldType::PASSWORD, 'Test Description', true))
                     ->setList(true),
-                'String'
+                'String',
             ],
             'PHONE' => [
-                (new Field("Test", FieldType::PHONE, 'Test Description', true))
+                (new Field('Test', FieldType::PHONE, 'Test Description', true))
                     ->setList(true),
-                'String'
+                'String',
             ],
             'PRICE' => [
-                (new Field("Test", FieldType::PRICE, 'Test Description', true))
+                (new Field('Test', FieldType::PRICE, 'Test Description', true))
                     ->setList(true),
-                'Double'
+                'Double',
             ],
             'RANDOM_STRING' => [
-                (new Field("Test", FieldType::RANDOM_STRING, 'Test Description', true))
+                (new Field('Test', FieldType::RANDOM_STRING, 'Test Description', true))
                     ->setList(true),
-                'String'
+                'String',
             ],
             'STRING' => [
-                (new Field("Test", FieldType::STRING, 'Test Description', true))
+                (new Field('Test', FieldType::STRING, 'Test Description', true))
                     ->setList(true),
-                'String'
+                'String',
             ],
             'TEXT' => [
-                (new Field("Test", FieldType::TEXT, 'Test Description', true))
+                (new Field('Test', FieldType::TEXT, 'Test Description', true))
                     ->setList(true),
-                'String'
+                'String',
             ],
             'TIME' => [
-                (new Field("Test", FieldType::TIME, 'Test Description', true))
+                (new Field('Test', FieldType::TIME, 'Test Description', true))
                     ->setList(true),
-                'Long'
+                'Long',
             ],
             'URL' => [
-                (new Field("Test", FieldType::URL, 'Test Description', true))
+                (new Field('Test', FieldType::URL, 'Test Description', true))
                     ->setList(true),
-                'String'
+                'String',
             ],
             'UUID' => [
-                (new Field("Test", FieldType::UUID, 'Test Description', true))
+                (new Field('Test', FieldType::UUID, 'Test Description', true))
                     ->setList(true),
-                'String'
+                'String',
             ],
             'UNKNOWN' => [
-                (new Field("Test", 'Unknown', 'Test Description', true))
+                (new Field('Test', 'Unknown', 'Test Description', true))
                     ->setList(true),
-                'Object'
+                'Object',
             ],
             'OPTIONAL ENTITY' => [
-                (new Field("Test", 'User', 'Test Description', false))
+                (new Field('Test', 'User', 'Test Description', false))
                     ->setList(true),
-                'User'
+                'User',
             ],
             'ENTITY' => [
-                (new Field("Test", 'User', 'Test Description', true))
+                (new Field('Test', 'User', 'Test Description', true))
                     ->setList(true),
-                'User'
-            ]
+                'User',
+            ],
         ];
     }
 }

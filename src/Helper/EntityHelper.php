@@ -1,6 +1,5 @@
 <?php
 
-
 namespace CodePrimer\Helper;
 
 use CodePrimer\Model\Entity;
@@ -10,9 +9,7 @@ use Doctrine\Common\Inflector\Inflector;
 class EntityHelper
 {
     /**
-     * Returns the name of the Repository class associated with a given entity
-     * @param Entity $entity
-     * @return string
+     * Returns the name of the Repository class associated with a given entity.
      */
     public function getRepositoryClass(Entity $entity): string
     {
@@ -20,9 +17,7 @@ class EntityHelper
     }
 
     /**
-     * Retrieves the field used to automatically tracks the entity creation timestamp, if any
-     * @param Entity $entity
-     * @return Field|null
+     * Retrieves the field used to automatically tracks the entity creation timestamp, if any.
      */
     public function getEntityCreatedTimestampField(Entity $entity): ?Field
     {
@@ -41,9 +36,7 @@ class EntityHelper
     }
 
     /**
-     * Retrieves the field used to automatically tracks the entity last update timestamp, if any
-     * @param Entity $entity
-     * @return Field|null
+     * Retrieves the field used to automatically tracks the entity last update timestamp, if any.
      */
     public function getEntityUpdatedTimestampField(Entity $entity): ?Field
     {
@@ -79,10 +72,10 @@ class EntityHelper
 
     /**
      * Retrieves the list of entities that are linked to a given entity.
-     * @param Entity $entity
+     *
      * @return Entity[]
      */
-    public function getLinkedEntities(Entity $entity) : array
+    public function getLinkedEntities(Entity $entity): array
     {
         $entities = [];
 

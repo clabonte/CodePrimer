@@ -23,9 +23,8 @@ use Twig\TwigTest;
  * Class LanguageTwigExtension
  * This class defines a set of Twig filter that are made available for coding templates. This class attempts to provide
  * a language independent representation of several concepts. For specific language constructs, a subclass should be
- * created to meet the language needs
+ * created to meet the language needs.
  *
- * @package CodePrimer\Twig
  * @author Christian Labonté
  */
 class LanguageTwigExtension extends AbstractExtension
@@ -40,32 +39,32 @@ class LanguageTwigExtension extends AbstractExtension
 
     public function getFilters()
     {
-        return array(
-            new TwigFilter('plural', [$this, 'pluralFilter'], array('is_safe' => array('html'))),
-            new TwigFilter('singular', [$this, 'singularFilter'], array('is_safe' => array('html'))),
-            new TwigFilter('words', [$this, 'wordsFilter'], array('is_safe' => array('html'))),
-            new TwigFilter('camel', [$this, 'camelFilter'], array('is_safe' => array('html'))),
-            new TwigFilter('underscore', [$this, 'underscoreFilter'], array('is_safe' => array('html'))),
-            new TwigFilter('path', [$this, 'pathFilter'], array('is_safe' => array('html'))),
-            new TwigFilter('lastPath', [$this, 'lastPathFilter'], array('is_safe' => array('html'))),
-            new TwigFilter('class', [$this, 'classFilter'], array('is_safe' => array('html'))),
-            new TwigFilter('constant', [$this, 'constantFilter'], array('is_safe' => array('html'))),
-            new TwigFilter('member', [$this, 'memberFilter'], array('is_safe' => array('html'))),
-            new TwigFilter('variable', [$this, 'variableFilter'], array('is_safe' => array('html'))),
+        return [
+            new TwigFilter('plural', [$this, 'pluralFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('singular', [$this, 'singularFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('words', [$this, 'wordsFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('camel', [$this, 'camelFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('underscore', [$this, 'underscoreFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('path', [$this, 'pathFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('lastPath', [$this, 'lastPathFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('class', [$this, 'classFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('constant', [$this, 'constantFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('member', [$this, 'memberFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('variable', [$this, 'variableFilter'], ['is_safe' => ['html']]),
             new TwigFilter('parameter', [$this, 'parameterFilter'], ['is_safe' => ['html'], 'needs_context' => true]),
             new TwigFilter('type', [$this, 'typeFilter'], ['is_safe' => ['html'], 'needs_context' => true]),
             new TwigFilter('listType', [$this, 'listTypeFilter'], ['is_safe' => ['html'], 'needs_context' => true]),
-            new TwigFilter('getter', [$this, 'getterFilter'], array('is_safe' => array('html'))),
-            new TwigFilter('setter', [$this, 'setterFilter'], array('is_safe' => array('html'))),
-            new TwigFilter('addMethod', [$this, 'addMethodFilter'], array('is_safe' => array('html'))),
-            new TwigFilter('removeMethod', [$this, 'removeMethodFilter'], array('is_safe' => array('html'))),
-            new TwigFilter('containsMethod', [$this, 'containsMethodFilter'], array('is_safe' => array('html'))),
-        );
+            new TwigFilter('getter', [$this, 'getterFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('setter', [$this, 'setterFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('addMethod', [$this, 'addMethodFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('removeMethod', [$this, 'removeMethodFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('containsMethod', [$this, 'containsMethodFilter'], ['is_safe' => ['html']]),
+        ];
     }
 
     public function getTests()
     {
-        return array(
+        return [
             new TwigTest('scalar', [$this, 'scalarTest']),
             new TwigTest('double', [$this, 'doubleTest']),
             new TwigTest('float', [$this, 'floatTest']),
@@ -79,12 +78,14 @@ class LanguageTwigExtension extends AbstractExtension
             new TwigTest('oneToMany', [$this, 'oneToManyTest']),
             new TwigTest('manyToOne', [$this, 'manyToOneTest']),
             new TwigTest('manyToMany', [$this, 'manyToManyTest']),
-        );
+        ];
     }
 
     /**
-     * Test if a field is a scalar type
+     * Test if a field is a scalar type.
+     *
      * @param mixed $obj The object to test
+     *
      * @return bool
      */
     public function scalarTest($obj)
@@ -109,8 +110,10 @@ class LanguageTwigExtension extends AbstractExtension
     }
 
     /**
-     * Test if a field is of type double
+     * Test if a field is of type double.
+     *
      * @param mixed $obj The object to test
+     *
      * @return bool
      */
     public function doubleTest($obj)
@@ -125,8 +128,10 @@ class LanguageTwigExtension extends AbstractExtension
     }
 
     /**
-     * Test if a field is of type float
+     * Test if a field is of type float.
+     *
      * @param mixed $obj The object to test
+     *
      * @return bool
      */
     public function floatTest($obj)
@@ -141,8 +146,10 @@ class LanguageTwigExtension extends AbstractExtension
     }
 
     /**
-     * Test if a field is of type long
+     * Test if a field is of type long.
+     *
      * @param mixed $obj The object to test
+     *
      * @return bool
      */
     public function longTest($obj)
@@ -157,8 +164,10 @@ class LanguageTwigExtension extends AbstractExtension
     }
 
     /**
-     * Test if a field is of type integer
+     * Test if a field is of type integer.
+     *
      * @param mixed $obj The object to test
+     *
      * @return bool
      */
     public function integerTest($obj)
@@ -173,8 +182,10 @@ class LanguageTwigExtension extends AbstractExtension
     }
 
     /**
-     * Test if a field is of type boolean
+     * Test if a field is of type boolean.
+     *
      * @param mixed $obj The object to test
+     *
      * @return bool
      */
     public function booleanTest($obj)
@@ -189,8 +200,10 @@ class LanguageTwigExtension extends AbstractExtension
     }
 
     /**
-     * Test if a field is of type string
+     * Test if a field is of type string.
+     *
      * @param mixed $obj The object to test
+     *
      * @return bool
      */
     public function stringTest($obj)
@@ -205,8 +218,10 @@ class LanguageTwigExtension extends AbstractExtension
     }
 
     /**
-     * Test if a field is of type UUID
+     * Test if a field is of type UUID.
+     *
      * @param mixed $obj The object to test
+     *
      * @return bool
      */
     public function uuidTest($obj)
@@ -221,9 +236,10 @@ class LanguageTwigExtension extends AbstractExtension
     }
 
     /**
-     * Test if a field is an Entity
+     * Test if a field is an Entity.
+     *
      * @param mixed $obj The object to test
-     * @param Package $package
+     *
      * @return bool
      */
     public function entityTest($obj, Package $package)
@@ -241,9 +257,9 @@ class LanguageTwigExtension extends AbstractExtension
      * Test if the object has a One-To-One relationship with another entity. It supports Entity, Field and RelationshipSide
      *  - Entity: Checks if the entity has at least one field with a One-To-One relationship
      *  - Field: Checks it the field has a One-To-One relationship
-     *  - RelationshipSide: Checks if it represents a One-To-One relationship
+     *  - RelationshipSide: Checks if it represents a One-To-One relationship.
+     *
      * @param mixed $obj The object to test
-     * @return bool
      */
     public function oneToOneTest($obj): bool
     {
@@ -267,7 +283,7 @@ class LanguageTwigExtension extends AbstractExtension
         }
 
         if (null !== $relation) {
-            $result = $relation->getRelationship()->getType() == Relationship::ONE_TO_ONE;
+            $result = Relationship::ONE_TO_ONE == $relation->getRelationship()->getType();
         }
 
         return $result;
@@ -277,9 +293,9 @@ class LanguageTwigExtension extends AbstractExtension
      * Test if the object has a One-To-Many relationship with another entity. It supports Entity, Field and RelationshipSide
      *  - Entity: Checks if the entity has at least one field with a One-To-Many relationship
      *  - Field: Checks it the field has a One-To-Many relationship
-     *  - RelationshipSide: Checks if it represents a One-To-Many relationship
+     *  - RelationshipSide: Checks if it represents a One-To-Many relationship.
+     *
      * @param mixed $obj The object to test
-     * @return bool
      */
     public function oneToManyTest($obj): bool
     {
@@ -303,8 +319,8 @@ class LanguageTwigExtension extends AbstractExtension
         }
 
         if (null !== $relation) {
-            $result = ($relation->getSide() == RelationshipSide::LEFT) &&
-                ($relation->getRelationship()->getType() == Relationship::ONE_TO_MANY);
+            $result = (RelationshipSide::LEFT == $relation->getSide()) &&
+                (Relationship::ONE_TO_MANY == $relation->getRelationship()->getType());
         }
 
         return $result;
@@ -314,9 +330,9 @@ class LanguageTwigExtension extends AbstractExtension
      * Test if the object has a Many-To-One relationship with another entity. It supports Entity, Field and RelationshipSide
      *  - Entity: Checks if the entity has at least one field with a Many-To-One relationship
      *  - Field: Checks it the field has a Many-To-One relationship
-     *  - RelationshipSide: Checks if it represents a Many-To-One relationship
+     *  - RelationshipSide: Checks if it represents a Many-To-One relationship.
+     *
      * @param mixed $obj The object to test
-     * @return bool
      */
     public function manyToOneTest($obj): bool
     {
@@ -340,8 +356,8 @@ class LanguageTwigExtension extends AbstractExtension
         }
 
         if (null !== $relation) {
-            $result = ($relation->getSide() == RelationshipSide::RIGHT) &&
-                ($relation->getRelationship()->getType() == Relationship::ONE_TO_MANY);
+            $result = (RelationshipSide::RIGHT == $relation->getSide()) &&
+                (Relationship::ONE_TO_MANY == $relation->getRelationship()->getType());
         }
 
         return $result;
@@ -351,9 +367,9 @@ class LanguageTwigExtension extends AbstractExtension
      * Test if the object has a Many-To-Many relationship with another entity. It supports Entity, Field and RelationshipSide
      *  - Entity: Checks if the entity has at least one field with a Many-To-Many relationship
      *  - Field: Checks it the field has a Many-To-Many relationship
-     *  - RelationshipSide: Checks if it represents a Many-To-Many relationship
+     *  - RelationshipSide: Checks if it represents a Many-To-Many relationship.
+     *
      * @param mixed $obj The object to test
-     * @return bool
      */
     public function manyToManyTest($obj): bool
     {
@@ -377,7 +393,7 @@ class LanguageTwigExtension extends AbstractExtension
         }
 
         if (null !== $relation) {
-            $result = $relation->getRelationship()->getType() == Relationship::MANY_TO_MANY;
+            $result = Relationship::MANY_TO_MANY == $relation->getRelationship()->getType();
         }
 
         return $result;
@@ -397,6 +413,7 @@ class LanguageTwigExtension extends AbstractExtension
         if (is_string($name)) {
             return Inflector::pluralize($name);
         }
+
         return $name;
     }
 
@@ -453,8 +470,10 @@ class LanguageTwigExtension extends AbstractExtension
 
         if (is_string($name)) {
             $name = str_replace(['-', ' ', '.'], '_', $name);
+
             return str_replace('__', '_', Inflector::tableize($name));
         }
+
         return $name;
     }
 
@@ -512,7 +531,7 @@ class LanguageTwigExtension extends AbstractExtension
 
     /**
      * Filters a string to transform it to a file path.
-     * Converts 'Com\Folder\A' or 'Com.Folder.A' to 'Com/Folder/A'
+     * Converts 'Com\Folder\A' or 'Com.Folder.A' to 'Com/Folder/A'.
      *
      * @param string|Package $obj
      *
@@ -537,7 +556,7 @@ class LanguageTwigExtension extends AbstractExtension
 
     /**
      * Filters a string to extract the last part of a path.
-     * Converts 'Com\Folder\A' or 'Com/Folder/A' or 'Com.Folder.A' to 'A'
+     * Converts 'Com\Folder\A' or 'Com/Folder/A' or 'Com.Folder.A' to 'A'.
      *
      * @param string|Package $obj
      *
@@ -556,6 +575,7 @@ class LanguageTwigExtension extends AbstractExtension
         if (!empty($str)) {
             $str = str_replace(['/', '\\'], '.', $str);
             $values = explode('.', $str);
+
             return end($values);
         }
 
@@ -571,13 +591,15 @@ class LanguageTwigExtension extends AbstractExtension
         if (is_string($name) && !empty($name)) {
             $prefix = 'get';
 
-            return $prefix . $this->classFilter($name) . '()';
+            return $prefix.$this->classFilter($name).'()';
         }
+
         return $name;
     }
 
     /**
      * @param mixed $obj
+     *
      * @return string
      */
     public function setterFilter($obj)
@@ -586,13 +608,15 @@ class LanguageTwigExtension extends AbstractExtension
         if (is_string($name) && !empty($name)) {
             $prefix = 'set';
 
-            return $prefix . $this->classFilter($name);
+            return $prefix.$this->classFilter($name);
         }
+
         return $name;
     }
 
     /**
      * @param mixed $obj
+     *
      * @return string
      */
     public function addMethodFilter($obj)
@@ -601,13 +625,15 @@ class LanguageTwigExtension extends AbstractExtension
         if (is_string($name) && !empty($name)) {
             $prefix = 'add';
 
-            return $prefix . Inflector::singularize($this->classFilter($name));
+            return $prefix.Inflector::singularize($this->classFilter($name));
         }
+
         return $name;
     }
 
     /**
      * @param mixed $obj
+     *
      * @return string
      */
     public function removeMethodFilter($obj)
@@ -616,13 +642,15 @@ class LanguageTwigExtension extends AbstractExtension
         if (is_string($name) && !empty($name)) {
             $prefix = 'remove';
 
-            return $prefix . Inflector::singularize($this->classFilter($name));
+            return $prefix.Inflector::singularize($this->classFilter($name));
         }
+
         return $name;
     }
 
     /**
      * @param mixed $obj
+     *
      * @return string
      */
     public function containsMethodFilter($obj)
@@ -631,17 +659,17 @@ class LanguageTwigExtension extends AbstractExtension
         if (is_string($name) && !empty($name)) {
             $prefix = 'contains';
 
-            return $prefix . Inflector::singularize($this->classFilter($name));
+            return $prefix.Inflector::singularize($this->classFilter($name));
         }
+
         return $name;
     }
 
     /**
-     * Default language agnostic type filter. This must be overridden by subclasses to return the language's real type
-     * @param array $context
+     * Default language agnostic type filter. This must be overridden by subclasses to return the language's real type.
+     *
      * @param string|Field $field
-     * @param bool $mandatory Whether this field is mandatory in this context
-     * @return string
+     * @param bool         $mandatory Whether this field is mandatory in this context
      */
     public function typeFilter(array $context, $field, bool $mandatory = false): string
     {
@@ -650,7 +678,7 @@ class LanguageTwigExtension extends AbstractExtension
         $type = 'string';
         if ($field instanceof Field) {
             if ($field->isList()) {
-                $type = 'list of ' . $this->listTypeFilter($context, $field);
+                $type = 'list of '.$this->listTypeFilter($context, $field);
             } elseif ($helper->isBoolean($field)) {
                 $type = 'bool';
             } elseif ($helper->isDate($field)) {
@@ -678,7 +706,7 @@ class LanguageTwigExtension extends AbstractExtension
             }
 
             if (!$mandatory && !$field->isMandatory()) {
-                $type = $type . ' (Optional)';
+                $type = $type.' (Optional)';
             }
         }
 
@@ -686,9 +714,11 @@ class LanguageTwigExtension extends AbstractExtension
     }
 
     /**
-     * Default language agnostic list type filter. This must be overridden by subclasses to return the language's real type
-     * @param array $context
+     * Default language agnostic list type filter. This must be overridden by subclasses to return the language's real type.
+     *
+     * @param array        $context
      * @param string|Field $field
+     *
      * @return string
      */
     public function listTypeFilter($context, $field)
@@ -728,10 +758,8 @@ class LanguageTwigExtension extends AbstractExtension
     }
 
     /**
-     * @param array $context
      * @param array|Field $field
-     * @param bool $mandatory Whether the parameters are mandatory in this context
-     * @return string
+     * @param bool        $mandatory Whether the parameters are mandatory in this context
      */
     public function parameterFilter(array $context, $field, bool $mandatory = false): string
     {
@@ -742,18 +770,20 @@ class LanguageTwigExtension extends AbstractExtension
                 if (!empty($params)) {
                     $params .= ', ';
                 }
-                $params .= $this->typeFilter($context, $value, $mandatory) . ' ' . $this->variableFilter($value);
+                $params .= $this->typeFilter($context, $value, $mandatory).' '.$this->variableFilter($value);
             }
         } elseif ($field instanceof Field) {
-            $params = $this->typeFilter($context, $field, $mandatory) . ' ' . $this->variableFilter($field);
+            $params = $this->typeFilter($context, $field, $mandatory).' '.$this->variableFilter($field);
         }
 
         return $params;
     }
 
     /**
-     * Extracts the name of an object
+     * Extracts the name of an object.
+     *
      * @param mixed $obj
+     *
      * @return mixed|string
      */
     protected function getName($obj)

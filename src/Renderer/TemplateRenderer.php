@@ -23,8 +23,7 @@ class TemplateRenderer
 
     /**
      * TemplateHelper constructor.
-     * @param LoaderInterface $loader
-     * @param string $baseFolder
+     *
      * @param ArtifactHelper $helper
      */
     public function __construct(LoaderInterface $loader, string $baseFolder, ArtifactHelper $helper = null)
@@ -38,21 +37,15 @@ class TemplateRenderer
         }
     }
 
-    /**
-     * @return string
-     */
     public function getBaseFolder(): string
     {
         return $this->baseFolder;
     }
 
-    /**
-     * @param string $baseFolder
-     * @return TemplateRenderer
-     */
     public function setBaseFolder(string $baseFolder): TemplateRenderer
     {
         $this->baseFolder = $baseFolder;
+
         return $this;
     }
 
@@ -65,30 +58,34 @@ class TemplateRenderer
      * If 'php/Model.php.twig' is requested, this method will try to load the 'ext/php/Model.php.twig' template if it
      * exists. Otherwise, it will try to load 'php/Model.php.twig'
      *
-     * @param Environment $twig
-     * @param string $filename The name of the template to load.
+     * @param string $filename the name of the template to load
      *
      * @return TemplateWrapper
+     *
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
     public function loadTemplate(Environment $twig, string $filename)
     {
-        if ($twig->getLoader()->exists('ext' . DIRECTORY_SEPARATOR . $filename)) {
+        if ($twig->getLoader()->exists('ext'.DIRECTORY_SEPARATOR.$filename)) {
             $filename = 'ext/'.$filename;
         }
+
         return $twig->load($filename);
     }
 
     /**
-     * Renders a template and returns its content as a string
+     * Renders a template and returns its content as a string.
+     *
      * @param Template $template The template to render
-     * @param array $context The context to pass to the rendering
+     * @param array    $context  The context to pass to the rendering
+     *
      * @return string The rendered content
+     *
      * @throws \Exception
      */
-    public function renderTemplate(Template $template, $context = array())
+    public function renderTemplate(Template $template, $context = [])
     {
         $templateFile = $this->getTemplateFilename($template);
 
@@ -105,21 +102,20 @@ class TemplateRenderer
     }
 
     /**
-     * @param string $filename
-     * @param Package $package
-     * @param Template $template
      * @param array $context
+     *
      * @return string The name of the file rendered
+     *
      * @throws \Exception
      */
-    public function renderToFile(string $filename, Package $package, Template $template, $context = array()): string
+    public function renderToFile(string $filename, Package $package, Template $template, $context = []): string
     {
         $content = $this->renderTemplate($template, $context);
 
         $dir = $this->helper->getDirectory($package, $template->getArtifact());
         $extension = $this->helper->getFilenameExtension($template->getArtifact());
 
-        $file = $this->baseFolder . $dir . '/'. $filename . $extension;
+        $file = $this->baseFolder.$dir.'/'.$filename.$extension;
 
         // Make sure the folder requested exist. If not, create it
         $dir = dirname($file);
@@ -128,11 +124,11 @@ class TemplateRenderer
         }
 
         file_put_contents($file, $content);
+
         return $file;
     }
 
     /**
-     * @param Template $template
      * @return string
      */
     public function getTemplateFilename(Template $template)
@@ -141,23 +137,23 @@ class TemplateRenderer
 
         $path = '';
         if (!empty($artifact->getCategory())) {
-            $path .= $artifact->getCategory() .DIRECTORY_SEPARATOR;
+            $path .= $artifact->getCategory().DIRECTORY_SEPARATOR;
         }
 
-        if ($artifact->getCategory() != Artifact::PROJECT) {
+        if (Artifact::PROJECT != $artifact->getCategory()) {
             $format = $artifact->getFormat();
             if (!empty($format)) {
-                $path .= $format .DIRECTORY_SEPARATOR;
+                $path .= $format.DIRECTORY_SEPARATOR;
             }
         }
 
         if (!empty($artifact->getType())) {
-            $path .= $artifact->getType() .DIRECTORY_SEPARATOR;
+            $path .= $artifact->getType().DIRECTORY_SEPARATOR;
         }
 
         $path = strtolower($path);
-        $extension = $this->helper->getFilenameExtension($artifact) .'.twig';
+        $extension = $this->helper->getFilenameExtension($artifact).'.twig';
 
-        return $path . $template->getName() . $extension;
+        return $path.$template->getName().$extension;
     }
 }

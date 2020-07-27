@@ -9,8 +9,6 @@ use CodePrimer\Model\Entity;
 use CodePrimer\Model\Field;
 use CodePrimer\Tests\Helper\TestHelper;
 use CodePrimer\Twig\DoctrineOrmTwigExtension;
-use PHPUnit\Framework\TestCase;
-use Twig\TwigFunction;
 
 class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
 {
@@ -43,7 +41,7 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider entityAnnotationsProvider
-     * @param Entity $entity
+     *
      * @param string[] $expected
      */
     public function testAnnotationsFunctionForEntityShouldPass(Entity $entity, array $expected)
@@ -53,7 +51,7 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
         self::assertCount(count($expected), $actual);
 
         foreach ($expected as $value) {
-            self::assertContains($value, $actual, 'Annotations found: ' . implode("\n", $actual));
+            self::assertContains($value, $actual, 'Annotations found: '.implode("\n", $actual));
         }
     }
 
@@ -71,8 +69,8 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
                 new Entity('SampleEntity'),
                 [
                     '@ORM\Entity(repositoryClass="App\Repository\SampleEntityRepository")',
-                    '@ORM\Table(name="sample_entities")'
-                ]
+                    '@ORM\Table(name="sample_entities")',
+                ],
             ],
             'Entity with 1 simple unique constraint' => [
                 (new Entity('SampleEntity'))
@@ -80,8 +78,8 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
                     ->addUniqueConstraint(new Constraint('uniqueName', Constraint::TYPE_UNIQUE, [$field1])),
                 [
                     '@ORM\Entity(repositoryClass="App\Repository\SampleEntityRepository")',
-                    '@ORM\Table(name="sample_entities", uniqueConstraints={@ORM\UniqueConstraint(name="uniqueName", columns={"name"})})'
-                ]
+                    '@ORM\Table(name="sample_entities", uniqueConstraints={@ORM\UniqueConstraint(name="uniqueName", columns={"name"})})',
+                ],
             ],
             'Entity with 1 complex unique constraint' => [
                 (new Entity('SampleEntity'))
@@ -90,8 +88,8 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
                     ->addUniqueConstraint(new Constraint('uniqueName', Constraint::TYPE_UNIQUE, [$field1, $field2])),
                 [
                     '@ORM\Entity(repositoryClass="App\Repository\SampleEntityRepository")',
-                    '@ORM\Table(name="sample_entities", uniqueConstraints={@ORM\UniqueConstraint(name="uniqueName", columns={"name","email"})})'
-                ]
+                    '@ORM\Table(name="sample_entities", uniqueConstraints={@ORM\UniqueConstraint(name="uniqueName", columns={"name","email"})})',
+                ],
             ],
             'Entity with 2 simple unique constraints' => [
                 (new Entity('SampleEntity'))
@@ -101,16 +99,16 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
                     ->addUniqueConstraint(new Constraint('uniqueEmail', Constraint::TYPE_UNIQUE, [$field2])),
                 [
                     '@ORM\Entity(repositoryClass="App\Repository\SampleEntityRepository")',
-                    '@ORM\Table(name="sample_entities", uniqueConstraints={@ORM\UniqueConstraint(name="uniqueName", columns={"name"}), @ORM\UniqueConstraint(name="uniqueEmail", columns={"email"})})'
-                ]
+                    '@ORM\Table(name="sample_entities", uniqueConstraints={@ORM\UniqueConstraint(name="uniqueName", columns={"name"}), @ORM\UniqueConstraint(name="uniqueEmail", columns={"email"})})',
+                ],
             ],
             'Entity with 1 simple index' => [
                 (new Entity('SampleEntity'))
                     ->addField($index1),
                 [
                     '@ORM\Entity(repositoryClass="App\Repository\SampleEntityRepository")',
-                    '@ORM\Table(name="sample_entities", indexes={@ORM\Index(name="first_name_idx", columns={"first_name"})})'
-                ]
+                    '@ORM\Table(name="sample_entities", indexes={@ORM\Index(name="first_name_idx", columns={"first_name"})})',
+                ],
             ],
             'Entity with 2 simple indexes' => [
                 (new Entity('SampleEntity'))
@@ -118,8 +116,8 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
                     ->addField($index2),
                 [
                     '@ORM\Entity(repositoryClass="App\Repository\SampleEntityRepository")',
-                    '@ORM\Table(name="sample_entities", indexes={@ORM\Index(name="first_name_idx", columns={"first_name"}), @ORM\Index(name="last_name_idx", columns={"last_name"})})'
-                ]
+                    '@ORM\Table(name="sample_entities", indexes={@ORM\Index(name="first_name_idx", columns={"first_name"}), @ORM\Index(name="last_name_idx", columns={"last_name"})})',
+                ],
             ],
             'Entity with 2 simple indexes and 2 unique constraints' => [
                 (new Entity('SampleEntity'))
@@ -131,16 +129,15 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
                     ->addUniqueConstraint(new Constraint('uniqueEmail', Constraint::TYPE_UNIQUE, [$field2])),
                 [
                     '@ORM\Entity(repositoryClass="App\Repository\SampleEntityRepository")',
-                    '@ORM\Table(name="sample_entities", uniqueConstraints={@ORM\UniqueConstraint(name="uniqueName", columns={"name"}), @ORM\UniqueConstraint(name="uniqueEmail", columns={"email"})}, indexes={@ORM\Index(name="first_name_idx", columns={"first_name"}), @ORM\Index(name="last_name_idx", columns={"last_name"})})'
-                ]
+                    '@ORM\Table(name="sample_entities", uniqueConstraints={@ORM\UniqueConstraint(name="uniqueName", columns={"name"}), @ORM\UniqueConstraint(name="uniqueEmail", columns={"email"})}, indexes={@ORM\Index(name="first_name_idx", columns={"first_name"}), @ORM\Index(name="last_name_idx", columns={"last_name"})})',
+                ],
             ],
-
         ];
     }
 
     /**
      * @dataProvider fieldAnnotationsProvider
-     * @param Field $field
+     *
      * @param string[] $expected
      */
     public function testAnnotationsFunctionForFieldShouldPass(Field $field, array $expected)
@@ -150,9 +147,8 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
         self::assertCount(count($expected), $actual);
 
         foreach ($expected as $value) {
-            self::assertContains($value, $actual, 'Annotations found: ' . implode("\n", $actual));
+            self::assertContains($value, $actual, 'Annotations found: '.implode("\n", $actual));
         }
-
     }
 
     public function fieldAnnotationsProvider()
@@ -171,181 +167,181 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
             'Optional String field' => [
                 new Field('SampleField', FieldType::STRING, 'description'),
                 [
-                    '@ORM\Column(name="sample_field", type="string", length=255, nullable=true)'
-                ]
+                    '@ORM\Column(name="sample_field", type="string", length=255, nullable=true)',
+                ],
             ],
             'Mandatory String field' => [
                 new Field('SampleField', FieldType::STRING, 'description', true),
                 [
-                    '@ORM\Column(name="sample_field", type="string", length=255)'
-                ]
+                    '@ORM\Column(name="sample_field", type="string", length=255)',
+                ],
             ],
             'Mandatory Email field' => [
                 new Field('SampleField', FieldType::EMAIL, 'description', true),
                 [
-                    '@ORM\Column(name="sample_field", type="string", length=255)'
-                ]
+                    '@ORM\Column(name="sample_field", type="string", length=255)',
+                ],
             ],
             'Mandatory URL field' => [
                 new Field('SampleField', FieldType::URL, 'description', true),
                 [
-                    '@ORM\Column(name="sample_field", type="string", length=255)'
-                ]
+                    '@ORM\Column(name="sample_field", type="string", length=255)',
+                ],
             ],
             'Mandatory Text field' => [
                 new Field('SampleField', FieldType::TEXT, 'description', true),
                 [
-                    '@ORM\Column(name="sample_field", type="text")'
-                ]
+                    '@ORM\Column(name="sample_field", type="text")',
+                ],
             ],
             'Mandatory Phone field' => [
                 new Field('SampleField', FieldType::PHONE, 'description', true),
                 [
-                    '@ORM\Column(name="sample_field", type="string", length=15)'
-                ]
+                    '@ORM\Column(name="sample_field", type="string", length=15)',
+                ],
             ],
             'Mandatory Price field' => [
                 new Field('SampleField', FieldType::PRICE, 'description', true),
                 [
-                    '@ORM\Column(name="sample_field", type="decimal", precision=9, scale=2)'
-                ]
+                    '@ORM\Column(name="sample_field", type="decimal", precision=9, scale=2)',
+                ],
             ],
             'Mandatory Decimal field' => [
                 new Field('SampleField', FieldType::DECIMAL, 'description', true),
                 [
-                    '@ORM\Column(name="sample_field", type="decimal")'
-                ]
+                    '@ORM\Column(name="sample_field", type="decimal")',
+                ],
             ],
             'Mandatory Double field' => [
                 new Field('SampleField', FieldType::DOUBLE, 'description', true),
                 [
-                    '@ORM\Column(name="sample_field", type="float")'
-                ]
+                    '@ORM\Column(name="sample_field", type="float")',
+                ],
             ],
             'Mandatory Float field' => [
                 new Field('SampleField', FieldType::FLOAT, 'description', true),
                 [
-                    '@ORM\Column(name="sample_field", type="float")'
-                ]
+                    '@ORM\Column(name="sample_field", type="float")',
+                ],
             ],
             'Mandatory Long field' => [
                 new Field('SampleField', FieldType::LONG, 'description', true),
                 [
-                    '@ORM\Column(name="sample_field", type="bigint")'
-                ]
+                    '@ORM\Column(name="sample_field", type="bigint")',
+                ],
             ],
             'Mandatory Integer field' => [
                 new Field('SampleField', FieldType::INTEGER, 'description', true),
                 [
-                    '@ORM\Column(name="sample_field", type="integer")'
-                ]
+                    '@ORM\Column(name="sample_field", type="integer")',
+                ],
             ],
             'Mandatory DateTime field' => [
                 new Field('SampleField', FieldType::DATETIME, 'description', true),
                 [
-                    '@ORM\Column(name="sample_field", type="datetime")'
-                ]
+                    '@ORM\Column(name="sample_field", type="datetime")',
+                ],
             ],
             'Mandatory Time field' => [
                 new Field('SampleField', FieldType::TIME, 'description', true),
                 [
-                    '@ORM\Column(name="sample_field", type="time")'
-                ]
+                    '@ORM\Column(name="sample_field", type="time")',
+                ],
             ],
             'Mandatory Date field' => [
                 new Field('SampleField', FieldType::DATE, 'description', true),
                 [
-                    '@ORM\Column(name="sample_field", type="date")'
-                ]
+                    '@ORM\Column(name="sample_field", type="date")',
+                ],
             ],
             'Mandatory Boolean field' => [
                 new Field('SampleField', FieldType::BOOLEAN, 'description', true),
                 [
-                    '@ORM\Column(name="sample_field", type="boolean")'
-                ]
+                    '@ORM\Column(name="sample_field", type="boolean")',
+                ],
             ],
             'Mandatory ID field' => [
                 new Field('SampleField', FieldType::ID, 'description', true),
                 [
                     '@ORM\Id()',
                     '@ORM\GeneratedValue()',
-                    '@ORM\Column(name="sample_field", type="bigint")'
-                ]
+                    '@ORM\Column(name="sample_field", type="bigint")',
+                ],
             ],
             'Mandatory UUID field' => [
                 new Field('SampleField', FieldType::UUID, 'description', true),
                 [
                     '@ORM\Id()',
                     '@ORM\GeneratedValue(strategy="UUID")',
-                    '@ORM\Column(name="sample_field", type="string", length=36)'
-                ]
+                    '@ORM\Column(name="sample_field", type="string", length=36)',
+                ],
             ],
             'User.id' => [
                 $user->getField('id'),
                 [
                     '@ORM\Id()',
                     '@ORM\GeneratedValue(strategy="UUID")',
-                    '@ORM\Column(name="id", type="string", length=36)'
+                    '@ORM\Column(name="id", type="string", length=36)',
                 ],
             ],
             'User.firstName' => [
                 $user->getField('firstName'),
                 [
-                    '@ORM\Column(name="first_name", type="string", length=255, nullable=true)'
+                    '@ORM\Column(name="first_name", type="string", length=255, nullable=true)',
                 ],
             ],
             'User.email' => [
                 $user->getField('email'),
                 [
-                    '@ORM\Column(name="email", type="string", length=255)'
+                    '@ORM\Column(name="email", type="string", length=255)',
                 ],
             ],
             'User.created' => [
                 $user->getField('created'),
                 [
-                    '@ORM\Column(name="created", type="datetime", nullable=true)'
+                    '@ORM\Column(name="created", type="datetime", nullable=true)',
                 ],
             ],
             'OneToOne Entity - Unidirectional' => [
                 $user->getField('stats'),
                 [
-                    '@ORM\OneToOne(targetEntity="CodePrimer\Tests\UserStats", cascade={"persist", "remove"})'
+                    '@ORM\OneToOne(targetEntity="CodePrimer\Tests\UserStats", cascade={"persist", "remove"})',
                 ],
             ],
             'OneToOne Entity - Bidirectional - Left side' => [
                 $user->getField('subscription'),
                 [
-                    '@ORM\OneToOne(targetEntity="CodePrimer\Tests\Subscription", inversedBy="user")'
+                    '@ORM\OneToOne(targetEntity="CodePrimer\Tests\Subscription", inversedBy="user")',
                 ],
             ],
             'OneToOne Entity - Bidirectional - Right side' => [
                 $subscription->getField('user'),
                 [
-                    '@ORM\OneToOne(targetEntity="CodePrimer\Tests\User", inversedBy="subscription")'
+                    '@ORM\OneToOne(targetEntity="CodePrimer\Tests\User", inversedBy="subscription")',
                 ],
             ],
             'OneToMany Entities' => [
                 $user->getField('metadata'),
                 [
-                    '@ORM\OneToMany(targetEntity="CodePrimer\Tests\Metadata", mappedBy="user", cascade={"persist", "remove", "merge"}, orphanRemoval=true)'
+                    '@ORM\OneToMany(targetEntity="CodePrimer\Tests\Metadata", mappedBy="user", cascade={"persist", "remove", "merge"}, orphanRemoval=true)',
                 ],
             ],
             'ManyToOne Entities' => [
                 $metadata->getField('user'),
                 [
-                    '@ORM\ManyToOne(targetEntity="CodePrimer\Tests\User", inversedBy="metadata")'
+                    '@ORM\ManyToOne(targetEntity="CodePrimer\Tests\User", inversedBy="metadata")',
                 ],
             ],
             'ManyToMany Entities - Side 1' => [
                 $user->getField('topics'),
                 [
-                    '@ORM\ManyToMany(targetEntity="CodePrimer\Tests\Topic", mappedBy="authors")'
+                    '@ORM\ManyToMany(targetEntity="CodePrimer\Tests\Topic", mappedBy="authors")',
                 ],
             ],
             'ManyToMany Entities - Side 2' => [
                 $topic->getField('authors'),
                 [
-                    '@ORM\ManyToMany(targetEntity="CodePrimer\Tests\User", inversedBy="topics")'
+                    '@ORM\ManyToMany(targetEntity="CodePrimer\Tests\User", inversedBy="topics")',
                 ],
             ],
         ];
@@ -353,8 +349,8 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider collectionUsedProvider
+     *
      * @param Entity|Field $obj
-     * @param bool $expected
      */
     public function testCollectionUsedShouldPass($obj, bool $expected)
     {
@@ -374,9 +370,9 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
             'Topic' => [$package->getEntity('Topic'), true],
             'Field' => [new Field('SampleField', FieldType::UUID), false],
             'List Field without relation' => [
-                (new Field("SampleField", FieldType::STRING))
+                (new Field('SampleField', FieldType::STRING))
                     ->setList(true),
-                false
+                false,
             ],
             'Field with relation' => [$user->getField('stats'), false],
             'List wield with relation' => [$user->getField('metadata'), true],
@@ -385,7 +381,8 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider typeDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testTypeFilterShouldPass($obj, $expectedValue)
@@ -413,7 +410,8 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider hintDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testHintFilterShouldPass($obj, $expectedValue)

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace CodePrimer\Tests\Helper;
 
 use CodePrimer\Helper\FieldType;
@@ -14,7 +13,6 @@ class TestHelper
 {
     /**
      * @param bool $withEntities
-     * @return Package
      */
     public static function getSamplePackage($withEntities = true, $withRelationships = true): Package
     {
@@ -33,9 +31,6 @@ class TestHelper
         return $package;
     }
 
-    /**
-     * @param Package $package
-     */
     public static function addSampleEntities(Package $package)
     {
         $entity = new Entity('User', 'This entity represents a user');

@@ -1,21 +1,20 @@
 <?php
 
-
 namespace CodePrimer\Tests\Functional;
-
 
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Template\Artifact;
 
 /**
- * Class PhpEntityTemplatesTest
- * @package App\Tests\Functional
+ * Class PhpEntityTemplatesTest.
+ *
  * @group functional
  */
 class PhpEntityTemplatesTest extends TemplateTestCase
 {
     const PLAIN_ENTITY_EXPECTED_DIR = self::EXPECTED_DIR.'/code/php/entity/PlainEntity/';
     const DOCTRINE_ORM_ENTITY_EXPECTED_DIR = self::EXPECTED_DIR.'/code/php/entity/DoctrineOrmEntity/';
+
     /**
      * @throws \Exception
      */

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace CodePrimer\Helper;
-
 
 use CodePrimer\Model\Entity;
 use CodePrimer\Model\Field;
@@ -18,7 +16,7 @@ class PackageHelper
 
     public function __construct(FieldHelper $fieldHelper = null)
     {
-        if ($fieldHelper === null) {
+        if (null === $fieldHelper) {
             $this->fieldHelper = new FieldHelper();
         } else {
             $this->fieldHelper = $fieldHelper;
@@ -26,15 +24,14 @@ class PackageHelper
     }
 
     /**
-     * This method is used to create the relationships between the various entities in a package
-     * @param Package $package
+     * This method is used to create the relationships between the various entities in a package.
      */
     public function buildRelationships(Package $package)
     {
         foreach ($package->getEntities() as $entity) {
             foreach ($entity->getFields() as $field) {
                 if ($this->fieldHelper->isEntity($field, $package)) {
-                    if ($field->getRelation() === null) {
+                    if (null === $field->getRelation()) {
                         $this->createRelationship($package, $entity, $field);
                     }
                 }
@@ -43,19 +40,15 @@ class PackageHelper
     }
 
     /**
-     * Creates the relationship between 2 entities
-     * @param Package $package
-     * @param Entity $entity
-     * @param Field $field
-     * @return Relationship
+     * Creates the relationship between 2 entities.
      */
     private function createRelationship(Package $package, Entity $entity, Field $field): Relationship
     {
         $remoteEntity = $package->getEntity($field->getType());
 
         // Make sure the remote entity exists
-        if ($remoteEntity === null) {
-            throw new RuntimeException('Failed to locate remote entity '.$field->getType(). ' in package '.$package->getName());
+        if (null === $remoteEntity) {
+            throw new RuntimeException('Failed to locate remote entity '.$field->getType().' in package '.$package->getName());
         }
 
         // Look for fields to link back
@@ -74,10 +67,11 @@ class PackageHelper
             if ($field->isList()) {
                 $type = Relationship::ONE_TO_MANY;
             }
+
             return new Relationship($type, $leftSide, $rightSide);
         }
 
-        if (count($possibleFields) == 1) {
+        if (1 == count($possibleFields)) {
             // Birectional relationship, we need to figure out the relationship type and appropriate sides
 
             /** @var Field $remoteField */
@@ -106,6 +100,6 @@ class PackageHelper
             return new Relationship($type, $leftSide, $rightSide);
         }
 
-        throw new RuntimeException('Multiple bidirectional relationships found between the same entities: '. $entity->getName() .' and '. $remoteEntity->getName(). '. This is not supported yet');
+        throw new RuntimeException('Multiple bidirectional relationships found between the same entities: '.$entity->getName().' and '.$remoteEntity->getName().'. This is not supported yet');
     }
 }

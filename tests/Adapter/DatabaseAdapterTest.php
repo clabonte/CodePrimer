@@ -3,17 +3,13 @@
 namespace CodePrimer\Tests\Adapter;
 
 use CodePrimer\Adapter\DatabaseAdapter;
-use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Helper\FieldType;
-use CodePrimer\Model\Constraint;
-use CodePrimer\Model\Database\Index;
 use CodePrimer\Model\Entity;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
 use CodePrimer\Model\RelationshipSide;
 use CodePrimer\Tests\Helper\RelationshipTestHelper;
 use CodePrimer\Tests\Helper\TestHelper;
-use Exception;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
@@ -30,8 +26,6 @@ class DatabaseAdapterTest extends TestCase
 
     /**
      * @dataProvider databaseNameProvider
-     * @param Package $package
-     * @param string $expected
      */
     public function testGetDatabaseName(Package $package, string $expected)
     {
@@ -49,14 +43,12 @@ class DatabaseAdapterTest extends TestCase
             'Sample Name' => [new Package('Namespace', 'Sample Name'), 'namespace_sample_name'],
             'Samples Names' => [new Package('Namespace', 'Samples Names'), 'namespace_samples_name'],
             'Sample-Name' => [new Package('Namespace', 'Sample-Name'), 'namespace_sample_name'],
-            'TestPackage' => [TestHelper::getSamplePackage(), 'code_primer_tests_functional_test']
+            'TestPackage' => [TestHelper::getSamplePackage(), 'code_primer_tests_functional_test'],
         ];
     }
 
     /**
      * @dataProvider tableNameProvider
-     * @param Entity $entity
-     * @param string $expected
      */
     public function testGetTableName(Entity $entity, string $expected)
     {
@@ -77,8 +69,6 @@ class DatabaseAdapterTest extends TestCase
 
     /**
      * @dataProvider relationTableNameProvider
-     * @param RelationshipSide $relation
-     * @param string $expected
      */
     public function testGetRelationTableName(RelationshipSide $relation, string $expected)
     {
@@ -92,18 +82,18 @@ class DatabaseAdapterTest extends TestCase
         return [
             'Many-To-Many - Left' => [
                 $helper->getManyToManyLeftRelationship(),
-                'users_topics'
+                'users_topics',
             ],
             'Many-To-Many - Right' => [
                 $helper->getManyToManyRightRelationship(),
-                'users_topics'
+                'users_topics',
             ],
         ];
     }
 
     /**
      * @dataProvider relationTableNameExceptionProvider
-     * @param RelationshipSide $relation
+     *
      * @throws RuntimeException
      */
     public function testGetRelationTableNameShouldThrowException(RelationshipSide $relation)
@@ -118,27 +108,25 @@ class DatabaseAdapterTest extends TestCase
 
         return [
             'One-To-One unidirectional' => [
-                $helper->getOneToOneUnidirectionalRelationship()
+                $helper->getOneToOneUnidirectionalRelationship(),
             ],
             'One-To-One birectional - left' => [
-                $helper->getOneToOneBidirectionalLeftRelationship()
+                $helper->getOneToOneBidirectionalLeftRelationship(),
             ],
             'One-To-One birectional - right' => [
-                $helper->getOneToOneBidirectionalRightRelationship()
+                $helper->getOneToOneBidirectionalRightRelationship(),
             ],
             'Many-To-One' => [
-                $helper->getManytoOneRelationship()
+                $helper->getManytoOneRelationship(),
             ],
             'One-To-Many' => [
-                $helper->getOneToManyRelationship()
+                $helper->getOneToManyRelationship(),
             ],
         ];
     }
 
     /**
      * @dataProvider auditTableNameProvider
-     * @param Entity $entity
-     * @param string $expected
      */
     public function testGetAuditTableName(Entity $entity, string $expected)
     {
@@ -159,8 +147,6 @@ class DatabaseAdapterTest extends TestCase
 
     /**
      * @dataProvider columnNameProvider
-     * @param Field $field
-     * @param string $expected
      */
     public function testGetColumnName(Field $field, string $expected)
     {
@@ -181,8 +167,6 @@ class DatabaseAdapterTest extends TestCase
 
     /**
      * @dataProvider entityColumnNameProvider
-     * @param Entity $entity
-     * @param string $expected
      */
     public function testGetEntityColumnName(Entity $entity, string $expected)
     {
@@ -200,5 +184,4 @@ class DatabaseAdapterTest extends TestCase
             'Sample-Name' => [new Entity('Sample-Name'), 'sample_name_id'],
         ];
     }
-
 }

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace CodePrimer\Template;
-
 
 use Twig\Extension\AbstractExtension;
 
@@ -19,8 +17,7 @@ class Template
 
     /**
      * Template constructor.
-     * @param string $name
-     * @param Artifact $artifact
+     *
      * @param AbstractExtension[] $extensions
      */
     public function __construct(string $name, Artifact $artifact, array $extensions = [])
@@ -30,17 +27,11 @@ class Template
         $this->extensions = $extensions;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return Artifact
-     */
     public function getArtifact(): Artifact
     {
         return $this->artifact;

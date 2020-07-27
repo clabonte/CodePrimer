@@ -1,14 +1,13 @@
 <?php
 
-
 namespace CodePrimer\Tests\Functional;
 
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Template\Artifact;
 
 /**
- * Class SqlTemplatesTest
- * @package CodePrimer\Tests\Functional
+ * Class SqlTemplatesTest.
+ *
  * @group functional
  */
 class SqlTemplatesTest extends TemplateTestCase

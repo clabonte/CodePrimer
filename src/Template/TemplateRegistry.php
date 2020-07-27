@@ -1,8 +1,6 @@
 <?php
 
-
 namespace CodePrimer\Template;
-
 
 use CodePrimer\Twig\DoctrineOrmTwigExtension;
 use CodePrimer\Twig\JavaTwigExtension;
@@ -16,7 +14,7 @@ class TemplateRegistry
 
     public function __construct()
     {
-        $this->templates = array();
+        $this->templates = [];
 
         // Prepare PHP code templates
         $phpExtensions = [new PhpTwigExtension()];
@@ -47,9 +45,6 @@ class TemplateRegistry
         $this->addTemplate(new Template('CreateUser', new Artifact(Artifact::CODE, 'migration', 'mysql', 'createUser'), $mysqlExtensions));
     }
 
-    /**
-     * @param Template $template
-     */
     public function addTemplate(Template $template)
     {
         $artifact = $template->getArtifact();
@@ -63,8 +58,8 @@ class TemplateRegistry
     }
 
     /**
-     * @param Artifact $artifact
      * @return Template
+     *
      * @throws \Exception
      */
     public function getTemplateForArtifact(Artifact $artifact)
@@ -73,11 +68,6 @@ class TemplateRegistry
     }
 
     /**
-     * @param string $category
-     * @param string $type
-     * @param string $format
-     * @param string $variant
-     * @return Template
      * @throws \Exception
      */
     public function getTemplate(string $category, string $type, string $format, string $variant = ''): Template
@@ -95,9 +85,6 @@ class TemplateRegistry
     }
 
     /**
-     * @param string $category
-     * @param string|null $type
-     * @param string|null $format
      * @return Template[]
      */
     public function listTemplates(string $category, string $type = null, string $format = null): array
