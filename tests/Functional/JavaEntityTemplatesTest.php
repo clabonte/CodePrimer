@@ -38,12 +38,12 @@ class JavaEntityTemplatesTest extends TemplateTestCase
         $builder->build($this->package, $template, $this->renderer);
 
         // Make sure the right files have been generated
-        $this->assertGeneratedFile('src/CodePrimer/Tests/Entity/User.java', self::PLAIN_ENTITY_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/CodePrimer/Tests/Entity/UserStats.java', self::PLAIN_ENTITY_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/CodePrimer/Tests/Entity/Metadata.java', self::PLAIN_ENTITY_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/CodePrimer/Tests/Entity/Post.java', self::PLAIN_ENTITY_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/CodePrimer/Tests/Entity/Topic.java', self::PLAIN_ENTITY_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/CodePrimer/Tests/Entity/Subscription.java', self::PLAIN_ENTITY_EXPECTED_DIR);
+        $this->assertGeneratedFile('src/codeprimer/tests/entity/User.java', self::PLAIN_ENTITY_EXPECTED_DIR);
+        $this->assertGeneratedFile('src/codeprimer/tests/entity/UserStats.java', self::PLAIN_ENTITY_EXPECTED_DIR);
+        $this->assertGeneratedFile('src/codeprimer/tests/entity/Metadata.java', self::PLAIN_ENTITY_EXPECTED_DIR);
+        $this->assertGeneratedFile('src/codeprimer/tests/entity/Post.java', self::PLAIN_ENTITY_EXPECTED_DIR);
+        $this->assertGeneratedFile('src/codeprimer/tests/entity/Topic.java', self::PLAIN_ENTITY_EXPECTED_DIR);
+        $this->assertGeneratedFile('src/codeprimer/tests/entity/Subscription.java', self::PLAIN_ENTITY_EXPECTED_DIR);
     }
 
 }

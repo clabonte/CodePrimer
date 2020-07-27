@@ -1,6 +1,19 @@
 {
-    "type": "project",
-    "license": "proprietary",
+    "name": "clabonte/codeprimer",
+    "type": "library",
+    "description": "CodePrimer, customizable production-grade code generator for architects and team leads",
+    "homepage": "https://github.com/clabonte/codeprimer",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christian Labonte",
+            "role": "Project Founder and Lead Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/clabonte/codeprimer/issues"
+    },
+    "prefer-stable": true,
     "require": {
         "php": "^7.3.4",
         "ext-ctype": "*",
@@ -28,6 +41,7 @@
         }
     },
     "scripts": {
-        "php-cs-fixer": "php-cs-fixer --rules=@Symfony"
+        "php-cs-fixer": "php-cs-fixer --rules=@Symfony",
+        "phpunit": "vendor/bin/phpunit -c phpunit.xml.dist"
     }
 }
