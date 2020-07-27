@@ -1,0 +1,32 @@
+{# Template: _constructor.java.twig
+ # This template outputs the default constructors in a Java class
+ #}
+{% set constructor_scope = constructor_scope ?? 'public' %}
+    /**
+     * {{ model|class }} default constructor
+{% for field in model.fields %}
+    {%~ if field.mandatory %}
+     * @param {{ field|variable }} {{ field.description|raw }}
+    {%~ endif %}
+{% endfor %}
+     */
+{% if model.mandatoryFields|length == 0 %}
+    {{ constructor_scope }} {{ model|class }}() {}
+{% else %}
+    {{ constructor_scope }} {{ model|class }} (
+    {%~ for field in model.mandatoryFields %}
+        {%~ if loop.last %}
+        {{ field|type }} {{ field|variable }}
+        {%~ else  %}
+        {{ field|type }} {{ field|variable }},
+        {%~ endif %}
+    {%~ endfor %}
+    ) {
+    {%~ for field in model.fields %}
+        {%~ if field.mandatory %}
+        {{ field|member }} = {{ field|variable }};
+        {%~ endif %}
+    {%~ endfor %}
+    }
+{% endif %}
+

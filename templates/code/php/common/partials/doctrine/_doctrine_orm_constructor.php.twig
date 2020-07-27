@@ -1,0 +1,29 @@
+{# Template: _doctrine_orm_constructor.php.twig
+ # This template outputs a default constructor in a PHP class to be compatible with the Doctrine ORM
+ #}
+    /**
+     * {{ model|class }} default constructor
+{% for field in model.fields %}
+    {%~ if field.mandatory %}
+     * @var {{ field|hint }} {{ field|variable }} {{ field.description|raw }}
+    {%~ endif %}
+{% endfor %}
+     */
+    public function __construct(
+{% for field in model.mandatoryFields %}
+    {%~ if loop.last %}
+        {{ field|type }} {{ field|variable }}
+    {%~ else  %}
+        {{ field|type }} {{ field|variable }},
+    {%~ endif %}
+{% endfor %}
+    ) {
+{% for field in model.fields %}
+    {%~ if field.mandatory %}
+        {{ field|member }} = {{ field|variable }};
+    {%~ elseif field.relation and field.list %}
+        {{ field|member }} = new ArrayCollection();
+    {%~ endif %}
+{% endfor %}
+    }
+

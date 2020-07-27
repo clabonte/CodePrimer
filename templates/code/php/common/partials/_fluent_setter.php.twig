@@ -1,0 +1,28 @@
+{# Template: _fluent_setter.php.twig
+ # This template outputs a fluent setter method in a PHP class
+ # Input: field - A Field object
+ #}
+    /**
+     * @param {{ field|hint }} {{ field|variable }}
+     * @return {{ model|class }}
+     */
+{% if field is scalar %}
+    public function {{ field|setter }}({{ field|variable }}): {{ model|class }}
+{% elseif field.nullable %}
+    public function {{ field|setter }}(?{{ field|type }} {{ field|variable }}): {{ model|class }}
+{% else %}
+    public function {{ field|setter }}({{ field|type }} {{ field|variable }}): {{ model|class }}
+{% endif %}
+    {
+{% if field is boolean %}
+        {{ field|member }} = boolval({{ field|variable }});
+{% elseif field is integer or field is long %}
+        {{ field|member }} = intval({{ field|variable }});
+{% elseif field is float or field is boolean %}
+        {{ field|member }} = floatval({{ field|variable }});
+{% else %}
+        {{ field|member }} = {{ field|variable }};
+{% endif %}
+        return $this;
+    }
+

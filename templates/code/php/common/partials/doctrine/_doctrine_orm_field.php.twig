@@ -1,0 +1,14 @@
+{% extends "code/php/common/partials/_field.php.twig" %}
+{# Template: _doctrine_orm_field.php.twig
+ # This template defines a field in a PHP class using Doctrine annotation
+ # Input: field - A Field object
+ #}
+{% block field_comments %}
+    /**
+     * @var {{ field|hint }} {{ field.description|raw }}
+    {%~ for annotation in annotations(field) %}
+     * {{ annotation|raw }}
+    {%~ endfor %}
+     */
+{% endblock %}
+

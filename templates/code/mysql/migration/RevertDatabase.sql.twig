@@ -1,0 +1,29 @@
+USE {{ package|database }};
+
+{# Drop the foreign keys #}
+{% for entity in package.entities %}
+    {%~ for relation in entity.relations %}
+        {%~ if relation is foreignKey %}
+            {%~ include 'code/mysql/common/partials/_drop_foreign_key.sql.twig' %}
+
+        {%~ endif %}
+    {%~ endfor %}
+{% endfor %}
+{# Drop the relation tables created for the many to many relationship #}
+{% for entity in package.entities %}
+    {%~ for relation in entity.relations %}
+        {%~ if relation is manyToMany and relation.left %}
+            {%~ include 'code/mysql/common/partials/_drop_relation_table.sql.twig' %}
+
+        {%~ endif %}
+    {%~ endfor %}
+{% endfor %}
+{# Drop the list of tables for each entity #}
+{% for entity in package.entities %}
+    {%~ if entity.audited %}
+        {%~ include 'code/mysql/common/partials/_drop_audit_table.sql.twig' %}
+
+    {%~ endif %}
+    {%~ include 'code/mysql/common/partials/_drop_table.sql.twig' %}
+
+{% endfor %}

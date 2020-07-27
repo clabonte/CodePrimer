@@ -1,0 +1,83 @@
+{% extends "code/php/common/class.php.twig" %}
+{% set parent_class = 'ServiceEntityRepository' %}
+
+{# Override the includes block to include the Doctrine classes #}
+{% block includes %}
+use {{ package|namespace('Entity') }}\{{ entity|class }};
+    {%~ for linkedEntity in entityHelper.getLinkedEntities(entity) %}
+use {{ package|namespace('Entity') }}\{{ linkedEntity|class }};
+    {%~ endfor %}
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
+    {%~ if entity is oneToOne or entity is oneToMany %}
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
+    {%~ endif %}
+use Psr\Log\LoggerInterface;
+
+{% endblock %}
+
+{#- Block: class_comments
+ # Provide PHPDoc comments describing the class
+ #}
+{% block class_comments %}
+/**
+ * Class {{ model|class }}
+ * Manipulates {{ entity|class }} entities with the persistence layer.
+ * @package {{ package|namespace }}
+ * @method {{ entity|class }}|null find($id, $lockMode = null, $lockVersion = null)
+ * @method {{ entity|class }}|null findOneBy(array $criteria, array $orderBy = null)
+ * @method {{ entity|class }}[]    findAll()
+ * @method {{ entity|class }}[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
+{% endblock %}
+
+{# Block: constructor
+ # This block defines the constructor to use for this class
+ #}
+{% block constructor %}
+    /**
+     * @param ManagerRegistry $registry
+     */
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, {{ entity|class }}::class);
+    }
+{% endblock %}
+
+{# Block: fields
+ # This block defines the list of fields
+ #}
+{% block fields %}
+    /** @var LoggerInterface */
+    private $logger;
+
+{% endblock %}
+
+{# Block: setters_getters
+ # This block defines the list of setters and getters
+ #}
+{% block setters_getters %}
+
+    /**
+     * @required
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+{% endblock %}
+
+{# Add methods that are specific to this class #}
+{% block body %}
+    {#- Add methods to retrieve a given entity based on its unique constraints #}
+    {%~ for constraint in entity.uniqueConstraints %}
+        {%~ include 'code/php/common/partials/doctrine/_doctrine_orm_unique_constraint_methods.php.twig' %}
+    {%~ endfor %}
+    {#- Add methods to access entities based on its relations with other entities #}
+    {%~ for relation in entity.relations %}
+        {%~ include 'code/php/common/partials/doctrine/_doctrine_orm_relation_methods.php.twig' %}
+    {%~ endfor %}
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{# Template: _setter.java.twig
+ # This template outputs a regular setter method in a Java class
+ # Input: field - A Field object
+ #}
+    /**
+     * @param {{ field|variable }}
+     */
+    public void {{ field|setter }}({{ field|type }} {{ field|variable }}) {
+        {{ field|member }} = {{ field|variable }};
+    }
+

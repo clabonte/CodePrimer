@@ -1,0 +1,84 @@
+{% extends "code/php/common/class.php.twig" %}
+{% set parent_class = 'AbstractMigration' %}
+{% set class_modifier = 'final ' %}
+{% set constructor = false %}
+
+{# Override the includes block to include the Doctrine classes #}
+{% block includes %}
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+{% endblock %}
+
+{% block namespace %}
+namespace DoctrineMigrations;
+{% endblock %}
+
+{#- Block: class_comments
+ # Provide PHPDoc comments describing the class
+ #}
+{% block class_comments %}
+/**
+ * Class {{ model|class }}
+ * This is the initial migration used to create the MySQL-compatible database for the application
+ * @package {{ package|namespace }}
+ */
+{% endblock %}
+
+{# Block: fields
+ # This block defines the list of fields
+ #}
+{% block fields %}
+    const SQL_MIGRATIONS_DIR = __DIR__ . '/../../migrations/';
+
+{% endblock %}
+
+{# Add methods that are specific to this class #}
+{% block body %}
+    public function getDescription() : string
+    {
+        return 'Initial migration used to configure the MySQL-compatible database created by CodePrimer';
+    }
+
+    public function up(Schema $schema) : void
+    {
+        // this up() migration is auto-generated, please modify it to your needs
+        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+
+        $migration = file_get_contents(self::SQL_MIGRATIONS_DIR . 'CreateDatabase.sql');
+        $sections = explode('-- TRIGGERS START', $migration);
+
+        // Execute regular statements
+        $statements = explode(';', $sections[0]);
+        foreach ($statements as $statement) {
+            $statement = trim($statement);
+            if (!empty($statement)) {
+                $this->addSql($statement);
+            }
+        }
+
+        // Execute triggers statements
+        $statements = explode('//', $sections[1]);
+        foreach ($statements as $statement) {
+            $statement = trim($statement);
+            if (!empty($statement) && (strpos($statement, 'DELIMITER') !== 0)) {
+                $this->addSql($statement);
+            }
+        }
+    }
+
+    public function down(Schema $schema) : void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
+
+        $statements = explode(';', file_get_contents(self::SQL_MIGRATIONS_DIR . 'RevertDatabase.sql'));
+        foreach ($statements as $statement) {
+            $statement = trim($statement);
+            if (!empty($statement)) {
+                $this->addSql($statement);
+            }
+        }
+    }
+
+{% endblock %}

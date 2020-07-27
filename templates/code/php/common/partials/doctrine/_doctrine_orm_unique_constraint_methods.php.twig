@@ -1,0 +1,43 @@
+{# Template: _doctrine_orm_unique_constraint_methods.php.twig
+ # This template defines the methods used to retrieve a given entity based on a unique constraint
+ # Input: entity - The Entity object to manipulate
+ #        constraint - The Constraint object to implement the method for
+ #}
+
+    /**
+     * Retrieves a single {{ entity|class }} based on the {{ constraint.name }} constraint
+        {%~ for field in constraint.fields %}
+     * @param {{ field|hint(true) }} {{ field|variable }}
+        {%~ endfor %}
+     * @return {{ entity|class }}|null
+     */
+    public function getBy{{ constraint.name|class }}({{ constraint.fields|parameter(true) }}): ?{{ entity|class }}
+    {
+        try {
+            return $this->createQueryBuilder('u')
+        {%~ for field in constraint.fields %}
+                ->andWhere('u.{{ field|camel }} = :{{ field|camel }}')
+        {%~ endfor %}
+        {%~ for field in constraint.fields %}
+                ->setParameter('{{ field|camel }}', {{ field|variable }})
+        {%~ endfor %}
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException $e) {
+            $this->logger->notice('No result found: ' .$e->getMessage(), [
+        {%~ for field in constraint.fields %}
+                '{{ field|camel }}' => {{ field|variable }},
+        {%~ endfor %}
+                'exception' => $e
+            ]);
+        } catch (NonUniqueResultException $e) {
+            $this->logger->error('Multiple results found: ' .$e->getMessage(), [
+        {%~ for field in constraint.fields %}
+                '{{ field|camel }}' => {{ field|variable }},
+        {%~ endfor %}
+                'exception' => $e
+            ]);
+        }
+
+        return null;
+    }

@@ -1,0 +1,11 @@
+{# Template: _getter.java.twig
+ # This template outputs a getter method in a Java class
+ # Input: field - A Field object
+ #}
+    /**
+     * @return {{ field|type }}
+     */
+    public {{ field|type }} {{ field|getter }} {
+        return {{ field|member }};
+    }
+

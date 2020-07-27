@@ -1,0 +1,6 @@
+{# Template: _drop_audit_table.sql.twig
+ # This template defines the SQL sentence to drop an existing audit table
+ # Input: entity - An Entity object
+ #}
+-- Drops the table holding {{ entity.name }} entities
+DROP TABLE `{{ entity|auditTable }}`;

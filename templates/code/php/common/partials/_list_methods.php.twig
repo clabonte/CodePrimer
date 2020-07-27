@@ -1,0 +1,56 @@
+{# Template: _list_methods.php.twig
+ # This template defines the add/remove methods used to manipulate list fields
+ # Input: field - A Field object
+ #}
+
+    /**
+     * Checks if this {{ model|class }} contains at least one instance of a given {{ field.type }}
+     * @param {{ field|listType }} {{ field|variable }}
+     * @return bool
+     */
+    public function {{ field|containsMethod }}({{ field|listType }} {{ field|variable }}): bool
+    {
+        $result = false;
+
+        if (isset({{ field|member }})) {
+            $result = array_search({{ field|variable }}, {{ field|member }}) !== false;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Adds a {{ field.type }} instance to this {{ model|class }} if it is not already present
+     * @param {{ field|listType }} {{ field|variable }}
+     * @return {{ model|class }}
+     */
+    public function {{ field|addMethod }}({{ field|listType }} {{ field|variable }}): {{ model|class }}
+    {
+        if (!$this->{{ field|containsMethod }}({{ field|variable }})) {
+            if (!isset({{ field|member }})) {
+                {{ field|member }} = [];
+            }
+            {{ field|member }}[] = {{ field|variable }};
+        }
+
+        return $this;
+    }
+
+    /**
+     * Removes all instances of a given {{ field.type }} from this {{ model|class }}
+     * @param {{ field|listType }} {{ field|variable }}
+     * @return {{ model|class }}
+     */
+    public function {{ field|removeMethod }}({{ field|listType }} {{ field|variable }}): {{ model|class }}
+    {
+        if (!isset({{ field|member }})) {
+            return $this;
+        }
+
+        $keys = array_keys({{ field|member }}, {{ field|variable }});
+        foreach (array_reverse($keys) as $key) {
+            unset({{ field|member }}[$key]);
+        }
+
+        return $this;
+    }

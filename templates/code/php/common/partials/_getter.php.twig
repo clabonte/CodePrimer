@@ -1,0 +1,16 @@
+{# Template: _getter.php.twig
+ # This template outputs a getter method in a PHP class
+ # Input: field - A Field object
+ #}
+    /**
+     * @return {{ field|hint }}
+     */
+{% if field.isNullable %}
+    public function {{ field|getter }}: ?{{ field|type }}
+{% else %}
+    public function {{ field|getter }}: {{ field|type }}
+{% endif %}
+    {
+        return {{ field|member }};
+    }
+

@@ -1,0 +1,7 @@
+{# Template: _drop_foreign_key.sql.twig
+ # This template defines the SQL sentence to drop an existing foreign key between 2 tables
+ # Input: relation - A RelationshipSide object
+ #}
+{% set entity = relation.entity %}
+-- Drops the foreign key between {{ entity.name }} and {{ remoteEntity.name }}
+ALTER TABLE {{ entity|table }} DROP FOREIGN KEY {{ relation|foreignKey }};

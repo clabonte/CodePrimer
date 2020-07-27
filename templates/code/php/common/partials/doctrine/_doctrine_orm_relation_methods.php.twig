@@ -1,0 +1,56 @@
+{# Template: _doctrine_orm_single_reltion_methods.php.twig
+ # This template defines the methods used to retrieve a given entity based on its relationship with another entity
+ # Input: entity - The Entity object to manipulate
+ #        relation - The Relationship object to implement the method for
+ #}
+    {%~ if relation is manyToOne or relation is manyToMany  %}
+
+    /**
+     * Retrieves a list of {{ entity|class }} linked to a given {{ relation.remoteSide.entity|class }}
+     * @param {{ relation.field|listType }} {{ relation.field|variable|singular }}
+     * @param bool $mostRecentFirst
+     * @return {{ entity|class }}[]
+     */
+    public function findAllBy{{ relation.remoteSide.entity|class }}({{ relation.field|listType }} {{ relation.field|variable|singular }}, bool $mostRecentFirst = true): array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.{{ relation.field|camel|singular }} = :{{ relation.field|camel|singular }}')
+            ->setParameter('{{ relation.field|camel|singular }}', {{ relation.field|variable|singular }})
+        {%~ if entityHelper.getEntityCreatedTimestampField(entity)  %}
+            ->orderBy('u.{{ entityHelper.getEntityCreatedTimestampField(entity)|camel }}', $mostRecentFirst ? 'DESC' : 'ASC')
+        {%~ elseif entity.identifier and fieldHelper.isAutoIncrement(entity.identifier) %}
+            ->orderBy('u.{{ entity.identifier|camel }}', $mostRecentFirst ? 'DESC' : 'ASC')
+        {%~ endif  %}
+            ->getQuery()
+            ->getResult();
+    }
+    {%~ elseif relation is oneToOne or relation is oneToMany  %}
+
+    /**
+     * Retrieves a {{ entity|class }} linked to a given {{ relation.remoteSide.entity|class }}
+     * @param {{ relation.field|listType }} {{ relation.field|variable|singular }}
+     * @return {{ entity|class }}|null
+     */
+    public function getBy{{ relation.remoteSide.entity|class }}({{ relation.field|listType }} {{ relation.field|variable|singular }}): ?{{ entity|class }}
+    {
+        try {
+            return $this->createQueryBuilder('u')
+                ->andWhere('u.{{ relation.field|camel|singular }} = :{{ relation.field|camel|singular }}')
+                ->setParameter('{{ relation.field|camel|singular }}', {{ relation.field|variable|singular }})
+                ->getQuery()
+                ->getSingleResult();
+        } catch (NoResultException $e) {
+            $this->logger->notice('No result found: ' .$e->getMessage(), [
+                '{{ relation.field|camel|singular }}' => {{ relation.field|variable|singular }},
+                'exception' => $e
+            ]);
+        } catch (NonUniqueResultException $e) {
+            $this->logger->error('Multiple results found: '.$e->getMessage(), [
+                '{{ relation.field|camel|singular }}' => {{ relation.field|variable|singular }},
+                'exception' => $e
+            ]);
+        }
+
+        return null;
+    }
+    {%~ endif %}

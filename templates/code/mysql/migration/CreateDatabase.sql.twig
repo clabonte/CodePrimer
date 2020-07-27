@@ -1,0 +1,67 @@
+{# Variables
+ # This template uses the following variables to allow children to easily control the layout without having to override
+ # blocks:
+ # - charset: The default charset to use for tables. Default = utf8mb4
+ # - collation: The default collation to use for tables. Default = utf8mb4_unicode_ci
+ # - engine: The default database engine to use for tables. Default = InnoDB
+ #}
+{% set charset = charset ?? 'utf8mb4' %}
+{% set collation = collation ?? 'utf8mb4_unicode_ci' %}
+{% set engine = engine ?? 'InnoDB' %}
+-- Create the schema if it does not already exist
+CREATE DATABASE IF NOT EXISTS {{ package|database }}
+    DEFAULT CHARACTER SET {{ charset }}
+    DEFAULT COLLATE {{ collation }};
+
+USE {{ package|database }};
+
+{# Create the list of tables for each entities #}
+{% for entity in package.entities %}
+    {%~ include 'code/mysql/common/table.sql.twig' %}
+    {%~ if entity.audited %}
+
+        {%~ include 'code/mysql/common/audit_table.sql.twig' %}
+    {%~ endif %}
+
+
+{% endfor %}
+{# Create the list of relation tables for entities linked via a many to many relationship #}
+{% for entity in package.entities %}
+    {%~ for relation in entity.relations %}
+        {%~ if relation is manyToMany and relation.left %}
+            {%~ include 'code/mysql/common/relation_table.sql.twig' %}
+
+        {%~ endif %}
+    {%~ endfor %}
+{% endfor %}
+
+{# Create the foreign keys #}
+{% for entity in package.entities %}
+    {%~ for relation in entity.relations %}
+        {%~ if relation is foreignKey %}
+            {%~ include 'code/mysql/common/partials/_foreign_key.sql.twig' %}
+
+        {%~ endif %}
+    {%~ endfor %}
+{% endfor %}
+
+{# Create the various triggers #}
+{% set triggers = false %}
+{% for entity in package.entities %}
+    {%~ if entity.identifier is uuid %}
+
+        {%~ include 'code/mysql/common/partials/_uuid_trigger.sql.twig' %}
+        {%~ set triggers = true %}
+    {%~ endif %}
+    {%~ if entity.audited %}
+
+        {%~ include 'code/mysql/common/partials/_audit_triggers.sql.twig' %}
+        {%~ set triggers = true %}
+    {%~ endif %}
+{% endfor %}
+{% if triggers %}
+
+
+DELIMITER ;
+-- TRIGGERS END
+{% endif %}

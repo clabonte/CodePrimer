@@ -1,0 +1,23 @@
+{# Template: _field.php.twig
+ # This template defines a field in a PHP class
+ # Input: field - A Field object
+ #}
+{% block field_comments %}
+    /** @var {{ field|hint }} {{ field.description|raw }} */
+{% endblock %}
+{% if field is string %}
+    {%~ if not field.managed and field.default %}
+    protected {{ field|variable }} = '{{ field.default }}';
+    {%~ elseif field.mandatory %}
+    protected {{ field|variable }} = '';
+    {%~ else %}
+    protected {{ field|variable }} = null;
+    {%~ endif %}
+{% elseif not field.managed and field.default %}
+    protected {{ field|variable }} = {{ field.default }};
+{% elseif not field.mandatory %}
+    protected {{ field|variable }} = null;
+{% else %}
+    protected {{ field|variable }};
+{% endif %}
+

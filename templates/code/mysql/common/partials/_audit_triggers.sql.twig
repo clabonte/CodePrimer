@@ -1,0 +1,52 @@
+{# Template: _audit_triggers.sql.twig
+ # This template defines the SQL sentence to create the triggers used to implement an audit trail for an entity
+ # Input: entity - An Entity object
+ #}
+{% set auditedColumns = [] %}
+{% for field in auditedFields(entity) %}
+    {%~ set auditedColumn = '`' ~ field|column ~ '`' %}
+    {%~ set auditedColumns = auditedColumns|merge([auditedColumn]) %}
+{% endfor %}
+{% if not triggers %}
+-- TRIGGERS START
+DELIMITER //
+{% endif %}
+
+-- Create the triggers to populate the audit table automatically
+{# Trigger invoked after a new entity has been created #}
+DROP TRIGGER IF EXISTS `audit_{{ entity|table }}_AFTER_INSERT`//
+
+CREATE TRIGGER `audit_{{ entity|table }}_AFTER_INSERT` AFTER INSERT ON `{{ entity|table }}`
+FOR EACH ROW BEGIN
+  INSERT INTO {{ entity|auditTable }}(`audit_{{ entity.identifier|column }}`, `audit_operation`, {{ auditedColumns|join(', ') }}, created)
+    VALUES (UUID(), 'i', NEW.{{ auditedColumns|join(', NEW.') }}, NOW());
+END//
+
+{# Trigger invoked after an existing entity has been modified #}
+DROP TRIGGER IF EXISTS `audit_{{ entity|table }}_AFTER_UPDATE`//
+
+CREATE TRIGGER `audit_{{ entity|table }}_AFTER_UPDATE` AFTER UPDATE ON `{{ entity|table }}`
+FOR EACH ROW BEGIN
+{% for field in auditedFields(entity, false) %}
+    {%~ if loop.first %}
+  IF (NEW.`{{ field|column }}` <> OLD.`{{ field|column }}`
+    {%~ elseif not loop.last %}
+    OR NEW.`{{ field|column }}` <> OLD.`{{ field|column }}`
+    {%~ else %}
+    OR NEW.`{{ field|column }}` <> OLD.`{{ field|column }}`)
+  THEN
+    {%~ endif %}
+{% endfor %}
+    INSERT INTO {{ entity|auditTable }}(`audit_{{ entity.identifier|column }}`, `audit_operation`, {{ auditedColumns|join(', ') }}, created)
+        VALUES (UUID(), 'u', NEW.{{ auditedColumns|join(', NEW.') }}, NOW());
+  END IF;
+END//
+
+{# Trigger invoked after an existing entity has been deleted #}
+DROP TRIGGER IF EXISTS `audit_{{ entity|table }}_AFTER_DELETE`//
+
+CREATE TRIGGER `audit_{{ entity|table }}_AFTER_DELETE` AFTER DELETE ON `{{ entity|table }}`
+FOR EACH ROW BEGIN
+  INSERT INTO {{ entity|auditTable }}(`audit_{{ entity.identifier|column }}`, `audit_operation`, {{ auditedColumns|join(', ') }}, created)
+    VALUES (UUID(), 'd', OLD.{{ auditedColumns|join(', OLD.') }}, NOW());
+END//

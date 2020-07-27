@@ -1,0 +1,22 @@
+{# Template: _field.java.twig
+ # This template defines a field in a Java class
+ # Input: field - A Field object
+ #}
+{% set field_scope = field_scope ?? 'protected' %}
+    /** {{ field.description|raw }} */
+{% if field is string %}
+    {%~ if not field.managed and field.default %}
+    {{ field_scope }} {{ field|type }} {{ field|variable }} = "{{ field.default }}";
+    {%~ elseif field.mandatory %}
+    {{ field_scope }} {{ field|type }} {{ field|variable }} = "";
+    {%~ else %}
+    {{ field_scope }} {{ field|type }} {{ field|variable }} = null;
+    {%~ endif %}
+{% elseif not field.managed and field.default %}
+    {{ field_scope }} {{ field|type }} {{ field|variable }} = {{ field.default }};
+{% elseif not field.mandatory %}
+    {{ field_scope }} {{ field|type }} {{ field|variable }} = null;
+{% else %}
+    {{ field_scope }} {{ field|type }} {{ field|variable }};
+{% endif %}
+

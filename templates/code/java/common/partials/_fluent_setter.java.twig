@@ -1,0 +1,13 @@
+{# Template: _fluent_setter.java.twig
+ # This template outputs a fluent setter method in a Java class
+ # Input: field - A Field object
+ #}
+    /**
+     * @param {{ field|variable }}
+     * @return {{ model|class }}
+     */
+    public {{ model|class }} {{ field|setter }}({{ field|type }} {{ field|variable }}) {
+        {{ field|member }} = {{ field|variable }};
+        return this;
+    }
+

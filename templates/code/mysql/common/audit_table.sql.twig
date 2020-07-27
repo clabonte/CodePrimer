@@ -1,0 +1,13 @@
+
+-- Create a table to hold {{ entity.name }} audits
+CREATE TABLE IF NOT EXISTS `{{ entity|auditTable }}` (
+  `audit_{{ entity.identifier|column }}` CHAR(36) NOT NULL COLLATE ascii_general_ci,
+  `audit_operation` CHAR(1) NOT NULL COMMENT 'The operation performed, one of: i (insert), u (update), d (delete)' COLLATE ascii_general_ci,
+{% for field in auditedFields(entity) %}
+  `{{ field|column }}` {{ field|type }} {{ field|attributes }},
+{% endfor %}
+  `created` DATETIME NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'The date and time at which this audit log was created',
+  INDEX {{ entity.identifier|column }}_idx (`{{ entity.identifier|column }}`),
+  PRIMARY KEY (`audit_{{ entity.identifier|column }}`)
+) ENGINE {{ engine }} DEFAULT CHARSET {{ charset }} COLLATE {{ collation }};
+

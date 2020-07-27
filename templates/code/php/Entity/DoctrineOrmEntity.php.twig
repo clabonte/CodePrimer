@@ -1,0 +1,88 @@
+{% extends "code/php/common/class.php.twig" %}
+
+{% set createdField = entityHelper.getEntityCreatedTimestampField(entity) %}
+{% set updatedField = entityHelper.getEntityUpdatedTimestampField(entity) %}
+
+{# Override the includes block to include the Doctrine classes #}
+{% block includes %}
+    {%~ if createdField or updatedField %}
+use \DateTime;
+    {%~ endif %}
+    {%~ if entity is dateTimeUsed %}
+use \DateTimeInterface;
+    {%~ endif %}
+    {%~ if entity is collectionUsed %}
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+    {%~ endif %}
+use Doctrine\ORM\Mapping as ORM;
+
+{% endblock %}
+
+{# Override the class comments block to provide the Doctrine annotations for the entity #}
+{% block class_comments %}
+/**
+ * Class {{ model|class }}
+ * {{ model.description }}
+ * @package {{ package|namespace }}
+    {%~ for annotation in annotations(entity) %}
+ * {{ annotation|raw }}
+    {%~ endfor %}
+ */
+{% endblock %}
+
+{# Override the fields block to include doctrine field definitions #}
+{% block constructor %}
+    {%~ if constructor %}
+        {%~ include 'code/php/common/partials/doctrine/_doctrine_orm_constructor.php.twig' %}
+    {%~ endif %}
+{% endblock %}
+
+{# Override the fields block to include doctrine field definitions #}
+{% block fields %}
+    {%~ for field in model.fields %}
+        {%~ include 'code/php/common/partials/doctrine/_doctrine_orm_field.php.twig' %}
+    {%~ endfor %}
+{% endblock %}
+
+{# Override the list_methods block to manipulate Doctrine collections and handle associations #}
+{% block list_methods %}
+    {%~ for field in model.fields %}
+        {%~ if field.list %}
+            {%~ include 'code/php/common/partials/doctrine/_doctrine_orm_list_methods.php.twig' %}
+        {%~ endif %}
+    {%~ endfor %}
+{% endblock %}
+
+{# Add methods that are specific to this class #}
+{% block body %}
+    {#~ Create the method to managed the 'created' field, if needed #}
+    {%~ if createdField or updatedField %}
+    /**
+     * Automatically manage timestamps upon entity creation
+     * @ORM\PrePersist
+     */
+    public function updateTimestampsBeforePersist(): void
+    {
+        {%~ if updatedField %}
+        {{ updatedField|member }} = new DateTime('now');
+        {%~ endif %}
+        {%~ if createdField %}
+        if ({{ createdField|member }} === null) {
+            {{ createdField|member }} = new DateTime('now');
+        }
+        {%~ endif %}
+    }
+    {%~ endif %}
+    {%~ if updatedField %}
+
+    /**
+     * Automatically manage timestamp upon entity update
+     * @ORM\PreUpdate
+     */
+    public function updateTimestampBeforeUpdate(): void
+    {
+        {{ updatedField|member }} = new DateTime('now');
+    }
+    {%~ endif %}
+{% endblock %}

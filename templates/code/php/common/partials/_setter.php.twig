@@ -1,0 +1,26 @@
+{# Template: _setter.php.twig
+ # This template outputs a regular setter method in a PHP class
+ # Input: field - A Field object
+ #}
+    /**
+     * @param {{ field|hint }} {{ field|variable }}
+     */
+{% if field is scalar %}
+    public function {{ field|setter }}({{ field|variable }})
+{% elseif field.nullable %}
+    public function {{ field|setter }}(?{{ field|type }} {{ field|variable }})
+{% else %}
+    public function {{ field|setter }}({{ field|type }} {{ field|variable }})
+{% endif %}
+    {
+{% if field is boolean %}
+        {{ field|member }} = boolval({{ field|variable }});
+{% elseif field is integer or field is long %}
+        {{ field|member }} = intval({{ field|variable }});
+{% elseif field is float or field is boolean %}
+        {{ field|member }} = floatval({{ field|variable }});
+{% else %}
+        {{ field|member }} = {{ field|variable }};
+{% endif %}
+    }
+

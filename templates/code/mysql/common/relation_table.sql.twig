@@ -1,0 +1,12 @@
+{% set entity = relation.entity %}
+{% set remoteEntity = relation.remoteSide.entity %}
+{% set field = entity.identifier %}
+{% set remoteField = remoteEntity.identifier %}
+-- Creates a table to link the {{ entity.name }} and {{ remoteEntity.name }} entities in a many to many relation
+CREATE TABLE IF NOT EXISTS `{{ relation|table }}` (
+  `{{ entity|column }}` {{ field|type }} {{ field|attributes }},
+  `{{ remoteEntity|column }}` {{ remoteField|type }} {{ remoteField|attributes }},
+  INDEX {{ entity|column }}_idx (`{{ entity|column }}`),
+  INDEX {{ remoteEntity|column }}_idx (`{{ remoteEntity|column }}`),
+  PRIMARY KEY (`{{ entity|column }}`, `{{ remoteEntity|column }}`)
+) ENGINE {{ engine }};

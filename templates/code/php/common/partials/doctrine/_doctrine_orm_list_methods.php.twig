@@ -1,0 +1,51 @@
+{# Template: _doctrine_orm_list_methods.php.twig
+ # This template defines the add/remove methods used to manipulate a list using Doctrine ORM collection and manage association between objects
+ # Input: field - A Field object
+ #}
+
+    /**
+     * Checks if this {{ model|class }} contains at least one instance of a given {{ field.type }}
+     * @param {{ field|listType }} {{ field|variable }}
+     * @return boolean
+     */
+    public function {{ field|containsMethod }}({{ field|listType }} {{ field|variable }}): boolean
+    {
+        return {{ field|member }}->contains({{ field|variable }});
+    }
+
+    /**
+     * Adds a {{ field.type }} instance to this {{ model|class }} if it is not already present
+     * @param {{ field|listType }} {{ field|variable }}
+     * @return {{ model|class }}
+     */
+    public function {{ field|addMethod }}({{ field|listType }} {{ field|variable }}): {{ model|class }}
+    {
+        if (!{{ field|member }}->contains({{ field|variable }})) {
+            {{ field|member }}[] = {{ field|variable }};
+{% if field.relation.remoteSide.field %}
+            {{ field|variable }}->{{ field.relation.remoteSide.field|setter }}($this);
+{% endif %}
+        }
+
+        return $this;
+    }
+
+    /**
+     * Removes all instances of a given {{ field.type }} from this {{ model|class }}
+     * @param {{ field|listType }} {{ field|variable }}
+     * @return {{ model|class }}
+     */
+    public function {{ field|removeMethod }}({{ field|listType }} {{ field|variable }}): {{ model|class }}
+    {
+        if ({{ field|member }}->contains({{ field|variable }})) {
+            {{ field|member }}->removeElement({{ field|variable }});
+{% if field.relation.remoteSide.field %}
+            // set the owning side to null (unless already changed)
+            if ({{ field|variable }}->{{ field.relation.remoteSide.field|getter }} === $this) {
+                {{ field|variable }}->{{ field.relation.remoteSide.field|setter }}(null);
+            }
+{% endif %}
+        }
+
+        return $this;
+    }

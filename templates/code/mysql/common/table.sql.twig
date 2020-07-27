@@ -1,0 +1,21 @@
+{% set indexList = indexes(entity) %}
+-- Creates a table to hold {{ entity.name }} entities
+CREATE TABLE IF NOT EXISTS `{{ entity|table }}` (
+{% for field in databaseFields(entity) %}
+    {%~ if not loop.last or entity.identifier or indexList %}
+  `{{ field|column }}` {{ field|type }} {{ field|attributes }},
+    {%~ else %}
+  `{{ field|column }}` {{ field|type }} {{ field|attributes }}
+    {%~ endif %}
+{% endfor %}
+{% for index in indexList %}
+    {%~ if not loop.last or entity.identifier %}
+  INDEX {{ index.name }} ({{ index|column }}) {{ index|attributes }},
+    {%~ else %}
+  INDEX {{ index.name }} ({{ index|column }}) {{ index|attributes }}
+    {%~ endif %}
+{% endfor %}
+{% if entity.identifier %}
+  PRIMARY KEY (`{{ entity.identifier|column }}`)
+{% endif %}
+) ENGINE {{ engine }} DEFAULT CHARSET {{ charset }} COLLATE {{ collation }};
