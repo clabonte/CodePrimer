@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: cbonte
  * Date: 2019-05-19
- * Time: 3:23 PM
+ * Time: 3:23 PM.
  */
 
 namespace CodePrimer\Model;
-
 
 class Package
 {
@@ -21,16 +20,17 @@ class Package
     private $description;
 
     /** @var Entity[] */
-    private $entities = array();
+    private $entities = [];
 
     /** @var Event[] */
-    private $events = array();
+    private $events = [];
 
     /** @var Set[] */
-    private $sets = array();
+    private $sets = [];
 
     /**
      * Package constructor.
+     *
      * @param $namespace
      * @param $name
      */
@@ -50,6 +50,7 @@ class Package
 
     /**
      * @param string $namespace
+     *
      * @return Package
      */
     public function setNamespace($namespace): self
@@ -59,16 +60,12 @@ class Package
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param string $name
      * @return Package
      */
     public function setName(string $name): self
@@ -78,16 +75,12 @@ class Package
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
     /**
-     * @param string $description
      * @return Package
      */
     public function setDescription(string $description): self
@@ -106,7 +99,6 @@ class Package
     }
 
     /**
-     * @param Entity $entity
      * @return Package
      */
     public function addEntity(Entity $entity): self
@@ -116,10 +108,6 @@ class Package
         return $this;
     }
 
-    /**
-     * @param string $name
-     * @return Entity|null
-     */
     public function getEntity(string $name): ?Entity
     {
         if (isset($this->entities[$name])) {
@@ -131,11 +119,12 @@ class Package
 
     /**
      * @param Entity[] $entities
+     *
      * @return Package
      */
     public function setEntities(array $entities): self
     {
-        $this->entities = array();
+        $this->entities = [];
 
         foreach ($entities as $entity) {
             $this->addEntity($entity);
@@ -154,11 +143,12 @@ class Package
 
     /**
      * @param Event[] $events
+     *
      * @return Package
      */
     public function setEvents(array $events): self
     {
-        $this->events = array();
+        $this->events = [];
 
         foreach ($events as $entity) {
             $this->addEvent($entity);
@@ -168,7 +158,6 @@ class Package
     }
 
     /**
-     * @param Event $event
      * @return Package
      */
     public function addEvent(Event $event): self
@@ -178,10 +167,6 @@ class Package
         return $this;
     }
 
-    /**
-     * @param string $name
-     * @return Event|null
-     */
     public function getEvent(string $name): ?Event
     {
         if (isset($this->events[$name])) {
@@ -199,10 +184,6 @@ class Package
         return $this->sets;
     }
 
-    /**
-     * @param string $name
-     * @return Set|null
-     */
     public function getSet(string $name): ?Set
     {
         if (isset($this->sets[$name])) {
@@ -214,6 +195,7 @@ class Package
 
     /**
      * @param Set[] $sets
+     *
      * @return Package
      */
     public function setSets(array $sets): self
@@ -228,7 +210,6 @@ class Package
     }
 
     /**
-     * @param Set $set
      * @return Package
      */
     public function addSet(Set $set): self
@@ -238,4 +219,3 @@ class Package
         return $this;
     }
 }
-

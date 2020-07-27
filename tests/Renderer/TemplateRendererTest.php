@@ -12,7 +12,7 @@ use Twig\Loader\FilesystemLoader;
 
 class TemplateRendererTest extends TestCase
 {
-    const ROOT = __DIR__ . '/../../';
+    const ROOT = __DIR__.'/../../';
 
     /** @var FilesystemLoader */
     private $loader;
@@ -69,7 +69,7 @@ class TemplateRendererTest extends TestCase
     {
         $template = new Template('BaseTemplate', new Artifact('', '', 'txt'));
 
-        $expected = file_get_contents(__DIR__ . '/../../fixtures/templates/txt/BaseTemplate.txt.twig');
+        $expected = file_get_contents(__DIR__.'/../../fixtures/templates/txt/BaseTemplate.txt.twig');
 
         $content = $this->helper->renderTemplate($template);
 
@@ -83,7 +83,7 @@ class TemplateRendererTest extends TestCase
     {
         $template = new Template('ExtendedTemplate', new Artifact('', '', 'txt'));
 
-        $expected = file_get_contents(__DIR__ . '/../../fixtures/templates/ext/txt/ExtendedTemplate.txt.twig');
+        $expected = file_get_contents(__DIR__.'/../../fixtures/templates/ext/txt/ExtendedTemplate.txt.twig');
 
         $content = $this->helper->renderTemplate($template);
 
@@ -97,7 +97,7 @@ class TemplateRendererTest extends TestCase
     {
         $template = new Template('ArtifactTemplate', new Artifact('category', 'type', 'txt'));
 
-        $expected = file_get_contents(__DIR__ . '/../../fixtures/templates/category/txt/type/ArtifactTemplate.txt.twig');
+        $expected = file_get_contents(__DIR__.'/../../fixtures/templates/category/txt/type/ArtifactTemplate.txt.twig');
 
         $content = $this->helper->renderTemplate($template);
 

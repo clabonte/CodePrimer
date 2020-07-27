@@ -1,14 +1,12 @@
 <?php
 
-
 namespace CodePrimer\Tests\Functional;
-
 
 use CodePrimer\Template\Artifact;
 
 /**
- * Class JavaEntityTemplatesTest
- * @package App\Tests\Functional
+ * Class JavaEntityTemplatesTest.
+ *
  * @group functional
  */
 class JavaEntityTemplatesTest extends TemplateTestCase
@@ -45,5 +43,4 @@ class JavaEntityTemplatesTest extends TemplateTestCase
         $this->assertGeneratedFile('src/codeprimer/tests/entity/Topic.java', self::PLAIN_ENTITY_EXPECTED_DIR);
         $this->assertGeneratedFile('src/codeprimer/tests/entity/Subscription.java', self::PLAIN_ENTITY_EXPECTED_DIR);
     }
-
 }

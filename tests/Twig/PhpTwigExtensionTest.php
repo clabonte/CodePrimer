@@ -1,6 +1,5 @@
 <?php
 
-
 namespace CodePrimer\Tests\Twig;
 
 use CodePrimer\Helper\FieldType;
@@ -60,7 +59,8 @@ class PhpTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider variableDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testVariableFilterShouldPass($obj, $expectedValue)
@@ -93,7 +93,8 @@ class PhpTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider memberDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testMemberFilterShouldPass($obj, $expectedValue)
@@ -126,10 +127,11 @@ class PhpTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider namespaceDataProvider
-     * @param array $context The context to pass to the filter
-     * @param mixed $obj Object to filter
-     * @param string|null $subpackage The subpackage to pass to the filter
-     * @param string $expectedValue expected filtered value
+     *
+     * @param array       $context       The context to pass to the filter
+     * @param mixed       $obj           Object to filter
+     * @param string|null $subpackage    The subpackage to pass to the filter
+     * @param string      $expectedValue expected filtered value
      */
     public function testNamespaceFilterShouldPass(array $context, $obj, ?string $subpackage, $expectedValue)
     {
@@ -166,7 +168,8 @@ class PhpTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider typeDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testTypeFilterShouldPass($obj, $expectedValue)
@@ -179,41 +182,42 @@ class PhpTwigExtensionTest extends TwigExtensionTest
     public function typeDataProvider()
     {
         return [
-            'BOOL' => [new Field("Test", FieldType::BOOL, 'Test Description', true), 'bool'],
-            'BOOLEAN' => [new Field("Test", FieldType::BOOLEAN, 'Test Description', true), 'bool'],
-            'DATE' => [new Field("Test", FieldType::DATE, 'Test Description', true), 'DateTimeInterface'],
-            'DATETIME' => [new Field("Test", FieldType::DATETIME, 'Test Description', true), 'DateTimeInterface'],
-            'DECIMAL' => [new Field("Test", FieldType::DECIMAL, 'Test Description', true), 'double'],
-            'DOUBLE' => [new Field("Test", FieldType::DOUBLE, 'Test Description', true), 'double'],
-            'EMAIL' => [new Field("Test", FieldType::EMAIL, 'Test Description', true), 'string'],
-            'FLOAT' => [new Field("Test", FieldType::FLOAT, 'Test Description', true), 'float'],
-            'ID' => [new Field("Test", FieldType::ID, 'Test Description', true), 'int'],
-            'INT' => [new Field("Test", FieldType::INT, 'Test Description', true), 'int'],
-            'INTEGER' => [new Field("Test", FieldType::INTEGER, 'Test Description', true), 'int'],
-            'LONG' => [new Field("Test", FieldType::LONG, 'Test Description', true), 'int'],
-            'PASSWORD' => [new Field("Test", FieldType::PASSWORD, 'Test Description', true), 'string'],
-            'PHONE' => [new Field("Test", FieldType::PHONE, 'Test Description', true), 'string'],
-            'PRICE' => [new Field("Test", FieldType::PRICE, 'Test Description', true), 'double'],
-            'RANDOM_STRING' => [new Field("Test", FieldType::RANDOM_STRING, 'Test Description', true), 'string'],
-            'STRING' => [new Field("Test", FieldType::STRING, 'Test Description', true), 'string'],
-            'TEXT' => [new Field("Test", FieldType::TEXT, 'Test Description', true), 'string'],
-            'TIME' => [new Field("Test", FieldType::TIME, 'Test Description', true), 'DateTimeInterface'],
-            'URL' => [new Field("Test", FieldType::URL, 'Test Description', true), 'string'],
-            'UUID' => [new Field("Test", FieldType::UUID, 'Test Description', true), 'string'],
-            'UNKNOWN' => [new Field("Test", 'Unknown', 'Test Description', true), 'string'],
+            'BOOL' => [new Field('Test', FieldType::BOOL, 'Test Description', true), 'bool'],
+            'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN, 'Test Description', true), 'bool'],
+            'DATE' => [new Field('Test', FieldType::DATE, 'Test Description', true), 'DateTimeInterface'],
+            'DATETIME' => [new Field('Test', FieldType::DATETIME, 'Test Description', true), 'DateTimeInterface'],
+            'DECIMAL' => [new Field('Test', FieldType::DECIMAL, 'Test Description', true), 'double'],
+            'DOUBLE' => [new Field('Test', FieldType::DOUBLE, 'Test Description', true), 'double'],
+            'EMAIL' => [new Field('Test', FieldType::EMAIL, 'Test Description', true), 'string'],
+            'FLOAT' => [new Field('Test', FieldType::FLOAT, 'Test Description', true), 'float'],
+            'ID' => [new Field('Test', FieldType::ID, 'Test Description', true), 'int'],
+            'INT' => [new Field('Test', FieldType::INT, 'Test Description', true), 'int'],
+            'INTEGER' => [new Field('Test', FieldType::INTEGER, 'Test Description', true), 'int'],
+            'LONG' => [new Field('Test', FieldType::LONG, 'Test Description', true), 'int'],
+            'PASSWORD' => [new Field('Test', FieldType::PASSWORD, 'Test Description', true), 'string'],
+            'PHONE' => [new Field('Test', FieldType::PHONE, 'Test Description', true), 'string'],
+            'PRICE' => [new Field('Test', FieldType::PRICE, 'Test Description', true), 'double'],
+            'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING, 'Test Description', true), 'string'],
+            'STRING' => [new Field('Test', FieldType::STRING, 'Test Description', true), 'string'],
+            'TEXT' => [new Field('Test', FieldType::TEXT, 'Test Description', true), 'string'],
+            'TIME' => [new Field('Test', FieldType::TIME, 'Test Description', true), 'DateTimeInterface'],
+            'URL' => [new Field('Test', FieldType::URL, 'Test Description', true), 'string'],
+            'UUID' => [new Field('Test', FieldType::UUID, 'Test Description', true), 'string'],
+            'UNKNOWN' => [new Field('Test', 'Unknown', 'Test Description', true), 'string'],
             'BOOL ARRAY' => [
-                (new Field("Test", FieldType::BOOL, 'Test Description', true))
+                (new Field('Test', FieldType::BOOL, 'Test Description', true))
                     ->setList(true),
-                'array'
+                'array',
             ],
             'ENTITY' => [new Field('Test', 'User', 'Test Description', true), 'User'],
-            'OPTIONAL ENTITY' => [new Field('Test', 'User'), '?User']
+            'OPTIONAL ENTITY' => [new Field('Test', 'User'), '?User'],
         ];
     }
 
     /**
      * @dataProvider listTypeDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testListTypeFilterShouldPass($obj, $expectedValue)
@@ -227,131 +231,132 @@ class PhpTwigExtensionTest extends TwigExtensionTest
     {
         return [
             'BOOL' => [
-                (new Field("Test", FieldType::BOOL, 'Test Description', true))
+                (new Field('Test', FieldType::BOOL, 'Test Description', true))
                     ->setList(true),
-                'bool'
+                'bool',
             ],
             'BOOLEAN' => [
-                (new Field("Test", FieldType::BOOLEAN, 'Test Description', true))
+                (new Field('Test', FieldType::BOOLEAN, 'Test Description', true))
                     ->setList(true),
-                'bool'
+                'bool',
             ],
             'DATE' => [
-                (new Field("Test", FieldType::DATE, 'Test Description', true))
+                (new Field('Test', FieldType::DATE, 'Test Description', true))
                     ->setList(true),
-                'DateTimeInterface'
+                'DateTimeInterface',
             ],
             'DATETIME' => [
-                (new Field("Test", FieldType::DATETIME, 'Test Description', true))
+                (new Field('Test', FieldType::DATETIME, 'Test Description', true))
                     ->setList(true),
-                'DateTimeInterface'
+                'DateTimeInterface',
             ],
             'DECIMAL' => [
-                (new Field("Test", FieldType::DECIMAL, 'Test Description', true))
+                (new Field('Test', FieldType::DECIMAL, 'Test Description', true))
                     ->setList(true),
-                'double'
+                'double',
             ],
             'DOUBLE' => [
-                (new Field("Test", FieldType::DOUBLE, 'Test Description', true))
+                (new Field('Test', FieldType::DOUBLE, 'Test Description', true))
                     ->setList(true),
-                'double'
+                'double',
             ],
             'EMAIL' => [
-                (new Field("Test", FieldType::EMAIL, 'Test Description', true))
+                (new Field('Test', FieldType::EMAIL, 'Test Description', true))
                     ->setList(true),
-                'string'
+                'string',
             ],
             'FLOAT' => [
-                (new Field("Test", FieldType::FLOAT, 'Test Description', true))
+                (new Field('Test', FieldType::FLOAT, 'Test Description', true))
                     ->setList(true),
-                'float'
+                'float',
             ],
             'ID' => [
-                (new Field("Test", FieldType::ID, 'Test Description', true))
+                (new Field('Test', FieldType::ID, 'Test Description', true))
                     ->setList(true),
-                'int'
+                'int',
             ],
             'INT' => [
-                (new Field("Test", FieldType::INT, 'Test Description', true))
+                (new Field('Test', FieldType::INT, 'Test Description', true))
                     ->setList(true),
-                'int'
+                'int',
             ],
             'INTEGER' => [
-                (new Field("Test", FieldType::INTEGER, 'Test Description', true))
+                (new Field('Test', FieldType::INTEGER, 'Test Description', true))
                     ->setList(true),
-                'int'
+                'int',
             ],
             'LONG' => [
-                (new Field("Test", FieldType::LONG, 'Test Description', true))
+                (new Field('Test', FieldType::LONG, 'Test Description', true))
                     ->setList(true),
-                'int'
+                'int',
             ],
             'PASSWORD' => [
-                (new Field("Test", FieldType::PASSWORD, 'Test Description', true))
+                (new Field('Test', FieldType::PASSWORD, 'Test Description', true))
                     ->setList(true),
-                'string'
+                'string',
             ],
             'PHONE' => [
-                (new Field("Test", FieldType::PHONE, 'Test Description', true))
+                (new Field('Test', FieldType::PHONE, 'Test Description', true))
                     ->setList(true),
-                'string'
+                'string',
             ],
             'PRICE' => [
-                (new Field("Test", FieldType::PRICE, 'Test Description', true))
+                (new Field('Test', FieldType::PRICE, 'Test Description', true))
                     ->setList(true),
-                'double'
+                'double',
             ],
             'RANDOM_STRING' => [
-                (new Field("Test", FieldType::RANDOM_STRING, 'Test Description', true))
+                (new Field('Test', FieldType::RANDOM_STRING, 'Test Description', true))
                     ->setList(true),
-                'string'
+                'string',
             ],
             'STRING' => [
-                (new Field("Test", FieldType::STRING, 'Test Description', true))
+                (new Field('Test', FieldType::STRING, 'Test Description', true))
                     ->setList(true),
-                'string'
+                'string',
             ],
             'TEXT' => [
-                (new Field("Test", FieldType::TEXT, 'Test Description', true))
+                (new Field('Test', FieldType::TEXT, 'Test Description', true))
                     ->setList(true),
-                'string'
+                'string',
             ],
             'TIME' => [
-                (new Field("Test", FieldType::TIME, 'Test Description', true))
+                (new Field('Test', FieldType::TIME, 'Test Description', true))
                     ->setList(true),
-                'DateTimeInterface'
+                'DateTimeInterface',
             ],
             'URL' => [
-                (new Field("Test", FieldType::URL, 'Test Description', true))
+                (new Field('Test', FieldType::URL, 'Test Description', true))
                     ->setList(true),
-                'string'
+                'string',
             ],
             'UUID' => [
-                (new Field("Test", FieldType::UUID, 'Test Description', true))
+                (new Field('Test', FieldType::UUID, 'Test Description', true))
                     ->setList(true),
-                'string'
+                'string',
             ],
             'UNKNOWN' => [
-                (new Field("Test", 'Unknown', 'Test Description', true))
+                (new Field('Test', 'Unknown', 'Test Description', true))
                     ->setList(true),
-                'string'
+                'string',
             ],
             'OPTIONAL ENTITY' => [
-                (new Field("Test", 'User', 'Test Description', false))
+                (new Field('Test', 'User', 'Test Description', false))
                     ->setList(true),
-                'User'
+                'User',
             ],
             'ENTITY' => [
-                (new Field("Test", 'User', 'Test Description', true))
+                (new Field('Test', 'User', 'Test Description', true))
                     ->setList(true),
-                'User'
-            ]
+                'User',
+            ],
         ];
     }
 
     /**
      * @dataProvider hintDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testHintFilterShouldPass($obj, $expectedValue)
@@ -364,41 +369,42 @@ class PhpTwigExtensionTest extends TwigExtensionTest
     public function hintDataProvider()
     {
         return [
-            'BOOL' => [new Field("Test", FieldType::BOOL, 'Test Description', true), 'bool'],
-            'BOOLEAN' => [new Field("Test", FieldType::BOOLEAN, 'Test Description', true), 'bool'],
-            'DATE' => [new Field("Test", FieldType::DATE, 'Test Description', true), 'DateTimeInterface'],
-            'DATETIME' => [new Field("Test", FieldType::DATETIME, 'Test Description', true), 'DateTimeInterface'],
-            'DECIMAL' => [new Field("Test", FieldType::DECIMAL, 'Test Description', true), 'double'],
-            'DOUBLE' => [new Field("Test", FieldType::DOUBLE, 'Test Description', true), 'double'],
-            'EMAIL' => [new Field("Test", FieldType::EMAIL, 'Test Description', true), 'string'],
-            'FLOAT' => [new Field("Test", FieldType::FLOAT, 'Test Description', true), 'float'],
-            'ID' => [new Field("Test", FieldType::ID, 'Test Description', true), 'int'],
-            'INT' => [new Field("Test", FieldType::INT, 'Test Description', true), 'int'],
-            'INTEGER' => [new Field("Test", FieldType::INTEGER, 'Test Description', true), 'int'],
-            'LONG' => [new Field("Test", FieldType::LONG, 'Test Description', true), 'int'],
-            'PASSWORD' => [new Field("Test", FieldType::PASSWORD, 'Test Description', true), 'string'],
-            'PHONE' => [new Field("Test", FieldType::PHONE, 'Test Description', true), 'string'],
-            'PRICE' => [new Field("Test", FieldType::PRICE, 'Test Description', true), 'double'],
-            'RANDOM_STRING' => [new Field("Test", FieldType::RANDOM_STRING, 'Test Description', true), 'string'],
-            'STRING' => [new Field("Test", FieldType::STRING, 'Test Description', true), 'string'],
-            'TEXT' => [new Field("Test", FieldType::TEXT, 'Test Description', true), 'string'],
-            'TIME' => [new Field("Test", FieldType::TIME, 'Test Description', true), 'DateTimeInterface'],
-            'URL' => [new Field("Test", FieldType::URL, 'Test Description', true), 'string'],
-            'UUID' => [new Field("Test", FieldType::UUID, 'Test Description', true), 'string'],
-            'UNKNOWN' => [new Field("Test", 'Unknown', 'Test Description', true), 'string'],
+            'BOOL' => [new Field('Test', FieldType::BOOL, 'Test Description', true), 'bool'],
+            'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN, 'Test Description', true), 'bool'],
+            'DATE' => [new Field('Test', FieldType::DATE, 'Test Description', true), 'DateTimeInterface'],
+            'DATETIME' => [new Field('Test', FieldType::DATETIME, 'Test Description', true), 'DateTimeInterface'],
+            'DECIMAL' => [new Field('Test', FieldType::DECIMAL, 'Test Description', true), 'double'],
+            'DOUBLE' => [new Field('Test', FieldType::DOUBLE, 'Test Description', true), 'double'],
+            'EMAIL' => [new Field('Test', FieldType::EMAIL, 'Test Description', true), 'string'],
+            'FLOAT' => [new Field('Test', FieldType::FLOAT, 'Test Description', true), 'float'],
+            'ID' => [new Field('Test', FieldType::ID, 'Test Description', true), 'int'],
+            'INT' => [new Field('Test', FieldType::INT, 'Test Description', true), 'int'],
+            'INTEGER' => [new Field('Test', FieldType::INTEGER, 'Test Description', true), 'int'],
+            'LONG' => [new Field('Test', FieldType::LONG, 'Test Description', true), 'int'],
+            'PASSWORD' => [new Field('Test', FieldType::PASSWORD, 'Test Description', true), 'string'],
+            'PHONE' => [new Field('Test', FieldType::PHONE, 'Test Description', true), 'string'],
+            'PRICE' => [new Field('Test', FieldType::PRICE, 'Test Description', true), 'double'],
+            'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING, 'Test Description', true), 'string'],
+            'STRING' => [new Field('Test', FieldType::STRING, 'Test Description', true), 'string'],
+            'TEXT' => [new Field('Test', FieldType::TEXT, 'Test Description', true), 'string'],
+            'TIME' => [new Field('Test', FieldType::TIME, 'Test Description', true), 'DateTimeInterface'],
+            'URL' => [new Field('Test', FieldType::URL, 'Test Description', true), 'string'],
+            'UUID' => [new Field('Test', FieldType::UUID, 'Test Description', true), 'string'],
+            'UNKNOWN' => [new Field('Test', 'Unknown', 'Test Description', true), 'string'],
             'BOOL ARRAY' => [
-                (new Field("Test", FieldType::BOOL, 'Test Description', true))
+                (new Field('Test', FieldType::BOOL, 'Test Description', true))
                     ->setList(true),
-                'bool[]'
+                'bool[]',
             ],
             'ENTITY' => [new Field('Test', 'User', 'Test Description', true), 'User'],
-            'OPTIONAL ENTITY' => [new Field('Test', 'User'), 'User|null']
+            'OPTIONAL ENTITY' => [new Field('Test', 'User'), 'User|null'],
         ];
     }
 
     /**
      * @dataProvider parameterDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testParameterFilterShouldPass($obj, $expectedValue)
@@ -411,56 +417,54 @@ class PhpTwigExtensionTest extends TwigExtensionTest
     public function parameterDataProvider()
     {
         return [
-            'BOOL' => [new Field("Test", FieldType::BOOL, 'Test Description', true), 'bool $test'],
-            'BOOLEAN' => [new Field("Test", FieldType::BOOLEAN, 'Test Description', true), 'bool $test'],
-            'DATE' => [new Field("Test", FieldType::DATE, 'Test Description', true), 'DateTimeInterface $test'],
-            'DATETIME' => [new Field("Test", FieldType::DATETIME, 'Test Description', true), 'DateTimeInterface $test'],
-            'DECIMAL' => [new Field("Test", FieldType::DECIMAL, 'Test Description', true), 'double $test'],
-            'DOUBLE' => [new Field("Test", FieldType::DOUBLE, 'Test Description', true), 'double $test'],
-            'EMAIL' => [new Field("Test", FieldType::EMAIL, 'Test Description', true), 'string $test'],
-            'FLOAT' => [new Field("Test", FieldType::FLOAT, 'Test Description', true), 'float $test'],
-            'ID' => [new Field("Test", FieldType::ID, 'Test Description', true), 'int $test'],
-            'INT' => [new Field("Test", FieldType::INT, 'Test Description', true), 'int $test'],
-            'INTEGER' => [new Field("Test", FieldType::INTEGER, 'Test Description', true), 'int $test'],
-            'LONG' => [new Field("Test", FieldType::LONG, 'Test Description', true), 'int $test'],
-            'PASSWORD' => [new Field("Test", FieldType::PASSWORD, 'Test Description', true), 'string $test'],
-            'PHONE' => [new Field("Test", FieldType::PHONE, 'Test Description', true), 'string $test'],
-            'PRICE' => [new Field("Test", FieldType::PRICE, 'Test Description', true), 'double $test'],
-            'RANDOM_STRING' => [new Field("Test", FieldType::RANDOM_STRING, 'Test Description', true), 'string $test'],
-            'STRING' => [new Field("Test", FieldType::STRING, 'Test Description', true), 'string $test'],
-            'TEXT' => [new Field("Test", FieldType::TEXT, 'Test Description', true), 'string $test'],
-            'TIME' => [new Field("Test", FieldType::TIME, 'Test Description', true), 'DateTimeInterface $test'],
-            'URL' => [new Field("Test", FieldType::URL, 'Test Description', true), 'string $test'],
-            'UUID' => [new Field("Test", FieldType::UUID, 'Test Description', true), 'string $test'],
-            'UNKNOWN' => [new Field("Test", 'Unknown', 'Test Description', true), 'string $test'],
+            'BOOL' => [new Field('Test', FieldType::BOOL, 'Test Description', true), 'bool $test'],
+            'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN, 'Test Description', true), 'bool $test'],
+            'DATE' => [new Field('Test', FieldType::DATE, 'Test Description', true), 'DateTimeInterface $test'],
+            'DATETIME' => [new Field('Test', FieldType::DATETIME, 'Test Description', true), 'DateTimeInterface $test'],
+            'DECIMAL' => [new Field('Test', FieldType::DECIMAL, 'Test Description', true), 'double $test'],
+            'DOUBLE' => [new Field('Test', FieldType::DOUBLE, 'Test Description', true), 'double $test'],
+            'EMAIL' => [new Field('Test', FieldType::EMAIL, 'Test Description', true), 'string $test'],
+            'FLOAT' => [new Field('Test', FieldType::FLOAT, 'Test Description', true), 'float $test'],
+            'ID' => [new Field('Test', FieldType::ID, 'Test Description', true), 'int $test'],
+            'INT' => [new Field('Test', FieldType::INT, 'Test Description', true), 'int $test'],
+            'INTEGER' => [new Field('Test', FieldType::INTEGER, 'Test Description', true), 'int $test'],
+            'LONG' => [new Field('Test', FieldType::LONG, 'Test Description', true), 'int $test'],
+            'PASSWORD' => [new Field('Test', FieldType::PASSWORD, 'Test Description', true), 'string $test'],
+            'PHONE' => [new Field('Test', FieldType::PHONE, 'Test Description', true), 'string $test'],
+            'PRICE' => [new Field('Test', FieldType::PRICE, 'Test Description', true), 'double $test'],
+            'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING, 'Test Description', true), 'string $test'],
+            'STRING' => [new Field('Test', FieldType::STRING, 'Test Description', true), 'string $test'],
+            'TEXT' => [new Field('Test', FieldType::TEXT, 'Test Description', true), 'string $test'],
+            'TIME' => [new Field('Test', FieldType::TIME, 'Test Description', true), 'DateTimeInterface $test'],
+            'URL' => [new Field('Test', FieldType::URL, 'Test Description', true), 'string $test'],
+            'UUID' => [new Field('Test', FieldType::UUID, 'Test Description', true), 'string $test'],
+            'UNKNOWN' => [new Field('Test', 'Unknown', 'Test Description', true), 'string $test'],
             'BOOL ARRAY' => [
-                (new Field("Test", FieldType::BOOL, 'Test Description', true))
+                (new Field('Test', FieldType::BOOL, 'Test Description', true))
                     ->setList(true),
-                'array $test'
+                'array $test',
             ],
             'ENTITY' => [new Field('Test', 'User', 'Test Description', true), 'User $test'],
             'OPTIONAL ENTITY' => [new Field('Test', 'User'), '?User $test'],
             'LIST OF 1 FIELD' => [
                 [
-                    new Field("Param1", FieldType::UUID, 'Test Description', true)
+                    new Field('Param1', FieldType::UUID, 'Test Description', true),
                 ],
-                'string $param1'
+                'string $param1',
             ],
             'LIST OF FIELDS' => [
                 [
-                    new Field("Param1", FieldType::UUID, 'Test Description', true),
+                    new Field('Param1', FieldType::UUID, 'Test Description', true),
                     new Field('Param2', 'User'),
                     new Field('Param3', FieldType::INT),
                 ],
-                'string $param1, ?User $param2, ?int $param3'
-            ]
+                'string $param1, ?User $param2, ?int $param3',
+            ],
         ];
     }
 
     /**
      * @dataProvider dateTimeUsedProvider
-     * @param Entity $entity
-     * @param bool $expected
      */
     public function testDateTimeUsedShouldPass(Entity $entity, bool $expected)
     {
@@ -474,19 +478,19 @@ class PhpTwigExtensionTest extends TwigExtensionTest
         return [
             'User' => [
                 $package->getEntity('User'),
-                true
+                true,
             ],
             'Metadata' => [
                 $package->getEntity('Metadata'),
-                false
+                false,
             ],
             'Post' => [
                 $package->getEntity('Post'),
-                true
+                true,
             ],
             'Topic' => [
                 $package->getEntity('Topic'),
-                true
+                true,
             ],
         ];
     }

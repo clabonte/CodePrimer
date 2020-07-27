@@ -62,8 +62,7 @@ class SqlTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider foreignKeyProvider
-     * @param RelationshipSide $obj
-     * @param string $expected
+     *
      * @throws Exception
      */
     public function testForeignKeyFilter(RelationshipSide $obj, string $expected)
@@ -87,30 +86,30 @@ class SqlTwigExtensionTest extends TwigExtensionTest
         return [
             'User->UserStat' => [
                 $user->getField('stats')->getRelation(),
-                'fk_users_user_stats_stats_id'
+                'fk_users_user_stats_stats_id',
             ],
             'User->Subscription' => [
                 $user->getField('subscription')->getRelation(),
-                'fk_users_subscriptions_subscription_id'
+                'fk_users_subscriptions_subscription_id',
             ],
             'Subscription->User' => [
                 $subscription->getField('user')->getRelation(),
-                'fk_subscriptions_users_user_id'
+                'fk_subscriptions_users_user_id',
             ],
             'Metadata->User' => [
                 $metadata->getField('user')->getRelation(),
-                'fk_metadata_users_user_id'
+                'fk_metadata_users_user_id',
             ],
             'Post->User' => [
                 $post->getField('author')->getRelation(),
-                'fk_posts_users_author_id'
+                'fk_posts_users_author_id',
             ],
         ];
     }
 
     /**
      * @dataProvider foreignKeyExceptionProvider
-     * @param RelationshipSide $obj
+     *
      * @throws Exception
      */
     public function testForeignKeyFilterShouldThrowException(RelationshipSide $obj)
@@ -143,8 +142,6 @@ class SqlTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider databaseNameProvider
-     * @param Package $package
-     * @param string $expected
      */
     public function testDatabaseFilter(Package $package, string $expected)
     {
@@ -162,14 +159,12 @@ class SqlTwigExtensionTest extends TwigExtensionTest
             'Sample Name' => [new Package('Namespace', 'Sample Name'), 'namespace_sample_name'],
             'Samples Names' => [new Package('Namespace', 'Samples Names'), 'namespace_samples_name'],
             'Sample-Name' => [new Package('Namespace', 'Sample-Name'), 'namespace_sample_name'],
-            'TestPackage' => [TestHelper::getSamplePackage(), 'code_primer_tests_functional_test']
+            'TestPackage' => [TestHelper::getSamplePackage(), 'code_primer_tests_functional_test'],
         ];
     }
 
     /**
      * @dataProvider tableNameProvider
-     * @param Entity $entity
-     * @param string $expected
      */
     public function testTableFilter(Entity $entity, string $expected)
     {
@@ -190,8 +185,6 @@ class SqlTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider userProvider
-     * @param Package $package
-     * @param string $expected
      */
     public function testUserFilter(Package $package, string $expected)
     {
@@ -207,14 +200,12 @@ class SqlTwigExtensionTest extends TwigExtensionTest
             'Sample Name' => [new Package('Namespace', 'Sample Name'), 'sample_name'],
             'Samples Names' => [new Package('Namespace', 'Samples Names'), 'samples_names'],
             'Sample-Name' => [new Package('Namespace', 'Sample-Name'), 'sample_name'],
-            'TestPackage' => [TestHelper::getSamplePackage(), 'functional_test']
+            'TestPackage' => [TestHelper::getSamplePackage(), 'functional_test'],
         ];
     }
 
     /**
      * @dataProvider relationTableNameProvider
-     * @param RelationshipSide $relation
-     * @param string $expected
      */
     public function testRelationTableFilter(RelationshipSide $relation, string $expected)
     {
@@ -228,18 +219,20 @@ class SqlTwigExtensionTest extends TwigExtensionTest
         return [
             'Many-To-Many - Left' => [
                 $helper->getManyToManyLeftRelationship(),
-                'users_topics'
+                'users_topics',
             ],
             'Many-To-Many - Right' => [
                 $helper->getManyToManyRightRelationship(),
-                'users_topics'
+                'users_topics',
             ],
         ];
     }
 
     /**
      * @dataProvider relationTableNameExceptionProvider
+     *
      * @param mixed $obj
+     *
      * @throws RuntimeException
      */
     public function testRelationTableFilterShouldThrowException($obj)
@@ -254,30 +247,28 @@ class SqlTwigExtensionTest extends TwigExtensionTest
 
         return [
             'One-To-One unidirectional' => [
-                $helper->getOneToOneUnidirectionalRelationship()
+                $helper->getOneToOneUnidirectionalRelationship(),
             ],
             'One-To-One birectional - left' => [
-                $helper->getOneToOneBidirectionalLeftRelationship()
+                $helper->getOneToOneBidirectionalLeftRelationship(),
             ],
             'One-To-One birectional - right' => [
-                $helper->getOneToOneBidirectionalRightRelationship()
+                $helper->getOneToOneBidirectionalRightRelationship(),
             ],
             'Many-To-One' => [
-                $helper->getManytoOneRelationship()
+                $helper->getManytoOneRelationship(),
             ],
             'One-To-Many' => [
-                $helper->getOneToManyRelationship()
+                $helper->getOneToManyRelationship(),
             ],
             'Field' => [
-                new Field('Test Field', FieldType::STRING)
-            ]
+                new Field('Test Field', FieldType::STRING),
+            ],
         ];
     }
 
     /**
      * @dataProvider auditTableNameProvider
-     * @param Entity $entity
-     * @param string $expected
      */
     public function testAuditTableFilter(Entity $entity, string $expected)
     {
@@ -298,8 +289,6 @@ class SqlTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider fieldColumnNameProvider
-     * @param Field $field
-     * @param string $expected
      */
     public function testFieldColumnFilter(Field $field, string $expected)
     {
@@ -331,8 +320,6 @@ class SqlTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider entityColumnNameProvider
-     * @param Entity $entity
-     * @param string $expected
      */
     public function testEntityColumnFilter(Entity $entity, string $expected)
     {
@@ -353,8 +340,6 @@ class SqlTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider indexColumnNameProvider
-     * @param Index $index
-     * @param string $expected
      */
     public function testIndexColumnFilter(Index $index, string $expected)
     {
@@ -374,18 +359,20 @@ class SqlTwigExtensionTest extends TwigExtensionTest
         return [
             'one-field index' => [
                 new Index('test_index', [$field1]),
-                'first_name'
+                'first_name',
             ],
             'two-field index' => [
                 new Index('test_index', [$field1, $field2]),
-                'first_name,last_name'
+                'first_name,last_name',
             ],
         ];
     }
 
     /**
      * @dataProvider columnFilterExceptionProvider
+     *
      * @param mixed $obj
+     *
      * @throws Exception
      */
     public function testColumnFilterShouldThrowException($obj)
@@ -407,7 +394,7 @@ class SqlTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider getDatabaseFieldsProvider
-     * @param Entity $entity
+     *
      * @param Field[] $expectedFields
      */
     public function testDatabaseFieldsFunction(Entity $entity, array $expectedFields)
@@ -440,16 +427,15 @@ class SqlTwigExtensionTest extends TwigExtensionTest
                     $user->getField('crmId'),
                     $user->getField('activationCode'),
                     $user->getField('stats'),
-                    $user->getField('subscription')
-                ]
-            ]
+                    $user->getField('subscription'),
+                ],
+            ],
         ];
     }
 
     /**
      * @dataProvider foreignKeyTestProvider
-     * @param RelationshipSide $obj
-     * @param bool $expected
+     *
      * @throws Exception
      */
     public function testForeignKeyTest(RelationshipSide $obj, bool $expected)
@@ -464,39 +450,38 @@ class SqlTwigExtensionTest extends TwigExtensionTest
         return [
             'One-To-One unidirectional' => [
                 $helper->getOneToOneUnidirectionalRelationship(),
-                true
+                true,
             ],
             'One-To-One birectional - left' => [
                 $helper->getOneToOneBidirectionalLeftRelationship(),
-                true
+                true,
             ],
             'One-To-One birectional - right' => [
                 $helper->getOneToOneBidirectionalRightRelationship(),
-                true
+                true,
             ],
             'Many-To-One' => [
                 $helper->getManytoOneRelationship(),
-                true
+                true,
             ],
             'One-To-Many' => [
                 $helper->getOneToManyRelationship(),
-                false
+                false,
             ],
             'Many-To-Many - Left' => [
                 $helper->getManyToManyLeftRelationship(),
-                false
+                false,
             ],
             'Many-To-Many - Right' => [
                 $helper->getManyToManyRightRelationship(),
-                false
+                false,
             ],
         ];
     }
 
     /**
      * @dataProvider auditedFieldsProvider
-     * @param Entity $entity
-     * @param bool $includeId
+     *
      * @param Field[] $expectedFields
      */
     public function testAuditedFieldsFunction(Entity $entity, bool $includeId, array $expectedFields)
@@ -530,8 +515,8 @@ class SqlTwigExtensionTest extends TwigExtensionTest
                     $user->getField('crmId'),
                     $user->getField('activationCode'),
                     $user->getField('stats'),
-                    $user->getField('subscription')
-                ]
+                    $user->getField('subscription'),
+                ],
             ],
             'User without id' => [
                 $user,
@@ -545,23 +530,23 @@ class SqlTwigExtensionTest extends TwigExtensionTest
                     $user->getField('crmId'),
                     $user->getField('activationCode'),
                     $user->getField('stats'),
-                    $user->getField('subscription')
-                ]
+                    $user->getField('subscription'),
+                ],
             ],
             'Metadata generated field' => [
                 $package->getEntity('Metadata'),
                 false,
                 [
                     $metadata->getField('name'),
-                    $metadata->getField('value')
-                ]
-            ]
+                    $metadata->getField('value'),
+                ],
+            ],
         ];
     }
 
     /**
      * @dataProvider indexesFunctionProvider
-     * @param Entity $entity
+     *
      * @param Index[] $expected
      */
     public function testIndexesFunction(Entity $entity, array $expected)
@@ -590,15 +575,15 @@ class SqlTwigExtensionTest extends TwigExtensionTest
                 (new Entity('SampleEntity'))
                     ->addField($field1)
                     ->addUniqueConstraint(new Constraint('uniqueName', Constraint::TYPE_UNIQUE, [$field1])),
-                []
+                [],
             ],
             'one searchable field' => [
                 (new Entity('SampleEntity'))
                     ->addField($index1),
                 [
                     (new Index('first_name_idx', [$index1]))
-                        ->setDescription('To optimize search queries')
-                ]
+                        ->setDescription('To optimize search queries'),
+                ],
             ],
             'two searchable fields' => [
                 (new Entity('SampleEntity'))
@@ -608,8 +593,8 @@ class SqlTwigExtensionTest extends TwigExtensionTest
                     (new Index('first_name_idx', [$index1]))
                         ->setDescription('To optimize search queries'),
                     (new Index('last_name_idx', [$index2]))
-                        ->setDescription('To optimize search queries')
-                ]
+                        ->setDescription('To optimize search queries'),
+                ],
             ],
             'User indexes' => [
                 $user,
@@ -625,14 +610,13 @@ class SqlTwigExtensionTest extends TwigExtensionTest
                     (new Index('stats_id_idx', [$user->getField('stats')]))
                         ->setDescription('UserStats foreign key'),
                     (new Index('subscription_id_idx', [$user->getField('subscription')]))
-                        ->setDescription('Subscription foreign key')
-                ]
-            ]
+                        ->setDescription('Subscription foreign key'),
+                ],
+            ],
         ];
     }
 
     /**
-     * @param Index $index
      * @param Index[] $actual
      */
     private function assertIndex(Index $index, array $actual)
@@ -646,6 +630,6 @@ class SqlTwigExtensionTest extends TwigExtensionTest
             }
         }
 
-        self::assertTrue($found, 'Index ' . $index->getName() . ' not found');
+        self::assertTrue($found, 'Index '.$index->getName().' not found');
     }
 }

@@ -3,13 +3,9 @@
 namespace CodePrimer\Tests\Functional;
 
 use CodePrimer\Builder\ArtifactBuilderFactory;
-use CodePrimer\Helper\FieldType;
 use CodePrimer\Helper\PackageHelper;
-use CodePrimer\Model\Entity;
-use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
 use CodePrimer\Renderer\TemplateRenderer;
-use CodePrimer\Template\Artifact;
 use CodePrimer\Template\TemplateRegistry;
 use CodePrimer\Tests\Helper\TestHelper;
 use PHPUnit\Framework\TestCase;
@@ -17,9 +13,9 @@ use Twig\Loader\FilesystemLoader;
 
 class TemplateTestCase extends TestCase
 {
-    const ROOT = __DIR__ . '/../../';
-    const ACTUAL_DIR = self::ROOT . 'tests/output/actual/';
-    const EXPECTED_DIR = self::ROOT . 'tests/output/expected/';
+    const ROOT = __DIR__.'/../../';
+    const ACTUAL_DIR = self::ROOT.'tests/output/actual/';
+    const EXPECTED_DIR = self::ROOT.'tests/output/expected/';
 
     /** @var TemplateRegistry */
     protected $templateRegistry;
@@ -58,30 +54,30 @@ class TemplateTestCase extends TestCase
     protected function assertGeneratedFile(string $filename, string $expectedDir)
     {
         // Make sure the file has been generated
-        self::assertFileExists(self::ACTUAL_DIR . $filename, 'File not generated: ' . $filename);
+        self::assertFileExists(self::ACTUAL_DIR.$filename, 'File not generated: '.$filename);
 
         // Make sure the generated content matches the expected one
-        $expected = file_get_contents($expectedDir . $filename);
-        $actual = file_get_contents(self::ACTUAL_DIR . $filename);
+        $expected = file_get_contents($expectedDir.$filename);
+        $actual = file_get_contents(self::ACTUAL_DIR.$filename);
 
-        self::assertEquals($expected, $actual, 'The generated file do not match the expected one: ' . $filename);
+        self::assertEquals($expected, $actual, 'The generated file do not match the expected one: '.$filename);
     }
 
     protected function cleanupDirectory(string $directory)
     {
         if (file_exists($directory) && is_dir($directory)) {
             foreach (scandir($directory) as $file) {
-                if (($file == '.') || ($file == '..')) {
+                if (('.' == $file) || ('..' == $file)) {
                     continue;
                 }
-                if (is_dir($directory . '/' . $file)) {
-                    $this->cleanupDirectory($directory . '/' . $file);
+                if (is_dir($directory.'/'.$file)) {
+                    $this->cleanupDirectory($directory.'/'.$file);
                 } else {
-                    unlink($directory . '/' . $file);
+                    unlink($directory.'/'.$file);
                 }
             }
 
-            if ($directory != self::ACTUAL_DIR) {
+            if (self::ACTUAL_DIR != $directory) {
                 rmdir($directory);
             }
         }

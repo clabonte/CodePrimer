@@ -1,8 +1,6 @@
 <?php
 
-
-namespace CodePrimer\Helper {
-
+namespace CodePrimer\Helper;
 
     interface FieldType
     {
@@ -28,4 +26,3 @@ namespace CodePrimer\Helper {
         public const PRICE = 'price';
         public const RANDOM_STRING = 'randomstring';
     }
-}

@@ -1,17 +1,16 @@
 <?php
+
 namespace CodePrimer\Twig;
 
 use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
-use CodePrimer\Twig\LanguageTwigExtension;
 use Doctrine\Common\Inflector\Inflector;
-use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 /**
- * Class JavaTwigExtension
- * @package CodePrimer\Twig
+ * Class JavaTwigExtension.
+ *
  * @author Christian Labonté
  */
 class JavaTwigExtension extends LanguageTwigExtension
@@ -28,7 +27,7 @@ class JavaTwigExtension extends LanguageTwigExtension
     /**
      * Filters a string to transform it to its member name. Converts 'table_names' to 'this->tableName'.
      *
-     * @param  mixed $obj
+     * @param mixed $obj
      *
      * @return string
      */
@@ -38,13 +37,14 @@ class JavaTwigExtension extends LanguageTwigExtension
         if (is_string($name) && !empty($name)) {
             return 'this.'.Inflector::singularize(Inflector::camelize($this->getName($obj)));
         }
+
         return $name;
     }
 
     /**
-     * Filters a string to transform it to a package equivalent. Converts 'Com\Folder\A' or 'Com/Folder/A' to 'com.folder.a'
+     * Filters a string to transform it to a package equivalent. Converts 'Com\Folder\A' or 'Com/Folder/A' to 'com.folder.a'.
      *
-     * @param  string|Package $obj
+     * @param string|Package $obj
      *
      * @return string
      */
@@ -61,14 +61,14 @@ class JavaTwigExtension extends LanguageTwigExtension
         if (!empty($str)) {
             return str_replace(['\\', '/', ' '], '.', strtolower($str));
         }
+
         return '';
     }
 
     /**
      * @param $context
      * @param string|Field $field
-     * @param bool $mandatory Whether this field is mandatory in this context
-     * @return string
+     * @param bool         $mandatory Whether this field is mandatory in this context
      */
     public function typeFilter(array $context, $field, bool $mandatory = false): string
     {
@@ -113,6 +113,7 @@ class JavaTwigExtension extends LanguageTwigExtension
     /**
      * @param $context
      * @param string|Field $field
+     *
      * @return string
      */
     public function listTypeFilter($context, $field)

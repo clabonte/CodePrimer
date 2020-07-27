@@ -1,8 +1,6 @@
 <?php
 
-
 namespace CodePrimer\Builder;
-
 
 use CodePrimer\Template\Artifact;
 use RuntimeException;
@@ -17,20 +15,20 @@ class ArtifactBuilderFactory
      */
     public function __construct()
     {
-        $this->builders = array();
+        $this->builders = [];
 
         $this->builders['entity'] = EntityBuilder::class;
         $this->builders['repository'] = RepositoryBuilder::class;
         $this->builders['migration'] = MigrationBuilder::class;
         $this->builders['revertmigration'] = MigrationBuilder::class;
         $this->builders[Artifact::PROJECT] = [
-            'symfony' => ProjectScriptBuilder::class
+            'symfony' => ProjectScriptBuilder::class,
         ];
     }
 
     /**
-     * @param Artifact $artifact
      * @return ArtifactBuilder
+     *
      * @throws RuntimeException If there is no builder defined for this artifact
      */
     public function createBuilder(Artifact $artifact)
@@ -40,11 +38,13 @@ class ArtifactBuilderFactory
 
         if (!empty($this->builders[$category][$type])) {
             $builder = $this->builders[$category][$type];
+
             return new $builder();
         }
 
         if (!empty($this->builders[$type])) {
             $builder = $this->builders[$type];
+
             return new $builder();
         }
 

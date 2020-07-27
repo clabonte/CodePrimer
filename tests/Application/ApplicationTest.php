@@ -7,13 +7,13 @@ use CodePrimer\Template\Artifact;
 use CodePrimer\Tests\Functional\TemplateTestCase;
 
 /**
- * Class ApplicationTest
- * @package CodePrimer\Tests\Application
+ * Class ApplicationTest.
+ *
  * @group application
  */
 class ApplicationTest extends TemplateTestCase
 {
-    const SYMFONY_APP_FOLDER = self::ROOT . '/../FunctionalTest/';
+    const SYMFONY_APP_FOLDER = self::ROOT.'/../FunctionalTest/';
 
     /**
      * @throws \Exception

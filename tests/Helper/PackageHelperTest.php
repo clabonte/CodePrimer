@@ -31,7 +31,7 @@ class PackageHelperTest extends TestCase
         // Make sure there is no relationship before building them
         foreach ($this->package->getEntities() as $entity) {
             foreach ($entity->getFields() as $field) {
-                self::assertNull($field->getRelation(), 'Unexpected relation found for field '.$field->getName(). ' in entity '.$entity->getName());
+                self::assertNull($field->getRelation(), 'Unexpected relation found for field '.$field->getName().' in entity '.$entity->getName());
             }
         }
 
@@ -42,16 +42,16 @@ class PackageHelperTest extends TestCase
         foreach ($this->package->getEntities() as $entity) {
             foreach ($entity->getFields() as $field) {
                 if ($fieldHelper->isEntity($field, $this->package)) {
-                    self::assertNotNull($field->getRelation(), 'Missing relation for field '.$field->getName(). ' in entity '.$entity->getName());
+                    self::assertNotNull($field->getRelation(), 'Missing relation for field '.$field->getName().' in entity '.$entity->getName());
                 } else {
-                    self::assertNull($field->getRelation(), 'Unexpected relation found for field '.$field->getName(). ' in entity '.$entity->getName());
+                    self::assertNull($field->getRelation(), 'Unexpected relation found for field '.$field->getName().' in entity '.$entity->getName());
                 }
             }
         }
     }
 
     /**
-     * Validate the User -- 1-to-1 --> UserStats relationship has been properly created
+     * Validate the User -- 1-to-1 --> UserStats relationship has been properly created.
      */
     public function testBuildOneToOneUnidirectionalRelationshipsShouldPass()
     {
@@ -86,7 +86,7 @@ class PackageHelperTest extends TestCase
     }
 
     /**
-     * Validate the User -- 1-to-* --> Metadata relationship has been properly created
+     * Validate the User -- 1-to-* --> Metadata relationship has been properly created.
      */
     public function testBuildOneToManyUnidirectionalRelationshipsShouldPass()
     {
@@ -121,7 +121,7 @@ class PackageHelperTest extends TestCase
     }
 
     /**
-     * Validate the User <-- 1-to-* --> Post relationship has been properly created
+     * Validate the User <-- 1-to-* --> Post relationship has been properly created.
      */
     public function testBuildOneToManyBidirectionalRelationshipsShouldPass()
     {
@@ -174,7 +174,7 @@ class PackageHelperTest extends TestCase
     }
 
     /**
-     * Validate the User <-- 1-to-* --> Post relationship built in reverse has been properly created
+     * Validate the User <-- 1-to-* --> Post relationship built in reverse has been properly created.
      */
     public function testBuildReverseOneToManyBidirectionalRelationshipsShouldPass()
     {
@@ -233,7 +233,7 @@ class PackageHelperTest extends TestCase
     }
 
     /**
-     * Validate the User <-- *-to-* --> Topic relationship has been properly created
+     * Validate the User <-- *-to-* --> Topic relationship has been properly created.
      */
     public function testBuildManyToManyRelationshipShouldPass()
     {
@@ -287,7 +287,7 @@ class PackageHelperTest extends TestCase
 
     /**
      * Failure scenario: We do not currently support the creation of relationships when more than 1 potential
-     * field can be used to build the relationship
+     * field can be used to build the relationship.
      */
     public function testBuildRelationshipForEntityWithMultipleLinksShouldThrowException()
     {
@@ -305,7 +305,7 @@ class PackageHelperTest extends TestCase
 
     /**
      * Failure scenario: If the FieldHelper falsely identifies a type as an entity but the entity cannot be
-     * located in the package, an exception shall be thrown
+     * located in the package, an exception shall be thrown.
      */
     public function testBuildRelationshipForUnknownEntityShouldThrowException()
     {
@@ -326,11 +326,11 @@ class PackageHelperTest extends TestCase
         self::expectExceptionMessage('Failed to locate remote entity Unknown in package FunctionalTest');
 
         $packageHelper->buildRelationships($this->package);
-
     }
 
     /**
-     * Stub method for the FieldHelper mock
+     * Stub method for the FieldHelper mock.
+     *
      * @return bool
      */
     public function isEntityStubCallback()
@@ -338,7 +338,7 @@ class PackageHelperTest extends TestCase
         $args = func_get_args();
         /** @var Field $field */
         $field = $args[0];
-        if ($field->getType() == 'Unknown') {
+        if ('Unknown' == $field->getType()) {
             return true;
         }
 

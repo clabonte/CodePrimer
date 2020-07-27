@@ -6,8 +6,8 @@ use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Template\Artifact;
 
 /**
- * Class PhpMigrationTemplatesTest
- * @package App\Tests\Functional
+ * Class PhpMigrationTemplatesTest.
+ *
  * @group functional
  */
 class PhpMigrationTemplatesTest extends TemplateTestCase
@@ -43,6 +43,6 @@ class PhpMigrationTemplatesTest extends TemplateTestCase
         self::assertCount(1, $files);
 
         // Make sure the right files have been generated
-        $this->assertGeneratedFile("src/Migrations/Version00000000000001.php", self::DOCTRINE_EXPECTED_DIR);
+        $this->assertGeneratedFile('src/Migrations/Version00000000000001.php', self::DOCTRINE_EXPECTED_DIR);
     }
 }

@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: cbonte
  * Date: 2019-05-19
- * Time: 3:33 PM
+ * Time: 3:33 PM.
  */
 
 namespace CodePrimer\Model;
-
 
 class Set
 {
@@ -18,15 +17,13 @@ class Set
     private $description;
 
     /** @var Field[] */
-    private $fields = array();
+    private $fields = [];
 
-    /** @var Element[]  */
-    private $elements = array();
+    /** @var Element[] */
+    private $elements = [];
 
     /**
      * Set constructor.
-     * @param string $name
-     * @param string $description
      */
     public function __construct(string $name, string $description = '')
     {
@@ -34,33 +31,21 @@ class Set
         $this->description = $description;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
     public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     */
     public function setDescription(string $description): void
     {
         $this->description = $description;
@@ -79,15 +64,12 @@ class Set
      */
     public function setFields(array $fields)
     {
-        $this->fields = array();
+        $this->fields = [];
         foreach ($fields as $field) {
             $this->addField($field);
         }
     }
 
-    /**
-     * @param Field $field
-     */
     public function addField(Field $field): void
     {
         $this->fields[$field->getName()] = $field;
@@ -95,7 +77,6 @@ class Set
 
     /**
      * @param $name
-     * @return Field|null
      */
     public function getField($name): ?Field
     {
@@ -107,7 +88,8 @@ class Set
     }
 
     /**
-     * Retrieves the list of mandatory fields of this set
+     * Retrieves the list of mandatory fields of this set.
+     *
      * @return array
      */
     public function listMandatoryFields()
@@ -139,12 +121,8 @@ class Set
         $this->elements = $elements;
     }
 
-    /**
-     * @param Element $element
-     */
     public function addElement(Element $element): void
     {
         $this->elements[] = $element;
     }
-
 }

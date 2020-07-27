@@ -1,6 +1,5 @@
 <?php
 
-
 namespace CodePrimer\Helper;
 
 use CodePrimer\Model\Package;
@@ -9,7 +8,6 @@ use CodePrimer\Template\Artifact;
 class ArtifactHelper
 {
     /**
-     * @param Artifact $artifact
      * @return string
      */
     public function getDirectory(Package $package, Artifact $artifact)
@@ -35,7 +33,7 @@ class ArtifactHelper
                         $dir .= '/Entity';
                         break;
                     case 'java':
-                        $dir .= '/'.$this->getJavaBasePath($package) .'/entity';
+                        $dir .= '/'.$this->getJavaBasePath($package).'/entity';
                         break;
                 }
                 break;
@@ -45,7 +43,7 @@ class ArtifactHelper
                         $dir .= '/Repository';
                         break;
                     case 'java':
-                        $dir .= '/'.$this->getJavaBasePath($package) .'/repository';
+                        $dir .= '/'.$this->getJavaBasePath($package).'/repository';
                         break;
                 }
                 break;

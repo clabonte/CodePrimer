@@ -4,7 +4,7 @@ return PhpCsFixer\Config::create()
         '@Symfony' => true,
     ])
     ->setFinder(PhpCsFixer\Finder::create()
-        ->exclude('vendor')
+        ->exclude(['vendor', 'tests/output'])
         ->in(__DIR__)
     )
 ;

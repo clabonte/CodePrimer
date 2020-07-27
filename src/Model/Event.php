@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: cbonte
  * Date: 2019-05-19
- * Time: 3:31 PM
+ * Time: 3:31 PM.
  */
 
 namespace CodePrimer\Model;
-
 
 class Event
 {
@@ -24,14 +23,10 @@ class Event
     private $entity;
 
     /** @var Field[] */
-    private $fields = array();
+    private $fields = [];
 
     /**
      * EventEntity constructor.
-     * @param string $name
-     * @param string $code
-     * @param Entity|null $entity
-     * @param string $description
      */
     public function __construct(string $name, string $code, string $description = '', ?Entity $entity = null)
     {
@@ -41,16 +36,12 @@ class Event
         $this->entity = $entity;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param string $name
      * @return Event
      */
     public function setName(string $name): self
@@ -60,16 +51,12 @@ class Event
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
     /**
-     * @param string $description
      * @return Event
      */
     public function setDescription(string $description): self
@@ -79,16 +66,12 @@ class Event
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getCode(): string
     {
         return $this->code;
     }
 
     /**
-     * @param string $code
      * @return Event
      */
     public function setCode(string $code): self
@@ -107,7 +90,6 @@ class Event
     }
 
     /**
-     * @param Entity $entity
      * @return Event
      */
     public function setEntity(Entity $entity): self
@@ -127,11 +109,12 @@ class Event
 
     /**
      * @param Field[] $fields
+     *
      * @return Event
      */
     public function setFields(array $fields): self
     {
-        $this->fields = array();
+        $this->fields = [];
         foreach ($fields as $field) {
             $this->addField($field);
         }
@@ -140,7 +123,6 @@ class Event
     }
 
     /**
-     * @param Field $field
      * @return Event
      */
     public function addField(Field $field): self
@@ -152,7 +134,6 @@ class Event
 
     /**
      * @param $name
-     * @return Field|null
      */
     public function getField($name): ?Field
     {
@@ -164,7 +145,8 @@ class Event
     }
 
     /**
-     * Retrieves the list of mandatory fields of this event
+     * Retrieves the list of mandatory fields of this event.
+     *
      * @return array
      */
     public function listMandatoryFields()

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace CodePrimer\Tests\Twig;
-
 
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\Constraint;
@@ -78,7 +76,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider pluralDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testPluralFilterShouldPass($obj, $expectedValue)
@@ -114,7 +113,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider singularDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testSingularFilterShouldPass($obj, $expectedValue)
@@ -150,7 +150,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider wordsDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testWordsFilterShouldPass($obj, $expectedValue)
@@ -182,7 +183,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider camelDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testCamelFilterShouldPass($obj, $expectedValue)
@@ -214,7 +216,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider underscoreDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testUnderscoreFilterShouldPass($obj, $expectedValue)
@@ -249,7 +252,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider classDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testClassFilterShouldPass($obj, $expectedValue)
@@ -282,7 +286,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider constantDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testConstantFilterShouldPass($obj, $expectedValue)
@@ -315,7 +320,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider variableDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testVariableFilterShouldPass($obj, $expectedValue)
@@ -327,7 +333,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider variableDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testMemberFilterShouldPass($obj, $expectedValue)
@@ -360,7 +367,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider pathDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testPathFilterShouldPass($obj, $expectedValue)
@@ -395,7 +403,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider lastPathDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testLastPathFilterShouldPass($obj, $expectedValue)
@@ -430,7 +439,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider getterDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testGetterFilterShouldPass($obj, $expectedValue)
@@ -463,7 +473,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider setterDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testSetterFilterShouldPass($obj, $expectedValue)
@@ -496,7 +507,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider addMethodDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testAddMethodFilterShouldPass($obj, $expectedValue)
@@ -528,7 +540,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider removeMethodDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testRemoveMethodFilterShouldPass($obj, $expectedValue)
@@ -560,7 +573,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider containsMethodDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testContainsMethodFilterShouldPass($obj, $expectedValue)
@@ -592,7 +606,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider typeDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testTypeFilterShouldPass($obj, $expectedValue)
@@ -605,41 +620,42 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     public function typeDataProvider()
     {
         return [
-            'BOOL' => [new Field("Test", FieldType::BOOL, 'Test Description', true), 'bool'],
-            'BOOLEAN' => [new Field("Test", FieldType::BOOLEAN, 'Test Description', true), 'bool'],
-            'DATE' => [new Field("Test", FieldType::DATE, 'Test Description', true), 'date'],
-            'DATETIME' => [new Field("Test", FieldType::DATETIME, 'Test Description', true), 'datetime'],
-            'DECIMAL' => [new Field("Test", FieldType::DECIMAL, 'Test Description', true), 'double'],
-            'DOUBLE' => [new Field("Test", FieldType::DOUBLE, 'Test Description', true), 'double'],
-            'EMAIL' => [new Field("Test", FieldType::EMAIL, 'Test Description', true), 'string'],
-            'FLOAT' => [new Field("Test", FieldType::FLOAT, 'Test Description', true), 'float'],
-            'ID' => [new Field("Test", FieldType::ID, 'Test Description', true), 'long'],
-            'INT' => [new Field("Test", FieldType::INT, 'Test Description', true), 'int'],
-            'INTEGER' => [new Field("Test", FieldType::INTEGER, 'Test Description', true), 'int'],
-            'LONG' => [new Field("Test", FieldType::LONG, 'Test Description', true), 'long'],
-            'PASSWORD' => [new Field("Test", FieldType::PASSWORD, 'Test Description', true), 'string'],
-            'PHONE' => [new Field("Test", FieldType::PHONE, 'Test Description', true), 'string'],
-            'PRICE' => [new Field("Test", FieldType::PRICE, 'Test Description', true), 'double'],
-            'RANDOM_STRING' => [new Field("Test", FieldType::RANDOM_STRING, 'Test Description', true), 'string'],
-            'STRING' => [new Field("Test", FieldType::STRING, 'Test Description', true), 'string'],
-            'TEXT' => [new Field("Test", FieldType::TEXT, 'Test Description', true), 'string'],
-            'TIME' => [new Field("Test", FieldType::TIME, 'Test Description', true), 'time'],
-            'URL' => [new Field("Test", FieldType::URL, 'Test Description', true), 'string'],
-            'UUID' => [new Field("Test", FieldType::UUID, 'Test Description', true), 'string'],
-            'UNKNOWN' => [new Field("Test", 'Unknown', 'Test Description', true), 'string'],
+            'BOOL' => [new Field('Test', FieldType::BOOL, 'Test Description', true), 'bool'],
+            'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN, 'Test Description', true), 'bool'],
+            'DATE' => [new Field('Test', FieldType::DATE, 'Test Description', true), 'date'],
+            'DATETIME' => [new Field('Test', FieldType::DATETIME, 'Test Description', true), 'datetime'],
+            'DECIMAL' => [new Field('Test', FieldType::DECIMAL, 'Test Description', true), 'double'],
+            'DOUBLE' => [new Field('Test', FieldType::DOUBLE, 'Test Description', true), 'double'],
+            'EMAIL' => [new Field('Test', FieldType::EMAIL, 'Test Description', true), 'string'],
+            'FLOAT' => [new Field('Test', FieldType::FLOAT, 'Test Description', true), 'float'],
+            'ID' => [new Field('Test', FieldType::ID, 'Test Description', true), 'long'],
+            'INT' => [new Field('Test', FieldType::INT, 'Test Description', true), 'int'],
+            'INTEGER' => [new Field('Test', FieldType::INTEGER, 'Test Description', true), 'int'],
+            'LONG' => [new Field('Test', FieldType::LONG, 'Test Description', true), 'long'],
+            'PASSWORD' => [new Field('Test', FieldType::PASSWORD, 'Test Description', true), 'string'],
+            'PHONE' => [new Field('Test', FieldType::PHONE, 'Test Description', true), 'string'],
+            'PRICE' => [new Field('Test', FieldType::PRICE, 'Test Description', true), 'double'],
+            'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING, 'Test Description', true), 'string'],
+            'STRING' => [new Field('Test', FieldType::STRING, 'Test Description', true), 'string'],
+            'TEXT' => [new Field('Test', FieldType::TEXT, 'Test Description', true), 'string'],
+            'TIME' => [new Field('Test', FieldType::TIME, 'Test Description', true), 'time'],
+            'URL' => [new Field('Test', FieldType::URL, 'Test Description', true), 'string'],
+            'UUID' => [new Field('Test', FieldType::UUID, 'Test Description', true), 'string'],
+            'UNKNOWN' => [new Field('Test', 'Unknown', 'Test Description', true), 'string'],
             'BOOL ARRAY' => [
-                (new Field("Test", FieldType::BOOL, 'Test Description', true))
+                (new Field('Test', FieldType::BOOL, 'Test Description', true))
                     ->setList(true),
-                'list of bool'
+                'list of bool',
             ],
             'ENTITY' => [new Field('Test', 'User', 'Test Description', true), 'User'],
-            'OPTIONAL ENTITY' => [new Field('Test', 'User'), 'User (Optional)']
+            'OPTIONAL ENTITY' => [new Field('Test', 'User'), 'User (Optional)'],
         ];
     }
 
     /**
      * @dataProvider listTypeDataProvider
-     * @param mixed $obj Object to filter
+     *
+     * @param mixed  $obj           Object to filter
      * @param string $expectedValue expected filtered value
      */
     public function testListTypeFilterShouldPass($obj, $expectedValue)
@@ -653,131 +669,131 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     {
         return [
             'BOOL' => [
-                (new Field("Test", FieldType::BOOL, 'Test Description', true))
+                (new Field('Test', FieldType::BOOL, 'Test Description', true))
                     ->setList(true),
-                'bool'
+                'bool',
             ],
             'BOOLEAN' => [
-                (new Field("Test", FieldType::BOOLEAN, 'Test Description', true))
+                (new Field('Test', FieldType::BOOLEAN, 'Test Description', true))
                     ->setList(true),
-                'bool'
+                'bool',
             ],
             'DATE' => [
-                (new Field("Test", FieldType::DATE, 'Test Description', true))
+                (new Field('Test', FieldType::DATE, 'Test Description', true))
                     ->setList(true),
-                'date'
+                'date',
             ],
             'DATETIME' => [
-                (new Field("Test", FieldType::DATETIME, 'Test Description', true))
+                (new Field('Test', FieldType::DATETIME, 'Test Description', true))
                     ->setList(true),
-                'datetime'
+                'datetime',
             ],
             'DECIMAL' => [
-                (new Field("Test", FieldType::DECIMAL, 'Test Description', true))
+                (new Field('Test', FieldType::DECIMAL, 'Test Description', true))
                     ->setList(true),
-                'double'
+                'double',
             ],
             'DOUBLE' => [
-                (new Field("Test", FieldType::DOUBLE, 'Test Description', true))
+                (new Field('Test', FieldType::DOUBLE, 'Test Description', true))
                     ->setList(true),
-                'double'
+                'double',
             ],
             'EMAIL' => [
-                (new Field("Test", FieldType::EMAIL, 'Test Description', true))
+                (new Field('Test', FieldType::EMAIL, 'Test Description', true))
                     ->setList(true),
-                'string'
+                'string',
             ],
             'FLOAT' => [
-                (new Field("Test", FieldType::FLOAT, 'Test Description', true))
+                (new Field('Test', FieldType::FLOAT, 'Test Description', true))
                     ->setList(true),
-                'float'
+                'float',
             ],
             'ID' => [
-                (new Field("Test", FieldType::ID, 'Test Description', true))
+                (new Field('Test', FieldType::ID, 'Test Description', true))
                     ->setList(true),
-                'long'
+                'long',
             ],
             'INT' => [
-                (new Field("Test", FieldType::INT, 'Test Description', true))
+                (new Field('Test', FieldType::INT, 'Test Description', true))
                     ->setList(true),
-                'int'
+                'int',
             ],
             'INTEGER' => [
-                (new Field("Test", FieldType::INTEGER, 'Test Description', true))
+                (new Field('Test', FieldType::INTEGER, 'Test Description', true))
                     ->setList(true),
-                'int'
+                'int',
             ],
             'LONG' => [
-                (new Field("Test", FieldType::LONG, 'Test Description', true))
+                (new Field('Test', FieldType::LONG, 'Test Description', true))
                     ->setList(true),
-                'long'
+                'long',
             ],
             'PASSWORD' => [
-                (new Field("Test", FieldType::PASSWORD, 'Test Description', true))
+                (new Field('Test', FieldType::PASSWORD, 'Test Description', true))
                     ->setList(true),
-                'string'
+                'string',
             ],
             'PHONE' => [
-                (new Field("Test", FieldType::PHONE, 'Test Description', true))
+                (new Field('Test', FieldType::PHONE, 'Test Description', true))
                     ->setList(true),
-                'string'
+                'string',
             ],
             'PRICE' => [
-                (new Field("Test", FieldType::PRICE, 'Test Description', true))
+                (new Field('Test', FieldType::PRICE, 'Test Description', true))
                     ->setList(true),
-                'double'
+                'double',
             ],
             'RANDOM_STRING' => [
-                (new Field("Test", FieldType::RANDOM_STRING, 'Test Description', true))
+                (new Field('Test', FieldType::RANDOM_STRING, 'Test Description', true))
                     ->setList(true),
-                'string'
+                'string',
             ],
             'STRING' => [
-                (new Field("Test", FieldType::STRING, 'Test Description', true))
+                (new Field('Test', FieldType::STRING, 'Test Description', true))
                     ->setList(true),
-                'string'
+                'string',
             ],
             'TEXT' => [
-                (new Field("Test", FieldType::TEXT, 'Test Description', true))
+                (new Field('Test', FieldType::TEXT, 'Test Description', true))
                     ->setList(true),
-                'string'
+                'string',
             ],
             'TIME' => [
-                (new Field("Test", FieldType::TIME, 'Test Description', true))
+                (new Field('Test', FieldType::TIME, 'Test Description', true))
                     ->setList(true),
-                'time'
+                'time',
             ],
             'URL' => [
-                (new Field("Test", FieldType::URL, 'Test Description', true))
+                (new Field('Test', FieldType::URL, 'Test Description', true))
                     ->setList(true),
-                'string'
+                'string',
             ],
             'UUID' => [
-                (new Field("Test", FieldType::UUID, 'Test Description', true))
+                (new Field('Test', FieldType::UUID, 'Test Description', true))
                     ->setList(true),
-                'string'
+                'string',
             ],
             'UNKNOWN' => [
-                (new Field("Test", 'Unknown', 'Test Description', true))
+                (new Field('Test', 'Unknown', 'Test Description', true))
                     ->setList(true),
-                'string'
+                'string',
             ],
             'OPTIONAL ENTITY' => [
-                (new Field("Test", 'User', 'Test Description', false))
+                (new Field('Test', 'User', 'Test Description', false))
                     ->setList(true),
-                'User'
+                'User',
             ],
             'ENTITY' => [
-                (new Field("Test", 'User', 'Test Description', true))
+                (new Field('Test', 'User', 'Test Description', true))
                     ->setList(true),
-                'User'
-            ]
+                'User',
+            ],
         ];
     }
 
     /**
      * @dataProvider scalarTestProvider
-     * @param Field $field
+     *
      * @param $expectedValue
      */
     public function testScalarTest(Field $field, $expectedValue)
@@ -790,34 +806,34 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     public function scalarTestProvider()
     {
         return [
-            'BOOL' => [new Field("Test", FieldType::BOOL), true],
-            'BOOLEAN' => [new Field("Test", FieldType::BOOLEAN), true],
-            'DATE' => [new Field("Test", FieldType::DATE), false],
-            'DATETIME' => [new Field("Test", FieldType::DATETIME), false],
-            'DECIMAL' => [new Field("Test", FieldType::DECIMAL), true],
-            'DOUBLE' => [new Field("Test", FieldType::DOUBLE), true],
-            'EMAIL' => [new Field("Test", FieldType::EMAIL), false],
-            'FLOAT' => [new Field("Test", FieldType::FLOAT), true],
-            'ID' => [new Field("Test", FieldType::ID), true],
-            'INT' => [new Field("Test", FieldType::INT), true],
-            'INTEGER' => [new Field("Test", FieldType::INTEGER), true],
-            'LONG' => [new Field("Test", FieldType::LONG), true],
-            'PASSWORD' => [new Field("Test", FieldType::PASSWORD), false],
-            'PHONE' => [new Field("Test", FieldType::PHONE), false],
-            'PRICE' => [new Field("Test", FieldType::PRICE), true],
-            'RANDOM_STRING' => [new Field("Test", FieldType::RANDOM_STRING), false],
-            'STRING' => [new Field("Test", FieldType::STRING), false],
-            'TEXT' => [new Field("Test", FieldType::TEXT), false],
-            'TIME' => [new Field("Test", FieldType::TIME), false],
-            'URL' => [new Field("Test", FieldType::URL), false],
-            'UUID' => [new Field("Test", FieldType::UUID), false],
-            'UNKNOWN' => [new Field("Test", 'Unknown'), false]
+            'BOOL' => [new Field('Test', FieldType::BOOL), true],
+            'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), true],
+            'DATE' => [new Field('Test', FieldType::DATE), false],
+            'DATETIME' => [new Field('Test', FieldType::DATETIME), false],
+            'DECIMAL' => [new Field('Test', FieldType::DECIMAL), true],
+            'DOUBLE' => [new Field('Test', FieldType::DOUBLE), true],
+            'EMAIL' => [new Field('Test', FieldType::EMAIL), false],
+            'FLOAT' => [new Field('Test', FieldType::FLOAT), true],
+            'ID' => [new Field('Test', FieldType::ID), true],
+            'INT' => [new Field('Test', FieldType::INT), true],
+            'INTEGER' => [new Field('Test', FieldType::INTEGER), true],
+            'LONG' => [new Field('Test', FieldType::LONG), true],
+            'PASSWORD' => [new Field('Test', FieldType::PASSWORD), false],
+            'PHONE' => [new Field('Test', FieldType::PHONE), false],
+            'PRICE' => [new Field('Test', FieldType::PRICE), true],
+            'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING), false],
+            'STRING' => [new Field('Test', FieldType::STRING), false],
+            'TEXT' => [new Field('Test', FieldType::TEXT), false],
+            'TIME' => [new Field('Test', FieldType::TIME), false],
+            'URL' => [new Field('Test', FieldType::URL), false],
+            'UUID' => [new Field('Test', FieldType::UUID), false],
+            'UNKNOWN' => [new Field('Test', 'Unknown'), false],
         ];
     }
 
     /**
      * @dataProvider doubleTestProvider
-     * @param Field $field
+     *
      * @param $expectedValue
      */
     public function testDoubleTest(Field $field, $expectedValue)
@@ -830,34 +846,34 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     public function doubleTestProvider()
     {
         return [
-            'BOOL' => [new Field("Test", FieldType::BOOL), false],
-            'BOOLEAN' => [new Field("Test", FieldType::BOOLEAN), false],
-            'DATE' => [new Field("Test", FieldType::DATE), false],
-            'DATETIME' => [new Field("Test", FieldType::DATETIME), false],
-            'DECIMAL' => [new Field("Test", FieldType::DECIMAL), true],
-            'DOUBLE' => [new Field("Test", FieldType::DOUBLE), true],
-            'EMAIL' => [new Field("Test", FieldType::EMAIL), false],
-            'FLOAT' => [new Field("Test", FieldType::FLOAT), false],
-            'ID' => [new Field("Test", FieldType::ID), false],
-            'INT' => [new Field("Test", FieldType::INT), false],
-            'INTEGER' => [new Field("Test", FieldType::INTEGER), false],
-            'LONG' => [new Field("Test", FieldType::LONG), false],
-            'PASSWORD' => [new Field("Test", FieldType::PASSWORD), false],
-            'PHONE' => [new Field("Test", FieldType::PHONE), false],
-            'PRICE' => [new Field("Test", FieldType::PRICE), true],
-            'RANDOM_STRING' => [new Field("Test", FieldType::RANDOM_STRING), false],
-            'STRING' => [new Field("Test", FieldType::STRING), false],
-            'TEXT' => [new Field("Test", FieldType::TEXT), false],
-            'TIME' => [new Field("Test", FieldType::TIME), false],
-            'URL' => [new Field("Test", FieldType::URL), false],
-            'UUID' => [new Field("Test", FieldType::UUID), false],
-            'UNKNOWN' => [new Field("Test", 'Unknown'), false]
+            'BOOL' => [new Field('Test', FieldType::BOOL), false],
+            'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), false],
+            'DATE' => [new Field('Test', FieldType::DATE), false],
+            'DATETIME' => [new Field('Test', FieldType::DATETIME), false],
+            'DECIMAL' => [new Field('Test', FieldType::DECIMAL), true],
+            'DOUBLE' => [new Field('Test', FieldType::DOUBLE), true],
+            'EMAIL' => [new Field('Test', FieldType::EMAIL), false],
+            'FLOAT' => [new Field('Test', FieldType::FLOAT), false],
+            'ID' => [new Field('Test', FieldType::ID), false],
+            'INT' => [new Field('Test', FieldType::INT), false],
+            'INTEGER' => [new Field('Test', FieldType::INTEGER), false],
+            'LONG' => [new Field('Test', FieldType::LONG), false],
+            'PASSWORD' => [new Field('Test', FieldType::PASSWORD), false],
+            'PHONE' => [new Field('Test', FieldType::PHONE), false],
+            'PRICE' => [new Field('Test', FieldType::PRICE), true],
+            'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING), false],
+            'STRING' => [new Field('Test', FieldType::STRING), false],
+            'TEXT' => [new Field('Test', FieldType::TEXT), false],
+            'TIME' => [new Field('Test', FieldType::TIME), false],
+            'URL' => [new Field('Test', FieldType::URL), false],
+            'UUID' => [new Field('Test', FieldType::UUID), false],
+            'UNKNOWN' => [new Field('Test', 'Unknown'), false],
         ];
     }
 
     /**
      * @dataProvider floatTestProvider
-     * @param Field $field
+     *
      * @param $expectedValue
      */
     public function testFloatTest(Field $field, $expectedValue)
@@ -870,34 +886,34 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     public function floatTestProvider()
     {
         return [
-            'BOOL' => [new Field("Test", FieldType::BOOL), false],
-            'BOOLEAN' => [new Field("Test", FieldType::BOOLEAN), false],
-            'DATE' => [new Field("Test", FieldType::DATE), false],
-            'DATETIME' => [new Field("Test", FieldType::DATETIME), false],
-            'DECIMAL' => [new Field("Test", FieldType::DECIMAL), false],
-            'DOUBLE' => [new Field("Test", FieldType::DOUBLE), false],
-            'EMAIL' => [new Field("Test", FieldType::EMAIL), false],
-            'FLOAT' => [new Field("Test", FieldType::FLOAT), true],
-            'ID' => [new Field("Test", FieldType::ID), false],
-            'INT' => [new Field("Test", FieldType::INT), false],
-            'INTEGER' => [new Field("Test", FieldType::INTEGER), false],
-            'LONG' => [new Field("Test", FieldType::LONG), false],
-            'PASSWORD' => [new Field("Test", FieldType::PASSWORD), false],
-            'PHONE' => [new Field("Test", FieldType::PHONE), false],
-            'PRICE' => [new Field("Test", FieldType::PRICE), false],
-            'RANDOM_STRING' => [new Field("Test", FieldType::RANDOM_STRING), false],
-            'STRING' => [new Field("Test", FieldType::STRING), false],
-            'TEXT' => [new Field("Test", FieldType::TEXT), false],
-            'TIME' => [new Field("Test", FieldType::TIME), false],
-            'URL' => [new Field("Test", FieldType::URL), false],
-            'UUID' => [new Field("Test", FieldType::UUID), false],
-            'UNKNOWN' => [new Field("Test", 'Unknown'), false]
+            'BOOL' => [new Field('Test', FieldType::BOOL), false],
+            'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), false],
+            'DATE' => [new Field('Test', FieldType::DATE), false],
+            'DATETIME' => [new Field('Test', FieldType::DATETIME), false],
+            'DECIMAL' => [new Field('Test', FieldType::DECIMAL), false],
+            'DOUBLE' => [new Field('Test', FieldType::DOUBLE), false],
+            'EMAIL' => [new Field('Test', FieldType::EMAIL), false],
+            'FLOAT' => [new Field('Test', FieldType::FLOAT), true],
+            'ID' => [new Field('Test', FieldType::ID), false],
+            'INT' => [new Field('Test', FieldType::INT), false],
+            'INTEGER' => [new Field('Test', FieldType::INTEGER), false],
+            'LONG' => [new Field('Test', FieldType::LONG), false],
+            'PASSWORD' => [new Field('Test', FieldType::PASSWORD), false],
+            'PHONE' => [new Field('Test', FieldType::PHONE), false],
+            'PRICE' => [new Field('Test', FieldType::PRICE), false],
+            'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING), false],
+            'STRING' => [new Field('Test', FieldType::STRING), false],
+            'TEXT' => [new Field('Test', FieldType::TEXT), false],
+            'TIME' => [new Field('Test', FieldType::TIME), false],
+            'URL' => [new Field('Test', FieldType::URL), false],
+            'UUID' => [new Field('Test', FieldType::UUID), false],
+            'UNKNOWN' => [new Field('Test', 'Unknown'), false],
         ];
     }
 
     /**
      * @dataProvider longTestProvider
-     * @param Field $field
+     *
      * @param $expectedValue
      */
     public function testLongTest(Field $field, $expectedValue)
@@ -910,34 +926,34 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     public function longTestProvider()
     {
         return [
-            'BOOL' => [new Field("Test", FieldType::BOOL), false],
-            'BOOLEAN' => [new Field("Test", FieldType::BOOLEAN), false],
-            'DATE' => [new Field("Test", FieldType::DATE), false],
-            'DATETIME' => [new Field("Test", FieldType::DATETIME), false],
-            'DECIMAL' => [new Field("Test", FieldType::DECIMAL), false],
-            'DOUBLE' => [new Field("Test", FieldType::DOUBLE), false],
-            'EMAIL' => [new Field("Test", FieldType::EMAIL), false],
-            'FLOAT' => [new Field("Test", FieldType::FLOAT), false],
-            'ID' => [new Field("Test", FieldType::ID), true],
-            'INT' => [new Field("Test", FieldType::INT), false],
-            'INTEGER' => [new Field("Test", FieldType::INTEGER), false],
-            'LONG' => [new Field("Test", FieldType::LONG), true],
-            'PASSWORD' => [new Field("Test", FieldType::PASSWORD), false],
-            'PHONE' => [new Field("Test", FieldType::PHONE), false],
-            'PRICE' => [new Field("Test", FieldType::PRICE), false],
-            'RANDOM_STRING' => [new Field("Test", FieldType::RANDOM_STRING), false],
-            'STRING' => [new Field("Test", FieldType::STRING), false],
-            'TEXT' => [new Field("Test", FieldType::TEXT), false],
-            'TIME' => [new Field("Test", FieldType::TIME), false],
-            'URL' => [new Field("Test", FieldType::URL), false],
-            'UUID' => [new Field("Test", FieldType::UUID), false],
-            'UNKNOWN' => [new Field("Test", 'Unknown'), false]
+            'BOOL' => [new Field('Test', FieldType::BOOL), false],
+            'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), false],
+            'DATE' => [new Field('Test', FieldType::DATE), false],
+            'DATETIME' => [new Field('Test', FieldType::DATETIME), false],
+            'DECIMAL' => [new Field('Test', FieldType::DECIMAL), false],
+            'DOUBLE' => [new Field('Test', FieldType::DOUBLE), false],
+            'EMAIL' => [new Field('Test', FieldType::EMAIL), false],
+            'FLOAT' => [new Field('Test', FieldType::FLOAT), false],
+            'ID' => [new Field('Test', FieldType::ID), true],
+            'INT' => [new Field('Test', FieldType::INT), false],
+            'INTEGER' => [new Field('Test', FieldType::INTEGER), false],
+            'LONG' => [new Field('Test', FieldType::LONG), true],
+            'PASSWORD' => [new Field('Test', FieldType::PASSWORD), false],
+            'PHONE' => [new Field('Test', FieldType::PHONE), false],
+            'PRICE' => [new Field('Test', FieldType::PRICE), false],
+            'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING), false],
+            'STRING' => [new Field('Test', FieldType::STRING), false],
+            'TEXT' => [new Field('Test', FieldType::TEXT), false],
+            'TIME' => [new Field('Test', FieldType::TIME), false],
+            'URL' => [new Field('Test', FieldType::URL), false],
+            'UUID' => [new Field('Test', FieldType::UUID), false],
+            'UNKNOWN' => [new Field('Test', 'Unknown'), false],
         ];
     }
 
     /**
      * @dataProvider integerTestProvider
-     * @param Field $field
+     *
      * @param $expectedValue
      */
     public function testIntegerTest(Field $field, $expectedValue)
@@ -950,34 +966,34 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     public function integerTestProvider()
     {
         return [
-            'BOOL' => [new Field("Test", FieldType::BOOL), false],
-            'BOOLEAN' => [new Field("Test", FieldType::BOOLEAN), false],
-            'DATE' => [new Field("Test", FieldType::DATE), false],
-            'DATETIME' => [new Field("Test", FieldType::DATETIME), false],
-            'DECIMAL' => [new Field("Test", FieldType::DECIMAL), false],
-            'DOUBLE' => [new Field("Test", FieldType::DOUBLE), false],
-            'EMAIL' => [new Field("Test", FieldType::EMAIL), false],
-            'FLOAT' => [new Field("Test", FieldType::FLOAT), false],
-            'ID' => [new Field("Test", FieldType::ID), false],
-            'INT' => [new Field("Test", FieldType::INT), true],
-            'INTEGER' => [new Field("Test", FieldType::INTEGER), true],
-            'LONG' => [new Field("Test", FieldType::LONG), false],
-            'PASSWORD' => [new Field("Test", FieldType::PASSWORD), false],
-            'PHONE' => [new Field("Test", FieldType::PHONE), false],
-            'PRICE' => [new Field("Test", FieldType::PRICE), false],
-            'RANDOM_STRING' => [new Field("Test", FieldType::RANDOM_STRING), false],
-            'STRING' => [new Field("Test", FieldType::STRING), false],
-            'TEXT' => [new Field("Test", FieldType::TEXT), false],
-            'TIME' => [new Field("Test", FieldType::TIME), false],
-            'URL' => [new Field("Test", FieldType::URL), false],
-            'UUID' => [new Field("Test", FieldType::UUID), false],
-            'UNKNOWN' => [new Field("Test", 'Unknown'), false]
+            'BOOL' => [new Field('Test', FieldType::BOOL), false],
+            'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), false],
+            'DATE' => [new Field('Test', FieldType::DATE), false],
+            'DATETIME' => [new Field('Test', FieldType::DATETIME), false],
+            'DECIMAL' => [new Field('Test', FieldType::DECIMAL), false],
+            'DOUBLE' => [new Field('Test', FieldType::DOUBLE), false],
+            'EMAIL' => [new Field('Test', FieldType::EMAIL), false],
+            'FLOAT' => [new Field('Test', FieldType::FLOAT), false],
+            'ID' => [new Field('Test', FieldType::ID), false],
+            'INT' => [new Field('Test', FieldType::INT), true],
+            'INTEGER' => [new Field('Test', FieldType::INTEGER), true],
+            'LONG' => [new Field('Test', FieldType::LONG), false],
+            'PASSWORD' => [new Field('Test', FieldType::PASSWORD), false],
+            'PHONE' => [new Field('Test', FieldType::PHONE), false],
+            'PRICE' => [new Field('Test', FieldType::PRICE), false],
+            'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING), false],
+            'STRING' => [new Field('Test', FieldType::STRING), false],
+            'TEXT' => [new Field('Test', FieldType::TEXT), false],
+            'TIME' => [new Field('Test', FieldType::TIME), false],
+            'URL' => [new Field('Test', FieldType::URL), false],
+            'UUID' => [new Field('Test', FieldType::UUID), false],
+            'UNKNOWN' => [new Field('Test', 'Unknown'), false],
         ];
     }
 
     /**
      * @dataProvider booleanTestProvider
-     * @param Field $field
+     *
      * @param $expectedValue
      */
     public function testBooleanTest(Field $field, $expectedValue)
@@ -990,34 +1006,34 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     public function booleanTestProvider()
     {
         return [
-            'BOOL' => [new Field("Test", FieldType::BOOL), true],
-            'BOOLEAN' => [new Field("Test", FieldType::BOOLEAN), true],
-            'DATE' => [new Field("Test", FieldType::DATE), false],
-            'DATETIME' => [new Field("Test", FieldType::DATETIME), false],
-            'DECIMAL' => [new Field("Test", FieldType::DECIMAL), false],
-            'DOUBLE' => [new Field("Test", FieldType::DOUBLE), false],
-            'EMAIL' => [new Field("Test", FieldType::EMAIL), false],
-            'FLOAT' => [new Field("Test", FieldType::FLOAT), false],
-            'ID' => [new Field("Test", FieldType::ID), false],
-            'INT' => [new Field("Test", FieldType::INT), false],
-            'INTEGER' => [new Field("Test", FieldType::INTEGER), false],
-            'LONG' => [new Field("Test", FieldType::LONG), false],
-            'PASSWORD' => [new Field("Test", FieldType::PASSWORD), false],
-            'PHONE' => [new Field("Test", FieldType::PHONE), false],
-            'PRICE' => [new Field("Test", FieldType::PRICE), false],
-            'RANDOM_STRING' => [new Field("Test", FieldType::RANDOM_STRING), false],
-            'STRING' => [new Field("Test", FieldType::STRING), false],
-            'TEXT' => [new Field("Test", FieldType::TEXT), false],
-            'TIME' => [new Field("Test", FieldType::TIME), false],
-            'URL' => [new Field("Test", FieldType::URL), false],
-            'UUID' => [new Field("Test", FieldType::UUID), false],
-            'UNKNOWN' => [new Field("Test", 'Unknown'), false]
+            'BOOL' => [new Field('Test', FieldType::BOOL), true],
+            'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), true],
+            'DATE' => [new Field('Test', FieldType::DATE), false],
+            'DATETIME' => [new Field('Test', FieldType::DATETIME), false],
+            'DECIMAL' => [new Field('Test', FieldType::DECIMAL), false],
+            'DOUBLE' => [new Field('Test', FieldType::DOUBLE), false],
+            'EMAIL' => [new Field('Test', FieldType::EMAIL), false],
+            'FLOAT' => [new Field('Test', FieldType::FLOAT), false],
+            'ID' => [new Field('Test', FieldType::ID), false],
+            'INT' => [new Field('Test', FieldType::INT), false],
+            'INTEGER' => [new Field('Test', FieldType::INTEGER), false],
+            'LONG' => [new Field('Test', FieldType::LONG), false],
+            'PASSWORD' => [new Field('Test', FieldType::PASSWORD), false],
+            'PHONE' => [new Field('Test', FieldType::PHONE), false],
+            'PRICE' => [new Field('Test', FieldType::PRICE), false],
+            'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING), false],
+            'STRING' => [new Field('Test', FieldType::STRING), false],
+            'TEXT' => [new Field('Test', FieldType::TEXT), false],
+            'TIME' => [new Field('Test', FieldType::TIME), false],
+            'URL' => [new Field('Test', FieldType::URL), false],
+            'UUID' => [new Field('Test', FieldType::UUID), false],
+            'UNKNOWN' => [new Field('Test', 'Unknown'), false],
         ];
     }
 
     /**
      * @dataProvider stringTestProvider
-     * @param Field $field
+     *
      * @param $expectedValue
      */
     public function testStringTest(Field $field, $expectedValue)
@@ -1030,34 +1046,34 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     public function stringTestProvider()
     {
         return [
-            'BOOL' => [new Field("Test", FieldType::BOOL), false],
-            'BOOLEAN' => [new Field("Test", FieldType::BOOLEAN), false],
-            'DATE' => [new Field("Test", FieldType::DATE), false],
-            'DATETIME' => [new Field("Test", FieldType::DATETIME), false],
-            'DECIMAL' => [new Field("Test", FieldType::DECIMAL), false],
-            'DOUBLE' => [new Field("Test", FieldType::DOUBLE), false],
-            'EMAIL' => [new Field("Test", FieldType::EMAIL), true],
-            'FLOAT' => [new Field("Test", FieldType::FLOAT), false],
-            'ID' => [new Field("Test", FieldType::ID), false],
-            'INT' => [new Field("Test", FieldType::INT), false],
-            'INTEGER' => [new Field("Test", FieldType::INTEGER), false],
-            'LONG' => [new Field("Test", FieldType::LONG), false],
-            'PASSWORD' => [new Field("Test", FieldType::PASSWORD), true],
-            'PHONE' => [new Field("Test", FieldType::PHONE), true],
-            'PRICE' => [new Field("Test", FieldType::PRICE), false],
-            'RANDOM_STRING' => [new Field("Test", FieldType::RANDOM_STRING), true],
-            'STRING' => [new Field("Test", FieldType::STRING), true],
-            'TEXT' => [new Field("Test", FieldType::TEXT), true],
-            'TIME' => [new Field("Test", FieldType::TIME), false],
-            'URL' => [new Field("Test", FieldType::URL), true],
-            'UUID' => [new Field("Test", FieldType::UUID), true],
-            'UNKNOWN' => [new Field("Test", 'Unknown'), false]
+            'BOOL' => [new Field('Test', FieldType::BOOL), false],
+            'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), false],
+            'DATE' => [new Field('Test', FieldType::DATE), false],
+            'DATETIME' => [new Field('Test', FieldType::DATETIME), false],
+            'DECIMAL' => [new Field('Test', FieldType::DECIMAL), false],
+            'DOUBLE' => [new Field('Test', FieldType::DOUBLE), false],
+            'EMAIL' => [new Field('Test', FieldType::EMAIL), true],
+            'FLOAT' => [new Field('Test', FieldType::FLOAT), false],
+            'ID' => [new Field('Test', FieldType::ID), false],
+            'INT' => [new Field('Test', FieldType::INT), false],
+            'INTEGER' => [new Field('Test', FieldType::INTEGER), false],
+            'LONG' => [new Field('Test', FieldType::LONG), false],
+            'PASSWORD' => [new Field('Test', FieldType::PASSWORD), true],
+            'PHONE' => [new Field('Test', FieldType::PHONE), true],
+            'PRICE' => [new Field('Test', FieldType::PRICE), false],
+            'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING), true],
+            'STRING' => [new Field('Test', FieldType::STRING), true],
+            'TEXT' => [new Field('Test', FieldType::TEXT), true],
+            'TIME' => [new Field('Test', FieldType::TIME), false],
+            'URL' => [new Field('Test', FieldType::URL), true],
+            'UUID' => [new Field('Test', FieldType::UUID), true],
+            'UNKNOWN' => [new Field('Test', 'Unknown'), false],
         ];
     }
 
     /**
      * @dataProvider uuidTestProvider
-     * @param Field $field
+     *
      * @param $expectedValue
      */
     public function testUuidTest(Field $field, $expectedValue)
@@ -1070,34 +1086,34 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     public function uuidTestProvider()
     {
         return [
-            'BOOL' => [new Field("Test", FieldType::BOOL), false],
-            'BOOLEAN' => [new Field("Test", FieldType::BOOLEAN), false],
-            'DATE' => [new Field("Test", FieldType::DATE), false],
-            'DATETIME' => [new Field("Test", FieldType::DATETIME), false],
-            'DECIMAL' => [new Field("Test", FieldType::DECIMAL), false],
-            'DOUBLE' => [new Field("Test", FieldType::DOUBLE), false],
-            'EMAIL' => [new Field("Test", FieldType::EMAIL), false],
-            'FLOAT' => [new Field("Test", FieldType::FLOAT), false],
-            'ID' => [new Field("Test", FieldType::ID), false],
-            'INT' => [new Field("Test", FieldType::INT), false],
-            'INTEGER' => [new Field("Test", FieldType::INTEGER), false],
-            'LONG' => [new Field("Test", FieldType::LONG), false],
-            'PASSWORD' => [new Field("Test", FieldType::PASSWORD), false],
-            'PHONE' => [new Field("Test", FieldType::PHONE), false],
-            'PRICE' => [new Field("Test", FieldType::PRICE), false],
-            'RANDOM_STRING' => [new Field("Test", FieldType::RANDOM_STRING), false],
-            'STRING' => [new Field("Test", FieldType::STRING), false],
-            'TEXT' => [new Field("Test", FieldType::TEXT), false],
-            'TIME' => [new Field("Test", FieldType::TIME), false],
-            'URL' => [new Field("Test", FieldType::URL), false],
-            'UUID' => [new Field("Test", FieldType::UUID), true],
-            'UNKNOWN' => [new Field("Test", 'Unknown'), false]
+            'BOOL' => [new Field('Test', FieldType::BOOL), false],
+            'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), false],
+            'DATE' => [new Field('Test', FieldType::DATE), false],
+            'DATETIME' => [new Field('Test', FieldType::DATETIME), false],
+            'DECIMAL' => [new Field('Test', FieldType::DECIMAL), false],
+            'DOUBLE' => [new Field('Test', FieldType::DOUBLE), false],
+            'EMAIL' => [new Field('Test', FieldType::EMAIL), false],
+            'FLOAT' => [new Field('Test', FieldType::FLOAT), false],
+            'ID' => [new Field('Test', FieldType::ID), false],
+            'INT' => [new Field('Test', FieldType::INT), false],
+            'INTEGER' => [new Field('Test', FieldType::INTEGER), false],
+            'LONG' => [new Field('Test', FieldType::LONG), false],
+            'PASSWORD' => [new Field('Test', FieldType::PASSWORD), false],
+            'PHONE' => [new Field('Test', FieldType::PHONE), false],
+            'PRICE' => [new Field('Test', FieldType::PRICE), false],
+            'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING), false],
+            'STRING' => [new Field('Test', FieldType::STRING), false],
+            'TEXT' => [new Field('Test', FieldType::TEXT), false],
+            'TIME' => [new Field('Test', FieldType::TIME), false],
+            'URL' => [new Field('Test', FieldType::URL), false],
+            'UUID' => [new Field('Test', FieldType::UUID), true],
+            'UNKNOWN' => [new Field('Test', 'Unknown'), false],
         ];
     }
 
     /**
      * @dataProvider entityTestProvider
-     * @param Field $field
+     *
      * @param $expectedValue
      */
     public function testEntityTest(Field $field, $expectedValue)
@@ -1112,38 +1128,38 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     public function entityTestProvider()
     {
         return [
-            'BOOL' => [new Field("Test", FieldType::BOOL), false],
-            'BOOLEAN' => [new Field("Test", FieldType::BOOLEAN), false],
-            'DATE' => [new Field("Test", FieldType::DATE), false],
-            'DATETIME' => [new Field("Test", FieldType::DATETIME), false],
-            'DECIMAL' => [new Field("Test", FieldType::DECIMAL), false],
-            'DOUBLE' => [new Field("Test", FieldType::DOUBLE), false],
-            'EMAIL' => [new Field("Test", FieldType::EMAIL), false],
-            'FLOAT' => [new Field("Test", FieldType::FLOAT), false],
-            'ID' => [new Field("Test", FieldType::ID), false],
-            'INT' => [new Field("Test", FieldType::INT), false],
-            'INTEGER' => [new Field("Test", FieldType::INTEGER), false],
-            'LONG' => [new Field("Test", FieldType::LONG), false],
-            'PASSWORD' => [new Field("Test", FieldType::PASSWORD), false],
-            'PHONE' => [new Field("Test", FieldType::PHONE), false],
-            'PRICE' => [new Field("Test", FieldType::PRICE), false],
-            'RANDOM_STRING' => [new Field("Test", FieldType::RANDOM_STRING), false],
-            'STRING' => [new Field("Test", FieldType::STRING), false],
-            'TEXT' => [new Field("Test", FieldType::TEXT), false],
-            'TIME' => [new Field("Test", FieldType::TIME), false],
-            'URL' => [new Field("Test", FieldType::URL), false],
-            'UUID' => [new Field("Test", FieldType::UUID), false],
-            'UNKNOWN' => [new Field("Test", 'Unknown'), false],
-            'User' => [new Field("Test", 'User'), true],
-            'UserStats' => [new Field("Test", 'UserStats'), true],
-            'Metadata' => [new Field("Test", 'Metadata'), true]
+            'BOOL' => [new Field('Test', FieldType::BOOL), false],
+            'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), false],
+            'DATE' => [new Field('Test', FieldType::DATE), false],
+            'DATETIME' => [new Field('Test', FieldType::DATETIME), false],
+            'DECIMAL' => [new Field('Test', FieldType::DECIMAL), false],
+            'DOUBLE' => [new Field('Test', FieldType::DOUBLE), false],
+            'EMAIL' => [new Field('Test', FieldType::EMAIL), false],
+            'FLOAT' => [new Field('Test', FieldType::FLOAT), false],
+            'ID' => [new Field('Test', FieldType::ID), false],
+            'INT' => [new Field('Test', FieldType::INT), false],
+            'INTEGER' => [new Field('Test', FieldType::INTEGER), false],
+            'LONG' => [new Field('Test', FieldType::LONG), false],
+            'PASSWORD' => [new Field('Test', FieldType::PASSWORD), false],
+            'PHONE' => [new Field('Test', FieldType::PHONE), false],
+            'PRICE' => [new Field('Test', FieldType::PRICE), false],
+            'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING), false],
+            'STRING' => [new Field('Test', FieldType::STRING), false],
+            'TEXT' => [new Field('Test', FieldType::TEXT), false],
+            'TIME' => [new Field('Test', FieldType::TIME), false],
+            'URL' => [new Field('Test', FieldType::URL), false],
+            'UUID' => [new Field('Test', FieldType::UUID), false],
+            'UNKNOWN' => [new Field('Test', 'Unknown'), false],
+            'User' => [new Field('Test', 'User'), true],
+            'UserStats' => [new Field('Test', 'UserStats'), true],
+            'Metadata' => [new Field('Test', 'Metadata'), true],
         ];
     }
 
     /**
      * @dataProvider oneToOneTestProvider
+     *
      * @param mixed $obj
-     * @param bool $expectedValue
      */
     public function testOneToOneTest($obj, bool $expectedValue)
     {
@@ -1178,8 +1194,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider oneToManyTestProvider
+     *
      * @param mixed $obj
-     * @param bool $expectedValue
      */
     public function testOneToManyTest($obj, bool $expectedValue)
     {
@@ -1214,8 +1230,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider manyToOneTestProvider
+     *
      * @param mixed $obj
-     * @param bool $expectedValue
      */
     public function testManyToOneTest($obj, bool $expectedValue)
     {
@@ -1250,8 +1266,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider manyToManyTestProvider
+     *
      * @param mixed $obj
-     * @param bool $expectedValue
      */
     public function testManyToManyTest($obj, bool $expectedValue)
     {

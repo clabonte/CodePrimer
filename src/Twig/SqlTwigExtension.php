@@ -1,6 +1,5 @@
 <?php
 
-
 namespace CodePrimer\Twig;
 
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
@@ -19,8 +18,7 @@ use Twig\TwigFunction;
 use Twig\TwigTest;
 
 /**
- * Class SqlTwigExtension
- * @package CodePrimer\Twig
+ * Class SqlTwigExtension.
  */
 class SqlTwigExtension extends LanguageTwigExtension
 {
@@ -76,9 +74,7 @@ class SqlTwigExtension extends LanguageTwigExtension
     }
 
     /**
-     * Returns the database name associated with a Package
-     * @param Package $package
-     * @return string
+     * Returns the database name associated with a Package.
      */
     public function databaseFilter(Package $package): string
     {
@@ -86,9 +82,9 @@ class SqlTwigExtension extends LanguageTwigExtension
     }
 
     /**
-     * Returns the table name associated with an Entity or a RelationshipSide
+     * Returns the table name associated with an Entity or a RelationshipSide.
+     *
      * @param $obj
-     * @return string
      */
     public function tableFilter($obj): string
     {
@@ -97,13 +93,11 @@ class SqlTwigExtension extends LanguageTwigExtension
         } elseif ($obj instanceof RelationshipSide) {
             return $this->databaseAdapter->getRelationTableName($obj);
         }
-        throw new RuntimeException("Table names can only generated for Entity or RelationshipSide instances");
+        throw new RuntimeException('Table names can only generated for Entity or RelationshipSide instances');
     }
 
     /**
-     * Returns the audit table name associated with an Entity
-     * @param Entity $entity
-     * @return string
+     * Returns the audit table name associated with an Entity.
      */
     public function auditTableFilter(Entity $entity): string
     {
@@ -111,9 +105,9 @@ class SqlTwigExtension extends LanguageTwigExtension
     }
 
     /**
-     * Returns the column name associated with a Field
+     * Returns the column name associated with a Field.
+     *
      * @param $obj
-     * @return string
      */
     public function columnFilter($obj): string
     {
@@ -126,15 +120,15 @@ class SqlTwigExtension extends LanguageTwigExtension
             foreach ($obj->getFields() as $field) {
                 $columns[] = $this->databaseAdapter->getColumnName($field);
             }
+
             return implode(',', $columns);
         }
-        throw new RuntimeException("Column names can only generated for Field, Entity or Index instances. Received: " . get_class($obj));
+        throw new RuntimeException('Column names can only generated for Field, Entity or Index instances. Received: '.get_class($obj));
     }
 
     /**
-     * Returns the name to use as a foreign key for a given relationship side
-     * @param RelationshipSide $obj
-     * @return string
+     * Returns the name to use as a foreign key for a given relationship side.
+     *
      * @throws Exception If the Relationship is either a Many-To-Many or the left side of a One-To-Many
      */
     public function foreignKeyFilter(RelationshipSide $obj): string
@@ -145,15 +139,13 @@ class SqlTwigExtension extends LanguageTwigExtension
 
         // Format: fk_[referencing table name]_[referenced table name](_[referencing field name])
         $remoteSide = $obj->getRemoteSide();
-        $result = 'fk_' . $this->tableFilter($obj->getEntity()) . '_' . $this->tableFilter($remoteSide->getEntity()) . '_' . $this->columnFilter($obj->getField());
+        $result = 'fk_'.$this->tableFilter($obj->getEntity()).'_'.$this->tableFilter($remoteSide->getEntity()).'_'.$this->columnFilter($obj->getField());
 
         return $result;
     }
 
     /**
-     * Returns the user name to use for connecting to the database based on a given Package
-     * @param Package $package
-     * @return string
+     * Returns the user name to use for connecting to the database based on a given Package.
      */
     public function userFilter(Package $package): string
     {
@@ -165,9 +157,7 @@ class SqlTwigExtension extends LanguageTwigExtension
     }
 
     /**
-     * Checks if a relationship side requires a foreign key
-     * @param RelationshipSide $obj
-     * @return bool
+     * Checks if a relationship side requires a foreign key.
      */
     public function foreignKeyTest(RelationshipSide $obj): bool
     {
@@ -177,7 +167,7 @@ class SqlTwigExtension extends LanguageTwigExtension
     /**
      * Retrieves the list of fields from an entity that must be stored in a relational database table associated with
      * this entity.
-     * @param Entity $entity
+     *
      * @return Field[]
      */
     public function databaseFieldsFunction(Entity $entity): array
@@ -188,8 +178,7 @@ class SqlTwigExtension extends LanguageTwigExtension
     /**
      * Retrieves the list of fields from an entity that should audited in a relational database table associated with
      * this entity.
-     * @param Entity $entity
-     * @param bool $includeId
+     *
      * @return Field[]
      */
     public function auditedFieldsFunction(Entity $entity, bool $includeId = true): array
@@ -198,8 +187,8 @@ class SqlTwigExtension extends LanguageTwigExtension
     }
 
     /**
-     * Retrieves the list of indexes that are associated with an entity
-     * @param Entity $entity
+     * Retrieves the list of indexes that are associated with an entity.
+     *
      * @return Index[]
      */
     public function indexesFunction(Entity $entity): array

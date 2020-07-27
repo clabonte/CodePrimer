@@ -76,7 +76,7 @@ class EntityTest extends TestCase
 
         $fields = [
             new Field('TestField4', FieldType::STRING),
-            new Field('TestField5', FieldType::STRING)
+            new Field('TestField5', FieldType::STRING),
         ];
 
         $this->entity->setFields($fields);

@@ -10,10 +10,8 @@ use Doctrine\Common\Inflector\Inflector;
 class ProjectScriptBuilder implements ArtifactBuilder
 {
     /**
-     * @param Package $package
-     * @param Template $template
-     * @param TemplateRenderer $renderer
      * @return string[]
+     *
      * @throws \Exception
      */
     public function build(Package $package, Template $template, TemplateRenderer $renderer): array
@@ -21,13 +19,13 @@ class ProjectScriptBuilder implements ArtifactBuilder
         $artifact = $template->getArtifact();
         $filename = strtolower($artifact->getVariant());
 
-        $project = array();
+        $project = [];
 
         $project['name'] = Inflector::classify($package->getName());
 
         $context = [
             'project' => $project,
-            'package' => $package
+            'package' => $package,
         ];
 
         $file = $renderer->renderToFile($filename, $package, $template, $context);

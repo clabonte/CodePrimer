@@ -32,7 +32,6 @@ class PackageTest extends TestCase
     }
 
     /**
-     * @param string $namespace
      * @param $expected
      * @dataProvider namespaceProvider
      */
@@ -58,7 +57,6 @@ class PackageTest extends TestCase
             'Trim slash' => ['/Test/Namespace/', '/Test/Namespace'],
         ];
     }
-
 
     public function testAddEntity()
     {
@@ -183,7 +181,7 @@ class PackageTest extends TestCase
 
         $events = [
             new Event('TestEvent4', 'test.event.4', 'description4'),
-            new Event('TestEvent5', 'test.event.5', 'description5')
+            new Event('TestEvent5', 'test.event.5', 'description5'),
         ];
 
         $this->package->setEvents($events);
@@ -243,7 +241,7 @@ class PackageTest extends TestCase
 
         $sets = [
             new Set('TestSet4', 'description4'),
-            new Set('TestSet5', 'description5')
+            new Set('TestSet5', 'description5'),
         ];
 
         $this->package->setSets($sets);
@@ -264,5 +262,4 @@ class PackageTest extends TestCase
         self::assertNull($this->package->getSet('TestSet2'));
         self::assertNull($this->package->getSet('TestSet3'));
     }
-
 }

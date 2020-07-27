@@ -1,6 +1,5 @@
 <?php
 
-
 namespace CodePrimer\Twig;
 
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
@@ -14,7 +13,6 @@ use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
 use CodePrimer\Model\Relationship;
 use CodePrimer\Model\RelationshipSide;
-use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 use Twig\TwigTest;
 
@@ -37,7 +35,6 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
         $this->databaseAdapter = new RelationalDatabaseAdapter();
     }
 
-
     public function getFunctions(): array
     {
         $functions = parent::getFunctions();
@@ -57,9 +54,9 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
     }
 
     /**
-     * Checks if the object passed requires the use of a Doctrine Collection
+     * Checks if the object passed requires the use of a Doctrine Collection.
+     *
      * @param $obj
-     * @return bool
      */
     public function collectionUsedTest($obj): bool
     {
@@ -69,16 +66,16 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
             $relations = $obj->getRelations();
             foreach ($relations as $relation) {
                 $type = $relation->getRelationship()->getType();
-                if ($type == Relationship::MANY_TO_MANY) {
+                if (Relationship::MANY_TO_MANY == $type) {
                     $result = true;
                     break;
-                } elseif ($type == Relationship::ONE_TO_MANY && $relation->getSide() == RelationshipSide::LEFT) {
+                } elseif (Relationship::ONE_TO_MANY == $type && RelationshipSide::LEFT == $relation->getSide()) {
                     $result = true;
                     break;
                 }
             }
         } elseif ($obj instanceof Field) {
-            if ($obj->isList() && $obj->getRelation() !== null) {
+            if ($obj->isList() && null !== $obj->getRelation()) {
                 $result = true;
             }
         }
@@ -87,9 +84,11 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
     }
 
     /**
-     * Returns the list of Doctrine ORM annotations to use for a given object
+     * Returns the list of Doctrine ORM annotations to use for a given object.
+     *
      * @param array $context
      * @param $obj
+     *
      * @return string[]
      */
     public function annotationsFunction($context, $obj): array
@@ -106,9 +105,8 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
     }
 
     /**
-     * Returns the list of Doctrine ORM annotations to use for a given Field
-     * @param array $context
-     * @param Field $field
+     * Returns the list of Doctrine ORM annotations to use for a given Field.
+     *
      * @return string[]
      */
     private function getFieldAnnotations(array $context, Field $field): array
@@ -196,33 +194,33 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
 
             switch ($relation->getRelationship()->getType()) {
                 case Relationship::ONE_TO_ONE:
-                    $annotation = '@ORM\OneToOne(targetEntity="'.$this->namespaceFilter($context, $package).'\\'. $this->getName($remoteEntity). '"';
+                    $annotation = '@ORM\OneToOne(targetEntity="'.$this->namespaceFilter($context, $package).'\\'.$this->getName($remoteEntity).'"';
                     // If this is a unidirectional link, cascade the operations
                     if (!isset($remoteField)) {
                         $annotation .= ', cascade={"persist", "remove"}';
                     } else {
-                        $annotation .= ', inversedBy="'. $remoteField->getName().'"';
+                        $annotation .= ', inversedBy="'.$remoteField->getName().'"';
                     }
                     $annotation .= ')';
                     $annotations[] = $annotation;
                     break;
                 case Relationship::ONE_TO_MANY:
-                    if ($side == RelationshipSide::LEFT) {
-                        $annotation = '@ORM\OneToMany(targetEntity="'.$this->namespaceFilter($context, $package).'\\'. $this->getName($remoteEntity). '"';
-                        $annotation .= ', mappedBy="'. $remoteField->getName().'", cascade={"persist", "remove", "merge"}, orphanRemoval=true';
+                    if (RelationshipSide::LEFT == $side) {
+                        $annotation = '@ORM\OneToMany(targetEntity="'.$this->namespaceFilter($context, $package).'\\'.$this->getName($remoteEntity).'"';
+                        $annotation .= ', mappedBy="'.$remoteField->getName().'", cascade={"persist", "remove", "merge"}, orphanRemoval=true';
                     } else {
-                        $annotation = '@ORM\ManyToOne(targetEntity="'.$this->namespaceFilter($context, $package).'\\'. $this->getName($remoteEntity). '"';
-                        $annotation .= ', inversedBy="'. $remoteField->getName().'"';
+                        $annotation = '@ORM\ManyToOne(targetEntity="'.$this->namespaceFilter($context, $package).'\\'.$this->getName($remoteEntity).'"';
+                        $annotation .= ', inversedBy="'.$remoteField->getName().'"';
                     }
                     $annotation .= ')';
                     $annotations[] = $annotation;
                     break;
                 case Relationship::MANY_TO_MANY:
-                    $annotation = '@ORM\ManyToMany(targetEntity="'.$this->namespaceFilter($context, $package).'\\'. $this->getName($remoteEntity). '"';
-                    if ($side == RelationshipSide::LEFT) {
-                        $annotation .= ', mappedBy="'. $remoteField->getName().'"';
+                    $annotation = '@ORM\ManyToMany(targetEntity="'.$this->namespaceFilter($context, $package).'\\'.$this->getName($remoteEntity).'"';
+                    if (RelationshipSide::LEFT == $side) {
+                        $annotation .= ', mappedBy="'.$remoteField->getName().'"';
                     } else {
-                        $annotation .= ', inversedBy="'. $remoteField->getName().'"';
+                        $annotation .= ', inversedBy="'.$remoteField->getName().'"';
                     }
                     $annotation .= ')';
                     $annotations[] = $annotation;
@@ -234,8 +232,8 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
     }
 
     /**
-     * Returns the list of Doctrine ORM annotations to use for a given Entity
-     * @param Entity $entity
+     * Returns the list of Doctrine ORM annotations to use for a given Entity.
+     *
      * @return string[]
      */
     private function getEntityAnnotations(Entity $entity): array
@@ -257,7 +255,7 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
                     $table .= ', ';
                 }
                 $table .= '@ORM\UniqueConstraint(name="'.$uniqueConstraint->getName().'", columns={'.$this->getEntityColumns($uniqueConstraint).'})';
-                $count++;
+                ++$count;
             }
             $table .= '}';
         }
@@ -271,20 +269,19 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
                     $table .= ', ';
                 }
                 $table .= '@ORM\Index(name="'.$index->getName().'", columns={'.$this->getIndexColumns($index).'})';
-                $count++;
+                ++$count;
             }
             $table .= '}';
         }
         $table .= ')';
 
         $annotations[] = $table;
+
         return $annotations;
     }
 
     /**
-     * Returns the list of columns (comma-separated) associated with a given constraint
-     * @param Constraint $uniqueConstraint
-     * @return string
+     * Returns the list of columns (comma-separated) associated with a given constraint.
      */
     private function getEntityColumns(Constraint $uniqueConstraint): string
     {
@@ -297,9 +294,7 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
     }
 
     /**
-     * Returns the list of columns (comma-separated) associated with a given index
-     * @param Index $index
-     * @return string
+     * Returns the list of columns (comma-separated) associated with a given index.
      */
     private function getIndexColumns(Index $index): string
     {
@@ -312,14 +307,12 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
     }
 
     /**
-     * @param array $context
      * @param Field|string $field
-     * @param bool $mandatory Whether this field is mandatory in the given context
-     * @return string
+     * @param bool         $mandatory Whether this field is mandatory in the given context
      */
     public function typeFilter(array $context, $field, bool $mandatory = false): string
     {
-        if ($field->isList() && $field->getRelation() !== null) {
+        if ($field->isList() && null !== $field->getRelation()) {
             return 'Collection';
         }
 
@@ -327,15 +320,13 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
     }
 
     /**
-     * @param array $context
      * @param Field|string $field
-     * @param bool $mandatory Whether this field is mandatory in the given context
-     * @return string
+     * @param bool         $mandatory Whether this field is mandatory in the given context
      */
     public function hintFilter(array $context, $field, bool $mandatory = false): string
     {
         $hint = parent::hintFilter($context, $field, $mandatory);
-        if ($field->isList() && $field->getRelation() !== null) {
+        if ($field->isList() && null !== $field->getRelation()) {
             $hint = 'Collection|'.$hint;
         }
 

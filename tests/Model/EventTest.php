@@ -52,7 +52,7 @@ class EventTest extends TestCase
 
         $fields = [
             new Field('TestField4', FieldType::STRING),
-            new Field('TestField5', FieldType::STRING)
+            new Field('TestField5', FieldType::STRING),
         ];
 
         $this->event->setFields($fields);

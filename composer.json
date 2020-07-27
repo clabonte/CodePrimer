@@ -41,7 +41,7 @@
         }
     },
     "scripts": {
-        "php-cs-fixer": "php-cs-fixer",
+        "php-cs-fixer": "php-cs-fixer fix",
         "phpunit": "vendor/bin/phpunit -c phpunit.xml.dist"
     }
 }

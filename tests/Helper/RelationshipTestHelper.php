@@ -1,8 +1,6 @@
 <?php
 
-
 namespace CodePrimer\Tests\Helper;
-
 
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Model\Entity;
@@ -11,7 +9,7 @@ use CodePrimer\Model\RelationshipSide;
 
 class RelationshipTestHelper
 {
-    /** @var Package  */
+    /** @var Package */
     private $package;
 
     /** @var Entity */
@@ -46,9 +44,6 @@ class RelationshipTestHelper
         $this->topic = $this->package->getEntity('Topic');
     }
 
-    /**
-     * @return \CodePrimer\Model\Package
-     */
     public function getPackage(): Package
     {
         return $this->package;
