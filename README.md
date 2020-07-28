@@ -1,6 +1,6 @@
 # CodePrimer
 ![build-shield]
-![coverage-shield]
+[![coverage-shield]][coverage-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 
@@ -92,6 +92,7 @@ This project uses the following license: [MIT][license-url]
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [build-shield]: https://img.shields.io/github/workflow/status/clabonte/codeprimer/Validate%20Master/master
 [coverage-shield]: https://img.shields.io/codecov/c/github/clabonte/codeprimer
+[coverage-url]: https://codecov.io/gh/clabonte/codeprimer
 [issues-shield]: https://img.shields.io/github/issues/clabonte/codeprimer
 [issues-url]: https://github.com/clabonte/codeprimer/issues
 [ideas-url]: https://github.com/clabonte/codeprimer/labels/idea
