@@ -38,7 +38,10 @@ jobs:
       if: steps.composer-cache.outputs.cache-hit != 'true'
       run: composer install --prefer-dist --no-progress --no-suggest
 
-    - name: PHPUnit tests
-      uses: php-actions/phpunit@v1
+    - name: PHPUnit tests with coverage
+      run: composer phpunit
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
       with:
-        config: phpunit.xml.dist
+        file: ./logs/clover.xml
