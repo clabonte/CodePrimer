@@ -1,9 +1,7 @@
-name: PHP Composer
+name: Validate Master
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
     branches: [ master ]
 
 jobs:
@@ -41,15 +39,6 @@ jobs:
       run: composer install --prefer-dist --no-progress --no-suggest
 
     - name: PHPUnit tests
-      run: composer phpunit
-#      uses: php-actions/phpunit@v1
-#      with:
-#        config: phpunit.xml.dist
-
-    - name: Monitor code coverage
-      uses: slavcodev/coverage-monitor-action@1.1.0
+      uses: php-actions/phpunit@v1
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        clover_file: "logs/clover.xml"
-        threshold_alert: 90
-        threshold_warning: 95
+        config: phpunit.xml.dist

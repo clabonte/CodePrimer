@@ -1,0 +1,53 @@
+name: Validate PR
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  php-cs-fixer:
+    name: PHP-CS-Fixer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: PHP-CS-Fixer
+        uses: docker://oskarstark/php-cs-fixer-ga
+        with:
+          args: --dry-run --diff
+
+  build:
+    runs-on: ubuntu-latest
+    needs: php-cs-fixer
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Install dependencies
+      if: steps.composer-cache.outputs.cache-hit != 'true'
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: PHPUnit tests
+      run: composer phpunit
+#      uses: php-actions/phpunit@v1
+#      with:
+#        config: phpunit.xml.dist
+
+    - name: Monitor code coverage
+      uses: slavcodev/coverage-monitor-action@1.1.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        clover_file: "logs/clover.xml"
+        threshold_alert: 90
+        threshold_warning: 95
