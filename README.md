@@ -21,7 +21,7 @@ Thanks the **high flexibility** of its artifact generation engine, the project c
 ## Documentation
 In order to fully understand and leverage the capabilities offered by **CodePrimer**, you should refer to the following documents:
 - Concepts
-- Data Modeling
+- [CodePrimer Data Model](./doc/DataModel.md)
 - State Machine
 - Process Modeling
 
@@ -47,7 +47,9 @@ composer install
 TODO
 
 ## Roadmap
-See the [Product Roadmap][roadmap-url] or [open issues][issues-url] for a list of proposed features and known issues. 
+The high level roadmap and progress is available [here](https://github.com/clabonte/codeprimer/milestones?with_issues=no)
+
+To have a more detailed view on upcoming changes, please look at the [Product Roadmap][roadmap-url] or [open issues][issues-url] for a list of proposed features and known issues. 
 
 ## Contributing
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. 
