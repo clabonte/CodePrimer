@@ -41,9 +41,10 @@ jobs:
       run: composer install --prefer-dist --no-progress --no-suggest
 
     - name: PHPUnit tests
-      uses: php-actions/phpunit@v1
-      with:
-        config: phpunit.xml.dist
+      run: composer phpunit
+#      uses: php-actions/phpunit@v1
+#      with:
+#        config: phpunit.xml.dist
 
     - name: Monitor code coverage
       uses: slavcodev/coverage-monitor-action@1.1.0
