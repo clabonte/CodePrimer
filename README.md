@@ -16,13 +16,13 @@ It liberally borrows and integrates concepts and best practices that have been m
 
 The resulting architecture and implementation is not meant to please everyone but the underlying goal is to produce top quality software that is meeting the business objectives for what it is being built and be easily understood, maintained and evolved by a software development team at a fraction of the time usually required to achieve production-grade software.. 
 
-Thanks the **high flexibility** of its artifact generation engine, the project can be easily tailored to suit any programming language or any architecture/framework chosen by the architect. 
+Thanks to the **high flexibility** of its artifact generation engine, the project can be easily tailored to suit any programming language or any architecture/framework chosen by the architect. 
 
 ## Documentation
 In order to fully understand and leverage the capabilities offered by **CodePrimer**, you should refer to the following documents:
-- Concepts
-- [Structure and Guidelines](./doc/StructureAndGuidelines.md)
-- [CodePrimer Data Model](./doc/DataModel.md)
+- [Concepts](doc/Concepts.md)
+- [Structure and Guidelines](doc/StructureAndGuidelines.md)
+- [CodePrimer Data Model](doc/DataModel.md)
 - State Machine
 - Process Modeling
 
