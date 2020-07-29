@@ -16,15 +16,15 @@ CodePrimer has an opinionated view on data model impacting how you should docume
 - **StateMachine**: The state machine defines the overall logic via a set of business operations and restrictions that must be enforced for this model.
 - **Auditable**: Whether changes to a model instance must be auditable from a business point of view.
 
-### Derived Artifacts
-The following artifacts can be derived from a Business Model:
+### Derived Models
+The following elements can be derived from a Business Model:
 - **Entity**: An entity is a subset of a business model meant to be manipulated by the persistence layer (e.g. database)
 - **Event**: An event is a subset of a business model meant to be exchanged between the various processing agents of the solution (e.g., worker, scheduled tasks). **An event must only be originated from a trusted component inside of our solution**. It must also **carry a ‘calling context’** to identify the source of the event in order to perform the necessary data validation and auditing imposed by a business process and ensure system integrity.
 - **Resource**: A resource is a subset of a business model meant to be exposed and consumed by external systems (e.g. via a REST API)
 - **External Resource**: An external resource is residing on an external system and can be consumed by a business process. It typically overlaps with parts of a business model but may also be a subset or a superset of a given business model
 
 ### Fields
-Fields are *units of data* associated with a `BusinessModel` or one of its artifacts.
+Fields are *units of data* associated with a `BusinessModel` or one of its derived models.
 
 A `Field` has the following attributes:
 - **name**: Uniquely identify the field in a given `BusinessModel`
