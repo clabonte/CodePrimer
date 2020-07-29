@@ -29,7 +29,7 @@ More details about CodePrimer's data model can be found [here](./DataModel.md).
 ## Template Generation Flow
 At a high level, generating artifacts using CodePrimer is illustrated below
 
- ![CodePrimer Template Generation Process](./images/CodePrimer-TemplateGenerationProcess.png)
+![CodePrimer Template Generation Process](./images/CodePrimer-TemplateGenerationProcess.png)
 
 **Phase 1**: Document Business Data Model
 1. Create the various `BusinessModel` objects to describe your own data model.
