@@ -21,12 +21,13 @@ Thanks the **high flexibility** of its artifact generation engine, the project c
 ## Documentation
 In order to fully understand and leverage the capabilities offered by **CodePrimer**, you should refer to the following documents:
 - Concepts
+- [Structure and Guidelines](./doc/StructureAndGuidelines.md)
 - [CodePrimer Data Model](./doc/DataModel.md)
 - State Machine
 - Process Modeling
 
 ## Getting Started
-To get a local copy up and running follow these simple example steps.
+To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 The installation instructions assume you already have the following:
