@@ -10,7 +10,7 @@ As such, it is meant to **prime** the software development process using simple,
 
 **CodePrimer** interprets this data model to **generate a set of artifacts (e.g. source code)** that are combined to **build a production-grade software solution following the architect's vision** to guide the development team to use his best practices.
  
-The project offers an opinionated micro service architecture to get started. The resulting solution is meant to be highly scalable, yet requiring very low maintenance by leveraging the best DevOps practices with a minimal technical team.
+The project offers an opinionated architecture, called [Business Bundle](doc/bundle/Overview.md) to get started. The resulting solution is meant to be highly scalable, yet requiring very low maintenance by leveraging the best DevOps practices with a minimal technical team.
 
 It liberally borrows and integrates concepts and best practices that have been made available over the years by several movements in the software development space, such as UML, Domain-Driven Design (DDD), agile, micro services and DevOps. 
 
@@ -22,9 +22,8 @@ Thanks to the **high flexibility** of its artifact generation engine, the projec
 In order to fully understand and leverage the capabilities offered by **CodePrimer**, you should refer to the following documents:
 - [Concepts](doc/Concepts.md)
 - [Structure and Guidelines](doc/StructureAndGuidelines.md)
-- [CodePrimer Data Model](doc/DataModel.md)
-- State Machine
-- Process Modeling
+- [CodePrimer Data Modeling](doc/DataModel.md)
+- [CodePrimer Process Modeling](doc/bundle/Overview.md)
 
 ## Getting Started
 To get a local copy up and running follow these simple steps.
