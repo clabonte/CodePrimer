@@ -7,9 +7,9 @@ To put you back in context, let's review the initial idea that triggered this pr
 While re-inventing the world is always very exhilarating, at some point, we need to make some decisions and get things started because, as the Chinese Proverb says it well:
 > Talk doesn't cook rice
  
-So, while your **marketing partner goes on to create some fancy UI to test the visual aspect and end user experience of the MVP**, someone has to figure out how to build the backend to support this wonderful initiative.
+So, while your **marketing partner goes on to create some fancy UI to test the visual aspect and end user experience of the MVP**, someone has to **figure out how to build the backend** to support this wonderful initiative.
 
-Given your *techie status*, no need to look around, this is clearly your job here...
+Given your *techie status*, no need to look around, **this is clearly your job here**...
 
 Let's see how CodePrimer can help you turn high level business requirements into a solid foundation required to build your business...
 
