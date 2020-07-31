@@ -11,7 +11,7 @@ So, while your **marketing partner goes on to create some fancy UI to test the v
 
 Given your *techie status*, no need to look around, **this is clearly your job here**...
 
-Let's see how CodePrimer can help you turn high level business requirements into a solid foundation required to build your business...
+Let's see how **CodePrimer can help** you turn high level business requirements into a **solid foundation required to build your business**...
 
 After the brainstorming session, the team's consensus can be summarized as below:
  
@@ -59,7 +59,7 @@ Since the purpose of **Channel** is to allow **Authors** to make money with thei
 
 Someone came up with a brilliant concept of creating an `Account` to allow **Authors** to track activities and how they make money.
 
-It was late in the day, so the `Account` has the following characteristics:
+It was late in the day, so the `Account` only has the following characteristics for now:
  - A *current balance* to track the outstanding amount to _**pay**_ to the **Author** in the next *pay date*.
  - `Payout`s are issued on the *last day of the month if the current balance at least* 20$.
  - A *lifetime earnings* to remind the **Author** about the money made so far.
