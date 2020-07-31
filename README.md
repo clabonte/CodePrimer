@@ -4,7 +4,7 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 
-**CodePrimer**’s primary objective is to **allow software architects, business analysts and senior developers to define the data model and related processing from a business point of view** so that it can be easily understood and manipulated by entrepreneurs and business managers before starting the software development process. 
+**CodePrimer**’s primary objective is to **allow software architects and senior developers to define the data model and related processing from a business point of view** so that it can be easily understood and manipulated by entrepreneurs, business managers and business analysts before starting the software development process. 
 
 As such, it is meant to **prime** the software development process using simple, easy to use and effective representations that can be objectively interpreted by business and techies willing to cooperate to create digital businesses.
 
@@ -52,7 +52,7 @@ The high level roadmap and progress is available [here](https://github.com/clabo
 To have a more detailed view on upcoming changes, please look at the [Product Roadmap][roadmap-url] or [open issues][issues-url] for a list of proposed features and known issues. 
 
 ## Contributing
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. 
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. 
 
 Any contributions you make are **greatly appreciated.** 
 

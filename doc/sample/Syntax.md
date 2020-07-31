@@ -6,7 +6,7 @@ We use the following syntax conventions in this document as we describe the appl
 - *Attribute*: refers to an element to take into consideration in our application design.
 
 
-**Next**: [High Level Requirements](Requirements.md)
+**Next**: [High Level Business Requirements](BusinessRequirements.md)
   
 ---
-Previous: [Sample Application](Index.md) | Next: [High Level Requirements](Requirements.md)
+Previous: [Sample Application](Index.md) | Next: [High Level Business Requirements](BusinessRequirements.md)
