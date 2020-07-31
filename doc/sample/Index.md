@@ -5,7 +5,7 @@ How about a nice little *Hello World* ??
 
 Sorry, no *Hello World* here... This is **way too simple** given CodePrimer's complexity.
 
-In order to fully understand how CodePrimer can **really help software architects, business analysts and senior developers**, we need to understand their reality and mimic a real-life scenario.
+In order to fully understand how CodePrimer can **really help software architects and senior developers**, we need to understand their reality and mimic a real-life scenario.
 
 ## Scenario
 Let's pretend you are teaming up with **business partners** and, together, you came up with a great application idea: 
@@ -61,7 +61,7 @@ The **following sections will explain how CodePrimer can help you** design the a
 
 ## Table of Contents
  - [Syntax Conventions](Syntax.md)
- - [High Level Requirements](Requirements.md)
+ - [High Level Business Requirements](BusinessRequirements.md)
  
  
 **Next**: [Syntax Conventions](Syntax.md)
