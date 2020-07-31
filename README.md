@@ -44,7 +44,7 @@ composer install
 ```
 
 ## Usage
-TODO
+In order to understand how to use CodePrimer, it is best to [look at a sample application](doc/sample/Index.md)
 
 ## Roadmap
 The high level roadmap and progress is available [here](https://github.com/clabonte/codeprimer/milestones?with_issues=no)
