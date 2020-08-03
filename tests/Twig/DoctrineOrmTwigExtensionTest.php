@@ -5,7 +5,7 @@ namespace CodePrimer\Tests\Twig;
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\Constraint;
-use CodePrimer\Model\Entity;
+use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
 use CodePrimer\Tests\Helper\TestHelper;
 use CodePrimer\Twig\DoctrineOrmTwigExtension;
@@ -44,9 +44,9 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
      *
      * @param string[] $expected
      */
-    public function testAnnotationsFunctionForEntityShouldPass(Entity $entity, array $expected)
+    public function testAnnotationsFunctionForEntityShouldPass(BusinessModel $businessModel, array $expected)
     {
-        $actual = $this->twigExtension->annotationsFunction($this->context, $entity);
+        $actual = $this->twigExtension->annotationsFunction($this->context, $businessModel);
 
         self::assertCount(count($expected), $actual);
 
@@ -66,14 +66,14 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
 
         return [
             'Entity without constraints' => [
-                new Entity('SampleEntity'),
+                new BusinessModel('SampleEntity'),
                 [
                     '@ORM\Entity(repositoryClass="App\Repository\SampleEntityRepository")',
                     '@ORM\Table(name="sample_entities")',
                 ],
             ],
             'Entity with 1 simple unique constraint' => [
-                (new Entity('SampleEntity'))
+                (new BusinessModel('SampleEntity'))
                     ->addField($field1)
                     ->addUniqueConstraint(new Constraint('uniqueName', Constraint::TYPE_UNIQUE, [$field1])),
                 [
@@ -82,7 +82,7 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
                 ],
             ],
             'Entity with 1 complex unique constraint' => [
-                (new Entity('SampleEntity'))
+                (new BusinessModel('SampleEntity'))
                     ->addField($field1)
                     ->addField($field2)
                     ->addUniqueConstraint(new Constraint('uniqueName', Constraint::TYPE_UNIQUE, [$field1, $field2])),
@@ -92,7 +92,7 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
                 ],
             ],
             'Entity with 2 simple unique constraints' => [
-                (new Entity('SampleEntity'))
+                (new BusinessModel('SampleEntity'))
                     ->addField($field1)
                     ->addField($field2)
                     ->addUniqueConstraint(new Constraint('uniqueName', Constraint::TYPE_UNIQUE, [$field1]))
@@ -103,7 +103,7 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
                 ],
             ],
             'Entity with 1 simple index' => [
-                (new Entity('SampleEntity'))
+                (new BusinessModel('SampleEntity'))
                     ->addField($index1),
                 [
                     '@ORM\Entity(repositoryClass="App\Repository\SampleEntityRepository")',
@@ -111,7 +111,7 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
                 ],
             ],
             'Entity with 2 simple indexes' => [
-                (new Entity('SampleEntity'))
+                (new BusinessModel('SampleEntity'))
                     ->addField($index1)
                     ->addField($index2),
                 [
@@ -120,7 +120,7 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
                 ],
             ],
             'Entity with 2 simple indexes and 2 unique constraints' => [
-                (new Entity('SampleEntity'))
+                (new BusinessModel('SampleEntity'))
                     ->addField($index1)
                     ->addField($index2)
                     ->addField($field1)
@@ -350,7 +350,7 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
     /**
      * @dataProvider collectionUsedProvider
      *
-     * @param Entity|Field $obj
+     * @param BusinessModel|Field $obj
      */
     public function testCollectionUsedShouldPass($obj, bool $expected)
     {

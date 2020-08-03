@@ -6,7 +6,7 @@ use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Database\Index;
-use CodePrimer\Model\Entity;
+use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
 use CodePrimer\Model\RelationshipSide;
@@ -166,20 +166,20 @@ class SqlTwigExtensionTest extends TwigExtensionTest
     /**
      * @dataProvider tableNameProvider
      */
-    public function testTableFilter(Entity $entity, string $expected)
+    public function testTableFilter(BusinessModel $businessModel, string $expected)
     {
-        self::assertEquals($expected, $this->twigExtension->tableFilter($entity));
+        self::assertEquals($expected, $this->twigExtension->tableFilter($businessModel));
     }
 
     public function tableNameProvider()
     {
         return [
-            'Name' => [new Entity('Name'), 'names'],
-            'sampleName' => [new Entity('sampleName'), 'sample_names'],
-            'SampleName' => [new Entity('SampleName'), 'sample_names'],
-            'Sample Name' => [new Entity('Sample Name'), 'sample_names'],
-            'Samples Names' => [new Entity('Samples Names'), 'samples_names'],
-            'Sample-Name' => [new Entity('Sample-Name'), 'sample_names'],
+            'Name' => [new BusinessModel('Name'), 'names'],
+            'sampleName' => [new BusinessModel('sampleName'), 'sample_names'],
+            'SampleName' => [new BusinessModel('SampleName'), 'sample_names'],
+            'Sample Name' => [new BusinessModel('Sample Name'), 'sample_names'],
+            'Samples Names' => [new BusinessModel('Samples Names'), 'samples_names'],
+            'Sample-Name' => [new BusinessModel('Sample-Name'), 'sample_names'],
         ];
     }
 
@@ -270,20 +270,20 @@ class SqlTwigExtensionTest extends TwigExtensionTest
     /**
      * @dataProvider auditTableNameProvider
      */
-    public function testAuditTableFilter(Entity $entity, string $expected)
+    public function testAuditTableFilter(BusinessModel $businessModel, string $expected)
     {
-        self::assertEquals($expected, $this->twigExtension->auditTableFilter($entity));
+        self::assertEquals($expected, $this->twigExtension->auditTableFilter($businessModel));
     }
 
     public function auditTableNameProvider()
     {
         return [
-            'Name' => [new Entity('Name'), 'names_logs'],
-            'sampleName' => [new Entity('sampleName'), 'sample_names_logs'],
-            'SampleName' => [new Entity('SampleName'), 'sample_names_logs'],
-            'Sample Name' => [new Entity('Sample Name'), 'sample_names_logs'],
-            'Samples Names' => [new Entity('Samples Names'), 'samples_names_logs'],
-            'Sample-Name' => [new Entity('Sample-Name'), 'sample_names_logs'],
+            'Name' => [new BusinessModel('Name'), 'names_logs'],
+            'sampleName' => [new BusinessModel('sampleName'), 'sample_names_logs'],
+            'SampleName' => [new BusinessModel('SampleName'), 'sample_names_logs'],
+            'Sample Name' => [new BusinessModel('Sample Name'), 'sample_names_logs'],
+            'Samples Names' => [new BusinessModel('Samples Names'), 'samples_names_logs'],
+            'Sample-Name' => [new BusinessModel('Sample-Name'), 'sample_names_logs'],
         ];
     }
 
@@ -321,20 +321,20 @@ class SqlTwigExtensionTest extends TwigExtensionTest
     /**
      * @dataProvider entityColumnNameProvider
      */
-    public function testEntityColumnFilter(Entity $entity, string $expected)
+    public function testEntityColumnFilter(BusinessModel $businessModel, string $expected)
     {
-        self::assertEquals($expected, $this->twigExtension->columnFilter($entity));
+        self::assertEquals($expected, $this->twigExtension->columnFilter($businessModel));
     }
 
     public function entityColumnNameProvider()
     {
         return [
-            'Name' => [new Entity('Name'), 'name_id'],
-            'sampleName' => [new Entity('sampleName'), 'sample_name_id'],
-            'SampleName' => [new Entity('SampleName'), 'sample_name_id'],
-            'Sample Name' => [new Entity('Sample Name'), 'sample_name_id'],
-            'Samples Names' => [new Entity('Samples Names'), 'samples_names_id'],
-            'Sample-Name' => [new Entity('Sample-Name'), 'sample_name_id'],
+            'Name' => [new BusinessModel('Name'), 'name_id'],
+            'sampleName' => [new BusinessModel('sampleName'), 'sample_name_id'],
+            'SampleName' => [new BusinessModel('SampleName'), 'sample_name_id'],
+            'Sample Name' => [new BusinessModel('Sample Name'), 'sample_name_id'],
+            'Samples Names' => [new BusinessModel('Samples Names'), 'samples_names_id'],
+            'Sample-Name' => [new BusinessModel('Sample-Name'), 'sample_name_id'],
         ];
     }
 
@@ -397,9 +397,9 @@ class SqlTwigExtensionTest extends TwigExtensionTest
      *
      * @param Field[] $expectedFields
      */
-    public function testDatabaseFieldsFunction(Entity $entity, array $expectedFields)
+    public function testDatabaseFieldsFunction(BusinessModel $businessModel, array $expectedFields)
     {
-        $fields = $this->twigExtension->databaseFieldsFunction($entity);
+        $fields = $this->twigExtension->databaseFieldsFunction($businessModel);
         self::assertCount(count($expectedFields), $fields);
         foreach ($expectedFields as $field) {
             self::assertContains($field, $fields);
@@ -484,9 +484,9 @@ class SqlTwigExtensionTest extends TwigExtensionTest
      *
      * @param Field[] $expectedFields
      */
-    public function testAuditedFieldsFunction(Entity $entity, bool $includeId, array $expectedFields)
+    public function testAuditedFieldsFunction(BusinessModel $businessModel, bool $includeId, array $expectedFields)
     {
-        $fields = $this->twigExtension->auditedFieldsFunction($entity, $includeId);
+        $fields = $this->twigExtension->auditedFieldsFunction($businessModel, $includeId);
         self::assertCount(count($expectedFields), $fields);
         foreach ($expectedFields as $field) {
             self::assertContains($field, $fields);
@@ -549,9 +549,9 @@ class SqlTwigExtensionTest extends TwigExtensionTest
      *
      * @param Index[] $expected
      */
-    public function testIndexesFunction(Entity $entity, array $expected)
+    public function testIndexesFunction(BusinessModel $businessModel, array $expected)
     {
-        $actual = $this->twigExtension->indexesFunction($entity);
+        $actual = $this->twigExtension->indexesFunction($businessModel);
 
         self::assertCount(count($expected), $actual);
         foreach ($expected as $index) {
@@ -572,13 +572,13 @@ class SqlTwigExtensionTest extends TwigExtensionTest
 
         return [
             'no index' => [
-                (new Entity('SampleEntity'))
+                (new BusinessModel('SampleEntity'))
                     ->addField($field1)
                     ->addUniqueConstraint(new Constraint('uniqueName', Constraint::TYPE_UNIQUE, [$field1])),
                 [],
             ],
             'one searchable field' => [
-                (new Entity('SampleEntity'))
+                (new BusinessModel('SampleEntity'))
                     ->addField($index1),
                 [
                     (new Index('first_name_idx', [$index1]))
@@ -586,7 +586,7 @@ class SqlTwigExtensionTest extends TwigExtensionTest
                 ],
             ],
             'two searchable fields' => [
-                (new Entity('SampleEntity'))
+                (new BusinessModel('SampleEntity'))
                     ->addField($index1)
                     ->addField($index2),
                 [

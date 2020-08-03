@@ -8,7 +8,7 @@ use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Database\Index;
-use CodePrimer\Model\Entity;
+use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
 use CodePrimer\Model\Relationship;
@@ -62,7 +62,7 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
     {
         $result = false;
 
-        if ($obj instanceof Entity) {
+        if ($obj instanceof BusinessModel) {
             $relations = $obj->getRelations();
             foreach ($relations as $relation) {
                 $type = $relation->getRelationship()->getType();
@@ -95,7 +95,7 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
     {
         $result = [];
 
-        if ($obj instanceof Entity) {
+        if ($obj instanceof BusinessModel) {
             $result = $this->getEntityAnnotations($obj);
         } elseif ($obj instanceof Field) {
             $result = $this->getFieldAnnotations($context, $obj);
@@ -232,21 +232,21 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
     }
 
     /**
-     * Returns the list of Doctrine ORM annotations to use for a given Entity.
+     * Returns the list of Doctrine ORM annotations to use for a given BusinessModel.
      *
      * @return string[]
      */
-    private function getEntityAnnotations(Entity $entity): array
+    private function getEntityAnnotations(BusinessModel $businessModel): array
     {
         $annotations = [];
 
         // Build the entity annotation
-        $annotations[] = '@ORM\Entity(repositoryClass="App\Repository\\'.$this->entityHelper->getRepositoryClass($entity).'")';
+        $annotations[] = '@ORM\Entity(repositoryClass="App\Repository\\'.$this->entityHelper->getRepositoryClass($businessModel).'")';
 
         // Build the table annotation
-        $table = '@ORM\Table(name="'.$this->databaseAdapter->getTableName($entity).'"';
+        $table = '@ORM\Table(name="'.$this->databaseAdapter->getTableName($businessModel).'"';
         // Add unique constraints
-        $uniqueConstraints = $entity->getUniqueConstraints();
+        $uniqueConstraints = $businessModel->getUniqueConstraints();
         if (!empty($uniqueConstraints)) {
             $table .= ', uniqueConstraints={';
             $count = 0;
@@ -260,7 +260,7 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
             $table .= '}';
         }
         // Add indexes
-        $indexes = $this->databaseAdapter->getIndexes($entity);
+        $indexes = $this->databaseAdapter->getIndexes($businessModel);
         if (!empty($indexes)) {
             $table .= ', indexes={';
             $count = 0;

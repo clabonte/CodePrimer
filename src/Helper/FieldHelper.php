@@ -134,14 +134,14 @@ class FieldHelper
     }
 
     /**
-     * Checks if a field represents a known Entity in a given package.
+     * Checks if a field represents a known BusinessModel in a given package.
      */
     public function isEntity(Field $field, Package $package): bool
     {
         $result = false;
 
-        $entity = $package->getEntity($field->getType());
-        if (isset($entity)) {
+        $businessModel = $package->getEntity($field->getType());
+        if (isset($businessModel)) {
             $result = true;
         }
 

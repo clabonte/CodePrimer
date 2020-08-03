@@ -3,7 +3,7 @@
 namespace CodePrimer\Tests\Model;
 
 use CodePrimer\Helper\FieldType;
-use CodePrimer\Model\Entity;
+use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Event;
 use CodePrimer\Model\Field;
 use PHPUnit\Framework\TestCase;
@@ -30,15 +30,15 @@ class EventTest extends TestCase
             ->setName('NewName')
             ->setCode('new.code')
             ->setDescription('New Description')
-            ->setEntity(new Entity('Test Entity'));
+            ->setEntity(new BusinessModel('Test Entity'));
 
         self::assertEquals('NewName', $this->event->getName());
         self::assertEquals('new.code', $this->event->getCode());
         self::assertEquals('New Description', $this->event->getDescription());
 
-        $entity = $this->event->getEntity();
-        self::assertNotNull($entity);
-        self::assertEquals('Test Entity', $entity->getName());
+        $businessModel = $this->event->getEntity();
+        self::assertNotNull($businessModel);
+        self::assertEquals('Test Entity', $businessModel->getName());
     }
 
     public function testSetFields()

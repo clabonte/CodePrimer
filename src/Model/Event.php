@@ -19,8 +19,8 @@ class Event
     /** @var string */
     private $code;
 
-    /** @var Entity|null The entity to which this event is associated */
-    private $entity;
+    /** @var BusinessModel|null The entity to which this event is associated */
+    private $businessModel;
 
     /** @var Field[] */
     private $fields = [];
@@ -28,12 +28,12 @@ class Event
     /**
      * EventEntity constructor.
      */
-    public function __construct(string $name, string $code, string $description = '', ?Entity $entity = null)
+    public function __construct(string $name, string $code, string $description = '', ?BusinessModel $businessModel = null)
     {
         $this->name = $name;
         $this->description = $description;
         $this->code = $code;
-        $this->entity = $entity;
+        $this->businessModel = $businessModel;
     }
 
     public function getName(): string
@@ -82,19 +82,19 @@ class Event
     }
 
     /**
-     * @return Entity\null
+     * @return BusinessModel\null
      */
-    public function getEntity(): ?Entity
+    public function getEntity(): ?BusinessModel
     {
-        return $this->entity;
+        return $this->businessModel;
     }
 
     /**
      * @return Event
      */
-    public function setEntity(Entity $entity): self
+    public function setEntity(BusinessModel $businessModel): self
     {
-        $this->entity = $entity;
+        $this->businessModel = $businessModel;
 
         return $this;
     }

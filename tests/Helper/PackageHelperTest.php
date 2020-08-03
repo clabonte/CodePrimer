@@ -29,9 +29,9 @@ class PackageHelperTest extends TestCase
     public function testBuildRelationshipsShouldPass()
     {
         // Make sure there is no relationship before building them
-        foreach ($this->package->getEntities() as $entity) {
-            foreach ($entity->getFields() as $field) {
-                self::assertNull($field->getRelation(), 'Unexpected relation found for field '.$field->getName().' in entity '.$entity->getName());
+        foreach ($this->package->getEntities() as $businessModel) {
+            foreach ($businessModel->getFields() as $field) {
+                self::assertNull($field->getRelation(), 'Unexpected relation found for field '.$field->getName().' in entity '.$businessModel->getName());
             }
         }
 
@@ -39,12 +39,12 @@ class PackageHelperTest extends TestCase
 
         // Make sure it has only created relations on the right set of fields
         $fieldHelper = new FieldHelper();
-        foreach ($this->package->getEntities() as $entity) {
-            foreach ($entity->getFields() as $field) {
+        foreach ($this->package->getEntities() as $businessModel) {
+            foreach ($businessModel->getFields() as $field) {
                 if ($fieldHelper->isEntity($field, $this->package)) {
-                    self::assertNotNull($field->getRelation(), 'Missing relation for field '.$field->getName().' in entity '.$entity->getName());
+                    self::assertNotNull($field->getRelation(), 'Missing relation for field '.$field->getName().' in entity '.$businessModel->getName());
                 } else {
-                    self::assertNull($field->getRelation(), 'Unexpected relation found for field '.$field->getName().' in entity '.$entity->getName());
+                    self::assertNull($field->getRelation(), 'Unexpected relation found for field '.$field->getName().' in entity '.$businessModel->getName());
                 }
             }
         }

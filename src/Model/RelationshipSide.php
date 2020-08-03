@@ -10,8 +10,8 @@ class RelationshipSide
     /** @var string|null */
     private $side = null;
 
-    /** @var Entity */
-    private $entity;
+    /** @var BusinessModel */
+    private $businessModel;
 
     /** @var Field|null */
     private $field;
@@ -24,9 +24,9 @@ class RelationshipSide
      *
      * @param string $side
      */
-    public function __construct(Entity $entity, Field $field = null)
+    public function __construct(BusinessModel $businessModel, Field $field = null)
     {
-        $this->entity = $entity;
+        $this->businessModel = $businessModel;
         $this->setField($field);
     }
 
@@ -59,9 +59,9 @@ class RelationshipSide
         return false;
     }
 
-    public function getEntity(): Entity
+    public function getEntity(): BusinessModel
     {
-        return $this->entity;
+        return $this->businessModel;
     }
 
     public function getField(): ?Field

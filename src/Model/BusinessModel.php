@@ -10,7 +10,7 @@ namespace CodePrimer\Model;
 
 use CodePrimer\Helper\FieldHelper;
 
-class Entity
+class BusinessModel
 {
     /** @var string */
     private $name;
@@ -45,7 +45,7 @@ class Entity
     }
 
     /**
-     * @return Entity
+     * @return BusinessModel
      */
     public function setName(string $name): self
     {
@@ -60,7 +60,7 @@ class Entity
     }
 
     /**
-     * @return Entity
+     * @return BusinessModel
      */
     public function setDescription(string $description): self
     {
@@ -74,7 +74,7 @@ class Entity
         return $this->audited;
     }
 
-    public function setAudited(bool $audited): Entity
+    public function setAudited(bool $audited): BusinessModel
     {
         $this->audited = $audited;
 
@@ -89,7 +89,7 @@ class Entity
     /**
      * @param ?StateMachine $stateMachine
      *
-     * @return Entity
+     * @return BusinessModel
      */
     public function setStateMachine(?StateMachine $stateMachine): self
     {
@@ -109,7 +109,7 @@ class Entity
     /**
      * @param Field[] $fields
      *
-     * @return Entity
+     * @return BusinessModel
      */
     public function setFields(array $fields): self
     {
@@ -122,7 +122,7 @@ class Entity
     }
 
     /**
-     * @return Entity
+     * @return BusinessModel
      */
     public function addField(Field $field): self
     {
@@ -240,7 +240,7 @@ class Entity
     /**
      * @param Constraint[] $uniqueConstraints
      *
-     * @return Entity
+     * @return BusinessModel
      */
     public function setUniqueConstraints(array $uniqueConstraints): self
     {
@@ -254,7 +254,7 @@ class Entity
     }
 
     /**
-     * @return Entity
+     * @return BusinessModel
      */
     public function addUniqueConstraint(Constraint $constraint): self
     {

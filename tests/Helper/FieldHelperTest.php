@@ -4,7 +4,7 @@ namespace CodePrimer\Tests\Helper;
 
 use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Helper\FieldType;
-use CodePrimer\Model\Entity;
+use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
 use PHPUnit\Framework\TestCase;
@@ -508,8 +508,8 @@ class FieldHelperTest extends TestCase
     {
         $package = new Package('namespace', 'name');
         $package
-            ->addEntity(new Entity('TestData1', 'description1'))
-            ->addEntity(new Entity('TestData4', 'description4'));
+            ->addEntity(new BusinessModel('TestData1', 'description1'))
+            ->addEntity(new BusinessModel('TestData4', 'description4'));
 
         self::assertEquals($expected, $this->helper->isEntity($field, $package));
     }

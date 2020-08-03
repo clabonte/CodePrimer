@@ -5,7 +5,7 @@ namespace CodePrimer\Tests\Twig;
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\Database\Index;
-use CodePrimer\Model\Entity;
+use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
 use CodePrimer\Tests\Helper\TestHelper;
 use CodePrimer\Twig\MySqlTwigExtension;
@@ -108,7 +108,7 @@ class MySqlTwigExtensionTest extends TwigExtensionTest
             'ENTITY FIELD' => [new Field('Test', 'User', 'Test Description', true)],
             'OPTIONAL ENTITY FIELD' => [new Field('Test', 'User')],
             'NON FIELD' => ['Invalid'],
-            'ENTITY OBJECT' => [new Entity(('Test'))],
+            'ENTITY OBJECT' => [new BusinessModel(('Test'))],
             'MANY-TO-MANY FIELD' => [$user->getField('topics')],
             'ONE-TO-MANY FIELD' => [$user->getField('posts')],
         ];

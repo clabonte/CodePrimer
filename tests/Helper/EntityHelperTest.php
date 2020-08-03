@@ -4,7 +4,7 @@ namespace CodePrimer\Tests\Helper;
 
 use CodePrimer\Helper\EntityHelper;
 use CodePrimer\Helper\FieldType;
-use CodePrimer\Model\Entity;
+use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
 use PHPUnit\Framework\TestCase;
 
@@ -22,28 +22,28 @@ class EntityHelperTest extends TestCase
     /**
      * @dataProvider repositoryClassProvider
      */
-    public function testGetRepositoryClass(Entity $entity, string $expected)
+    public function testGetRepositoryClass(BusinessModel $businessModel, string $expected)
     {
-        self::assertEquals($expected, $this->entityHelper->getRepositoryClass($entity));
+        self::assertEquals($expected, $this->entityHelper->getRepositoryClass($businessModel));
     }
 
     public function repositoryClassProvider()
     {
         return [
-            'Sample Name' => [new Entity('Sample Name'), 'SampleNameRepository'],
-            'SampleName' => [new Entity('SampleName'), 'SampleNameRepository'],
-            'SampleNames' => [new Entity('SampleNames'), 'SampleNamesRepository'],
-            'Sample Names' => [new Entity('Sample Names'), 'SampleNamesRepository'],
-            'Samples Names' => [new Entity('Samples Names'), 'SamplesNamesRepository'],
+            'Sample Name' => [new BusinessModel('Sample Name'), 'SampleNameRepository'],
+            'SampleName' => [new BusinessModel('SampleName'), 'SampleNameRepository'],
+            'SampleNames' => [new BusinessModel('SampleNames'), 'SampleNamesRepository'],
+            'Sample Names' => [new BusinessModel('Sample Names'), 'SampleNamesRepository'],
+            'Samples Names' => [new BusinessModel('Samples Names'), 'SamplesNamesRepository'],
         ];
     }
 
     /**
      * @dataProvider getEntityCreatedTimestampFieldProvider
      */
-    public function testGetEntityCreatedTimestampField(Entity $entity, ?Field $expected)
+    public function testGetEntityCreatedTimestampField(BusinessModel $businessModel, ?Field $expected)
     {
-        self::assertEquals($expected, $this->entityHelper->getEntityCreatedTimestampField($entity));
+        self::assertEquals($expected, $this->entityHelper->getEntityCreatedTimestampField($businessModel));
     }
 
     public function getEntityCreatedTimestampFieldProvider()
@@ -56,17 +56,17 @@ class EntityHelperTest extends TestCase
 
         return [
             'unmanaged created field' => [
-                (new Entity('Sample Entity'))
+                (new BusinessModel('Sample Entity'))
                     ->addField($unmanagedField),
                 null,
             ],
             'managed created field' => [
-                (new Entity('Sample Entity'))
+                (new BusinessModel('Sample Entity'))
                     ->addField($managedField),
                 $managedField,
             ],
             'managed updated field' => [
-                (new Entity('Sample Entity'))
+                (new BusinessModel('Sample Entity'))
                     ->addField($updatedField),
                 null,
             ],
@@ -76,9 +76,9 @@ class EntityHelperTest extends TestCase
     /**
      * @dataProvider getEntityUpdatedTimestampFieldProvider
      */
-    public function testGetEntityUpdatedTimestampField(Entity $entity, ?Field $expected)
+    public function testGetEntityUpdatedTimestampField(BusinessModel $businessModel, ?Field $expected)
     {
-        self::assertEquals($expected, $this->entityHelper->getEntityUpdatedTimestampField($entity));
+        self::assertEquals($expected, $this->entityHelper->getEntityUpdatedTimestampField($businessModel));
     }
 
     public function getEntityUpdatedTimestampFieldProvider()
@@ -91,17 +91,17 @@ class EntityHelperTest extends TestCase
 
         return [
             'unmanaged updated field' => [
-                (new Entity('Sample Entity'))
+                (new BusinessModel('Sample Entity'))
                     ->addField($unmanagedField),
                 null,
             ],
             'managed updated field' => [
-                (new Entity('Sample Entity'))
+                (new BusinessModel('Sample Entity'))
                     ->addField($managedField),
                 $managedField,
             ],
             'managed created field' => [
-                (new Entity('Sample Entity'))
+                (new BusinessModel('Sample Entity'))
                     ->addField($createdField),
                 null,
             ],
@@ -111,9 +111,9 @@ class EntityHelperTest extends TestCase
     /**
      * @dataProvider isManagedTimestampProvider
      */
-    public function testIsManagedTimestamp(Entity $entity, bool $expected)
+    public function testIsManagedTimestamp(BusinessModel $businessModel, bool $expected)
     {
-        self::assertEquals($expected, $this->entityHelper->isManagedTimestamp($entity));
+        self::assertEquals($expected, $this->entityHelper->isManagedTimestamp($businessModel));
     }
 
     public function isManagedTimestampProvider()
@@ -130,25 +130,25 @@ class EntityHelperTest extends TestCase
 
         return [
             'unmanaged fields' => [
-                (new Entity('Sample Entity'))
+                (new BusinessModel('Sample Entity'))
                     ->addField($unmanagedUpdatedField)
                     ->addField($unmanagedCreatedField),
                 false,
             ],
             'managed updated field' => [
-                (new Entity('Sample Entity'))
+                (new BusinessModel('Sample Entity'))
                     ->addField($managedUpdatedField)
                     ->addField($unmanagedCreatedField),
                 true,
             ],
             'managed created field' => [
-                (new Entity('Sample Entity'))
+                (new BusinessModel('Sample Entity'))
                     ->addField($managedCreatedField)
                     ->addField($unmanagedUpdatedField),
                 true,
             ],
             'managed created and updated fields' => [
-                (new Entity('Sample Entity'))
+                (new BusinessModel('Sample Entity'))
                     ->addField($managedCreatedField)
                     ->addField($managedUpdatedField),
                 true,

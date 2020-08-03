@@ -4,7 +4,7 @@ namespace CodePrimer\Twig;
 
 use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Model\Constraint;
-use CodePrimer\Model\Entity;
+use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Event;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
@@ -236,7 +236,7 @@ class LanguageTwigExtension extends AbstractExtension
     }
 
     /**
-     * Test if a field is an Entity.
+     * Test if a field is an BusinessModel.
      *
      * @param mixed $obj The object to test
      *
@@ -254,8 +254,8 @@ class LanguageTwigExtension extends AbstractExtension
     }
 
     /**
-     * Test if the object has a One-To-One relationship with another entity. It supports Entity, Field and RelationshipSide
-     *  - Entity: Checks if the entity has at least one field with a One-To-One relationship
+     * Test if the object has a One-To-One relationship with another entity. It supports BusinessModel, Field and RelationshipSide
+     *  - BusinessModel: Checks if the entity has at least one field with a One-To-One relationship
      *  - Field: Checks it the field has a One-To-One relationship
      *  - RelationshipSide: Checks if it represents a One-To-One relationship.
      *
@@ -268,7 +268,7 @@ class LanguageTwigExtension extends AbstractExtension
         /** @var RelationshipSide $relation */
         $relation = null;
 
-        if ($obj instanceof Entity) {
+        if ($obj instanceof BusinessModel) {
             $relations = $obj->getRelations();
             foreach ($relations as $relation) {
                 $result = $this->oneToOneTest($relation);
@@ -290,8 +290,8 @@ class LanguageTwigExtension extends AbstractExtension
     }
 
     /**
-     * Test if the object has a One-To-Many relationship with another entity. It supports Entity, Field and RelationshipSide
-     *  - Entity: Checks if the entity has at least one field with a One-To-Many relationship
+     * Test if the object has a One-To-Many relationship with another entity. It supports BusinessModel, Field and RelationshipSide
+     *  - BusinessModel: Checks if the entity has at least one field with a One-To-Many relationship
      *  - Field: Checks it the field has a One-To-Many relationship
      *  - RelationshipSide: Checks if it represents a One-To-Many relationship.
      *
@@ -304,7 +304,7 @@ class LanguageTwigExtension extends AbstractExtension
         /** @var RelationshipSide $relation */
         $relation = null;
 
-        if ($obj instanceof Entity) {
+        if ($obj instanceof BusinessModel) {
             $relations = $obj->getRelations();
             foreach ($relations as $relation) {
                 $result = $this->oneToManyTest($relation);
@@ -327,8 +327,8 @@ class LanguageTwigExtension extends AbstractExtension
     }
 
     /**
-     * Test if the object has a Many-To-One relationship with another entity. It supports Entity, Field and RelationshipSide
-     *  - Entity: Checks if the entity has at least one field with a Many-To-One relationship
+     * Test if the object has a Many-To-One relationship with another entity. It supports BusinessModel, Field and RelationshipSide
+     *  - BusinessModel: Checks if the entity has at least one field with a Many-To-One relationship
      *  - Field: Checks it the field has a Many-To-One relationship
      *  - RelationshipSide: Checks if it represents a Many-To-One relationship.
      *
@@ -341,7 +341,7 @@ class LanguageTwigExtension extends AbstractExtension
         /** @var RelationshipSide $relation */
         $relation = null;
 
-        if ($obj instanceof Entity) {
+        if ($obj instanceof BusinessModel) {
             $relations = $obj->getRelations();
             foreach ($relations as $relation) {
                 $result = $this->manyToOneTest($relation);
@@ -364,8 +364,8 @@ class LanguageTwigExtension extends AbstractExtension
     }
 
     /**
-     * Test if the object has a Many-To-Many relationship with another entity. It supports Entity, Field and RelationshipSide
-     *  - Entity: Checks if the entity has at least one field with a Many-To-Many relationship
+     * Test if the object has a Many-To-Many relationship with another entity. It supports BusinessModel, Field and RelationshipSide
+     *  - BusinessModel: Checks if the entity has at least one field with a Many-To-Many relationship
      *  - Field: Checks it the field has a Many-To-Many relationship
      *  - RelationshipSide: Checks if it represents a Many-To-Many relationship.
      *
@@ -378,7 +378,7 @@ class LanguageTwigExtension extends AbstractExtension
         /** @var RelationshipSide $relation */
         $relation = null;
 
-        if ($obj instanceof Entity) {
+        if ($obj instanceof BusinessModel) {
             $relations = $obj->getRelations();
             foreach ($relations as $relation) {
                 $result = $this->manyToManyTest($relation);
@@ -794,7 +794,7 @@ class LanguageTwigExtension extends AbstractExtension
             $name = '';
         } elseif ($obj instanceof Field) {
             $name = $obj->getName();
-        } elseif ($obj instanceof Entity) {
+        } elseif ($obj instanceof BusinessModel) {
             $name = $obj->getName();
         } elseif ($obj instanceof Package) {
             $name = $obj->getName();

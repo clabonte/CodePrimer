@@ -3,7 +3,7 @@
 namespace CodePrimer\Tests\Helper;
 
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
-use CodePrimer\Model\Entity;
+use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Package;
 use CodePrimer\Model\RelationshipSide;
 
@@ -12,16 +12,16 @@ class RelationshipTestHelper
     /** @var Package */
     private $package;
 
-    /** @var Entity */
+    /** @var BusinessModel */
     private $user;
 
-    /** @var Entity */
+    /** @var BusinessModel */
     private $subscription;
 
-    /** @var Entity */
+    /** @var BusinessModel */
     private $metadata;
 
-    /** @var Entity */
+    /** @var BusinessModel */
     private $post;
 
     /** @var Entity */

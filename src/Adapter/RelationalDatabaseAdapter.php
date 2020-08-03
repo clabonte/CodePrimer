@@ -5,7 +5,7 @@ namespace CodePrimer\Adapter;
 use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\Database\Index;
-use CodePrimer\Model\Entity;
+use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
 use CodePrimer\Model\Relationship;
@@ -23,20 +23,20 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
     public function generateRelationalFields(Package $package, string $identifierType = FieldType::UUID)
     {
         // Start by adding missing identifiers for the various entities
-        foreach ($package->getEntities() as $entity) {
-            if (null === $entity->getIdentifier()) {
-                $this->generateIdentifierField($entity, $identifierType);
+        foreach ($package->getEntities() as $businessModel) {
+            if (null === $businessModel->getIdentifier()) {
+                $this->generateIdentifierField($businessModel, $identifierType);
             }
         }
 
         // Add all missing foreign key fields to allow ORMs to work as expected
-        foreach ($package->getEntities() as $entity) {
-            foreach ($entity->getFields() as $field) {
+        foreach ($package->getEntities() as $businessModel) {
+            foreach ($businessModel->getFields() as $field) {
                 $relation = $field->getRelation();
                 if (null !== $relation) {
                     if ((Relationship::ONE_TO_MANY == $relation->getRelationship()->getType()) &&
                         (null === $relation->getRemoteSide()->getField())) {
-                        $newField = $this->generateForeignKeyField($relation->getRemoteSide()->getEntity(), $entity);
+                        $newField = $this->generateForeignKeyField($relation->getRemoteSide()->getEntity(), $businessModel);
                         $relation->getRemoteSide()->setField($newField);
                     }
                 }
@@ -44,21 +44,21 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
         }
     }
 
-    public function generateIdentifierField(Entity $entity, string $identifierType)
+    public function generateIdentifierField(BusinessModel $businessModel, string $identifierType)
     {
         $name = 'id';
-        if (null !== $entity->getField($name)) {
-            $name = Inflector::camelize($entity->getName()).'Id';
+        if (null !== $businessModel->getField($name)) {
+            $name = Inflector::camelize($businessModel->getName()).'Id';
         }
-        if (null !== $entity->getField($name)) {
-            throw new \RuntimeException('Cannot generate ID field for entity '.$entity->getName().': "id" and "'.$name.'" fields are already defined. Did you forget to specify an identifier for this entity?');
+        if (null !== $businessModel->getField($name)) {
+            throw new \RuntimeException('Cannot generate ID field for entity '.$businessModel->getName().': "id" and "'.$name.'" fields are already defined. Did you forget to specify an identifier for this entity?');
         }
 
         $field = new Field($name, $identifierType, 'DB unique identifier field');
         $field->setMandatory(true)
             ->setManaged(true)
             ->setGenerated(true);
-        $entity->addField($field);
+        $businessModel->addField($field);
     }
 
     /**
@@ -99,7 +99,7 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
         return $result;
     }
 
-    public function generateForeignKeyField(Entity $entity, Entity $foreignEntity): Field
+    public function generateForeignKeyField(BusinessModel $businessModel, BusinessModel $foreignEntity): Field
     {
         $foreignIdField = $foreignEntity->getIdentifier();
         if (null === $foreignIdField) {
@@ -107,12 +107,12 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
         }
 
         $name = Inflector::camelize($foreignEntity->getName());
-        if (null !== $entity->getField($name)) {
-            throw new \RuntimeException('Cannot generate foreign key field on entity '.$entity->getName().': Field "'.$name.'" field is already defined. Did you provide the right type for this field?');
+        if (null !== $businessModel->getField($name)) {
+            throw new \RuntimeException('Cannot generate foreign key field on entity '.$businessModel->getName().': Field "'.$name.'" field is already defined. Did you provide the right type for this field?');
         }
         $field = new Field($name, $foreignEntity->getName(), 'Foreign relationship field');
         $field->setGenerated(true);
-        $entity->addField($field);
+        $businessModel->addField($field);
 
         return $field;
     }
@@ -122,15 +122,15 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
      *
      * @return Index[]
      */
-    public function getIndexes(Entity $entity): array
+    public function getIndexes(BusinessModel $businessModel): array
     {
         $indexes = [];
 
-        $fields = $entity->getSearchableFields();
+        $fields = $businessModel->getSearchableFields();
         foreach ($fields as $field) {
             $indexes[] = $this->createIndex($field, 'To optimize search queries');
         }
-        foreach ($entity->getRelations() as $relation) {
+        foreach ($businessModel->getRelations() as $relation) {
             if ($this->isValidForeignKey($relation)) {
                 $indexes[] = $this->createIndex($relation->getField(), $relation->getRemoteSide()->getEntity()->getName().' foreign key');
             }
@@ -155,11 +155,11 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
      *
      * @return Field[]
      */
-    public function getDatabaseFields(Entity $entity): array
+    public function getDatabaseFields(BusinessModel $businessModel): array
     {
         $fields = [];
 
-        foreach ($entity->getFields() as $field) {
+        foreach ($businessModel->getFields() as $field) {
             if (!$field->isList()) {
                 $fields[] = $field;
             }
@@ -173,16 +173,16 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
      *
      * @return Field[]
      */
-    public function getAuditedFields(Entity $entity, bool $includeId = true): array
+    public function getAuditedFields(BusinessModel $businessModel, bool $includeId = true): array
     {
         $fields = [];
 
         $fieldHelper = new FieldHelper();
 
-        foreach ($entity->getFields() as $field) {
+        foreach ($businessModel->getFields() as $field) {
             $audited = true;
 
-            if ($field->isGenerated() && ($field !== $entity->getIdentifier())) {
+            if ($field->isGenerated() && ($field !== $businessModel->getIdentifier())) {
                 $audited = false;
             } elseif ($field->isList()) {
                 $audited = false;
@@ -192,7 +192,7 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
                 $audited = false;
             }
 
-            if (!$includeId && ($field === $entity->getIdentifier())) {
+            if (!$includeId && ($field === $businessModel->getIdentifier())) {
                 $audited = false;
             }
 
