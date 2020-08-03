@@ -2,7 +2,7 @@
 
 namespace CodePrimer\Builder;
 
-use CodePrimer\Helper\EntityHelper;
+use CodePrimer\Helper\BusinessModelHelper;
 use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Helper\PackageHelper;
 use CodePrimer\Model\Package;
@@ -40,7 +40,7 @@ class MigrationBuilder implements ArtifactBuilder
         $context = [
             'package' => $package,
             'packageHelper' => new PackageHelper(),
-            'entityHelper' => new EntityHelper(),
+            'entityHelper' => new BusinessModelHelper(),
             'fieldHelper' => new FieldHelper(),
         ];
 
@@ -65,7 +65,7 @@ class MigrationBuilder implements ArtifactBuilder
             'subpackage' => 'Migrations',
             'model' => $filename,
             'packageHelper' => new PackageHelper(),
-            'entityHelper' => new EntityHelper(),
+            'entityHelper' => new BusinessModelHelper(),
             'fieldHelper' => new FieldHelper(),
         ];
 

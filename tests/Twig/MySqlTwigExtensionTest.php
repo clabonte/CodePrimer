@@ -4,8 +4,8 @@ namespace CodePrimer\Tests\Twig;
 
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Helper\FieldType;
+use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Database\Index;
-use CodePrimer\Model\Entity;
 use CodePrimer\Model\Field;
 use CodePrimer\Tests\Helper\TestHelper;
 use CodePrimer\Twig\MySqlTwigExtension;
@@ -50,8 +50,8 @@ class MySqlTwigExtensionTest extends TwigExtensionTest
         $adapter = new RelationalDatabaseAdapter();
         $adapter->generateRelationalFields($package, FieldType::ID);
 
-        $user = $package->getEntity('User');
-        $metadata = $package->getEntity('Metadata');
+        $user = $package->getBusinessModel('User');
+        $metadata = $package->getBusinessModel('Metadata');
 
         return [
             'BOOL' => [new Field('Test', FieldType::BOOL, 'Test Description', true), 'TINYINT(1)'],
@@ -97,7 +97,7 @@ class MySqlTwigExtensionTest extends TwigExtensionTest
         $adapter = new RelationalDatabaseAdapter();
         $adapter->generateRelationalFields($package);
 
-        $user = $package->getEntity('User');
+        $user = $package->getBusinessModel('User');
 
         return [
             'UNKNOWN' => [new Field('Test', 'Unknown', 'Test Description', true)],
@@ -108,7 +108,7 @@ class MySqlTwigExtensionTest extends TwigExtensionTest
             'ENTITY FIELD' => [new Field('Test', 'User', 'Test Description', true)],
             'OPTIONAL ENTITY FIELD' => [new Field('Test', 'User')],
             'NON FIELD' => ['Invalid'],
-            'ENTITY OBJECT' => [new Entity(('Test'))],
+            'ENTITY OBJECT' => [new BusinessModel(('Test'))],
             'MANY-TO-MANY FIELD' => [$user->getField('topics')],
             'ONE-TO-MANY FIELD' => [$user->getField('posts')],
         ];
@@ -203,7 +203,7 @@ class MySqlTwigExtensionTest extends TwigExtensionTest
     public function unsupportedAttributesDataProvider()
     {
         $package = TestHelper::getSamplePackage();
-        $user = $package->getEntity('User');
+        $user = $package->getBusinessModel('User');
 
         return [
             'String' => ['Invalid'],
@@ -224,7 +224,7 @@ class MySqlTwigExtensionTest extends TwigExtensionTest
     public function indexColumnNameProvider(): array
     {
         $package = TestHelper::getSamplePackage();
-        $user = $package->getEntity('User');
+        $user = $package->getBusinessModel('User');
 
         $field1 = new Field('firstName', FieldType::STRING);
         $field1->setSearchable(true);

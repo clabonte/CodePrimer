@@ -3,7 +3,7 @@
 namespace CodePrimer\Tests\Helper;
 
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
-use CodePrimer\Model\Entity;
+use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Package;
 use CodePrimer\Model\RelationshipSide;
 
@@ -12,19 +12,19 @@ class RelationshipTestHelper
     /** @var Package */
     private $package;
 
-    /** @var Entity */
+    /** @var BusinessModel */
     private $user;
 
-    /** @var Entity */
+    /** @var BusinessModel */
     private $subscription;
 
-    /** @var Entity */
+    /** @var BusinessModel */
     private $metadata;
 
-    /** @var Entity */
+    /** @var BusinessModel */
     private $post;
 
-    /** @var Entity */
+    /** @var BusinessModel */
     private $topic;
 
     /**
@@ -37,11 +37,11 @@ class RelationshipTestHelper
         $adapter->generateRelationalFields($this->package);
 
         // Extract the common entities used for testing
-        $this->user = $this->package->getEntity('User');
-        $this->subscription = $this->package->getEntity('Subscription');
-        $this->metadata = $this->package->getEntity('Metadata');
-        $this->post = $this->package->getEntity('Post');
-        $this->topic = $this->package->getEntity('Topic');
+        $this->user = $this->package->getBusinessModel('User');
+        $this->subscription = $this->package->getBusinessModel('Subscription');
+        $this->metadata = $this->package->getBusinessModel('Metadata');
+        $this->post = $this->package->getBusinessModel('Post');
+        $this->topic = $this->package->getBusinessModel('Topic');
     }
 
     public function getPackage(): Package

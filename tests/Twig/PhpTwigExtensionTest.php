@@ -3,8 +3,8 @@
 namespace CodePrimer\Tests\Twig;
 
 use CodePrimer\Helper\FieldType;
-use CodePrimer\Model\Entity;
-use CodePrimer\Model\Event;
+use CodePrimer\Model\BusinessModel;
+use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
 use CodePrimer\Tests\Helper\TestHelper;
@@ -80,7 +80,7 @@ class PhpTwigExtensionTest extends TwigExtensionTest
             ['field.name', '$field.name'],
             ['field-name', '$fieldName'],
             ['class name', '$className'],
-            [new Entity('Entities'), '$entities'],
+            [new BusinessModel('Entities'), '$entities'],
             [new Field('MYSQL_Field', 'int'), '$mYSQLField'],
             [new Package('Packages', 'Package_name'), '$packageName'],
             [new Event('EventName', 'event.code'), '$eventName'],
@@ -114,7 +114,7 @@ class PhpTwigExtensionTest extends TwigExtensionTest
             ['field.name', '$this->field.name'],
             ['field-name', '$this->fieldName'],
             ['class name', '$this->className'],
-            [new Entity('Entities'), '$this->entities'],
+            [new BusinessModel('Entities'), '$this->entities'],
             [new Field('MYSQL_Field', 'int'), '$this->mYSQLField'],
             [new Package('Packages', 'Package_name'), '$this->packageName'],
             [new Event('EventName', 'event.code'), '$this->eventName'],
@@ -152,7 +152,7 @@ class PhpTwigExtensionTest extends TwigExtensionTest
             [[], 'field.name', null, 'field\\name'],
             [[], 'field-name', null, 'field-name'],
             [[], 'class name', null, 'class\name'],
-            [[], new Entity('Entities'), null, ''],
+            [[], new BusinessModel('Entities'), null, ''],
             [[], new Field('MYSQL/Field', 'int'), null, ''],
             [[], new Package('Packages', 'Package_name'), null, 'Packages'],
             [[], new Package('Packages', 'Package_name'), 'SubPackage', 'Packages\SubPackage'],
@@ -466,9 +466,9 @@ class PhpTwigExtensionTest extends TwigExtensionTest
     /**
      * @dataProvider dateTimeUsedProvider
      */
-    public function testDateTimeUsedShouldPass(Entity $entity, bool $expected)
+    public function testDateTimeUsedShouldPass(BusinessModel $businessModel, bool $expected)
     {
-        self::assertEquals($expected, $this->twigExtension->dateTimeUsed($entity));
+        self::assertEquals($expected, $this->twigExtension->dateTimeUsed($businessModel));
     }
 
     public function dateTimeUsedProvider()
@@ -477,19 +477,19 @@ class PhpTwigExtensionTest extends TwigExtensionTest
 
         return [
             'User' => [
-                $package->getEntity('User'),
+                $package->getBusinessModel('User'),
                 true,
             ],
             'Metadata' => [
-                $package->getEntity('Metadata'),
+                $package->getBusinessModel('Metadata'),
                 false,
             ],
             'Post' => [
-                $package->getEntity('Post'),
+                $package->getBusinessModel('Post'),
                 true,
             ],
             'Topic' => [
-                $package->getEntity('Topic'),
+                $package->getBusinessModel('Topic'),
                 true,
             ],
         ];

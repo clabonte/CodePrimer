@@ -3,10 +3,10 @@
 namespace CodePrimer\Twig;
 
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
-use CodePrimer\Helper\EntityHelper;
+use CodePrimer\Helper\BusinessModelHelper;
 use CodePrimer\Helper\FieldHelper;
+use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Database\Index;
-use CodePrimer\Model\Entity;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
 use CodePrimer\Model\RelationshipSide;
@@ -22,7 +22,7 @@ use Twig\TwigTest;
  */
 class SqlTwigExtension extends LanguageTwigExtension
 {
-    /** @var EntityHelper */
+    /** @var BusinessModelHelper */
     protected $entityHelper;
 
     /** @var FieldHelper */
@@ -34,7 +34,7 @@ class SqlTwigExtension extends LanguageTwigExtension
     public function __construct()
     {
         parent::__construct();
-        $this->entityHelper = new EntityHelper();
+        $this->entityHelper = new BusinessModelHelper();
         $this->fieldHelper = new FieldHelper();
         $this->databaseAdapter = new RelationalDatabaseAdapter();
     }
@@ -82,26 +82,26 @@ class SqlTwigExtension extends LanguageTwigExtension
     }
 
     /**
-     * Returns the table name associated with an Entity or a RelationshipSide.
+     * Returns the table name associated with an BusinessModel or a RelationshipSide.
      *
      * @param $obj
      */
     public function tableFilter($obj): string
     {
-        if ($obj instanceof Entity) {
+        if ($obj instanceof BusinessModel) {
             return $this->databaseAdapter->getTableName($obj);
         } elseif ($obj instanceof RelationshipSide) {
             return $this->databaseAdapter->getRelationTableName($obj);
         }
-        throw new RuntimeException('Table names can only generated for Entity or RelationshipSide instances');
+        throw new RuntimeException('Table names can only generated for BusinessModel or RelationshipSide instances');
     }
 
     /**
-     * Returns the audit table name associated with an Entity.
+     * Returns the audit table name associated with an BusinessModel.
      */
-    public function auditTableFilter(Entity $entity): string
+    public function auditTableFilter(BusinessModel $businessModel): string
     {
-        return $this->databaseAdapter->getAuditTableName($entity);
+        return $this->databaseAdapter->getAuditTableName($businessModel);
     }
 
     /**
@@ -113,8 +113,8 @@ class SqlTwigExtension extends LanguageTwigExtension
     {
         if ($obj instanceof Field) {
             return $this->databaseAdapter->getColumnName($obj);
-        } elseif ($obj instanceof Entity) {
-            return $this->databaseAdapter->getEntityColumnName($obj);
+        } elseif ($obj instanceof BusinessModel) {
+            return $this->databaseAdapter->getBusinessModelColumnName($obj);
         } elseif ($obj instanceof Index) {
             $columns = [];
             foreach ($obj->getFields() as $field) {
@@ -123,7 +123,7 @@ class SqlTwigExtension extends LanguageTwigExtension
 
             return implode(',', $columns);
         }
-        throw new RuntimeException('Column names can only generated for Field, Entity or Index instances. Received: '.get_class($obj));
+        throw new RuntimeException('Column names can only generated for Field, BusinessModel or Index instances. Received: '.null === $obj ? 'null' : get_class($obj));
     }
 
     /**
@@ -139,7 +139,7 @@ class SqlTwigExtension extends LanguageTwigExtension
 
         // Format: fk_[referencing table name]_[referenced table name](_[referencing field name])
         $remoteSide = $obj->getRemoteSide();
-        $result = 'fk_'.$this->tableFilter($obj->getEntity()).'_'.$this->tableFilter($remoteSide->getEntity()).'_'.$this->columnFilter($obj->getField());
+        $result = 'fk_'.$this->tableFilter($obj->getBusinessModel()).'_'.$this->tableFilter($remoteSide->getBusinessModel()).'_'.$this->columnFilter($obj->getField());
 
         return $result;
     }
@@ -170,9 +170,9 @@ class SqlTwigExtension extends LanguageTwigExtension
      *
      * @return Field[]
      */
-    public function databaseFieldsFunction(Entity $entity): array
+    public function databaseFieldsFunction(BusinessModel $businessModel): array
     {
-        return $this->databaseAdapter->getDatabaseFields($entity);
+        return $this->databaseAdapter->getDatabaseFields($businessModel);
     }
 
     /**
@@ -181,9 +181,9 @@ class SqlTwigExtension extends LanguageTwigExtension
      *
      * @return Field[]
      */
-    public function auditedFieldsFunction(Entity $entity, bool $includeId = true): array
+    public function auditedFieldsFunction(BusinessModel $businessModel, bool $includeId = true): array
     {
-        return $this->databaseAdapter->getAuditedFields($entity, $includeId);
+        return $this->databaseAdapter->getAuditedFields($businessModel, $includeId);
     }
 
     /**
@@ -191,8 +191,8 @@ class SqlTwigExtension extends LanguageTwigExtension
      *
      * @return Index[]
      */
-    public function indexesFunction(Entity $entity): array
+    public function indexesFunction(BusinessModel $businessModel): array
     {
-        return $this->databaseAdapter->getIndexes($entity);
+        return $this->databaseAdapter->getIndexes($businessModel);
     }
 }

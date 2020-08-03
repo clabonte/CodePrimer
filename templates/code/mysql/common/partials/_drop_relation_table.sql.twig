@@ -2,7 +2,7 @@
  # This template defines the SQL sentence to drop an existing relation (many-to-many) table
  # Input: relation - A RelationshipSide object
  #}
-{% set entity = relation.entity %}
-{% set remoteEntity = relation.remoteSide.entity %}
+{% set entity = relation.businessModel %}
+{% set remoteEntity = relation.remoteSide.businessModel %}
 -- Drops the table to linking the {{ entity.name }} and {{ remoteEntity.name }} entities in a many to many relation
 DROP TABLE `{{ relation|table }}`;

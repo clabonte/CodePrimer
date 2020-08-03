@@ -9,7 +9,7 @@ use CodePrimer\Model\Package;
 use CodePrimer\Renderer\TemplateRenderer;
 use CodePrimer\Template\Template;
 
-class RepositoryBuilder implements ArtifactBuilder
+class BusinessModelBuilder implements ArtifactBuilder
 {
     /**
      * @return string[]
@@ -20,7 +20,7 @@ class RepositoryBuilder implements ArtifactBuilder
     {
         $files = [];
         foreach ($package->getBusinessModels() as $businessModel) {
-            $files[] = $this->buildRepository($package, $businessModel, $template, $renderer);
+            $files[] = $this->buildBusinessModel($package, $businessModel, $template, $renderer);
         }
 
         return $files;
@@ -29,20 +29,17 @@ class RepositoryBuilder implements ArtifactBuilder
     /**
      * @throws \Exception
      */
-    protected function buildRepository(Package $package, BusinessModel $businessModel, Template $template, TemplateRenderer $renderer): string
+    protected function buildBusinessModel(Package $package, BusinessModel $businessModel, Template $template, TemplateRenderer $renderer): string
     {
-        $businessModelHelper = new BusinessModelHelper();
-        $model = $businessModelHelper->getRepositoryClass($businessModel);
-
         $context = [
             'package' => $package,
-            'subpackage' => 'Repository',
-            'model' => $model,
+            'subpackage' => 'Entity',
+            'model' => $businessModel,
             'entity' => $businessModel,
-            'entityHelper' => $businessModelHelper,
+            'entityHelper' => new BusinessModelHelper(),
             'fieldHelper' => new FieldHelper(),
         ];
 
-        return $renderer->renderToFile($model, $package, $template, $context);
+        return $renderer->renderToFile($businessModel->getName(), $package, $template, $context);
     }
 }

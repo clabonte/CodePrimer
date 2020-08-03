@@ -64,9 +64,9 @@ class MySqlTwigExtension extends SqlTwigExtension
 
         // [DEFAULT {literal | (expr)} ]
         $default = $field->getDefault();
-        if ($this->fieldHelper->isEntityCreatedTimestamp($field)) {
+        if ($this->fieldHelper->isBusinessModelCreatedTimestamp($field)) {
             $value .= ' DEFAULT CURRENT_TIMESTAMP';
-        } elseif ($this->fieldHelper->isEntityUpdatedTimestamp($field)) {
+        } elseif ($this->fieldHelper->isBusinessModelUpdatedTimestamp($field)) {
             $value .= ' DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP';
         } elseif (!empty($default)) {
             if ($this->fieldHelper->isString($field)) {
@@ -95,7 +95,7 @@ class MySqlTwigExtension extends SqlTwigExtension
         if ($this->fieldHelper->isAsciiString($field)) {
             $value .= ' COLLATE ascii_general_ci';
         } elseif ((null !== $field->getRelation()) && $this->databaseAdapter->isValidForeignKey($field->getRelation())) {
-            $primaryKey = $field->getRelation()->getRemoteSide()->getEntity()->getIdentifier();
+            $primaryKey = $field->getRelation()->getRemoteSide()->getBusinessModel()->getIdentifier();
             if ($this->fieldHelper->isAsciiString($primaryKey)) {
                 $value .= ' COLLATE ascii_general_ci';
             }
@@ -156,7 +156,7 @@ class MySqlTwigExtension extends SqlTwigExtension
                         break;
                 }
             } elseif ((null !== $field->getRelation()) && $this->databaseAdapter->isValidForeignKey($field->getRelation())) {
-                $primaryKey = $field->getRelation()->getRemoteSide()->getEntity()->getIdentifier();
+                $primaryKey = $field->getRelation()->getRemoteSide()->getBusinessModel()->getIdentifier();
                 $type = $this->typeFilter($context, $primaryKey, $mandatory);
             } else {
                 throw new RuntimeException("Support for type {$field->getType()} is not implemented yet for MySQL");

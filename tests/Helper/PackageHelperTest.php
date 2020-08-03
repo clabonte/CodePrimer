@@ -29,9 +29,9 @@ class PackageHelperTest extends TestCase
     public function testBuildRelationshipsShouldPass()
     {
         // Make sure there is no relationship before building them
-        foreach ($this->package->getEntities() as $entity) {
-            foreach ($entity->getFields() as $field) {
-                self::assertNull($field->getRelation(), 'Unexpected relation found for field '.$field->getName().' in entity '.$entity->getName());
+        foreach ($this->package->getBusinessModels() as $businessModel) {
+            foreach ($businessModel->getFields() as $field) {
+                self::assertNull($field->getRelation(), 'Unexpected relation found for field '.$field->getName().' in entity '.$businessModel->getName());
             }
         }
 
@@ -39,12 +39,12 @@ class PackageHelperTest extends TestCase
 
         // Make sure it has only created relations on the right set of fields
         $fieldHelper = new FieldHelper();
-        foreach ($this->package->getEntities() as $entity) {
-            foreach ($entity->getFields() as $field) {
-                if ($fieldHelper->isEntity($field, $this->package)) {
-                    self::assertNotNull($field->getRelation(), 'Missing relation for field '.$field->getName().' in entity '.$entity->getName());
+        foreach ($this->package->getBusinessModels() as $businessModel) {
+            foreach ($businessModel->getFields() as $field) {
+                if ($fieldHelper->isBusinessModel($field, $this->package)) {
+                    self::assertNotNull($field->getRelation(), 'Missing relation for field '.$field->getName().' in entity '.$businessModel->getName());
                 } else {
-                    self::assertNull($field->getRelation(), 'Unexpected relation found for field '.$field->getName().' in entity '.$entity->getName());
+                    self::assertNull($field->getRelation(), 'Unexpected relation found for field '.$field->getName().' in entity '.$businessModel->getName());
                 }
             }
         }
@@ -57,25 +57,25 @@ class PackageHelperTest extends TestCase
     {
         $this->helper->buildRelationships($this->package);
 
-        $userEntity = $this->package->getEntity('User');
-        self::assertNotNull($userEntity);
+        $userBusinessModel = $this->package->getBusinessModel('User');
+        self::assertNotNull($userBusinessModel);
 
-        $statsEntity = $this->package->getEntity('UserStats');
-        self::assertNotNull($statsEntity);
+        $statsBusinessModel = $this->package->getBusinessModel('UserStats');
+        self::assertNotNull($statsBusinessModel);
 
-        $field = $userEntity->getField('stats');
+        $field = $userBusinessModel->getField('stats');
         self::assertNotNull($field);
 
         $relation = $field->getRelation();
         self::assertNotNull($relation, 'Relation not found for stats field');
         self::assertEquals(RelationshipSide::LEFT, $relation->getSide());
-        self::assertEquals($userEntity, $relation->getEntity());
+        self::assertEquals($userBusinessModel, $relation->getBusinessModel());
         self::assertEquals($field, $relation->getField());
 
         $remoteSide = $relation->getRemoteSide();
         self::assertNotNull($remoteSide, 'Remote side of relation not found');
         self::assertEquals(RelationshipSide::RIGHT, $remoteSide->getSide());
-        self::assertEquals($statsEntity, $remoteSide->getEntity());
+        self::assertEquals($statsBusinessModel, $remoteSide->getBusinessModel());
         self::assertNull($remoteSide->getField());
 
         $relationship = $relation->getRelationship();
@@ -92,25 +92,25 @@ class PackageHelperTest extends TestCase
     {
         $this->helper->buildRelationships($this->package);
 
-        $userEntity = $this->package->getEntity('User');
-        self::assertNotNull($userEntity);
+        $userBusinessModel = $this->package->getBusinessModel('User');
+        self::assertNotNull($userBusinessModel);
 
-        $metadataEntity = $this->package->getEntity('Metadata');
-        self::assertNotNull($metadataEntity);
+        $metadataBusinessModel = $this->package->getBusinessModel('Metadata');
+        self::assertNotNull($metadataBusinessModel);
 
-        $field = $userEntity->getField('metadata');
+        $field = $userBusinessModel->getField('metadata');
         self::assertNotNull($field);
 
         $relation = $field->getRelation();
         self::assertNotNull($relation, 'Relation not found for metadata field');
         self::assertEquals(RelationshipSide::LEFT, $relation->getSide());
-        self::assertEquals($userEntity, $relation->getEntity());
+        self::assertEquals($userBusinessModel, $relation->getBusinessModel());
         self::assertEquals($field, $relation->getField());
 
         $remoteSide = $relation->getRemoteSide();
         self::assertNotNull($remoteSide, 'Remote side of relation not found');
         self::assertEquals(RelationshipSide::RIGHT, $remoteSide->getSide());
-        self::assertEquals($metadataEntity, $remoteSide->getEntity());
+        self::assertEquals($metadataBusinessModel, $remoteSide->getBusinessModel());
         self::assertNull($remoteSide->getField());
 
         $relationship = $relation->getRelationship();
@@ -127,28 +127,28 @@ class PackageHelperTest extends TestCase
     {
         $this->helper->buildRelationships($this->package);
 
-        $userEntity = $this->package->getEntity('User');
-        self::assertNotNull($userEntity);
+        $userBusinessModel = $this->package->getBusinessModel('User');
+        self::assertNotNull($userBusinessModel);
 
-        $postEntity = $this->package->getEntity('Post');
-        self::assertNotNull($postEntity);
+        $postBusinessModel = $this->package->getBusinessModel('Post');
+        self::assertNotNull($postBusinessModel);
 
-        $remoteField = $postEntity->getField('author');
+        $remoteField = $postBusinessModel->getField('author');
         self::assertNotNull($remoteField);
 
-        $field = $userEntity->getField('posts');
+        $field = $userBusinessModel->getField('posts');
         self::assertNotNull($field);
 
         $relation = $field->getRelation();
         self::assertNotNull($relation, 'Relation not found for posts field');
         self::assertEquals(RelationshipSide::LEFT, $relation->getSide());
-        self::assertEquals($userEntity, $relation->getEntity());
+        self::assertEquals($userBusinessModel, $relation->getBusinessModel());
         self::assertEquals($field, $relation->getField());
 
         $remoteSide = $relation->getRemoteSide();
         self::assertNotNull($remoteSide, 'Remote side of relation not found');
         self::assertEquals(RelationshipSide::RIGHT, $remoteSide->getSide());
-        self::assertEquals($postEntity, $remoteSide->getEntity());
+        self::assertEquals($postBusinessModel, $remoteSide->getBusinessModel());
         self::assertEquals($remoteField, $remoteSide->getField());
 
         $relationship = $relation->getRelationship();
@@ -161,13 +161,13 @@ class PackageHelperTest extends TestCase
         $relation = $remoteField->getRelation();
         self::assertNotNull($relation, 'Relation not found for author field');
         self::assertEquals(RelationshipSide::RIGHT, $relation->getSide());
-        self::assertEquals($postEntity, $relation->getEntity());
+        self::assertEquals($postBusinessModel, $relation->getBusinessModel());
         self::assertEquals($remoteField, $relation->getField());
 
         $remoteSide = $relation->getRemoteSide();
         self::assertNotNull($remoteSide, 'Remote side of relation not found');
         self::assertEquals(RelationshipSide::LEFT, $remoteSide->getSide());
-        self::assertEquals($userEntity, $remoteSide->getEntity());
+        self::assertEquals($userBusinessModel, $remoteSide->getBusinessModel());
         self::assertEquals($field, $remoteSide->getField());
 
         self::assertEquals($relationship, $relation->getRelationship());
@@ -178,36 +178,36 @@ class PackageHelperTest extends TestCase
      */
     public function testBuildReverseOneToManyBidirectionalRelationshipsShouldPass()
     {
-        $userEntity = $this->package->getEntity('User');
-        self::assertNotNull($userEntity);
+        $userBusinessModel = $this->package->getBusinessModel('User');
+        self::assertNotNull($userBusinessModel);
 
-        $postEntity = $this->package->getEntity('Post');
-        self::assertNotNull($postEntity);
+        $postBusinessModel = $this->package->getBusinessModel('Post');
+        self::assertNotNull($postBusinessModel);
 
         // Create a new package with the entities in 'reverse' order
         $package = new Package('Test', 'TestPackage');
-        $package->addEntity($postEntity);
-        $package->addEntity($userEntity);
+        $package->addBusinessModel($postBusinessModel);
+        $package->addBusinessModel($userBusinessModel);
 
         // Build the relationships
         $this->helper->buildRelationships($package);
 
-        $remoteField = $postEntity->getField('author');
+        $remoteField = $postBusinessModel->getField('author');
         self::assertNotNull($remoteField);
 
-        $field = $userEntity->getField('posts');
+        $field = $userBusinessModel->getField('posts');
         self::assertNotNull($field);
 
         $relation = $field->getRelation();
         self::assertNotNull($relation, 'Relation not found for posts field');
         self::assertEquals(RelationshipSide::LEFT, $relation->getSide());
-        self::assertEquals($userEntity, $relation->getEntity());
+        self::assertEquals($userBusinessModel, $relation->getBusinessModel());
         self::assertEquals($field, $relation->getField());
 
         $remoteSide = $relation->getRemoteSide();
         self::assertNotNull($remoteSide, 'Remote side of relation not found');
         self::assertEquals(RelationshipSide::RIGHT, $remoteSide->getSide());
-        self::assertEquals($postEntity, $remoteSide->getEntity());
+        self::assertEquals($postBusinessModel, $remoteSide->getBusinessModel());
         self::assertEquals($remoteField, $remoteSide->getField());
 
         $relationship = $relation->getRelationship();
@@ -220,13 +220,13 @@ class PackageHelperTest extends TestCase
         $relation = $remoteField->getRelation();
         self::assertNotNull($relation, 'Relation not found for author field');
         self::assertEquals(RelationshipSide::RIGHT, $relation->getSide());
-        self::assertEquals($postEntity, $relation->getEntity());
+        self::assertEquals($postBusinessModel, $relation->getBusinessModel());
         self::assertEquals($remoteField, $relation->getField());
 
         $remoteSide = $relation->getRemoteSide();
         self::assertNotNull($remoteSide, 'Remote side of relation not found');
         self::assertEquals(RelationshipSide::LEFT, $remoteSide->getSide());
-        self::assertEquals($userEntity, $remoteSide->getEntity());
+        self::assertEquals($userBusinessModel, $remoteSide->getBusinessModel());
         self::assertEquals($field, $remoteSide->getField());
 
         self::assertEquals($relationship, $relation->getRelationship());
@@ -239,28 +239,28 @@ class PackageHelperTest extends TestCase
     {
         $this->helper->buildRelationships($this->package);
 
-        $userEntity = $this->package->getEntity('User');
-        self::assertNotNull($userEntity);
+        $userBusinessModel = $this->package->getBusinessModel('User');
+        self::assertNotNull($userBusinessModel);
 
-        $topicEntity = $this->package->getEntity('Topic');
-        self::assertNotNull($topicEntity);
+        $topicBusinessModel = $this->package->getBusinessModel('Topic');
+        self::assertNotNull($topicBusinessModel);
 
-        $remoteField = $topicEntity->getField('authors');
+        $remoteField = $topicBusinessModel->getField('authors');
         self::assertNotNull($remoteField);
 
-        $field = $userEntity->getField('topics');
+        $field = $userBusinessModel->getField('topics');
         self::assertNotNull($field);
 
         $relation = $field->getRelation();
         self::assertNotNull($relation, 'Relation not found for topics field');
         self::assertEquals(RelationshipSide::LEFT, $relation->getSide());
-        self::assertEquals($userEntity, $relation->getEntity());
+        self::assertEquals($userBusinessModel, $relation->getBusinessModel());
         self::assertEquals($field, $relation->getField());
 
         $remoteSide = $relation->getRemoteSide();
         self::assertNotNull($remoteSide, 'Remote side of relation not found');
         self::assertEquals(RelationshipSide::RIGHT, $remoteSide->getSide());
-        self::assertEquals($topicEntity, $remoteSide->getEntity());
+        self::assertEquals($topicBusinessModel, $remoteSide->getBusinessModel());
         self::assertEquals($remoteField, $remoteSide->getField());
 
         $relationship = $relation->getRelationship();
@@ -273,13 +273,13 @@ class PackageHelperTest extends TestCase
         $relation = $remoteField->getRelation();
         self::assertNotNull($relation, 'Relation not found for author field');
         self::assertEquals(RelationshipSide::RIGHT, $relation->getSide());
-        self::assertEquals($topicEntity, $relation->getEntity());
+        self::assertEquals($topicBusinessModel, $relation->getBusinessModel());
         self::assertEquals($remoteField, $relation->getField());
 
         $remoteSide = $relation->getRemoteSide();
         self::assertNotNull($remoteSide, 'Remote side of relation not found');
         self::assertEquals(RelationshipSide::LEFT, $remoteSide->getSide());
-        self::assertEquals($userEntity, $remoteSide->getEntity());
+        self::assertEquals($userBusinessModel, $remoteSide->getBusinessModel());
         self::assertEquals($field, $remoteSide->getField());
 
         self::assertEquals($relationship, $relation->getRelationship());
@@ -289,13 +289,13 @@ class PackageHelperTest extends TestCase
      * Failure scenario: We do not currently support the creation of relationships when more than 1 potential
      * field can be used to build the relationship.
      */
-    public function testBuildRelationshipForEntityWithMultipleLinksShouldThrowException()
+    public function testBuildRelationshipForBusinessModelWithMultipleLinksShouldThrowException()
     {
-        $postEntity = $this->package->getEntity('Post');
-        self::assertNotNull($postEntity);
+        $postBusinessModel = $this->package->getBusinessModel('Post');
+        self::assertNotNull($postBusinessModel);
 
         // Add a 'Reviewer' field to a post that also points to the 'User' entity
-        $postEntity->addField(new Field('reviewer', 'User'));
+        $postBusinessModel->addField(new Field('reviewer', 'User'));
 
         self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Multiple bidirectional relationships found between the same entities: User and Post. This is not supported yet');
@@ -307,18 +307,18 @@ class PackageHelperTest extends TestCase
      * Failure scenario: If the FieldHelper falsely identifies a type as an entity but the entity cannot be
      * located in the package, an exception shall be thrown.
      */
-    public function testBuildRelationshipForUnknownEntityShouldThrowException()
+    public function testBuildRelationshipForUnknownBusinessModelShouldThrowException()
     {
         // Add a field to a fake entity to the Post entity
-        $postEntity = $this->package->getEntity('Post');
-        self::assertNotNull($postEntity);
+        $postBusinessModel = $this->package->getBusinessModel('Post');
+        self::assertNotNull($postBusinessModel);
         $fakeField = new Field('reviewer', 'Unknown');
-        $postEntity->addField($fakeField);
+        $postBusinessModel->addField($fakeField);
 
         // Create a stub for the FieldHelper class that always returns true.
         $stub = $this->createMock(FieldHelper::class);
-        $stub->method('isEntity')
-            ->will($this->returnCallback([$this, 'isEntityStubCallback']));
+        $stub->method('isBusinessModel')
+            ->will($this->returnCallback([$this, 'isBusinessModelStubCallback']));
 
         $packageHelper = new PackageHelper($stub);
 
@@ -333,7 +333,7 @@ class PackageHelperTest extends TestCase
      *
      * @return bool
      */
-    public function isEntityStubCallback()
+    public function isBusinessModelStubCallback()
     {
         $args = func_get_args();
         /** @var Field $field */

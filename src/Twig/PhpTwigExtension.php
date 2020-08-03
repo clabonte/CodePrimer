@@ -3,7 +3,7 @@
 namespace CodePrimer\Twig;
 
 use CodePrimer\Helper\FieldHelper;
-use CodePrimer\Model\Entity;
+use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
 use Twig\TwigFilter;
@@ -38,13 +38,13 @@ class PhpTwigExtension extends LanguageTwigExtension
     /**
      * Checks if the DateTime type is used/required for a given entity.
      */
-    public function dateTimeUsed(Entity $entity): bool
+    public function dateTimeUsed(BusinessModel $businessModel): bool
     {
         $result = false;
 
         $helper = new FieldHelper();
 
-        foreach ($entity->getFields() as $field) {
+        foreach ($businessModel->getFields() as $field) {
             if ($helper->isDateTime($field) || $helper->isDate($field) || $helper->isTime($field)) {
                 $result = true;
                 break;
@@ -148,7 +148,7 @@ class PhpTwigExtension extends LanguageTwigExtension
             } elseif (isset($context['package'])) {
                 /** @var Package $package */
                 $package = $context['package'];
-                if ($helper->isEntity($field, $package)) {
+                if ($helper->isBusinessModel($field, $package)) {
                     $type = $field->getType();
                 }
             }
@@ -192,7 +192,7 @@ class PhpTwigExtension extends LanguageTwigExtension
             } elseif (isset($context['package'])) {
                 /** @var Package $package */
                 $package = $context['package'];
-                if ($helper->isEntity($field, $package)) {
+                if ($helper->isBusinessModel($field, $package)) {
                     $type = $field->getType();
                 }
             }
@@ -232,7 +232,7 @@ class PhpTwigExtension extends LanguageTwigExtension
             } elseif (isset($context['package'])) {
                 /** @var Package $package */
                 $package = $context['package'];
-                if ($helper->isEntity($field, $package)) {
+                if ($helper->isBusinessModel($field, $package)) {
                     $type = $field->getType();
                 }
             }

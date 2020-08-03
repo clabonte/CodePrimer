@@ -2,51 +2,51 @@
 
 namespace CodePrimer\Tests\Helper;
 
-use CodePrimer\Helper\EntityHelper;
+use CodePrimer\Helper\BusinessModelHelper;
 use CodePrimer\Helper\FieldType;
-use CodePrimer\Model\Entity;
+use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
 use PHPUnit\Framework\TestCase;
 
-class EntityHelperTest extends TestCase
+class BusinessModelHelperTest extends TestCase
 {
-    /** @var EntityHelper */
-    private $entityHelper;
+    /** @var BusinessModelHelper */
+    private $businessModelHelper;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->entityHelper = new EntityHelper();
+        $this->businessModelHelper = new BusinessModelHelper();
     }
 
     /**
      * @dataProvider repositoryClassProvider
      */
-    public function testGetRepositoryClass(Entity $entity, string $expected)
+    public function testGetRepositoryClass(BusinessModel $businessModel, string $expected)
     {
-        self::assertEquals($expected, $this->entityHelper->getRepositoryClass($entity));
+        self::assertEquals($expected, $this->businessModelHelper->getRepositoryClass($businessModel));
     }
 
     public function repositoryClassProvider()
     {
         return [
-            'Sample Name' => [new Entity('Sample Name'), 'SampleNameRepository'],
-            'SampleName' => [new Entity('SampleName'), 'SampleNameRepository'],
-            'SampleNames' => [new Entity('SampleNames'), 'SampleNamesRepository'],
-            'Sample Names' => [new Entity('Sample Names'), 'SampleNamesRepository'],
-            'Samples Names' => [new Entity('Samples Names'), 'SamplesNamesRepository'],
+            'Sample Name' => [new BusinessModel('Sample Name'), 'SampleNameRepository'],
+            'SampleName' => [new BusinessModel('SampleName'), 'SampleNameRepository'],
+            'SampleNames' => [new BusinessModel('SampleNames'), 'SampleNamesRepository'],
+            'Sample Names' => [new BusinessModel('Sample Names'), 'SampleNamesRepository'],
+            'Samples Names' => [new BusinessModel('Samples Names'), 'SamplesNamesRepository'],
         ];
     }
 
     /**
-     * @dataProvider getEntityCreatedTimestampFieldProvider
+     * @dataProvider getCreatedTimestampFieldProvider
      */
-    public function testGetEntityCreatedTimestampField(Entity $entity, ?Field $expected)
+    public function testGetCreatedTimestampField(BusinessModel $businessModel, ?Field $expected)
     {
-        self::assertEquals($expected, $this->entityHelper->getEntityCreatedTimestampField($entity));
+        self::assertEquals($expected, $this->businessModelHelper->getCreatedTimestampField($businessModel));
     }
 
-    public function getEntityCreatedTimestampFieldProvider()
+    public function getCreatedTimestampFieldProvider()
     {
         $unmanagedField = new Field('created', FieldType::DATETIME);
         $managedField = new Field('created', FieldType::DATETIME);
@@ -56,17 +56,17 @@ class EntityHelperTest extends TestCase
 
         return [
             'unmanaged created field' => [
-                (new Entity('Sample Entity'))
+                (new BusinessModel('Sample Entity'))
                     ->addField($unmanagedField),
                 null,
             ],
             'managed created field' => [
-                (new Entity('Sample Entity'))
+                (new BusinessModel('Sample Entity'))
                     ->addField($managedField),
                 $managedField,
             ],
             'managed updated field' => [
-                (new Entity('Sample Entity'))
+                (new BusinessModel('Sample Entity'))
                     ->addField($updatedField),
                 null,
             ],
@@ -74,14 +74,14 @@ class EntityHelperTest extends TestCase
     }
 
     /**
-     * @dataProvider getEntityUpdatedTimestampFieldProvider
+     * @dataProvider getUpdatedTimestampFieldProvider
      */
-    public function testGetEntityUpdatedTimestampField(Entity $entity, ?Field $expected)
+    public function testGetUpdatedTimestampField(BusinessModel $businessModel, ?Field $expected)
     {
-        self::assertEquals($expected, $this->entityHelper->getEntityUpdatedTimestampField($entity));
+        self::assertEquals($expected, $this->businessModelHelper->getUpdatedTimestampField($businessModel));
     }
 
-    public function getEntityUpdatedTimestampFieldProvider()
+    public function getUpdatedTimestampFieldProvider()
     {
         $unmanagedField = new Field('updated', FieldType::DATETIME);
         $managedField = new Field('updated', FieldType::DATETIME);
@@ -91,17 +91,17 @@ class EntityHelperTest extends TestCase
 
         return [
             'unmanaged updated field' => [
-                (new Entity('Sample Entity'))
+                (new BusinessModel('Sample Entity'))
                     ->addField($unmanagedField),
                 null,
             ],
             'managed updated field' => [
-                (new Entity('Sample Entity'))
+                (new BusinessModel('Sample Entity'))
                     ->addField($managedField),
                 $managedField,
             ],
             'managed created field' => [
-                (new Entity('Sample Entity'))
+                (new BusinessModel('Sample Entity'))
                     ->addField($createdField),
                 null,
             ],
@@ -111,9 +111,9 @@ class EntityHelperTest extends TestCase
     /**
      * @dataProvider isManagedTimestampProvider
      */
-    public function testIsManagedTimestamp(Entity $entity, bool $expected)
+    public function testIsManagedTimestamp(BusinessModel $businessModel, bool $expected)
     {
-        self::assertEquals($expected, $this->entityHelper->isManagedTimestamp($entity));
+        self::assertEquals($expected, $this->businessModelHelper->isManagedTimestamp($businessModel));
     }
 
     public function isManagedTimestampProvider()
@@ -130,25 +130,25 @@ class EntityHelperTest extends TestCase
 
         return [
             'unmanaged fields' => [
-                (new Entity('Sample Entity'))
+                (new BusinessModel('Sample Entity'))
                     ->addField($unmanagedUpdatedField)
                     ->addField($unmanagedCreatedField),
                 false,
             ],
             'managed updated field' => [
-                (new Entity('Sample Entity'))
+                (new BusinessModel('Sample Entity'))
                     ->addField($managedUpdatedField)
                     ->addField($unmanagedCreatedField),
                 true,
             ],
             'managed created field' => [
-                (new Entity('Sample Entity'))
+                (new BusinessModel('Sample Entity'))
                     ->addField($managedCreatedField)
                     ->addField($unmanagedUpdatedField),
                 true,
             ],
             'managed created and updated fields' => [
-                (new Entity('Sample Entity'))
+                (new BusinessModel('Sample Entity'))
                     ->addField($managedCreatedField)
                     ->addField($managedUpdatedField),
                 true,
@@ -159,14 +159,14 @@ class EntityHelperTest extends TestCase
     public function testGetLinkedEntitiesShouldPass()
     {
         $package = TestHelper::getSamplePackage();
-        $user = $package->getEntity('User');
-        $stats = $package->getEntity('UserStats');
-        $topic = $package->getEntity('Topic');
-        $post = $package->getEntity('Post');
-        $metadata = $package->getEntity('Metadata');
-        $subscription = $package->getEntity('Subscription');
+        $user = $package->getBusinessModel('User');
+        $stats = $package->getBusinessModel('UserStats');
+        $topic = $package->getBusinessModel('Topic');
+        $post = $package->getBusinessModel('Post');
+        $metadata = $package->getBusinessModel('Metadata');
+        $subscription = $package->getBusinessModel('Subscription');
 
-        $linkedEntities = $this->entityHelper->getLinkedEntities($user);
+        $linkedEntities = $this->businessModelHelper->getLinkedBusinessModels($user);
         self::assertCount(5, $linkedEntities);
         self::assertContains($stats, $linkedEntities);
         self::assertContains($topic, $linkedEntities);
