@@ -3,7 +3,7 @@
 namespace CodePrimer\Tests\Model;
 
 use CodePrimer\Model\BusinessModel;
-use CodePrimer\Model\Event;
+use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Package;
 use CodePrimer\Model\Set;
 use PHPUnit\Framework\TestCase;

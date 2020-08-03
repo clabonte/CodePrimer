@@ -4,7 +4,7 @@ namespace CodePrimer\Tests\Twig;
 
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\BusinessModel;
-use CodePrimer\Model\Event;
+use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
 use CodePrimer\Twig\JavaTwigExtension;

@@ -8,6 +8,8 @@
 
 namespace CodePrimer\Model;
 
+use CodePrimer\Model\Derived\Event;
+
 class Package
 {
     /** @var string */

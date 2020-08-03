@@ -6,7 +6,10 @@
  * Time: 3:31 PM.
  */
 
-namespace CodePrimer\Model;
+namespace CodePrimer\Model\Derived;
+
+use CodePrimer\Model\BusinessModel;
+use CodePrimer\Model\Field;
 
 class Event
 {
