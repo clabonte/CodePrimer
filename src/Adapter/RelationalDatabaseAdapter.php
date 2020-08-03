@@ -4,8 +4,8 @@ namespace CodePrimer\Adapter;
 
 use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Helper\FieldType;
-use CodePrimer\Model\Database\Index;
 use CodePrimer\Model\BusinessModel;
+use CodePrimer\Model\Database\Index;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
 use CodePrimer\Model\Relationship;

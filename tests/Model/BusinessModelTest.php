@@ -3,8 +3,8 @@
 namespace CodePrimer\Tests\Model;
 
 use CodePrimer\Helper\FieldType;
-use CodePrimer\Model\Constraint;
 use CodePrimer\Model\BusinessModel;
+use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\StateMachine;
 use PHPUnit\Framework\TestCase;

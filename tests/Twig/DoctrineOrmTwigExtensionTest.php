@@ -4,8 +4,8 @@ namespace CodePrimer\Tests\Twig;
 
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Helper\FieldType;
-use CodePrimer\Model\Constraint;
 use CodePrimer\Model\BusinessModel;
+use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Field;
 use CodePrimer\Tests\Helper\TestHelper;
 use CodePrimer\Twig\DoctrineOrmTwigExtension;

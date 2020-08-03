@@ -3,8 +3,8 @@
 namespace CodePrimer\Twig;
 
 use CodePrimer\Helper\FieldHelper;
-use CodePrimer\Model\Constraint;
 use CodePrimer\Model\BusinessModel;
+use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
