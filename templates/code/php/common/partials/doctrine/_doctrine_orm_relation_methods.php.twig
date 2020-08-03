@@ -6,18 +6,18 @@
     {%~ if relation is manyToOne or relation is manyToMany  %}
 
     /**
-     * Retrieves a list of {{ entity|class }} linked to a given {{ relation.remoteSide.entity|class }}
+     * Retrieves a list of {{ entity|class }} linked to a given {{ relation.remoteSide.businessModel|class }}
      * @param {{ relation.field|listType }} {{ relation.field|variable|singular }}
      * @param bool $mostRecentFirst
      * @return {{ entity|class }}[]
      */
-    public function findAllBy{{ relation.remoteSide.entity|class }}({{ relation.field|listType }} {{ relation.field|variable|singular }}, bool $mostRecentFirst = true): array
+    public function findAllBy{{ relation.remoteSide.businessModel|class }}({{ relation.field|listType }} {{ relation.field|variable|singular }}, bool $mostRecentFirst = true): array
     {
         return $this->createQueryBuilder('u')
             ->andWhere('u.{{ relation.field|camel|singular }} = :{{ relation.field|camel|singular }}')
             ->setParameter('{{ relation.field|camel|singular }}', {{ relation.field|variable|singular }})
-        {%~ if entityHelper.getEntityCreatedTimestampField(entity)  %}
-            ->orderBy('u.{{ entityHelper.getEntityCreatedTimestampField(entity)|camel }}', $mostRecentFirst ? 'DESC' : 'ASC')
+        {%~ if entityHelper.getCreatedTimestampField(entity)  %}
+            ->orderBy('u.{{ entityHelper.getCreatedTimestampField(entity)|camel }}', $mostRecentFirst ? 'DESC' : 'ASC')
         {%~ elseif entity.identifier and fieldHelper.isAutoIncrement(entity.identifier) %}
             ->orderBy('u.{{ entity.identifier|camel }}', $mostRecentFirst ? 'DESC' : 'ASC')
         {%~ endif  %}
@@ -27,11 +27,11 @@
     {%~ elseif relation is oneToOne or relation is oneToMany  %}
 
     /**
-     * Retrieves a {{ entity|class }} linked to a given {{ relation.remoteSide.entity|class }}
+     * Retrieves a {{ entity|class }} linked to a given {{ relation.remoteSide.businessModel|class }}
      * @param {{ relation.field|listType }} {{ relation.field|variable|singular }}
      * @return {{ entity|class }}|null
      */
-    public function getBy{{ relation.remoteSide.entity|class }}({{ relation.field|listType }} {{ relation.field|variable|singular }}): ?{{ entity|class }}
+    public function getBy{{ relation.remoteSide.businessModel|class }}({{ relation.field|listType }} {{ relation.field|variable|singular }}): ?{{ entity|class }}
     {
         try {
             return $this->createQueryBuilder('u')

@@ -4,7 +4,7 @@ namespace CodePrimer\Tests\Adapter;
 
 use CodePrimer\Adapter\DatabaseAdapter;
 use CodePrimer\Helper\FieldType;
-use CodePrimer\Model\Entity;
+use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
 use CodePrimer\Model\RelationshipSide;
@@ -50,20 +50,20 @@ class DatabaseAdapterTest extends TestCase
     /**
      * @dataProvider tableNameProvider
      */
-    public function testGetTableName(Entity $entity, string $expected)
+    public function testGetTableName(BusinessModel $businessModel, string $expected)
     {
-        self::assertEquals($expected, $this->adapter->getTableName($entity));
+        self::assertEquals($expected, $this->adapter->getTableName($businessModel));
     }
 
     public function tableNameProvider()
     {
         return [
-            'Name' => [new Entity('Name'), 'names'],
-            'sampleName' => [new Entity('sampleName'), 'sample_names'],
-            'SampleName' => [new Entity('SampleName'), 'sample_names'],
-            'Sample Name' => [new Entity('Sample Name'), 'sample_names'],
-            'Samples Names' => [new Entity('Samples Names'), 'samples_names'],
-            'Sample-Name' => [new Entity('Sample-Name'), 'sample_names'],
+            'Name' => [new BusinessModel('Name'), 'names'],
+            'sampleName' => [new BusinessModel('sampleName'), 'sample_names'],
+            'SampleName' => [new BusinessModel('SampleName'), 'sample_names'],
+            'Sample Name' => [new BusinessModel('Sample Name'), 'sample_names'],
+            'Samples Names' => [new BusinessModel('Samples Names'), 'samples_names'],
+            'Sample-Name' => [new BusinessModel('Sample-Name'), 'sample_names'],
         ];
     }
 
@@ -128,20 +128,20 @@ class DatabaseAdapterTest extends TestCase
     /**
      * @dataProvider auditTableNameProvider
      */
-    public function testGetAuditTableName(Entity $entity, string $expected)
+    public function testGetAuditTableName(BusinessModel $businessModel, string $expected)
     {
-        self::assertEquals($expected, $this->adapter->getAuditTableName($entity));
+        self::assertEquals($expected, $this->adapter->getAuditTableName($businessModel));
     }
 
     public function auditTableNameProvider()
     {
         return [
-            'Name' => [new Entity('Name'), 'names_logs'],
-            'sampleName' => [new Entity('sampleName'), 'sample_names_logs'],
-            'SampleName' => [new Entity('SampleName'), 'sample_names_logs'],
-            'Sample Name' => [new Entity('Sample Name'), 'sample_names_logs'],
-            'Samples Names' => [new Entity('Samples Names'), 'samples_names_logs'],
-            'Sample-Name' => [new Entity('Sample-Name'), 'sample_names_logs'],
+            'Name' => [new BusinessModel('Name'), 'names_logs'],
+            'sampleName' => [new BusinessModel('sampleName'), 'sample_names_logs'],
+            'SampleName' => [new BusinessModel('SampleName'), 'sample_names_logs'],
+            'Sample Name' => [new BusinessModel('Sample Name'), 'sample_names_logs'],
+            'Samples Names' => [new BusinessModel('Samples Names'), 'samples_names_logs'],
+            'Sample-Name' => [new BusinessModel('Sample-Name'), 'sample_names_logs'],
         ];
     }
 
@@ -168,20 +168,20 @@ class DatabaseAdapterTest extends TestCase
     /**
      * @dataProvider entityColumnNameProvider
      */
-    public function testGetEntityColumnName(Entity $entity, string $expected)
+    public function testGetBusinessModelColumnName(BusinessModel $businessModel, string $expected)
     {
-        self::assertEquals($expected, $this->adapter->getEntityColumnName($entity));
+        self::assertEquals($expected, $this->adapter->getBusinessModelColumnName($businessModel));
     }
 
     public function entityColumnNameProvider()
     {
         return [
-            'Name' => [new Entity('Name'), 'name_id'],
-            'sampleName' => [new Entity('sampleName'), 'sample_name_id'],
-            'SampleName' => [new Entity('SampleName'), 'sample_name_id'],
-            'Sample Name' => [new Entity('Sample Name'), 'sample_name_id'],
-            'Samples Names' => [new Entity('Samples Names'), 'samples_names_id'],
-            'Sample-Name' => [new Entity('Sample-Name'), 'sample_name_id'],
+            'Name' => [new BusinessModel('Name'), 'name_id'],
+            'sampleName' => [new BusinessModel('sampleName'), 'sample_name_id'],
+            'SampleName' => [new BusinessModel('SampleName'), 'sample_name_id'],
+            'Sample Name' => [new BusinessModel('Sample Name'), 'sample_name_id'],
+            'Samples Names' => [new BusinessModel('Samples Names'), 'samples_names_id'],
+            'Sample-Name' => [new BusinessModel('Sample-Name'), 'sample_name_id'],
         ];
     }
 }

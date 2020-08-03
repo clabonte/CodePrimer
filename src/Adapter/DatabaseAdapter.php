@@ -2,7 +2,7 @@
 
 namespace CodePrimer\Adapter;
 
-use CodePrimer\Model\Entity;
+use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
 use CodePrimer\Model\Relationship;
@@ -29,12 +29,12 @@ class DatabaseAdapter
     }
 
     /**
-     * Extracts the name of an entity and transforms it to its table name equivalent.
+     * Extracts the name of an  business model and transforms it to its table name equivalent.
      * Converts 'tableName', 'table-name' and 'table name' to 'table_names'.
      */
-    public function getTableName(Entity $entity): string
+    public function getTableName(BusinessModel $businessModel): string
     {
-        $name = str_replace(['-', ' ', '.'], '_', Inflector::pluralize($entity->getName()));
+        $name = str_replace(['-', ' ', '.'], '_', Inflector::pluralize($businessModel->getName()));
         $name = Inflector::tableize($name);
         $name = str_replace('__', '_', $name);
 
@@ -52,16 +52,16 @@ class DatabaseAdapter
         $leftSide = $relation->getRelationship()->getLeftSide();
         $rightSide = $relation->getRelationship()->getRightSide();
 
-        return $this->getTableName($leftSide->getEntity()).'_'.$this->getTableName($rightSide->getEntity());
+        return $this->getTableName($leftSide->getBusinessModel()).'_'.$this->getTableName($rightSide->getBusinessModel());
     }
 
     /**
-     * Extracts the name of an entity and transforms it to its audit table name equivalent.
+     * Extracts the name of an  business model and transforms it to its audit table name equivalent.
      * Converts 'tableName', 'table-name' and 'table name' to 'table_names_logs'.
      */
-    public function getAuditTableName(Entity $entity): string
+    public function getAuditTableName(BusinessModel $businessModel): string
     {
-        return $this->getTableName($entity).'_logs';
+        return $this->getTableName($businessModel).'_logs';
     }
 
     /**
@@ -78,11 +78,11 @@ class DatabaseAdapter
     }
 
     /**
-     * Extracts the name to use as a column to represent an entity.
+     * Extracts the name to use as a column to represent an  business model.
      */
-    public function getEntityColumnName(Entity $entity): string
+    public function getBusinessModelColumnName(BusinessModel $businessModel): string
     {
-        $name = str_replace(['-', ' ', '.'], '_', $entity->getName());
+        $name = str_replace(['-', ' ', '.'], '_', $businessModel->getName());
         $name = Inflector::tableize($name).'_id';
         $name = str_replace('__', '_', $name);
 

@@ -4,7 +4,7 @@ namespace CodePrimer\Tests\Helper;
 
 use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Helper\FieldType;
-use CodePrimer\Model\Entity;
+use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
 use PHPUnit\Framework\TestCase;
@@ -504,14 +504,14 @@ class FieldHelperTest extends TestCase
      * @param bool  $expected The expected value for the field being tested
      * @dataProvider entityProvider
      */
-    public function testIsEntity(Field $field, bool $expected)
+    public function testIsBusinessModel(Field $field, bool $expected)
     {
         $package = new Package('namespace', 'name');
         $package
-            ->addEntity(new Entity('TestData1', 'description1'))
-            ->addEntity(new Entity('TestData4', 'description4'));
+            ->addBusinessModel(new BusinessModel('TestData1', 'description1'))
+            ->addBusinessModel(new BusinessModel('TestData4', 'description4'));
 
-        self::assertEquals($expected, $this->helper->isEntity($field, $package));
+        self::assertEquals($expected, $this->helper->isBusinessModel($field, $package));
     }
 
     public function entityProvider()
@@ -547,16 +547,16 @@ class FieldHelperTest extends TestCase
     }
 
     /**
-     * @dataProvider entityCreatedTimestampProvider
+     * @dataProvider businessModelCreatedTimestampProvider
      *
      * @param bool $expected
      */
-    public function testIsEntityCreatedTimestamp(Field $field, $expected)
+    public function testIsBusinessModelCreatedTimestamp(Field $field, $expected)
     {
-        self::assertEquals($expected, $this->helper->isEntityCreatedTimestamp($field));
+        self::assertEquals($expected, $this->helper->isBusinessModelCreatedTimestamp($field));
     }
 
-    public function entityCreatedTimestampProvider()
+    public function businessModelCreatedTimestampProvider()
     {
         return [
             'managed created datetime field' => [
@@ -598,16 +598,16 @@ class FieldHelperTest extends TestCase
     }
 
     /**
-     * @dataProvider entityUpdatedTimestampProvider
+     * @dataProvider businessModelUpdatedTimestampProvider
      *
      * @param bool $expected
      */
-    public function testIsEntityUpdatedTimestamp(Field $field, $expected)
+    public function testIsBusinessModelUpdatedTimestamp(Field $field, $expected)
     {
-        self::assertEquals($expected, $this->helper->isEntityUpdatedTimestamp($field));
+        self::assertEquals($expected, $this->helper->isBusinessModelUpdatedTimestamp($field));
     }
 
-    public function entityUpdatedTimestampProvider()
+    public function businessModelUpdatedTimestampProvider()
     {
         return [
             'managed updated datetime field' => [

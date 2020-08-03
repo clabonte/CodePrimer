@@ -1,5 +1,5 @@
-{% set entity = relation.entity %}
-{% set remoteEntity = relation.remoteSide.entity %}
+{% set entity = relation.businessModel %}
+{% set remoteEntity = relation.remoteSide.businessModel %}
 {% set field = entity.identifier %}
 {% set remoteField = remoteEntity.identifier %}
 -- Creates a table to link the {{ entity.name }} and {{ remoteEntity.name }} entities in a many to many relation

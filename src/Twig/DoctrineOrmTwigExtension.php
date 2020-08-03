@@ -3,12 +3,12 @@
 namespace CodePrimer\Twig;
 
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
-use CodePrimer\Helper\EntityHelper;
+use CodePrimer\Helper\BusinessModelHelper;
 use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Helper\FieldType;
+use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Database\Index;
-use CodePrimer\Model\Entity;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
 use CodePrimer\Model\Relationship;
@@ -18,8 +18,8 @@ use Twig\TwigTest;
 
 class DoctrineOrmTwigExtension extends PhpTwigExtension
 {
-    /** @var EntityHelper */
-    private $entityHelper;
+    /** @var BusinessModelHelper */
+    private $businessModelHelper;
 
     /** @var FieldHelper */
     private $fieldHelper;
@@ -30,7 +30,7 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
     public function __construct()
     {
         parent::__construct();
-        $this->entityHelper = new EntityHelper();
+        $this->businessModelHelper = new BusinessModelHelper();
         $this->fieldHelper = new FieldHelper();
         $this->databaseAdapter = new RelationalDatabaseAdapter();
     }
@@ -62,7 +62,7 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
     {
         $result = false;
 
-        if ($obj instanceof Entity) {
+        if ($obj instanceof BusinessModel) {
             $relations = $obj->getRelations();
             foreach ($relations as $relation) {
                 $type = $relation->getRelationship()->getType();
@@ -95,8 +95,8 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
     {
         $result = [];
 
-        if ($obj instanceof Entity) {
-            $result = $this->getEntityAnnotations($obj);
+        if ($obj instanceof BusinessModel) {
+            $result = $this->getBusinessModelAnnotations($obj);
         } elseif ($obj instanceof Field) {
             $result = $this->getFieldAnnotations($context, $obj);
         }
@@ -189,12 +189,12 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
             /** @var Package $package */
             $package = $context['package'];
             $side = $relation->getSide();
-            $remoteEntity = $relation->getRemoteSide()->getEntity();
+            $remoteBusinessModel = $relation->getRemoteSide()->getBusinessModel();
             $remoteField = $relation->getRemoteSide()->getField();
 
             switch ($relation->getRelationship()->getType()) {
                 case Relationship::ONE_TO_ONE:
-                    $annotation = '@ORM\OneToOne(targetEntity="'.$this->namespaceFilter($context, $package).'\\'.$this->getName($remoteEntity).'"';
+                    $annotation = '@ORM\OneToOne(targetEntity="'.$this->namespaceFilter($context, $package).'\\'.$this->getName($remoteBusinessModel).'"';
                     // If this is a unidirectional link, cascade the operations
                     if (!isset($remoteField)) {
                         $annotation .= ', cascade={"persist", "remove"}';
@@ -206,17 +206,17 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
                     break;
                 case Relationship::ONE_TO_MANY:
                     if (RelationshipSide::LEFT == $side) {
-                        $annotation = '@ORM\OneToMany(targetEntity="'.$this->namespaceFilter($context, $package).'\\'.$this->getName($remoteEntity).'"';
+                        $annotation = '@ORM\OneToMany(targetEntity="'.$this->namespaceFilter($context, $package).'\\'.$this->getName($remoteBusinessModel).'"';
                         $annotation .= ', mappedBy="'.$remoteField->getName().'", cascade={"persist", "remove", "merge"}, orphanRemoval=true';
                     } else {
-                        $annotation = '@ORM\ManyToOne(targetEntity="'.$this->namespaceFilter($context, $package).'\\'.$this->getName($remoteEntity).'"';
+                        $annotation = '@ORM\ManyToOne(targetEntity="'.$this->namespaceFilter($context, $package).'\\'.$this->getName($remoteBusinessModel).'"';
                         $annotation .= ', inversedBy="'.$remoteField->getName().'"';
                     }
                     $annotation .= ')';
                     $annotations[] = $annotation;
                     break;
                 case Relationship::MANY_TO_MANY:
-                    $annotation = '@ORM\ManyToMany(targetEntity="'.$this->namespaceFilter($context, $package).'\\'.$this->getName($remoteEntity).'"';
+                    $annotation = '@ORM\ManyToMany(targetEntity="'.$this->namespaceFilter($context, $package).'\\'.$this->getName($remoteBusinessModel).'"';
                     if (RelationshipSide::LEFT == $side) {
                         $annotation .= ', mappedBy="'.$remoteField->getName().'"';
                     } else {
@@ -232,21 +232,21 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
     }
 
     /**
-     * Returns the list of Doctrine ORM annotations to use for a given Entity.
+     * Returns the list of Doctrine ORM annotations to use for a given BusinessModel.
      *
      * @return string[]
      */
-    private function getEntityAnnotations(Entity $entity): array
+    private function getBusinessModelAnnotations(BusinessModel $businessModel): array
     {
         $annotations = [];
 
         // Build the entity annotation
-        $annotations[] = '@ORM\Entity(repositoryClass="App\Repository\\'.$this->entityHelper->getRepositoryClass($entity).'")';
+        $annotations[] = '@ORM\Entity(repositoryClass="App\Repository\\'.$this->businessModelHelper->getRepositoryClass($businessModel).'")';
 
         // Build the table annotation
-        $table = '@ORM\Table(name="'.$this->databaseAdapter->getTableName($entity).'"';
+        $table = '@ORM\Table(name="'.$this->databaseAdapter->getTableName($businessModel).'"';
         // Add unique constraints
-        $uniqueConstraints = $entity->getUniqueConstraints();
+        $uniqueConstraints = $businessModel->getUniqueConstraints();
         if (!empty($uniqueConstraints)) {
             $table .= ', uniqueConstraints={';
             $count = 0;
@@ -254,13 +254,13 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
                 if ($count > 0) {
                     $table .= ', ';
                 }
-                $table .= '@ORM\UniqueConstraint(name="'.$uniqueConstraint->getName().'", columns={'.$this->getEntityColumns($uniqueConstraint).'})';
+                $table .= '@ORM\UniqueConstraint(name="'.$uniqueConstraint->getName().'", columns={'.$this->getBusinessModelColumns($uniqueConstraint).'})';
                 ++$count;
             }
             $table .= '}';
         }
         // Add indexes
-        $indexes = $this->databaseAdapter->getIndexes($entity);
+        $indexes = $this->databaseAdapter->getIndexes($businessModel);
         if (!empty($indexes)) {
             $table .= ', indexes={';
             $count = 0;
@@ -283,7 +283,7 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
     /**
      * Returns the list of columns (comma-separated) associated with a given constraint.
      */
-    private function getEntityColumns(Constraint $uniqueConstraint): string
+    private function getBusinessModelColumns(Constraint $uniqueConstraint): string
     {
         $names = [];
         foreach ($uniqueConstraint->getFields() as $field) {

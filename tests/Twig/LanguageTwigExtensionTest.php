@@ -3,9 +3,9 @@
 namespace CodePrimer\Tests\Twig;
 
 use CodePrimer\Helper\FieldType;
+use CodePrimer\Model\ BusinessModel;
 use CodePrimer\Model\Constraint;
-use CodePrimer\Model\Entity;
-use CodePrimer\Model\Event;
+use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
 use CodePrimer\Model\Set;
@@ -95,7 +95,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             ['Table_Element', 'Table_Elements'],
             ['field', 'fields'],
             ['field_name', 'field_names'],
-            [new Entity('Entity'), 'Entities'],
+            [new BusinessModel('Entity'), 'Entities'],
             [new Field('Field', 'int'), 'Fields'],
             [new Package('Package', 'Name'), 'Names'],
             [new Event('Name', 'Code'), 'Names'],
@@ -132,7 +132,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             ['Table_Elements', 'Table_Element'],
             ['fields', 'field'],
             ['field_names', 'field_name'],
-            [new Entity('Entities'), 'Entity'],
+            [new BusinessModel('Entities'), 'Entity'],
             [new Field('Fields', 'int'), 'Field'],
             [new Package('Packages', 'Name'), 'Name'],
             [new Event('Names', 'Code'), 'Name'],
@@ -170,7 +170,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             ['field_name', 'field name'],
             ['field.name', 'field.name'],
             ['field-name', 'field-name'],
-            [new Entity('Entities'), 'Entities'],
+            [new BusinessModel('Entities'), 'Entities'],
             [new Field('MYSQL_Field', 'int'), 'MYSQL Field'],
             [new Package('Packages', 'Package_name'), 'Package name'],
             [new Event('valueNames', 'Event'), 'valueNames'],
@@ -203,7 +203,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             ['field_name', 'fieldName'],
             ['field.name', 'field.name'],
             ['field-name', 'fieldName'],
-            [new Entity('Entities'), 'entities'],
+            [new BusinessModel('Entities'), 'entities'],
             [new Field('MYSQL_Field', 'int'), 'mYSQLField'],
             [new Package('Packages', 'Package_name'), 'packageName'],
             [new Event('valueNames', 'Event'), 'valueNames'],
@@ -239,7 +239,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             ['field_name', 'field_name'],
             ['field.name', 'field_name'],
             ['field-name', 'field_name'],
-            [new Entity('Entities'), 'entities'],
+            [new BusinessModel('Entities'), 'entities'],
             [new Field('MYSQL_Field', 'int'), 'm_y_s_q_l_field'],
             [new Package('Packages', 'Package_name'), 'package_name'],
             [new Event('valueNames', 'Event'), 'value_names'],
@@ -273,7 +273,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             ['field.name', 'Field.name'],
             ['field-name', 'FieldName'],
             ['class name', 'ClassName'],
-            [new Entity('Entities'), 'Entities'],
+            [new  BusinessModel('Entities'), 'Entities'],
             [new Field('MYSQL_Field', 'int'), 'MYSQLField'],
             [new Package('Packages', 'Package_name'), 'PackageName'],
             [new Event('valueNames', 'Event'), 'ValueNames'],
@@ -307,7 +307,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             ['field.name', 'FIELD.NAME'],
             ['field-name', 'FIELD_NAME'],
             ['field name', 'FIELD_NAME'],
-            [new Entity('Entities'), 'ENTITIES'],
+            [new BusinessModel('Entities'), 'ENTITIES'],
             [new Field('MYSQL_Field', 'int'), 'MYSQL_FIELD'],
             [new Package('Packages', 'Package_name'), 'PACKAGE_NAME'],
             [new Event('valueNames', 'Event'), 'VALUENAMES'],
@@ -354,7 +354,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             ['field.name', 'field.name'],
             ['field-name', 'fieldName'],
             ['class name', 'className'],
-            [new Entity('Entities'), 'entities'],
+            [new BusinessModel('Entities'), 'entities'],
             [new Field('MYSQL_Field', 'int'), 'mYSQLField'],
             [new Package('Packages', 'Package_name'), 'packageName'],
             [new Event('valueNames', 'Event'), 'valueNames'],
@@ -390,7 +390,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             ['field.name', 'field/name'],
             ['field-name', 'field-name'],
             ['class name', 'class/name'],
-            [new Entity('Entities'), ''],
+            [new BusinessModel('Entities'), ''],
             [new Field('MYSQL/Field', 'int'), ''],
             [new Package('Packages', 'Package_name'), 'Packages'],
             [new Event('Event\\Names', 'Event'), ''],
@@ -426,7 +426,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             ['field.name', 'name'],
             ['field-name', 'field-name'],
             ['class name', 'class name'],
-            [new Entity('Entities'), ''],
+            [new BusinessModel('Entities'), ''],
             [new Field('MYSQL/Field', 'int'), ''],
             [new Package('Packages', 'Package_name'), 'Packages'],
             [new Event('Event\\Names', 'Event'), ''],
@@ -460,7 +460,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             ['field.name', 'getField.name()'],
             ['field-name', 'getFieldName()'],
             ['class name', 'getClassName()'],
-            [new Entity('Entities'), 'getEntities()'],
+            [new BusinessModel('Entities'), 'getEntities()'],
             [new Field('MYSQL_Field', 'int'), 'getMYSQLField()'],
             [new Package('Packages', 'Package_name'), 'getPackageName()'],
             [new Event('valueNames', 'Event'), 'getValueNames()'],
@@ -494,7 +494,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             ['field.name', 'setField.name'],
             ['field-name', 'setFieldName'],
             ['class name', 'setClassName'],
-            [new Entity('Entities'), 'setEntities'],
+            [new BusinessModel('Entities'), 'setEntities'],
             [new Field('MYSQL_Field', 'int'), 'setMYSQLField'],
             [new Package('Packages', 'Package_name'), 'setPackageName'],
             [new Event('valueNames', 'Event'), 'setValueNames'],
@@ -527,7 +527,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             ['field_name', 'addFieldName'],
             ['field-name', 'addFieldName'],
             ['class name', 'addClassName'],
-            [new Entity('Entities'), 'addEntity'],
+            [new BusinessModel('Entities'), 'addEntity'],
             [new Field('MYSQL_Field', 'int'), 'addMYSQLField'],
             [new Package('Packages', 'Package_name'), 'addPackageName'],
             [new Event('valueNames', 'Event'), 'addValueName'],
@@ -560,7 +560,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             ['field_name', 'removeFieldName'],
             ['field-name', 'removeFieldName'],
             ['class name', 'removeClassName'],
-            [new Entity('Entities'), 'removeEntity'],
+            [new BusinessModel('Entities'), 'removeEntity'],
             [new Field('MYSQL_Field', 'int'), 'removeMYSQLField'],
             [new Package('Packages', 'Package_name'), 'removePackageName'],
             [new Event('valueNames', 'Event'), 'removeValueName'],
@@ -593,7 +593,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             ['field_name', 'containsFieldName'],
             ['field-name', 'containsFieldName'],
             ['class name', 'containsClassName'],
-            [new Entity('Entities'), 'containsEntity'],
+            [new BusinessModel('Entities'), 'containsEntity'],
             [new Field('MYSQL_Field', 'int'), 'containsMYSQLField'],
             [new Package('Packages', 'Package_name'), 'containsPackageName'],
             [new Event('valueNames', 'Event'), 'containsValueName'],
@@ -1112,11 +1112,11 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     }
 
     /**
-     * @dataProvider entityTestProvider
+     * @dataProvider businessModelTestProvider
      *
      * @param $expectedValue
      */
-    public function testEntityTest(Field $field, $expectedValue)
+    public function testBusinessModelTest(Field $field, $expectedValue)
     {
         $package = TestHelper::getSamplePackage();
 
@@ -1125,7 +1125,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
         self::assertEquals($expectedValue, $value);
     }
 
-    public function entityTestProvider()
+    public function businessModelTestProvider()
     {
         return [
             'BOOL' => [new Field('Test', FieldType::BOOL), false],
@@ -1171,9 +1171,9 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     public function oneToOneTestProvider()
     {
         $package = TestHelper::getSamplePackage();
-        $user = $package->getEntity('User');
-        $post = $package->getEntity('Post');
-        $topic = $package->getEntity('Topic');
+        $user = $package->getBusinessModel('User');
+        $post = $package->getBusinessModel('Post');
+        $topic = $package->getBusinessModel('Topic');
 
         return [
             'ENTITY - No relation' => [$post, false],
@@ -1207,9 +1207,9 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     public function oneToManyTestProvider()
     {
         $package = TestHelper::getSamplePackage();
-        $user = $package->getEntity('User');
-        $post = $package->getEntity('Post');
-        $topic = $package->getEntity('Topic');
+        $user = $package->getBusinessModel('User');
+        $post = $package->getBusinessModel('Post');
+        $topic = $package->getBusinessModel('Topic');
 
         return [
             'ENTITY - No relation' => [$post, false],
@@ -1243,9 +1243,9 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     public function manyToOneTestProvider()
     {
         $package = TestHelper::getSamplePackage();
-        $user = $package->getEntity('User');
-        $post = $package->getEntity('Post');
-        $topic = $package->getEntity('Topic');
+        $user = $package->getBusinessModel('User');
+        $post = $package->getBusinessModel('Post');
+        $topic = $package->getBusinessModel('Topic');
 
         return [
             'ENTITY - No relation' => [$user, false],
@@ -1279,9 +1279,9 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     public function manyToManyTestProvider()
     {
         $package = TestHelper::getSamplePackage();
-        $user = $package->getEntity('User');
-        $post = $package->getEntity('Post');
-        $topic = $package->getEntity('Topic');
+        $user = $package->getBusinessModel('User');
+        $post = $package->getBusinessModel('Post');
+        $topic = $package->getBusinessModel('Topic');
 
         return [
             'ENTITY - No relation' => [$post, false],

@@ -8,6 +8,8 @@
 
 namespace CodePrimer\Model;
 
+use CodePrimer\Model\Derived\Event;
+
 class Package
 {
     /** @var string */
@@ -19,8 +21,8 @@ class Package
     /** @var string */
     private $description;
 
-    /** @var Entity[] */
-    private $entities = [];
+    /** @var BusinessModel[] */
+    private $businessModels = [];
 
     /** @var Event[] */
     private $events = [];
@@ -91,43 +93,43 @@ class Package
     }
 
     /**
-     * @return Entity[]
+     * @return BusinessModel[]
      */
-    public function getEntities(): array
+    public function getBusinessModels(): array
     {
-        return $this->entities;
+        return $this->businessModels;
     }
 
     /**
      * @return Package
      */
-    public function addEntity(Entity $entity): self
+    public function addBusinessModel(BusinessModel $businessModel): self
     {
-        $this->entities[$entity->getName()] = $entity;
+        $this->businessModels[$businessModel->getName()] = $businessModel;
 
         return $this;
     }
 
-    public function getEntity(string $name): ?Entity
+    public function getBusinessModel(string $name): ?BusinessModel
     {
-        if (isset($this->entities[$name])) {
-            return $this->entities[$name];
+        if (isset($this->businessModels[$name])) {
+            return $this->businessModels[$name];
         }
 
         return null;
     }
 
     /**
-     * @param Entity[] $entities
+     * @param BusinessModel[] $businessModels
      *
      * @return Package
      */
-    public function setEntities(array $entities): self
+    public function setBusinessModels(array $businessModels): self
     {
-        $this->entities = [];
+        $this->businessModels = [];
 
-        foreach ($entities as $entity) {
-            $this->addEntity($entity);
+        foreach ($businessModels as $businessModel) {
+            $this->addBusinessModel($businessModel);
         }
 
         return $this;
@@ -150,8 +152,8 @@ class Package
     {
         $this->events = [];
 
-        foreach ($events as $entity) {
-            $this->addEvent($entity);
+        foreach ($events as $businessModel) {
+            $this->addEvent($businessModel);
         }
 
         return $this;

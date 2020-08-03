@@ -10,7 +10,7 @@ N/A
 N/A
 
 ## Template: `audit_table.sql.twig`
-Base template used to generate a *CREATE TABLE* script to create a **audit table** associated with a given entity.
+Base template used to generate a *CREATE TABLE* script to create a **audit table** associated with a given business model.
 
 ### Template Variables
 N/A
@@ -19,7 +19,7 @@ N/A
 N/A
 
 ## Template: `relation_table.sql.twig`
-Base template used to generate a *CREATE TABLE* script to create a **relation table** between 2 entities to **implement a MANY-TO-MANY relationship**.
+Base template used to generate a *CREATE TABLE* script to create a **relation table** between 2 business models to **implement a MANY-TO-MANY relationship**.
 
 ### Template Variables
 N/A

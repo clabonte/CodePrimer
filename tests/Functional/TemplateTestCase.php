@@ -45,7 +45,7 @@ class TemplateTestCase extends TestCase
 
     protected function initEntities()
     {
-        TestHelper::addSampleEntities($this->package);
+        TestHelper::addSampleBusinessModels($this->package);
 
         $packageHelper = new PackageHelper();
         $packageHelper->buildRelationships($this->package);
