@@ -23,17 +23,19 @@ You know the strengths and weaknesses of both, so you list them out on a piece o
 | Consideration | Monolith | Microservices |
 | ------------- | -------- | -------------- |
 | **Codebase** | **Single codebase** with everything in it :white_check_mark: | Multiple repositories |
-| **Testing** | **Easier** to test :white_check_mark: | Requires **more planning** and structure |
-| **Deployment** | **Easier** to deploy :white_check_mark: | Requires **more planning** and structure |
-| **Scalability** | Single load balancer required :white_check_mark: | Requires **more planning** and structure based on services type |
-| **Monitoring** | **Easier** to monitor :white_check_mark: | Requires **more planning** and structure based on services type |
+| **Testing** | **Easier** to test :white_check_mark: | Requires **more planning** and structure :x: |
+| **Deployment** | **Easier** to deploy :white_check_mark: | Requires **more planning** and structure :x: |
+| **Scalability** | Single load balancer required :white_check_mark: | Requires **more planning** and structure based on services type :x: |
+| **Monitoring** | **Easier** to monitor :white_check_mark: | Requires **more planning** and structure based on services type :x: |
 | **Debugging** | **Easier** to debug :white_check_mark: | Requires **more work** and structure to investigate **complex issues** :x: |
 | **Impact of error introduction** | Error may **impact whole application** :x: | **Limited impact**, errors tend to be **isolated to a service** :white_check_mark: |
 | **Code evolution** | Perfect recipe for **spaghetti**!! :x: | Forces developers to **maintain cleaner structure** :white_check_mark: |
 | **Code complexity** | Simple to start with, **complexity increases** over time :x: | Complexity **remains simple** for each service over time :white_check_mark: |
 | **Infrastructure complexity** | **Simple** to understand :white_check_mark: | Complex to start with, **complexity increases** over time :x: |
-| **Future-proofing** | <ul><li>Framework upgrades: **painful** :x:</li><li>Technology migration: **full rewrite!!** :x: :x:</li></ul> | **Easy** to plan the introduction of new technology :white_check_mark: | 
+| **Future-proofing** | <ul><li>Framework upgrades: **painful** :x:</li><li>Technology migration: **full rewrite!!** :x:</li></ul> | **Easy** to plan the introduction of new technology :white_check_mark: | 
 | **Best suited for** | <ul><li>Early stage and prototypes</li><li>Simple projects</li><li>Small team</li><li>Junior developers</li></ul> | <ul><li>Complex applications</li><li>Quickly evolving solutions</li><li>Large team</li><li>Experienced developers</li></ul>
+
+This exercise simply reminds you there are **pros and cons to both approaches** and this is **not a simple decision** to make because it **will impact the project for years to come**...
    
 General wisdom suggests to **start with a monolith for the MVP** and to **evolve towards a microservices architecture** over time when the need arises. Based on your experience, you know that is **easier said than done**, because at this point in time, you will need to:
  - **Train your development team** on this new architecture along with advanced DevOps concepts.
