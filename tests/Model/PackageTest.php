@@ -58,52 +58,52 @@ class PackageTest extends TestCase
         ];
     }
 
-    public function testAddEntity()
+    public function testAddBusinessModel()
     {
         $this->package
-            ->addEntity(new BusinessModel('TestData1', 'description1'))
-            ->addEntity(new BusinessModel('TestData2', 'description2'))
-            ->addEntity(new BusinessModel('TestData3', 'description3'))
-            ->addEntity(new BusinessModel('TestData4', 'description4'));
+            ->addBusinessModel(new BusinessModel('TestData1', 'description1'))
+            ->addBusinessModel(new BusinessModel('TestData2', 'description2'))
+            ->addBusinessModel(new BusinessModel('TestData3', 'description3'))
+            ->addBusinessModel(new BusinessModel('TestData4', 'description4'));
 
         // Make sure all data is present and unaltered
-        self::assertCount(4, $this->package->getEntities());
+        self::assertCount(4, $this->package->getBusinessModels());
 
-        $businessModel = $this->package->getEntity('TestData1');
+        $businessModel = $this->package->getBusinessModel('TestData1');
         self::assertNotNull($businessModel, 'TestData1 not found');
         self::assertEquals('TestData1', $businessModel->getName());
         self::assertEquals('description1', $businessModel->getDescription());
 
-        $businessModel = $this->package->getEntity('TestData2');
+        $businessModel = $this->package->getBusinessModel('TestData2');
         self::assertNotNull($businessModel, 'TestData2 not found');
         self::assertEquals('TestData2', $businessModel->getName());
         self::assertEquals('description2', $businessModel->getDescription());
 
-        $businessModel = $this->package->getEntity('TestData3');
+        $businessModel = $this->package->getBusinessModel('TestData3');
         self::assertNotNull($businessModel, 'TestData3 not found');
         self::assertEquals('TestData3', $businessModel->getName());
         self::assertEquals('description3', $businessModel->getDescription());
 
-        $businessModel = $this->package->getEntity('TestData4');
+        $businessModel = $this->package->getBusinessModel('TestData4');
         self::assertNotNull($businessModel, 'TestData4 not found');
         self::assertEquals('TestData4', $businessModel->getName());
         self::assertEquals('description4', $businessModel->getDescription());
     }
 
-    public function testAddDuplicateEntityKeepsLast()
+    public function testAddDuplicateBusinessModelKeepsLast()
     {
         $this->package
-            ->addEntity(new BusinessModel('TestData1', 'description1'))
-            ->addEntity(new BusinessModel('TestData2', 'description2'))
-            ->addEntity(new BusinessModel('TestData3', 'description3'))
-            ->addEntity(new BusinessModel('TestData4', 'description4'));
+            ->addBusinessModel(new BusinessModel('TestData1', 'description1'))
+            ->addBusinessModel(new BusinessModel('TestData2', 'description2'))
+            ->addBusinessModel(new BusinessModel('TestData3', 'description3'))
+            ->addBusinessModel(new BusinessModel('TestData4', 'description4'));
 
-        $this->package->addEntity(new BusinessModel('TestData1', 'description5'));
+        $this->package->addBusinessModel(new BusinessModel('TestData1', 'description5'));
 
         // Make sure TestData1 has been replaced
-        self::assertCount(4, $this->package->getEntities());
+        self::assertCount(4, $this->package->getBusinessModels());
 
-        $businessModel = $this->package->getEntity('TestData1');
+        $businessModel = $this->package->getBusinessModel('TestData1');
         self::assertNotNull($businessModel, 'TestData1 not found');
         self::assertEquals('TestData1', $businessModel->getName());
         self::assertEquals('description5', $businessModel->getDescription());
@@ -112,33 +112,33 @@ class PackageTest extends TestCase
     public function testSetEntities()
     {
         $this->package
-            ->addEntity(new BusinessModel('TestData1', 'description1'))
-            ->addEntity(new BusinessModel('TestData2', 'description2'))
-            ->addEntity(new BusinessModel('TestData3', 'description3'))
-            ->addEntity(new BusinessModel('TestData4', 'description4'));
+            ->addBusinessModel(new BusinessModel('TestData1', 'description1'))
+            ->addBusinessModel(new BusinessModel('TestData2', 'description2'))
+            ->addBusinessModel(new BusinessModel('TestData3', 'description3'))
+            ->addBusinessModel(new BusinessModel('TestData4', 'description4'));
 
         $entities = [
             new BusinessModel('TestData5', 'description5'),
             new BusinessModel('TestData6', 'description6'),
         ];
 
-        $this->package->setEntities($entities);
-        self::assertCount(2, $this->package->getEntities());
+        $this->package->setBusinessModels($entities);
+        self::assertCount(2, $this->package->getBusinessModels());
 
-        $businessModel = $this->package->getEntity('TestData5');
+        $businessModel = $this->package->getBusinessModel('TestData5');
         self::assertNotNull($businessModel, 'TestData5 not found');
         self::assertEquals('TestData5', $businessModel->getName());
         self::assertEquals('description5', $businessModel->getDescription());
 
-        $businessModel = $this->package->getEntity('TestData6');
+        $businessModel = $this->package->getBusinessModel('TestData6');
         self::assertNotNull($businessModel, 'TestData6 not found');
         self::assertEquals('TestData6', $businessModel->getName());
         self::assertEquals('description6', $businessModel->getDescription());
 
-        self::assertNull($this->package->getEntity('TestData1'));
-        self::assertNull($this->package->getEntity('TestData2'));
-        self::assertNull($this->package->getEntity('TestData3'));
-        self::assertNull($this->package->getEntity('TestData4'));
+        self::assertNull($this->package->getBusinessModel('TestData1'));
+        self::assertNull($this->package->getBusinessModel('TestData2'));
+        self::assertNull($this->package->getBusinessModel('TestData3'));
+        self::assertNull($this->package->getBusinessModel('TestData4'));
     }
 
     public function testAddEvent()

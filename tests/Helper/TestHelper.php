@@ -112,7 +112,7 @@ class TestHelper
                     ->setErrorMessage('This nickname name is already in use. Please select another one.')
         );
 
-        $package->addEntity( $businessModel);
+        $package->addBusinessModel( $businessModel);
 
          $businessModel = new BusinessModel('UserStats', 'Simple statistics about the user');
          $businessModel
@@ -120,7 +120,7 @@ class TestHelper
             ->addField(new Field('lastLogin', FieldType::DATETIME, 'Last time the user logged in the system'))
             ->addField(new Field('loginCount', FieldType::LONG, 'Number of time the user logged in the system'));
 
-        $package->addEntity( $businessModel);
+        $package->addBusinessModel( $businessModel);
 
          $businessModel = new BusinessModel('Metadata', 'Variable set of extra information');
          $businessModel
@@ -133,7 +133,7 @@ class TestHelper
                     ->setMandatory(true)
             );
 
-        $package->addEntity( $businessModel);
+        $package->addBusinessModel( $businessModel);
 
          $businessModel = new BusinessModel('Post', 'Post created by the user');
          $businessModel
@@ -150,7 +150,7 @@ class TestHelper
                     ->setManaged(true)
             );
 
-        $package->addEntity( $businessModel);
+        $package->addBusinessModel( $businessModel);
 
          $businessModel = new  BusinessModel('Topic', 'A topic regroups a set of posts made by various authors');
          $businessModel
@@ -173,7 +173,7 @@ class TestHelper
                     ->setManaged(true)
             );
 
-        $package->addEntity( $businessModel);
+        $package->addBusinessModel( $businessModel);
 
          $businessModel = new BusinessModel('Subscription', 'The subscription bought by a user to user our services');
          $businessModel
@@ -189,6 +189,6 @@ class TestHelper
                     ->setManaged(true)
             );
 
-        $package->addEntity( $businessModel);
+        $package->addBusinessModel( $businessModel);
     }
 }

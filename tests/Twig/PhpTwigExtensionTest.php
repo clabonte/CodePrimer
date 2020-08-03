@@ -477,19 +477,19 @@ class PhpTwigExtensionTest extends TwigExtensionTest
 
         return [
             'User' => [
-                $package->getEntity('User'),
+                $package->getBusinessModel('User'),
                 true,
             ],
             'Metadata' => [
-                $package->getEntity('Metadata'),
+                $package->getBusinessModel('Metadata'),
                 false,
             ],
             'Post' => [
-                $package->getEntity('Post'),
+                $package->getBusinessModel('Post'),
                 true,
             ],
             'Topic' => [
-                $package->getEntity('Topic'),
+                $package->getBusinessModel('Topic'),
                 true,
             ],
         ];

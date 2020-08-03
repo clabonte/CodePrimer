@@ -2,14 +2,14 @@
 
 namespace CodePrimer\Builder;
 
-use CodePrimer\Helper\EntityHelper;
+use CodePrimer\Helper\BusinessModelHelper;
 use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Package;
 use CodePrimer\Renderer\TemplateRenderer;
 use CodePrimer\Template\Template;
 
-class EntityBuilder implements ArtifactBuilder
+class BusinessModelBuilder implements ArtifactBuilder
 {
     /**
      * @return string[]
@@ -19,8 +19,8 @@ class EntityBuilder implements ArtifactBuilder
     public function build(Package $package, Template $template, TemplateRenderer $renderer): array
     {
         $files = [];
-        foreach ($package->getEntities() as $businessModel) {
-            $files[] = $this->buildEntity($package, $businessModel, $template, $renderer);
+        foreach ($package->getBusinessModels() as $businessModel) {
+            $files[] = $this->buildBusinessModel($package, $businessModel, $template, $renderer);
         }
 
         return $files;
@@ -29,14 +29,14 @@ class EntityBuilder implements ArtifactBuilder
     /**
      * @throws \Exception
      */
-    protected function buildEntity(Package $package, BusinessModel $businessModel, Template $template, TemplateRenderer $renderer): string
+    protected function buildBusinessModel(Package $package, BusinessModel $businessModel, Template $template, TemplateRenderer $renderer): string
     {
         $context = [
             'package' => $package,
             'subpackage' => 'Entity',
             'model' => $businessModel,
             'entity' => $businessModel,
-            'entityHelper' => new EntityHelper(),
+            'entityHelper' => new BusinessModelHelper(),
             'fieldHelper' => new FieldHelper(),
         ];
 

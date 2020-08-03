@@ -168,9 +168,9 @@ class DatabaseAdapterTest extends TestCase
     /**
      * @dataProvider entityColumnNameProvider
      */
-    public function testGetEntityColumnName(BusinessModel $businessModel, string $expected)
+    public function testGetBusinessModelColumnName(BusinessModel $businessModel, string $expected)
     {
-        self::assertEquals($expected, $this->adapter->getEntityColumnName($businessModel));
+        self::assertEquals($expected, $this->adapter->getBusinessModelColumnName($businessModel));
     }
 
     public function entityColumnNameProvider()

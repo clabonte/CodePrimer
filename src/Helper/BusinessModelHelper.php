@@ -6,7 +6,7 @@ use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
 use Doctrine\Common\Inflector\Inflector;
 
-class EntityHelper
+class BusinessModelHelper
 {
     /**
      * Returns the name of the Repository class associated with a given entity.
@@ -19,14 +19,14 @@ class EntityHelper
     /**
      * Retrieves the field used to automatically tracks the entity creation timestamp, if any.
      */
-    public function getEntityCreatedTimestampField(BusinessModel $businessModel): ?Field
+    public function getCreatedTimestampField(BusinessModel $businessModel): ?Field
     {
         $result = null;
 
         $fieldHelper = new FieldHelper();
 
         foreach ($businessModel->getManagedFields() as $field) {
-            if ($fieldHelper->isEntityCreatedTimestamp($field)) {
+            if ($fieldHelper->isBusinessModelCreatedTimestamp($field)) {
                 $result = $field;
                 break;
             }
@@ -38,14 +38,14 @@ class EntityHelper
     /**
      * Retrieves the field used to automatically tracks the entity last update timestamp, if any.
      */
-    public function getEntityUpdatedTimestampField(BusinessModel $businessModel): ?Field
+    public function getUpdatedTimestampField(BusinessModel $businessModel): ?Field
     {
         $result = null;
 
         $fieldHelper = new FieldHelper();
 
         foreach ($businessModel->getManagedFields() as $field) {
-            if ($fieldHelper->isEntityUpdatedTimestamp($field)) {
+            if ($fieldHelper->isBusinessModelUpdatedTimestamp($field)) {
                 $result = $field;
                 break;
             }
@@ -61,7 +61,7 @@ class EntityHelper
         $fieldHelper = new FieldHelper();
 
         foreach ($businessModel->getManagedFields() as $field) {
-            if ($fieldHelper->isEntityCreatedTimestamp($field) || $fieldHelper->isEntityUpdatedTimestamp($field)) {
+            if ($fieldHelper->isBusinessModelCreatedTimestamp($field) || $fieldHelper->isBusinessModelUpdatedTimestamp($field)) {
                 $result = true;
                 break;
             }
@@ -75,17 +75,17 @@ class EntityHelper
      *
      * @return BusinessModel[]
      */
-    public function getLinkedEntities(BusinessModel $businessModel): array
+    public function getLinkedBusinessModels(BusinessModel $businessModel): array
     {
-        $entities = [];
+        $businessModels = [];
 
         foreach ($businessModel->getRelations() as $relation) {
-            $remoteEntity = $relation->getRemoteSide()->getEntity();
-            if (!in_array($remoteEntity, $entities)) {
-                $entities[] = $remoteEntity;
+            $remoteBusinessModel = $relation->getRemoteSide()->getBusinessModel();
+            if (!in_array($remoteBusinessModel, $businessModels)) {
+                $businessModels[] = $remoteBusinessModel;
             }
         }
 
-        return $entities;
+        return $businessModels;
     }
 }

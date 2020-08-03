@@ -23,20 +23,20 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
     public function generateRelationalFields(Package $package, string $identifierType = FieldType::UUID)
     {
         // Start by adding missing identifiers for the various entities
-        foreach ($package->getEntities() as $businessModel) {
+        foreach ($package->getBusinessModels() as $businessModel) {
             if (null === $businessModel->getIdentifier()) {
                 $this->generateIdentifierField($businessModel, $identifierType);
             }
         }
 
         // Add all missing foreign key fields to allow ORMs to work as expected
-        foreach ($package->getEntities() as $businessModel) {
+        foreach ($package->getBusinessModels() as $businessModel) {
             foreach ($businessModel->getFields() as $field) {
                 $relation = $field->getRelation();
                 if (null !== $relation) {
                     if ((Relationship::ONE_TO_MANY == $relation->getRelationship()->getType()) &&
                         (null === $relation->getRemoteSide()->getField())) {
-                        $newField = $this->generateForeignKeyField($relation->getRemoteSide()->getEntity(), $businessModel);
+                        $newField = $this->generateForeignKeyField($relation->getRemoteSide()->getBusinessModel(), $businessModel);
                         $relation->getRemoteSide()->setField($newField);
                     }
                 }
@@ -99,18 +99,18 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
         return $result;
     }
 
-    public function generateForeignKeyField(BusinessModel $businessModel, BusinessModel $foreignEntity): Field
+    public function generateForeignKeyField(BusinessModel $businessModel, BusinessModel $foreignModel): Field
     {
-        $foreignIdField = $foreignEntity->getIdentifier();
+        $foreignIdField = $foreignModel->getIdentifier();
         if (null === $foreignIdField) {
-            throw new \RuntimeException('No identifier available for foreign entity '.$foreignEntity->getName());
+            throw new \RuntimeException('No identifier available for foreign entity '.$foreignModel->getName());
         }
 
-        $name = Inflector::camelize($foreignEntity->getName());
+        $name = Inflector::camelize($foreignModel->getName());
         if (null !== $businessModel->getField($name)) {
             throw new \RuntimeException('Cannot generate foreign key field on entity '.$businessModel->getName().': Field "'.$name.'" field is already defined. Did you provide the right type for this field?');
         }
-        $field = new Field($name, $foreignEntity->getName(), 'Foreign relationship field');
+        $field = new Field($name, $foreignModel->getName(), 'Foreign relationship field');
         $field->setGenerated(true);
         $businessModel->addField($field);
 
@@ -132,7 +132,7 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
         }
         foreach ($businessModel->getRelations() as $relation) {
             if ($this->isValidForeignKey($relation)) {
-                $indexes[] = $this->createIndex($relation->getField(), $relation->getRemoteSide()->getEntity()->getName().' foreign key');
+                $indexes[] = $this->createIndex($relation->getField(), $relation->getRemoteSide()->getBusinessModel()->getName().' foreign key');
             }
         }
 
@@ -186,9 +186,9 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
                 $audited = false;
             } elseif ($field->isList()) {
                 $audited = false;
-            } elseif ($fieldHelper->isEntityCreatedTimestamp($field)) {
+            } elseif ($fieldHelper->isBusinessModelCreatedTimestamp($field)) {
                 $audited = false;
-            } elseif ($fieldHelper->isEntityUpdatedTimestamp($field)) {
+            } elseif ($fieldHelper->isBusinessModelUpdatedTimestamp($field)) {
                 $audited = false;
             }
 

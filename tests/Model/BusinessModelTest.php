@@ -9,7 +9,7 @@ use CodePrimer\Model\Field;
 use CodePrimer\Model\StateMachine;
 use PHPUnit\Framework\TestCase;
 
-class EntityTest extends TestCase
+class BusinessModelTest extends TestCase
 {
     /** @var BusinessModel */
     private $businessModel;

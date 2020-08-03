@@ -52,7 +52,7 @@ class DatabaseAdapter
         $leftSide = $relation->getRelationship()->getLeftSide();
         $rightSide = $relation->getRelationship()->getRightSide();
 
-        return $this->getTableName($leftSide->getEntity()).'_'.$this->getTableName($rightSide->getEntity());
+        return $this->getTableName($leftSide->getBusinessModel()).'_'.$this->getTableName($rightSide->getBusinessModel());
     }
 
     /**
@@ -80,7 +80,7 @@ class DatabaseAdapter
     /**
      * Extracts the name to use as a column to represent an  business model.
      */
-    public function getEntityColumnName(BusinessModel $businessModel): string
+    public function getBusinessModelColumnName(BusinessModel $businessModel): string
     {
         $name = str_replace(['-', ' ', '.'], '_', $businessModel->getName());
         $name = Inflector::tableize($name).'_id';

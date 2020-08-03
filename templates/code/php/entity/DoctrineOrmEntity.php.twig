@@ -1,7 +1,7 @@
 {% extends "code/php/common/class.php.twig" %}
 
-{% set createdField = entityHelper.getEntityCreatedTimestampField(entity) %}
-{% set updatedField = entityHelper.getEntityUpdatedTimestampField(entity) %}
+{% set createdField = entityHelper.getCreatedTimestampField(entity) %}
+{% set updatedField = entityHelper.getUpdatedTimestampField(entity) %}
 
 {# Override the includes block to include the Doctrine classes #}
 {% block includes %}

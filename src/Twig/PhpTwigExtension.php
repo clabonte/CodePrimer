@@ -148,7 +148,7 @@ class PhpTwigExtension extends LanguageTwigExtension
             } elseif (isset($context['package'])) {
                 /** @var Package $package */
                 $package = $context['package'];
-                if ($helper->isEntity($field, $package)) {
+                if ($helper->isBusinessModel($field, $package)) {
                     $type = $field->getType();
                 }
             }
@@ -192,7 +192,7 @@ class PhpTwigExtension extends LanguageTwigExtension
             } elseif (isset($context['package'])) {
                 /** @var Package $package */
                 $package = $context['package'];
-                if ($helper->isEntity($field, $package)) {
+                if ($helper->isBusinessModel($field, $package)) {
                     $type = $field->getType();
                 }
             }
@@ -232,7 +232,7 @@ class PhpTwigExtension extends LanguageTwigExtension
             } elseif (isset($context['package'])) {
                 /** @var Package $package */
                 $package = $context['package'];
-                if ($helper->isEntity($field, $package)) {
+                if ($helper->isBusinessModel($field, $package)) {
                     $type = $field->getType();
                 }
             }

@@ -247,7 +247,7 @@ class LanguageTwigExtension extends AbstractExtension
         $result = false;
 
         if ($obj instanceof Field) {
-            $result = $this->fieldHelper->isEntity($obj, $package);
+            $result = $this->fieldHelper->isBusinessModel($obj, $package);
         }
 
         return $result;
@@ -700,7 +700,7 @@ class LanguageTwigExtension extends AbstractExtension
             } elseif (isset($context['package'])) {
                 /** @var Package $package */
                 $package = $context['package'];
-                if ($helper->isEntity($field, $package)) {
+                if ($helper->isBusinessModel($field, $package)) {
                     $type = $field->getType();
                 }
             }
@@ -748,7 +748,7 @@ class LanguageTwigExtension extends AbstractExtension
             } elseif (isset($context['package'])) {
                 /** @var Package $package */
                 $package = $context['package'];
-                if ($helper->isEntity($field, $package)) {
+                if ($helper->isBusinessModel($field, $package)) {
                     $type = $field->getType();
                 }
             }

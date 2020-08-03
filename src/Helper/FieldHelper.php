@@ -136,11 +136,11 @@ class FieldHelper
     /**
      * Checks if a field represents a known BusinessModel in a given package.
      */
-    public function isEntity(Field $field, Package $package): bool
+    public function isBusinessModel(Field $field, Package $package): bool
     {
         $result = false;
 
-        $businessModel = $package->getEntity($field->getType());
+        $businessModel = $package->getBusinessModel($field->getType());
         if (isset($businessModel)) {
             $result = true;
         }
@@ -149,10 +149,10 @@ class FieldHelper
     }
 
     /**
-     * Checks if a field represents a managed datetime field used to automatically track the time at which an entity has
+     * Checks if a field represents a managed datetime field used to automatically track the time at which a business model has
      * been created.
      */
-    public function isEntityCreatedTimestamp(Field $field): bool
+    public function isBusinessModelCreatedTimestamp(Field $field): bool
     {
         $result = false;
 
@@ -167,11 +167,11 @@ class FieldHelper
     }
 
     /**
-     * Checks if a field represents a managed datetime field used to automatically track the time at which an entity has
+     * Checks if a field represents a managed datetime field used to automatically track the time at which a business model has
      * been updated last
-     * Checks if a field represents a managed datetime field used to track the entity creation timestamp.
+     * Checks if a field represents a managed datetime field used to track the business model creation timestamp.
      */
-    public function isEntityUpdatedTimestamp(Field $field): bool
+    public function isBusinessModelUpdatedTimestamp(Field $field): bool
     {
         $result = false;
 

@@ -3,7 +3,7 @@
 namespace CodePrimer\Twig;
 
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
-use CodePrimer\Helper\EntityHelper;
+use CodePrimer\Helper\BusinessModelHelper;
 use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Model\Database\Index;
 use CodePrimer\Model\BusinessModel;
@@ -22,7 +22,7 @@ use Twig\TwigTest;
  */
 class SqlTwigExtension extends LanguageTwigExtension
 {
-    /** @var EntityHelper */
+    /** @var BusinessModelHelper */
     protected $entityHelper;
 
     /** @var FieldHelper */
@@ -34,7 +34,7 @@ class SqlTwigExtension extends LanguageTwigExtension
     public function __construct()
     {
         parent::__construct();
-        $this->entityHelper = new EntityHelper();
+        $this->entityHelper = new BusinessModelHelper();
         $this->fieldHelper = new FieldHelper();
         $this->databaseAdapter = new RelationalDatabaseAdapter();
     }
@@ -114,7 +114,7 @@ class SqlTwigExtension extends LanguageTwigExtension
         if ($obj instanceof Field) {
             return $this->databaseAdapter->getColumnName($obj);
         } elseif ($obj instanceof BusinessModel) {
-            return $this->databaseAdapter->getEntityColumnName($obj);
+            return $this->databaseAdapter->getBusinessModelColumnName($obj);
         } elseif ($obj instanceof Index) {
             $columns = [];
             foreach ($obj->getFields() as $field) {
@@ -123,7 +123,7 @@ class SqlTwigExtension extends LanguageTwigExtension
 
             return implode(',', $columns);
         }
-        throw new RuntimeException('Column names can only generated for Field, BusinessModel or Index instances. Received: '.get_class($obj));
+        throw new RuntimeException('Column names can only generated for Field, BusinessModel or Index instances. Received: '.null === $obj ? 'null' : get_class($obj));
     }
 
     /**
@@ -139,7 +139,7 @@ class SqlTwigExtension extends LanguageTwigExtension
 
         // Format: fk_[referencing table name]_[referenced table name](_[referencing field name])
         $remoteSide = $obj->getRemoteSide();
-        $result = 'fk_'.$this->tableFilter($obj->getEntity()).'_'.$this->tableFilter($remoteSide->getEntity()).'_'.$this->columnFilter($obj->getField());
+        $result = 'fk_'.$this->tableFilter($obj->getBusinessModel()).'_'.$this->tableFilter($remoteSide->getBusinessModel()).'_'.$this->columnFilter($obj->getField());
 
         return $result;
     }

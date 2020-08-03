@@ -77,11 +77,11 @@ class SqlTwigExtensionTest extends TwigExtensionTest
         $adapter = new RelationalDatabaseAdapter();
         $adapter->generateRelationalFields($package);
 
-        $user = $package->getEntity('User');
-        $subscription = $package->getEntity('Subscription');
-        $metadata = $package->getEntity('Metadata');
-        $post = $package->getEntity('Post');
-        $topic = $package->getEntity('Topic');
+        $user = $package->getBusinessModel('User');
+        $subscription = $package->getBusinessModel('Subscription');
+        $metadata = $package->getBusinessModel('Metadata');
+        $post = $package->getBusinessModel('Post');
+        $topic = $package->getBusinessModel('Topic');
 
         return [
             'User->UserStat' => [
@@ -125,11 +125,11 @@ class SqlTwigExtensionTest extends TwigExtensionTest
         $adapter = new RelationalDatabaseAdapter();
         $adapter->generateRelationalFields($package);
 
-        $user = $package->getEntity('User');
-        $subscription = $package->getEntity('Subscription');
-        $metadata = $package->getEntity('Metadata');
-        $post = $package->getEntity('Post');
-        $topic = $package->getEntity('Topic');
+        $user = $package->getBusinessModel('User');
+        $subscription = $package->getBusinessModel('Subscription');
+        $metadata = $package->getBusinessModel('Metadata');
+        $post = $package->getBusinessModel('Post');
+        $topic = $package->getBusinessModel('Topic');
 
         return [
             'User->Post' => [$user->getField('posts')->getRelation()],
@@ -302,8 +302,8 @@ class SqlTwigExtensionTest extends TwigExtensionTest
         $adapter = new RelationalDatabaseAdapter();
         $adapter->generateRelationalFields($package);
 
-        $user = $package->getEntity('User');
-        $metadata = $package->getEntity('Metadata');
+        $user = $package->getBusinessModel('User');
+        $metadata = $package->getBusinessModel('Metadata');
 
         return [
             'Name' => [new Field('Name', FieldType::STRING), 'name'],
@@ -319,14 +319,14 @@ class SqlTwigExtensionTest extends TwigExtensionTest
     }
 
     /**
-     * @dataProvider entityColumnNameProvider
+     * @dataProvider businessModelColumnNameProvider
      */
-    public function testEntityColumnFilter(BusinessModel $businessModel, string $expected)
+    public function testBusinessModelColumnFilter(BusinessModel $businessModel, string $expected)
     {
         self::assertEquals($expected, $this->twigExtension->columnFilter($businessModel));
     }
 
-    public function entityColumnNameProvider()
+    public function businessModelColumnNameProvider()
     {
         return [
             'Name' => [new BusinessModel('Name'), 'name_id'],
@@ -349,7 +349,7 @@ class SqlTwigExtensionTest extends TwigExtensionTest
     public function indexColumnNameProvider(): array
     {
         $package = TestHelper::getSamplePackage();
-        $user = $package->getEntity('User');
+        $user = $package->getBusinessModel('User');
 
         $field1 = new Field('firstName', FieldType::STRING);
         $field1->setSearchable(true);
@@ -384,7 +384,7 @@ class SqlTwigExtensionTest extends TwigExtensionTest
     public function columnFilterExceptionProvider()
     {
         $package = TestHelper::getSamplePackage();
-        $user = $package->getEntity('User');
+        $user = $package->getBusinessModel('User');
 
         return [
             'Package' => [$package],
@@ -410,7 +410,7 @@ class SqlTwigExtensionTest extends TwigExtensionTest
     {
         $package = TestHelper::getSamplePackage();
 
-        $user = $package->getEntity('User');
+        $user = $package->getBusinessModel('User');
 
         return [
             'User' => [
@@ -498,8 +498,8 @@ class SqlTwigExtensionTest extends TwigExtensionTest
         $helper = new RelationshipTestHelper();
         $package = $helper->getPackage();
 
-        $user = $package->getEntity('User');
-        $metadata = $package->getEntity('Metadata');
+        $user = $package->getBusinessModel('User');
+        $metadata = $package->getBusinessModel('Metadata');
 
         return [
             'User with id' => [
@@ -534,7 +534,7 @@ class SqlTwigExtensionTest extends TwigExtensionTest
                 ],
             ],
             'Metadata generated field' => [
-                $package->getEntity('Metadata'),
+                $package->getBusinessModel('Metadata'),
                 false,
                 [
                     $metadata->getField('name'),
@@ -562,7 +562,7 @@ class SqlTwigExtensionTest extends TwigExtensionTest
     public function indexesFunctionProvider(): array
     {
         $package = TestHelper::getSamplePackage();
-        $user = $package->getEntity('User');
+        $user = $package->getBusinessModel('User');
 
         $field1 = new Field('name', FieldType::STRING);
         $index1 = new Field('firstName', FieldType::STRING);

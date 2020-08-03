@@ -20,7 +20,7 @@ class JavaEntityTemplatesTest extends TemplateTestCase
     {
         $this->initEntities();
 
-        self::assertCount(6, $this->package->getEntities());
+        self::assertCount(6, $this->package->getBusinessModels());
 
         $artifact = new Artifact(Artifact::CODE, 'Entity', 'java');
 

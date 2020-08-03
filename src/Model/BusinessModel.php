@@ -31,7 +31,7 @@ class BusinessModel
     private $uniqueConstraints = [];
 
     /**
-     * DataEntity constructor.
+     * BusinessModel constructor.
      */
     public function __construct(string $name, string $description = '')
     {

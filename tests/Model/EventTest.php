@@ -24,19 +24,19 @@ class EventTest extends TestCase
         self::assertEquals('TestEvent', $this->event->getName());
         self::assertEquals('test.event', $this->event->getCode());
         self::assertEquals('Test Description', $this->event->getDescription());
-        self::assertNull($this->event->getEntity());
+        self::assertNull($this->event->getBusinessModel());
 
         $this->event
             ->setName('NewName')
             ->setCode('new.code')
             ->setDescription('New Description')
-            ->setEntity(new BusinessModel('Test Entity'));
+            ->setBusinessModel(new BusinessModel('Test Entity'));
 
         self::assertEquals('NewName', $this->event->getName());
         self::assertEquals('new.code', $this->event->getCode());
         self::assertEquals('New Description', $this->event->getDescription());
 
-        $businessModel = $this->event->getEntity();
+        $businessModel = $this->event->getBusinessModel();
         self::assertNotNull($businessModel);
         self::assertEquals('Test Entity', $businessModel->getName());
     }

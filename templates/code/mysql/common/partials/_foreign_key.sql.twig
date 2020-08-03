@@ -2,8 +2,8 @@
  # This template defines the SQL sentence to create a foreign key between 2 tables
  # Input: relation - A RelationshipSide object
  #}
-{% set entity = relation.entity %}
-{% set remoteEntity = relation.remoteSide.entity %}
+{% set entity = relation.businessModel %}
+{% set remoteEntity = relation.remoteSide.businessModel %}
 {% set field = relation.field %}
 {% set remoteField = remoteSide.field %}
 {% if not remoteField %}

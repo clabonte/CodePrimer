@@ -28,9 +28,9 @@ class PackageHelper
      */
     public function buildRelationships(Package $package)
     {
-        foreach ($package->getEntities() as $businessModel) {
+        foreach ($package->getBusinessModels() as $businessModel) {
             foreach ($businessModel->getFields() as $field) {
-                if ($this->fieldHelper->isEntity($field, $package)) {
+                if ($this->fieldHelper->isBusinessModel($field, $package)) {
                     if (null === $field->getRelation()) {
                         $this->createRelationship($package, $businessModel, $field);
                     }
@@ -44,7 +44,7 @@ class PackageHelper
      */
     private function createRelationship(Package $package,  BusinessModel  $businessModel, Field $field): Relationship
     {
-         $remoteBusinessModel = $package->getEntity($field->getType());
+         $remoteBusinessModel = $package->getBusinessModel($field->getType());
 
         // Make sure the remote entity exists
         if (null ===  $remoteBusinessModel) {

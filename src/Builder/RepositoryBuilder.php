@@ -2,7 +2,7 @@
 
 namespace CodePrimer\Builder;
 
-use CodePrimer\Helper\EntityHelper;
+use CodePrimer\Helper\BusinessModelHelper;
 use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Package;
@@ -19,7 +19,7 @@ class RepositoryBuilder implements ArtifactBuilder
     public function build(Package $package, Template $template, TemplateRenderer $renderer): array
     {
         $files = [];
-        foreach ($package->getEntities() as $businessModel) {
+        foreach ($package->getBusinessModels() as $businessModel) {
             $files[] = $this->buildRepository($package, $businessModel, $template, $renderer);
         }
 
@@ -31,15 +31,15 @@ class RepositoryBuilder implements ArtifactBuilder
      */
     protected function buildRepository(Package $package, BusinessModel $businessModel, Template $template, TemplateRenderer $renderer): string
     {
-        $entityHelper = new EntityHelper();
-        $model = $entityHelper->getRepositoryClass($businessModel);
+        $businessModelHelper = new BusinessModelHelper();
+        $model = $businessModelHelper->getRepositoryClass($businessModel);
 
         $context = [
             'package' => $package,
             'subpackage' => 'Repository',
             'model' => $model,
             'entity' => $businessModel,
-            'entityHelper' => $entityHelper,
+            'entityHelper' => $businessModelHelper,
             'fieldHelper' => new FieldHelper(),
         ];
 

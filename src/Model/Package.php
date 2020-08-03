@@ -20,7 +20,7 @@ class Package
     private $description;
 
     /** @var BusinessModel[] */
-    private $entities = [];
+    private $businessModels = [];
 
     /** @var Event[] */
     private $events = [];
@@ -93,41 +93,41 @@ class Package
     /**
      * @return BusinessModel[]
      */
-    public function getEntities(): array
+    public function getBusinessModels(): array
     {
-        return $this->entities;
+        return $this->businessModels;
     }
 
     /**
      * @return Package
      */
-    public function addEntity(BusinessModel $businessModel): self
+    public function addBusinessModel(BusinessModel $businessModel): self
     {
-        $this->entities[$businessModel->getName()] = $businessModel;
+        $this->businessModels[$businessModel->getName()] = $businessModel;
 
         return $this;
     }
 
-    public function getEntity(string $name): ?BusinessModel
+    public function getBusinessModel(string $name): ?BusinessModel
     {
-        if (isset($this->entities[$name])) {
-            return $this->entities[$name];
+        if (isset($this->businessModels[$name])) {
+            return $this->businessModels[$name];
         }
 
         return null;
     }
 
     /**
-     * @param BusinessModel[] $entities
+     * @param BusinessModel[] $businessModels
      *
      * @return Package
      */
-    public function setEntities(array $entities): self
+    public function setBusinessModels(array $businessModels): self
     {
-        $this->entities = [];
+        $this->businessModels = [];
 
-        foreach ($entities as $businessModel) {
-            $this->addEntity($businessModel);
+        foreach ($businessModels as $businessModel) {
+            $this->addBusinessModel($businessModel);
         }
 
         return $this;

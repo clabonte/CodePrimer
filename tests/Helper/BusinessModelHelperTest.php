@@ -2,21 +2,21 @@
 
 namespace CodePrimer\Tests\Helper;
 
-use CodePrimer\Helper\EntityHelper;
+use CodePrimer\Helper\BusinessModelHelper;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
 use PHPUnit\Framework\TestCase;
 
-class EntityHelperTest extends TestCase
+class BusinessModelHelperTest extends TestCase
 {
-    /** @var EntityHelper */
-    private $entityHelper;
+    /** @var BusinessModelHelper */
+    private $businessModelHelper;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->entityHelper = new EntityHelper();
+        $this->businessModelHelper = new BusinessModelHelper();
     }
 
     /**
@@ -24,7 +24,7 @@ class EntityHelperTest extends TestCase
      */
     public function testGetRepositoryClass(BusinessModel $businessModel, string $expected)
     {
-        self::assertEquals($expected, $this->entityHelper->getRepositoryClass($businessModel));
+        self::assertEquals($expected, $this->businessModelHelper->getRepositoryClass($businessModel));
     }
 
     public function repositoryClassProvider()
@@ -39,14 +39,14 @@ class EntityHelperTest extends TestCase
     }
 
     /**
-     * @dataProvider getEntityCreatedTimestampFieldProvider
+     * @dataProvider getCreatedTimestampFieldProvider
      */
-    public function testGetEntityCreatedTimestampField(BusinessModel $businessModel, ?Field $expected)
+    public function testGetCreatedTimestampField(BusinessModel $businessModel, ?Field $expected)
     {
-        self::assertEquals($expected, $this->entityHelper->getEntityCreatedTimestampField($businessModel));
+        self::assertEquals($expected, $this->businessModelHelper->getCreatedTimestampField($businessModel));
     }
 
-    public function getEntityCreatedTimestampFieldProvider()
+    public function getCreatedTimestampFieldProvider()
     {
         $unmanagedField = new Field('created', FieldType::DATETIME);
         $managedField = new Field('created', FieldType::DATETIME);
@@ -74,14 +74,14 @@ class EntityHelperTest extends TestCase
     }
 
     /**
-     * @dataProvider getEntityUpdatedTimestampFieldProvider
+     * @dataProvider getUpdatedTimestampFieldProvider
      */
-    public function testGetEntityUpdatedTimestampField(BusinessModel $businessModel, ?Field $expected)
+    public function testGetUpdatedTimestampField(BusinessModel $businessModel, ?Field $expected)
     {
-        self::assertEquals($expected, $this->entityHelper->getEntityUpdatedTimestampField($businessModel));
+        self::assertEquals($expected, $this->businessModelHelper->getUpdatedTimestampField($businessModel));
     }
 
-    public function getEntityUpdatedTimestampFieldProvider()
+    public function getUpdatedTimestampFieldProvider()
     {
         $unmanagedField = new Field('updated', FieldType::DATETIME);
         $managedField = new Field('updated', FieldType::DATETIME);
@@ -113,7 +113,7 @@ class EntityHelperTest extends TestCase
      */
     public function testIsManagedTimestamp(BusinessModel $businessModel, bool $expected)
     {
-        self::assertEquals($expected, $this->entityHelper->isManagedTimestamp($businessModel));
+        self::assertEquals($expected, $this->businessModelHelper->isManagedTimestamp($businessModel));
     }
 
     public function isManagedTimestampProvider()
@@ -159,14 +159,14 @@ class EntityHelperTest extends TestCase
     public function testGetLinkedEntitiesShouldPass()
     {
         $package = TestHelper::getSamplePackage();
-        $user = $package->getEntity('User');
-        $stats = $package->getEntity('UserStats');
-        $topic = $package->getEntity('Topic');
-        $post = $package->getEntity('Post');
-        $metadata = $package->getEntity('Metadata');
-        $subscription = $package->getEntity('Subscription');
+        $user = $package->getBusinessModel('User');
+        $stats = $package->getBusinessModel('UserStats');
+        $topic = $package->getBusinessModel('Topic');
+        $post = $package->getBusinessModel('Post');
+        $metadata = $package->getBusinessModel('Metadata');
+        $subscription = $package->getBusinessModel('Subscription');
 
-        $linkedEntities = $this->entityHelper->getLinkedEntities($user);
+        $linkedEntities = $this->businessModelHelper->getLinkedBusinessModels($user);
         self::assertCount(5, $linkedEntities);
         self::assertContains($stats, $linkedEntities);
         self::assertContains($topic, $linkedEntities);

@@ -59,7 +59,7 @@ class RelationshipSide
         return false;
     }
 
-    public function getEntity(): BusinessModel
+    public function getBusinessModel(): BusinessModel
     {
         return $this->businessModel;
     }

@@ -26,7 +26,7 @@ class Event
     private $fields = [];
 
     /**
-     * EventEntity constructor.
+     * Event constructor.
      */
     public function __construct(string $name, string $code, string $description = '', ?BusinessModel $businessModel = null)
     {
@@ -84,7 +84,7 @@ class Event
     /**
      * @return BusinessModel\null
      */
-    public function getEntity(): ?BusinessModel
+    public function getBusinessModel(): ?BusinessModel
     {
         return $this->businessModel;
     }
@@ -92,7 +92,7 @@ class Event
     /**
      * @return Event
      */
-    public function setEntity(BusinessModel $businessModel): self
+    public function setBusinessModel(BusinessModel $businessModel): self
     {
         $this->businessModel = $businessModel;
 

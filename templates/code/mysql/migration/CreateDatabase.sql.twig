@@ -15,8 +15,8 @@ CREATE DATABASE IF NOT EXISTS {{ package|database }}
 
 USE {{ package|database }};
 
-{# Create the list of tables for each entities #}
-{% for entity in package.entities %}
+{# Create the list of tables for each business models #}
+{% for entity in package.businessModels %}
     {%~ include 'code/mysql/common/table.sql.twig' %}
     {%~ if entity.audited %}
 
@@ -25,8 +25,8 @@ USE {{ package|database }};
 
 
 {% endfor %}
-{# Create the list of relation tables for entities linked via a many to many relationship #}
-{% for entity in package.entities %}
+{# Create the list of relation tables for business models linked via a many to many relationship #}
+{% for entity in package.businessModels %}
     {%~ for relation in entity.relations %}
         {%~ if relation is manyToMany and relation.left %}
             {%~ include 'code/mysql/common/relation_table.sql.twig' %}
@@ -36,7 +36,7 @@ USE {{ package|database }};
 {% endfor %}
 
 {# Create the foreign keys #}
-{% for entity in package.entities %}
+{% for entity in package.businessModels %}
     {%~ for relation in entity.relations %}
         {%~ if relation is foreignKey %}
             {%~ include 'code/mysql/common/partials/_foreign_key.sql.twig' %}
@@ -47,7 +47,7 @@ USE {{ package|database }};
 
 {# Create the various triggers #}
 {% set triggers = false %}
-{% for entity in package.entities %}
+{% for entity in package.businessModels %}
     {%~ if entity.identifier is uuid %}
 
         {%~ include 'code/mysql/common/partials/_uuid_trigger.sql.twig' %}
