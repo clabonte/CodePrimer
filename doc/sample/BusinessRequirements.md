@@ -1,4 +1,4 @@
-# High Level Business Requirements
+# Sample Application - High Level Business Requirements
 After a day-long brainstorming session, you and your partners drafted a few high-level **business requirements** for the **Channel application**.
 
 To put you back in context, let's review the initial idea that triggered this project: 
@@ -73,7 +73,7 @@ It was late in the day, so the `Account` only has the following characteristics 
  
  The next sections will explain how **CodePrimer** can simplify the architecture and design of such an application in order to **generate the backbone of a production-grade software solution** to prime your development team and guide them in the desired direction.
  
- **Next**: TBD
+ **Next**: [High Level Technical Requirements](TechnicalRequirements.md)
  
  ---
- Top: [Sample Application](Index.md) | Previous: [Syntax Conventions](Syntax.md) | Next: TBD
+ Top: [Sample Application](Index.md) | Previous: [Syntax Conventions](Syntax.md) | Next: [High Level Technical Requirements](TechnicalRequirements.md)

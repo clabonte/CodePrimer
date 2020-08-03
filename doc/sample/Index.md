@@ -62,6 +62,9 @@ The **following sections will explain how CodePrimer can help you** design the a
 ## Table of Contents
  - [Syntax Conventions](Syntax.md)
  - [High Level Business Requirements](BusinessRequirements.md)
+ - [High Level Technical Requirements](TechnicalRequirements.md)
+ - [Application Data Model](DataModel.md)
+ - [Application Process Model](ProcessModel.md)
  
  
 **Next**: [Syntax Conventions](Syntax.md)
