@@ -170,7 +170,7 @@ class MySqlTwigExtension extends SqlTwigExtension
     public function columnFilter($obj): string
     {
         if ($obj instanceof Index) {
-            // MySQL has some limits on the size of indexes for varchar columns, let's handle it propelrly
+            // MySQL has some limits on the size of indexes for varchar columns, let's handle it properly
             $columns = [];
             foreach ($obj->getFields() as $field) {
                 $size = null;
