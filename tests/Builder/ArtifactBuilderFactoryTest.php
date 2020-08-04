@@ -19,6 +19,7 @@ class ArtifactBuilderFactoryTest extends TestCase
 
     public function testCreateCodeBuilder()
     {
+        self::assertNotNull($this->factory->createBuilder(new Artifact(Artifact::CODE, 'model', 'php')));
         self::assertNotNull($this->factory->createBuilder(new Artifact(Artifact::CODE, 'entity', 'php')));
         self::assertNotNull($this->factory->createBuilder(new Artifact(Artifact::CODE, 'entity', 'php', 'doctrineOrm')));
         self::assertNotNull($this->factory->createBuilder(new Artifact(Artifact::CODE, 'entity', 'java')));

@@ -1,6 +1,10 @@
 <?php
 
 use CodePrimer\Builder\ArtifactBuilderFactory;
+use CodePrimer\Helper\FieldType;
+use CodePrimer\Model\BusinessModel;
+use CodePrimer\Model\Constraint;
+use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
 use CodePrimer\Renderer\TemplateRenderer;
 use CodePrimer\Template\Artifact;
@@ -107,7 +111,92 @@ class ChannelApp
      */
     private function initBusinessDataModel(Package $bundle)
     {
+        $bundle->addBusinessModel($this->createUserDataModel());
+    }
 
+    /** Creates the 'User' BusinessModel for our sample application
+     *  @see https://github.com/clabonte/codeprimer/blob/sample-app/doc/sample/DataModel.md
+     */
+    private function createUserDataModel()
+    {
+        $businessModel = new  BusinessModel('User', 'A registered used in our application');
+        $businessModel->setAudited(true);
+
+        // Step 1: Add business attributes
+        $businessModel
+            ->addField(
+                (new Field('firstName', FieldType::STRING, 'User first name'))
+                    ->setExample('John')
+                    ->setSearchable(true)
+            )
+            ->addField(
+                (new Field('lastName', FieldType::STRING, 'User last name'))
+                    ->setExample('Doe')
+                    ->setSearchable(true)
+            )
+            ->addField(
+                (new Field('nickname', FieldType::STRING, 'The name used to identify this user publicly in the application'))
+                    ->setExample('JohnDoe')
+                    ->setSearchable(true)
+            )
+            ->addField(
+                (new Field('email', FieldType::EMAIL, 'User email address'))
+                    ->setExample('john.doe@test.com')
+                    ->setMandatory(true)
+                    ->setSearchable(true)
+            )
+            ->addField(
+                (new Field('password', FieldType::PASSWORD, 'User password to access our application'))
+                    ->setMandatory(true)
+            )
+
+            // Step 2: Add business relations
+            ->addField(new Field('account', 'Account', "User's account to track earnings"))
+            ->addField(
+                (new Field('articles', 'Article', 'List of articles owned by this user'))
+                    ->setList(true)
+            )
+            ->addField(
+                (new Field('views', 'ArticleView', 'List of articles viewed by this user'))
+                    ->setList(true)
+            )
+            ->addField(
+                (new Field('interests', 'Interest', 'List of topics user is interested in'))
+                    ->setList(true)
+            )
+
+            // Step 3: Add internal fields
+            ->addField(
+                (new Field('id', FieldType::UUID, "User's unique ID in our system"))
+                    ->setMandatory(true)
+                    ->setManaged(true)
+                    ->setExample('b34d38eb-1164-4289-98b4-65706837c4d7')
+            )
+            ->addField(
+                (new Field('created', FieldType::DATETIME, 'The date and time at which this user was created'))
+                    ->setManaged(true)
+            )
+            ->addField(
+                (new Field('updated', FieldType::DATETIME, 'The date and time at which this user was updated'))
+                    ->setManaged(true)
+            );
+
+        // Step 4: Add unique field constraints along with the error message to use when violated
+        $businessModel
+            ->addUniqueConstraint(
+                (new Constraint('uniqueEmail'))
+                    ->addField($businessModel->getField('email'))
+                    ->setDescription('The email address must uniquely identify the user for login in')
+                    ->setErrorMessage('This email address is already in use. Please select another one or recover your password if you forgot it.')
+            )
+            ->addUniqueConstraint(
+                (new Constraint('uniqueNickname'))
+                    ->addField($businessModel->getField('nickname'))
+                    ->setDescription("The nickname uniquely identifies the user in the application's public spaces")
+                    ->setErrorMessage('This nickname name is already in use. Please select another one.')
+            );
+
+        return $businessModel;
     }
 
     /**

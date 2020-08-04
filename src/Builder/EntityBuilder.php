@@ -9,7 +9,7 @@ use CodePrimer\Model\Package;
 use CodePrimer\Renderer\TemplateRenderer;
 use CodePrimer\Template\Template;
 
-class BusinessModelBuilder implements ArtifactBuilder
+class EntityBuilder implements ArtifactBuilder
 {
     /**
      * @return string[]
@@ -33,10 +33,10 @@ class BusinessModelBuilder implements ArtifactBuilder
     {
         $context = [
             'package' => $package,
-            'subpackage' => 'Model',
+            'subpackage' => 'Entity',
             'model' => $businessModel,
-            'businessModel' => $businessModel,
-            'businessModelHelper' => new BusinessModelHelper(),
+            'entity' => $businessModel,
+            'entityHelper' => new BusinessModelHelper(),
             'fieldHelper' => new FieldHelper(),
         ];
 

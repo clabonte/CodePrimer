@@ -37,6 +37,9 @@ class TemplateRenderer
         }
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getBaseFolder(): string
     {
         return $this->baseFolder;

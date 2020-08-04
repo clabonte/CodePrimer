@@ -1,5 +1,65 @@
 # Sample Application - Data Model
-TBD
+Your [High Level Technical Requirements](TechnicalRequirements.md) brainstorming allowed you to think about various viable options but no definitive conclusion yet.
+
+However, you have enough information to start drafting a solution that will meet the minimum application needs. 
+The natural place for you to start to draft a first data model based on the information gathered so far. 
+
+Our [High Level Business Requirements](BusinessRequirements.md) provides a few hints about our data model:
+
+At a minimum, we will need to manage:
+- `User` with various roles
+- `Article` the main unit of data to manage
+- `Topic` to regroup `Article` into a set of pre-defined categories
+- `Label`, created by **Authors** to further classify an `Article` to simplify search
+- `Account` is similar to a bank account to track the financial transactions of an **Author**
+- `Payout` tracks the payments made to an author from his `Account`
+
+While this is a good start, we definitely need more details before **any developer** could create something meaningful out of this...
+You start thinking...
+
+> Wouldn't be great if developers could read your mind using some kind of osmosis process and get going? 
+
+While technology is fast-moving, we are not there yet (if we are, please contact me!!!), so you revert to your usual process and detail out each element...
+
+## `User`
+A user represents someone registered with our application. Let's draft a first set of attributes associated with a `User`:
+
+### Business Attributes
+You start noting down a set of obvious fields that are required to identify and track a user from a business point of view...
+
+| Name | Type | Description | Mandatory | Default | Example | Searchable | Unique | Managed |
+| ---- | ---- | ----------- | --------- | ------- | ------- | ---------- | ------ | ------- |
+| **First Name** | String | User's first name | no | *empty* | John | yes | no | no |
+| **Last Name** | String | User's last name | no | *empty* | Doe | yes | no | no |
+| **Nickname** | String | The name used to identify this user publicly in the application | yes | N/A | JohnDoe | yes | yes | no |
+| **Email** | Email | User's email address | yes | N/A | john.doe@test.com | yes | yes | no |
+| **Password** | Password | User's password to access our application | yes | N/A | Test1234 | no | no | no |
+| **Role** | `Role` | User's role in our application | yes | *member* | member | yes | no | yes |
+
+> You must explicitly specify these fields in a CodePrimer's `BusinessModel`.
+
+### Business Relations
+Once you have identified the basic attributes, you think about how a `User` is related to other parts of your data model, from a business point of view.
+
+| Name | Type | Description | 
+| ---- | ---- | ----------- | 
+| **Account** | `Account` | User's account to track earnings  | 
+| **Articles** | List of `Article` | List of articles owned by this user | 
+| **Views** | List of `ArticleView` | List of articles viewed by this user | 
+| **Interests** | List of `Interest` | List of topics user is interested in |
+
+> CodePrimer automatically build relationships between `BusinessModel` fields via the `BusinessBundleHelper` class 
+
+### Internal Fields
+Since creating *physical* data model is your second nature, you automatically add a few fields instinctively:
+
+| Name | Type | Description | Mandatory | Default | Example | Searchable | Unique | Managed |
+| ---- | ---- | ----------- | --------- | ------- | ------- | ---------- | ------ | ------- |
+| **Id** | UUID | User's unique ID in our system | yes | *autofill* |  | no | yes | yes |
+| **Created** | DateTime | The date and time at which this user was created | no | *autofill* |  | no | no | yes |
+| **Updated** | DateTime | The date and time at which this user was updated | no | *autofill* |  | no | no | yes |
+
+ > You can add these fields manually or let CodePrimer automatically add them for you using the `BusinessModelHelper` class. 
 
  **Next**: [Application Process Model](ProcessModel.md)
  
