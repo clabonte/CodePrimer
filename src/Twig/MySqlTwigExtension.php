@@ -129,13 +129,12 @@ class MySqlTwigExtension extends SqlTwigExtension
                 $type = 'BIGINT';
             } elseif ($helper->isFloat($field)) {
                 $type = 'FLOAT';
+            } elseif ($helper->isPrice($field)) {
+                $type = 'DECIMAL(12,2)';
             } elseif ($helper->isDouble($field)) {
                 switch (strtolower($field->getType())) {
                     case FieldType::DECIMAL:
                         $type = 'DECIMAL(14,4)';
-                        break;
-                    case FieldType::PRICE:
-                        $type = 'DECIMAL(12,2)';
                         break;
                     default:
                         $type = 'DOUBLE';

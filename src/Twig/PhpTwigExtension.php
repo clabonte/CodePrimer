@@ -141,6 +141,8 @@ class PhpTwigExtension extends LanguageTwigExtension
                 $type = 'int';
             } elseif ($helper->isFloat($field)) {
                 $type = 'float';
+            } elseif ($helper->isPrice($field)) {
+                $type = 'float';
             } elseif ($helper->isDouble($field)) {
                 $type = 'double';
             } elseif ($helper->isString($field)) {
@@ -185,6 +187,8 @@ class PhpTwigExtension extends LanguageTwigExtension
                 $type = 'int';
             } elseif ($helper->isFloat($field)) {
                 $type = 'float';
+            } elseif ($helper->isPrice($field)) {
+                $type = 'float';
             } elseif ($helper->isDouble($field)) {
                 $type = 'double';
             } elseif ($helper->isString($field)) {
@@ -224,6 +228,8 @@ class PhpTwigExtension extends LanguageTwigExtension
             } elseif ($helper->isLong($field)) {
                 $type = 'int';
             } elseif ($helper->isFloat($field)) {
+                $type = 'float';
+            } elseif ($helper->isPrice($field)) {
                 $type = 'float';
             } elseif ($helper->isDouble($field)) {
                 $type = 'double';

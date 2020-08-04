@@ -196,7 +196,7 @@ class PhpTwigExtensionTest extends TwigExtensionTest
             'LONG' => [new Field('Test', FieldType::LONG, 'Test Description', true), 'int'],
             'PASSWORD' => [new Field('Test', FieldType::PASSWORD, 'Test Description', true), 'string'],
             'PHONE' => [new Field('Test', FieldType::PHONE, 'Test Description', true), 'string'],
-            'PRICE' => [new Field('Test', FieldType::PRICE, 'Test Description', true), 'double'],
+            'PRICE' => [new Field('Test', FieldType::PRICE, 'Test Description', true), 'float'],
             'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING, 'Test Description', true), 'string'],
             'STRING' => [new Field('Test', FieldType::STRING, 'Test Description', true), 'string'],
             'TEXT' => [new Field('Test', FieldType::TEXT, 'Test Description', true), 'string'],
@@ -303,7 +303,7 @@ class PhpTwigExtensionTest extends TwigExtensionTest
             'PRICE' => [
                 (new Field('Test', FieldType::PRICE, 'Test Description', true))
                     ->setList(true),
-                'double',
+                'float',
             ],
             'RANDOM_STRING' => [
                 (new Field('Test', FieldType::RANDOM_STRING, 'Test Description', true))
@@ -383,7 +383,7 @@ class PhpTwigExtensionTest extends TwigExtensionTest
             'LONG' => [new Field('Test', FieldType::LONG, 'Test Description', true), 'int'],
             'PASSWORD' => [new Field('Test', FieldType::PASSWORD, 'Test Description', true), 'string'],
             'PHONE' => [new Field('Test', FieldType::PHONE, 'Test Description', true), 'string'],
-            'PRICE' => [new Field('Test', FieldType::PRICE, 'Test Description', true), 'double'],
+            'PRICE' => [new Field('Test', FieldType::PRICE, 'Test Description', true), 'float'],
             'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING, 'Test Description', true), 'string'],
             'STRING' => [new Field('Test', FieldType::STRING, 'Test Description', true), 'string'],
             'TEXT' => [new Field('Test', FieldType::TEXT, 'Test Description', true), 'string'],
@@ -431,7 +431,7 @@ class PhpTwigExtensionTest extends TwigExtensionTest
             'LONG' => [new Field('Test', FieldType::LONG, 'Test Description', true), 'int $test'],
             'PASSWORD' => [new Field('Test', FieldType::PASSWORD, 'Test Description', true), 'string $test'],
             'PHONE' => [new Field('Test', FieldType::PHONE, 'Test Description', true), 'string $test'],
-            'PRICE' => [new Field('Test', FieldType::PRICE, 'Test Description', true), 'double $test'],
+            'PRICE' => [new Field('Test', FieldType::PRICE, 'Test Description', true), 'float $test'],
             'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING, 'Test Description', true), 'string $test'],
             'STRING' => [new Field('Test', FieldType::STRING, 'Test Description', true), 'string $test'],
             'TEXT' => [new Field('Test', FieldType::TEXT, 'Test Description', true), 'string $test'],
