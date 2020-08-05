@@ -2,7 +2,6 @@
 
 namespace CodePrimer\Tests\Functional;
 
-use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Template\Artifact;
 
 /**

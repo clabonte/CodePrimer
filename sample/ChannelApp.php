@@ -13,7 +13,7 @@ use CodePrimer\Template\Artifact;
 use CodePrimer\Template\TemplateRegistry;
 use Twig\Loader\FilesystemLoader;
 
-require "../vendor/autoload.php";
+require '../vendor/autoload.php';
 
 class ChannelApp
 {
@@ -77,6 +77,7 @@ class ChannelApp
 
     /**
      * @param Artifact $artifact Artifact to generate
+     *
      * @throws Exception
      */
     private function primeArtifact(Artifact $artifact)
@@ -92,7 +93,7 @@ class ChannelApp
     }
 
     /**
-     * Initializes the CodePrimer components used to generate artifacts
+     * Initializes the CodePrimer components used to generate artifacts.
      */
     private function initCodePrimer()
     {
@@ -103,7 +104,7 @@ class ChannelApp
     }
 
     /**
-     * This method prepares the 'Business Model' to use for generating Artifacts
+     * This method prepares the 'Business Model' to use for generating Artifacts.
      */
     private function initBusinessBundle()
     {
@@ -122,7 +123,8 @@ class ChannelApp
     }
 
     /**
-     * Creates an empty 'Business Bundle'
+     * Creates an empty 'Business Bundle'.
+     *
      * @return Package The Business Bundle to use for modeling your application
      */
     private function createBusinessBundle()
@@ -134,7 +136,8 @@ class ChannelApp
     }
 
     /**
-     * Creates the application's Business Data Model for a given 'Business Bundle'
+     * Creates the application's Business Data Model for a given 'Business Bundle'.
+     *
      * @param Package $bundle The 'Business Bundle' used to store the Business Data Model
      */
     private function initBusinessDataModel(Package $bundle)
@@ -156,7 +159,7 @@ class ChannelApp
         $packageHelper->buildRelationships($bundle);
     }
 
-    /** Creates the 'User' BusinessModel for our sample application
+    /** Creates the 'User' BusinessModel for our sample application.
      *  @see https://github.com/clabonte/codeprimer/blob/sample-app/doc/sample/DataModel.md
      */
     private function createUserDataModel()
@@ -264,8 +267,8 @@ class ChannelApp
             )
 
             // Step 2: Add business relations
-            ->addField(new Field('author', 'User', "User who created the article"))
-            ->addField(new Field('topic', 'Topic', "Topic to which this article belongs"))
+            ->addField(new Field('author', 'User', 'User who created the article'))
+            ->addField(new Field('topic', 'Topic', 'Topic to which this article belongs'))
             ->addField(
                 (new Field('labels', 'Label', 'List of labels associated with this article by the author'))
                     ->setList(true)
@@ -426,8 +429,8 @@ class ChannelApp
             )
 
             // Step 2: Add business relations
-            ->addField(new Field('member', 'User', "Member associated with this account", true))
-            ->addField(new Field('topic', 'Topic', "Topic to which this article belongs"))
+            ->addField(new Field('member', 'User', 'Member associated with this account', true))
+            ->addField(new Field('topic', 'Topic', 'Topic to which this article belongs'))
             ->addField(
                 (new Field('payouts', 'Payout', 'List of payouts already made to the user'))
                     ->setList(true)
@@ -519,17 +522,16 @@ class ChannelApp
                     ->setManaged(true)
             );
 
-
         return $businessModel;
     }
 
     /**
-     * Creates the application's Business Processing Model for a given 'Business Bundle'
+     * Creates the application's Business Processing Model for a given 'Business Bundle'.
+     *
      * @param Package $bundle The 'Business Bundle' used to store the Business Data Model
      */
     private function initBusinessProcessingModel(Package $bundle)
     {
-
     }
 }
 
@@ -538,5 +540,5 @@ try {
     $app->primePhpArtifacts();
     $app->primeMySqlArtifacts();
 } catch (Exception $e) {
-    echo "Failed to prime application: ".$e->getMessage();
+    echo 'Failed to prime application: '.$e->getMessage();
 }
