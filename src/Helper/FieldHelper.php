@@ -213,4 +213,42 @@ class FieldHelper
 
         return $result;
     }
+
+    /**
+     * Checks if a given field is a 'native' CodePrimer type, i.e. one defined in FieldType.
+     *
+     * @see FieldType
+     */
+    public function isNativeType(Field $field): bool
+    {
+        $result = false;
+
+        switch ($field->getType()) {
+            case FieldType::UUID:
+            case FieldType::STRING:
+            case FieldType::TEXT:
+            case FieldType::EMAIL:
+            case FieldType::URL:
+            case FieldType::PASSWORD:
+            case FieldType::PHONE:
+            case FieldType::DATE:
+            case FieldType::TIME:
+            case FieldType::DATETIME:
+            case FieldType::BOOL:
+            case FieldType::BOOLEAN:
+            case FieldType::INT:
+            case FieldType::INTEGER:
+            case FieldType::ID:
+            case FieldType::LONG:
+            case FieldType::FLOAT:
+            case FieldType::DOUBLE:
+            case FieldType::DECIMAL:
+            case FieldType::PRICE:
+            case FieldType::RANDOM_STRING:
+                $result = true;
+                break;
+        }
+
+        return $result;
+    }
 }

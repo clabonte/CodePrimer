@@ -25,6 +25,9 @@ class ArtifactBuilderFactory
         $this->builders[Artifact::PROJECT] = [
             'symfony' => ProjectScriptBuilder::class,
         ];
+        $this->builders[Artifact::DOCUMENTATION] = [
+            'model' => BundleDocumentationBuilder::class,
+        ];
     }
 
     /**

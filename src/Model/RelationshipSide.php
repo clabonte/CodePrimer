@@ -114,4 +114,18 @@ class RelationshipSide
 
         return null;
     }
+
+    public function isBidirectional(): bool
+    {
+        $result = false;
+
+        $remoteSide = $this->getRemoteSide();
+        if ($remoteSide) {
+            if (null !== $remoteSide->getField()) {
+                $result = true;
+            }
+        }
+
+        return $result;
+    }
 }

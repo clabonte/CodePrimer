@@ -88,6 +88,9 @@ class ArtifactHelper
             case 'mysql':
                 $extension = '.sql';
                 break;
+            case 'markdown':
+                $extension = '.md';
+                break;
         }
 
         return $extension;

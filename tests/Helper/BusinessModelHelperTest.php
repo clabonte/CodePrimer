@@ -174,4 +174,21 @@ class BusinessModelHelperTest extends TestCase
         self::assertContains($metadata, $linkedEntities);
         self::assertContains($subscription, $linkedEntities);
     }
+
+    public function testListBusinessAttributesFieldsShouldPass()
+    {
+        $package = TestHelper::getSamplePackage();
+        $user = $package->getBusinessModel('User');
+        $user->addField(new Field('bizAttribute', 'NotAModel'));
+
+        $fields = $this->businessModelHelper->listBusinessAttributeFields($user, $package);
+        self::assertCount(7, $fields);
+        self::assertContains($user->getField('firstName'), $fields);
+        self::assertContains($user->getField('lastName'), $fields);
+        self::assertContains($user->getField('nickname'), $fields);
+        self::assertContains($user->getField('email'), $fields);
+        self::assertContains($user->getField('password'), $fields);
+        self::assertContains($user->getField('crmId'), $fields);
+        self::assertContains($user->getField('bizAttribute'), $fields);
+    }
 }

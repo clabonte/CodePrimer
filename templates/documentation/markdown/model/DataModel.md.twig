@@ -1,0 +1,26 @@
+{# This template generates documentation of an application DataModel using Markdown to include in a repository #}
+# {{ bundle.name }} Data Model
+
+## Table of Contents
+{% for businessModel in bundle.businessModels %}
+- [{{ businessModel|class}}](#{{ businessModel|class|lower }})
+{% endfor %}
+
+{# Create the list of tables for each business models #}
+{% for businessModel in bundle.businessModels %}
+## `{{ businessModel|class }}`
+{{ businessModel.description }}
+
+    {%~ if businessModelHelper.listBusinessAttributeFields(businessModel, bundle) %}
+        {%~ include 'documentation/markdown/common/partials/_businessAttributesTable.md.twig' %}
+
+    {%~ endif %}
+    {%~ if businessModel.relations %}
+        {%~ include 'documentation/markdown/common/partials/_businessRelationsTable.md.twig' %}
+
+    {%~ endif %}
+    {%~ if businessModel.managedFields %}
+        {%~ include 'documentation/markdown/common/partials/_managedFieldsTable.md.twig' %}
+
+    {%~ endif %}
+{% endfor %}
