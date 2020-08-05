@@ -1,0 +1,9 @@
+{# #}
+### Managed Fields
+The following fields are automatically managed by the backend and cannot be modified by the user.
+
+| Name | Type | Description | Mandatory | Example | Searchable | Unique |
+| ---- | ---- | ----------- | --------- | ------- | ---------- | ------ |
+{% for field in businessModel.managedFields %}
+| **{{ field.name }}** | {{ field.type }} | {{ field.description }} | {{ field.mandatory|yesNo }} | {{ field.example }} | {{ field.searchable|yesNo }} | {{ businessModelHelper.isUniqueField(businessModel, field.name)|yesNo }} |
+{% endfor %}

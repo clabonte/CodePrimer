@@ -584,6 +584,48 @@ class FieldHelperTest extends TestCase
     }
 
     /**
+     * @param Field $field    The field to test
+     * @param bool  $expected The expected value for the field being tested
+     * @dataProvider nativeProvider
+     */
+    public function testIsNative(Field $field, bool $expected)
+    {
+        self::assertEquals($expected, $this->helper->isNativeType($field));
+    }
+
+    public function nativeProvider()
+    {
+        return [
+            'BOOL' => [new Field('Test', FieldType::BOOL), true],
+            'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), true],
+            'DATE' => [new Field('Test', FieldType::DATE), true],
+            'DATETIME' => [new Field('Test', FieldType::DATETIME), true],
+            'DECIMAL' => [new Field('Test', FieldType::DECIMAL), true],
+            'DOUBLE' => [new Field('Test', FieldType::DOUBLE), true],
+            'EMAIL' => [new Field('Test', FieldType::EMAIL), true],
+            'FLOAT' => [new Field('Test', FieldType::FLOAT), true],
+            'ID' => [new Field('Test', FieldType::ID), true],
+            'INT' => [new Field('Test', FieldType::INT), true],
+            'INTEGER' => [new Field('Test', FieldType::INTEGER), true],
+            'LONG' => [new Field('Test', FieldType::LONG), true],
+            'PASSWORD' => [new Field('Test', FieldType::PASSWORD), true],
+            'PHONE' => [new Field('Test', FieldType::PHONE), true],
+            'PRICE' => [new Field('Test', FieldType::PRICE), true],
+            'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING), true],
+            'STRING' => [new Field('Test', FieldType::STRING), true],
+            'TEXT' => [new Field('Test', FieldType::TEXT), true],
+            'TIME' => [new Field('Test', FieldType::TIME), true],
+            'URL' => [new Field('Test', FieldType::URL), true],
+            'UUID' => [new Field('Test', FieldType::UUID), true],
+            'UNKNOWN' => [new Field('Test', 'Unknown'), false],
+            'TestData1' => [new Field('Test', 'TestData1'), false],
+            'TestData2' => [new Field('Test', 'TestData2'), false],
+            'TestData3' => [new Field('Test', 'TestData3'), false],
+            'TestData4' => [new Field('Test', 'TestData4'), false],
+        ];
+    }
+
+    /**
      * @dataProvider businessModelCreatedTimestampProvider
      *
      * @param bool $expected

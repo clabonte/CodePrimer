@@ -4,6 +4,7 @@ namespace CodePrimer\Template;
 
 use CodePrimer\Twig\DoctrineOrmTwigExtension;
 use CodePrimer\Twig\JavaTwigExtension;
+use CodePrimer\Twig\LanguageTwigExtension;
 use CodePrimer\Twig\MySqlTwigExtension;
 use CodePrimer\Twig\PhpTwigExtension;
 
@@ -24,6 +25,9 @@ class TemplateRegistry
 
         // Prepare MySQL scripts templates
         $this->initMySqlTemplates();
+
+        // Prepare documentation templates
+        $this->initDocumentationTemplates();
     }
 
     public function addTemplate(Template $template)
@@ -144,5 +148,11 @@ class TemplateRegistry
         $this->addTemplate(new Template('CreateDatabase', new Artifact(Artifact::CODE, 'migration', 'mysql', 'createDatabase'), $mysqlExtensions));
         $this->addTemplate(new Template('RevertDatabase', new Artifact(Artifact::CODE, 'migration', 'mysql', 'revertDatabase'), $mysqlExtensions));
         $this->addTemplate(new Template('CreateUser', new Artifact(Artifact::CODE, 'migration', 'mysql', 'createUser'), $mysqlExtensions));
+    }
+
+    protected function initDocumentationTemplates()
+    {
+        $extensions = [new LanguageTwigExtension()];
+        $this->addTemplate(new Template('DataModel', new Artifact(Artifact::DOCUMENTATION, 'model', 'markdown'), $extensions));
     }
 }

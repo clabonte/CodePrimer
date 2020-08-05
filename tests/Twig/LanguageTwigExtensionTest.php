@@ -30,7 +30,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     {
         $filters = $this->twigExtension->getFilters();
 
-        self::assertCount(19, $filters);
+        self::assertCount(20, $filters);
 
         $this->assertTwigFilter('plural', $filters);
         $this->assertTwigFilter('singular', $filters);
@@ -51,6 +51,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
         $this->assertTwigFilter('addMethod', $filters);
         $this->assertTwigFilter('removeMethod', $filters);
         $this->assertTwigFilter('containsMethod', $filters);
+        $this->assertTwigFilter('yesNo', $filters);
     }
 
     public function testGetTestsShouldPass()
@@ -789,6 +790,34 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
                     ->setList(true),
                 'User',
             ],
+        ];
+    }
+
+    /**
+     * @dataProvider yesNoProvider
+     */
+    public function testYesNoFilterShouldPass($obj, $expectedValue)
+    {
+        $value = $this->twigExtension->yesNoFilter($obj);
+
+        self::assertEquals($expectedValue, $value);
+    }
+
+    public function yesNoProvider()
+    {
+        return [
+            'false' => [false, 'no'],
+            'true' => [true, 'yes'],
+            'false (string)' => ['false', 'no'],
+            'true (string)' => ['true', 'yes'],
+            'no' => ['no', 'no'],
+            'yes' => ['yes', 'yes'],
+            'NO' => ['NO', 'no'],
+            'YES' => ['YES', 'yes'],
+            '0' => [0, 'no'],
+            '1' => [1, 'yes'],
+            '2' => [2, 'yes'],
+            'unknown' => ['unknown', 'N/A'],
         ];
     }
 

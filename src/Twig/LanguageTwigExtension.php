@@ -59,6 +59,7 @@ class LanguageTwigExtension extends AbstractExtension
             new TwigFilter('addMethod', [$this, 'addMethodFilter'], ['is_safe' => ['html']]),
             new TwigFilter('removeMethod', [$this, 'removeMethodFilter'], ['is_safe' => ['html']]),
             new TwigFilter('containsMethod', [$this, 'containsMethodFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('yesNo', [$this, 'yesNoFilter'], ['is_safe' => ['html']]),
         ];
     }
 
@@ -802,6 +803,37 @@ class LanguageTwigExtension extends AbstractExtension
         }
 
         return $params;
+    }
+
+    /**
+     * @param mixed $obj
+     *
+     * @return string
+     */
+    public function yesNoFilter($obj)
+    {
+        $value = 'N/A';
+
+        if (is_bool($obj) || is_int($obj)) {
+            if ($obj) {
+                $value = 'yes';
+            } else {
+                $value = 'no';
+            }
+        } elseif (is_string($obj)) {
+            switch (strtolower($obj)) {
+                case 'yes':
+                case 'true':
+                    $value = 'yes';
+                    break;
+                case 'no':
+                case 'false':
+                    $value = 'no';
+                    break;
+            }
+        }
+
+        return $value;
     }
 
     /**

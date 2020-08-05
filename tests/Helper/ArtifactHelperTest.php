@@ -84,6 +84,11 @@ class ArtifactHelperTest extends TestCase
                 new Artifact(Artifact::CODE, 'migration', 'mysql', 'CreateDatabase'),
                 'migrations',
             ],
+            'Markdown Documentation' => [
+                TestHelper::getSamplePackage(),
+                new Artifact(Artifact::DOCUMENTATION, 'model', 'markdown'),
+                'docs',
+            ],
         ];
     }
 
@@ -125,6 +130,10 @@ class ArtifactHelperTest extends TestCase
             'MySQL Migration' => [
                 new Artifact(Artifact::CODE, 'migration', 'mysql'),
                 '.sql',
+            ],
+            'Markdown Documentation' => [
+                new Artifact(Artifact::DOCUMENTATION, 'model', 'markdown'),
+                '.md',
             ],
             'Default' => [
                 new Artifact(Artifact::DOCUMENTATION, 'any', 'any'),
