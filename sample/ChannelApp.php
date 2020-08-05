@@ -18,9 +18,8 @@ require '../vendor/autoload.php';
 class ChannelApp
 {
     const BASE_PATH = __DIR__.'/../';
-    const PROJECT_OUTPUT_PATH = __DIR__.'/output/';
-    const CODE_OUTPUT_PATH = __DIR__.'/output/Channel/';
-    const SQL_OUTPUT_PATH = __DIR__.'/output/Channel/';
+    const SCRIPT_OUTPUT_PATH = __DIR__.'/output/';
+    const PROJECT_OUTPUT_PATH = __DIR__.'/output/Channel/';
 
     /** @var TemplateRegistry */
     private $templateRegistry;
@@ -49,12 +48,12 @@ class ChannelApp
     public function primePhpArtifacts()
     {
         // 1. Prime the basic structure of a Symfony project
-        $this->templateRenderer->setBaseFolder(self::PROJECT_OUTPUT_PATH);
+        $this->templateRenderer->setBaseFolder(self::SCRIPT_OUTPUT_PATH);
         $artifact = new Artifact(Artifact::PROJECT, 'Symfony', 'sh', 'setup');
         $this->primeArtifact($artifact);
 
         // 2. Prime 'Business Model' source code
-        $this->templateRenderer->setBaseFolder(self::CODE_OUTPUT_PATH);
+        $this->templateRenderer->setBaseFolder(self::PROJECT_OUTPUT_PATH);
         $artifact = new Artifact(Artifact::CODE, 'model', 'php');
         $this->primeArtifact($artifact);
     }
@@ -65,13 +64,24 @@ class ChannelApp
     public function primeMySqlArtifacts()
     {
         // 1. Prime the MySQL 'Create DB' script to create the initial database
-        $this->templateRenderer->setBaseFolder(self::SQL_OUTPUT_PATH);
+        $this->templateRenderer->setBaseFolder(self::PROJECT_OUTPUT_PATH);
         $artifact = new Artifact(Artifact::CODE, 'Migration', 'mysql', 'CreateDatabase');
         $this->primeArtifact($artifact);
 
         // 2. Prime the MySQL 'Revert DB' scripts to revert the initial database setup
-        $this->templateRenderer->setBaseFolder(self::CODE_OUTPUT_PATH);
+        $this->templateRenderer->setBaseFolder(self::PROJECT_OUTPUT_PATH);
         $artifact = new Artifact(Artifact::CODE, 'Migration', 'mysql', 'RevertDatabase');
+        $this->primeArtifact($artifact);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function primeMarkdownArtifacts()
+    {
+        // 1. Prime 'Data Model' documentation in Markdown
+        $this->templateRenderer->setBaseFolder(self::PROJECT_OUTPUT_PATH);
+        $artifact = new Artifact(Artifact::DOCUMENTATION, 'model', 'markdown');
         $this->primeArtifact($artifact);
     }
 
@@ -100,7 +110,7 @@ class ChannelApp
         $this->templateRegistry = new TemplateRegistry();
         $this->builderFactory = new ArtifactBuilderFactory();
         $loader = new FilesystemLoader('templates', self::BASE_PATH);
-        $this->templateRenderer = new TemplateRenderer($loader, self::PROJECT_OUTPUT_PATH);
+        $this->templateRenderer = new TemplateRenderer($loader, self::SCRIPT_OUTPUT_PATH);
     }
 
     /**
@@ -539,6 +549,7 @@ $app = new ChannelApp();
 try {
     $app->primePhpArtifacts();
     $app->primeMySqlArtifacts();
+    $app->primeMarkdownArtifacts();
 } catch (Exception $e) {
     echo 'Failed to prime application: '.$e->getMessage();
 }
