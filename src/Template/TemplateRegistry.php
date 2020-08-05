@@ -17,32 +17,13 @@ class TemplateRegistry
         $this->templates = [];
 
         // Prepare PHP code templates
-        $phpExtensions = [new PhpTwigExtension()];
-        $doctrineOrmExtensions = [new DoctrineOrmTwigExtension()];
-
-        // PHP Entity
-        $this->addTemplate(new Template('PlainEntity', new Artifact(Artifact::CODE, 'entity', 'php'), $phpExtensions));
-        $this->addTemplate(new Template('DoctrineOrmEntity', new Artifact(Artifact::CODE, 'entity', 'php', 'doctrineOrm'), $doctrineOrmExtensions));
-
-        // PHP Repository
-        $this->addTemplate(new Template('DoctrineOrmRepository', new Artifact(Artifact::CODE, 'repository', 'php', 'doctrineOrm'), $doctrineOrmExtensions));
-
-        // PHP Migration
-        $this->addTemplate(new Template('DoctrineMigration', new Artifact(Artifact::CODE, 'migration', 'php', 'doctrine'), $doctrineOrmExtensions));
+        $this->initPhpTemplates();
 
         // Prepare Java code templates
-        $javaExtensions = [new JavaTwigExtension()];
-
-        $this->addTemplate(new Template('PlainEntity', new Artifact(Artifact::CODE, 'entity', 'java'), $javaExtensions));
-
-        // Prepare PHP project templates
-        $this->addTemplate(new Template('setup', new Artifact(Artifact::PROJECT, 'symfony', 'sh', 'setup')));
+        $this->initJavaTemplates();
 
         // Prepare MySQL scripts templates
-        $mysqlExtensions = [new MySqlTwigExtension()];
-        $this->addTemplate(new Template('CreateDatabase', new Artifact(Artifact::CODE, 'migration', 'mysql', 'createDatabase'), $mysqlExtensions));
-        $this->addTemplate(new Template('RevertDatabase', new Artifact(Artifact::CODE, 'migration', 'mysql', 'revertDatabase'), $mysqlExtensions));
-        $this->addTemplate(new Template('CreateUser', new Artifact(Artifact::CODE, 'migration', 'mysql', 'createUser'), $mysqlExtensions));
+        $this->initMySqlTemplates();
     }
 
     public function addTemplate(Template $template)
@@ -126,5 +107,42 @@ class TemplateRegistry
         }
 
         return $results;
+    }
+
+    protected function initPhpTemplates()
+    {
+        $phpExtensions = [new PhpTwigExtension()];
+        $doctrineOrmExtensions = [new DoctrineOrmTwigExtension()];
+
+        // PHP BusinessModel templates
+        $this->addTemplate(new Template('BusinessModel', new Artifact(Artifact::CODE, 'model', 'php'), $phpExtensions));
+
+        // PHP Entity
+        $this->addTemplate(new Template('PlainEntity', new Artifact(Artifact::CODE, 'entity', 'php'), $phpExtensions));
+        $this->addTemplate(new Template('DoctrineOrmEntity', new Artifact(Artifact::CODE, 'entity', 'php', 'doctrineOrm'), $doctrineOrmExtensions));
+
+        // PHP Repository
+        $this->addTemplate(new Template('DoctrineOrmRepository', new Artifact(Artifact::CODE, 'repository', 'php', 'doctrineOrm'), $doctrineOrmExtensions));
+
+        // PHP Migration
+        $this->addTemplate(new Template('DoctrineMigration', new Artifact(Artifact::CODE, 'migration', 'php', 'doctrine'), $doctrineOrmExtensions));
+
+        // Prepare PHP project templates
+        $this->addTemplate(new Template('setup', new Artifact(Artifact::PROJECT, 'symfony', 'sh', 'setup')));
+    }
+
+    protected function initJavaTemplates()
+    {
+        $javaExtensions = [new JavaTwigExtension()];
+
+        $this->addTemplate(new Template('PlainEntity', new Artifact(Artifact::CODE, 'entity', 'java'), $javaExtensions));
+    }
+
+    protected function initMySqlTemplates()
+    {
+        $mysqlExtensions = [new MySqlTwigExtension()];
+        $this->addTemplate(new Template('CreateDatabase', new Artifact(Artifact::CODE, 'migration', 'mysql', 'createDatabase'), $mysqlExtensions));
+        $this->addTemplate(new Template('RevertDatabase', new Artifact(Artifact::CODE, 'migration', 'mysql', 'revertDatabase'), $mysqlExtensions));
+        $this->addTemplate(new Template('CreateUser', new Artifact(Artifact::CODE, 'migration', 'mysql', 'createUser'), $mysqlExtensions));
     }
 }

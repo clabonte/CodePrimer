@@ -140,11 +140,10 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
             $column = '@ORM\Column(name="'.$columnName.'", type="bigint"';
         } elseif ($this->fieldHelper->isFloat($field)) {
             $column = '@ORM\Column(name="'.$columnName.'", type="float"';
+        } elseif ($this->fieldHelper->isPrice($field)) {
+            $column = '@ORM\Column(name="'.$columnName.'", type="decimal", precision=9, scale=2';
         } elseif ($this->fieldHelper->isDouble($field)) {
             switch ($field->getType()) {
-                case FieldType::PRICE:
-                    $column = '@ORM\Column(name="'.$columnName.'", type="decimal", precision=9, scale=2';
-                    break;
                 case FieldType::DECIMAL:
                     $column = '@ORM\Column(name="'.$columnName.'", type="decimal"';
                     break;

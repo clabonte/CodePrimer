@@ -27,6 +27,16 @@ class ArtifactHelper
         }
 
         switch ($artifact->getType()) {
+            case 'model':
+                switch ($artifact->getFormat()) {
+                    case 'php':
+                        $dir .= '/Model';
+                        break;
+                    case 'java':
+                        $dir .= '/'.$this->getJavaBasePath($package).'/model';
+                        break;
+                }
+                break;
             case 'entity':
                 switch ($artifact->getFormat()) {
                     case 'php':

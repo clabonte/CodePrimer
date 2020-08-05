@@ -68,6 +68,7 @@ class LanguageTwigExtension extends AbstractExtension
             new TwigTest('scalar', [$this, 'scalarTest']),
             new TwigTest('double', [$this, 'doubleTest']),
             new TwigTest('float', [$this, 'floatTest']),
+            new TwigTest('price', [$this, 'priceTest']),
             new TwigTest('long', [$this, 'longTest']),
             new TwigTest('integer', [$this, 'integerTest']),
             new TwigTest('boolean', [$this, 'booleanTest']),
@@ -102,6 +103,8 @@ class LanguageTwigExtension extends AbstractExtension
             } elseif ($this->fieldHelper->isDouble($obj)) {
                 $result = true;
             } elseif ($this->fieldHelper->isFloat($obj)) {
+                $result = true;
+            } elseif ($this->fieldHelper->isPrice($obj)) {
                 $result = true;
             }
         }
@@ -140,6 +143,24 @@ class LanguageTwigExtension extends AbstractExtension
 
         if ($obj instanceof Field) {
             $result = $this->fieldHelper->isFloat($obj);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Test if a field is of type price.
+     *
+     * @param mixed $obj The object to test
+     *
+     * @return bool
+     */
+    public function priceTest($obj)
+    {
+        $result = false;
+
+        if ($obj instanceof Field) {
+            $result = $this->fieldHelper->isPrice($obj);
         }
 
         return $result;
@@ -693,6 +714,8 @@ class LanguageTwigExtension extends AbstractExtension
                 $type = 'long';
             } elseif ($helper->isFloat($field)) {
                 $type = 'float';
+            } elseif ($helper->isPrice($field)) {
+                $type = 'double';
             } elseif ($helper->isDouble($field)) {
                 $type = 'double';
             } elseif ($helper->isString($field)) {
@@ -741,6 +764,8 @@ class LanguageTwigExtension extends AbstractExtension
                 $type = 'long';
             } elseif ($helper->isFloat($field)) {
                 $type = 'float';
+            } elseif ($helper->isPrice($field)) {
+                $type = 'double';
             } elseif ($helper->isDouble($field)) {
                 $type = 'double';
             } elseif ($helper->isString($field)) {

@@ -97,6 +97,43 @@ class FieldHelperTest extends TestCase
     /**
      * @param Field $field    The field to test
      * @param bool  $expected The expected value for the field being tested
+     * @dataProvider priceProvider
+     */
+    public function testIsPrice(Field $field, bool $expected)
+    {
+        self::assertEquals($expected, $this->helper->isPrice($field));
+    }
+
+    public function priceProvider()
+    {
+        return [
+            'BOOL' => [new Field('Test', FieldType::BOOL), false],
+            'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), false],
+            'DATE' => [new Field('Test', FieldType::DATE), false],
+            'DATETIME' => [new Field('Test', FieldType::DATETIME), false],
+            'DECIMAL' => [new Field('Test', FieldType::DECIMAL), false],
+            'DOUBLE' => [new Field('Test', FieldType::DOUBLE), false],
+            'EMAIL' => [new Field('Test', FieldType::EMAIL), false],
+            'FLOAT' => [new Field('Test', FieldType::FLOAT), false],
+            'ID' => [new Field('Test', FieldType::ID), false],
+            'INT' => [new Field('Test', FieldType::INT), false],
+            'INTEGER' => [new Field('Test', FieldType::INTEGER), false],
+            'LONG' => [new Field('Test', FieldType::LONG), false],
+            'PASSWORD' => [new Field('Test', FieldType::PASSWORD), false],
+            'PHONE' => [new Field('Test', FieldType::PHONE), false],
+            'PRICE' => [new Field('Test', FieldType::PRICE), true],
+            'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING), false],
+            'STRING' => [new Field('Test', FieldType::STRING), false],
+            'TEXT' => [new Field('Test', FieldType::TEXT), false],
+            'TIME' => [new Field('Test', FieldType::TIME), false],
+            'URL' => [new Field('Test', FieldType::URL), false],
+            'UUID' => [new Field('Test', FieldType::UUID), false],
+        ];
+    }
+
+    /**
+     * @param Field $field    The field to test
+     * @param bool  $expected The expected value for the field being tested
      * @dataProvider doubleProvider
      */
     public function testIsDouble(Field $field, bool $expected)
@@ -121,7 +158,7 @@ class FieldHelperTest extends TestCase
             'LONG' => [new Field('Test', FieldType::LONG), false],
             'PASSWORD' => [new Field('Test', FieldType::PASSWORD), false],
             'PHONE' => [new Field('Test', FieldType::PHONE), false],
-            'PRICE' => [new Field('Test', FieldType::PRICE), true],
+            'PRICE' => [new Field('Test', FieldType::PRICE), false],
             'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING), false],
             'STRING' => [new Field('Test', FieldType::STRING), false],
             'TEXT' => [new Field('Test', FieldType::TEXT), false],

@@ -108,13 +108,23 @@ class FieldHelper
     }
 
     /**
+     * Checks if a field should be stored as a price.
+     */
+    public function isPrice(Field $field): bool
+    {
+        $type = strtolower($field->getType());
+
+        return FieldType::PRICE == $type;
+    }
+
+    /**
      * Checks if a field should contain be stored as a 8-byte double.
      */
     public function isDouble(Field $field): bool
     {
         $type = strtolower($field->getType());
 
-        return (FieldType::DOUBLE == $type) || (FieldType::DECIMAL == $type) || (FieldType::PRICE == $type);
+        return (FieldType::DOUBLE == $type) || (FieldType::DECIMAL == $type);
     }
 
     /**

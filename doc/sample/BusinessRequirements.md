@@ -21,8 +21,8 @@ Given the nature of our application, we need to define various user roles. Our b
  - **Anonymous**: Any unauthenticated user accessing our application. They only have access to public content.
  - **Regular Member**: Free registered `User` with the same access as an anonymous user but with a few perks (see below).
  - **Premium Member**: Paying registered `User` who can _**access premium content**_ along with more perks (see below).
- - **Author**: Paying registered `User` who can _**submit**_ new `Post` for distribution in our application.
- - **Admin**: Registered `User` who can manage our application with the ability to _**approve**_, _**reject**_ and _**manage**_ `Post`.
+ - **Author**: Paying registered `User` who can _**submit**_ new `Article` for distribution in our application.
+ - **Admin**: Registered `User` who can manage our application with the ability to _**approve**_, _**reject**_ and _**manage**_ `Article`.
 
 ## Article
 Since we want to build a blogging platform, it is kind of important to define what an article will be in our MVP...

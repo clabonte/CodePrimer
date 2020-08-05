@@ -90,6 +90,8 @@ class JavaTwigExtension extends LanguageTwigExtension
                 $type = 'long';
             } elseif ($helper->isFloat($field)) {
                 $type = 'float';
+            } elseif ($helper->isPrice($field)) {
+                $type = 'double';
             } elseif ($helper->isDouble($field)) {
                 $type = 'double';
             } elseif ($helper->isString($field)) {
@@ -136,6 +138,8 @@ class JavaTwigExtension extends LanguageTwigExtension
                 $type = 'Long';
             } elseif ($helper->isFloat($field)) {
                 $type = 'Float';
+            } elseif ($helper->isPrice($field)) {
+                $type = 'Double';
             } elseif ($helper->isDouble($field)) {
                 $type = 'Double';
             } elseif ($helper->isString($field)) {

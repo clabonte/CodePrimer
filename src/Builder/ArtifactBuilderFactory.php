@@ -17,7 +17,8 @@ class ArtifactBuilderFactory
     {
         $this->builders = [];
 
-        $this->builders['entity'] = BusinessModelBuilder::class;
+        $this->builders['entity'] = EntityBuilder::class;
+        $this->builders['model'] = BusinessModelBuilder::class;
         $this->builders['repository'] = RepositoryBuilder::class;
         $this->builders['migration'] = MigrationBuilder::class;
         $this->builders['revertmigration'] = MigrationBuilder::class;

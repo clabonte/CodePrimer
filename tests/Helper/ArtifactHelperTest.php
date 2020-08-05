@@ -29,6 +29,11 @@ class ArtifactHelperTest extends TestCase
     public function getDirectoryProvider()
     {
         return [
+            'PHP BusinessModel' => [
+                TestHelper::getSamplePackage(),
+                new Artifact(Artifact::CODE, 'model', 'php'),
+                'src/Model',
+            ],
             'Plain PHP Entity' => [
                 TestHelper::getSamplePackage(),
                 new Artifact(Artifact::CODE, 'entity', 'php'),
@@ -38,6 +43,11 @@ class ArtifactHelperTest extends TestCase
                 TestHelper::getSamplePackage(),
                 new Artifact(Artifact::CODE, 'entity', 'php', 'doctrineOrm'),
                 'src/Entity',
+            ],
+            'Java BusinessModel' => [
+                TestHelper::getSamplePackage(),
+                new Artifact(Artifact::CODE, 'model', 'java'),
+                'src/codeprimer/tests/model',
             ],
             'Plain Java Entity' => [
                 TestHelper::getSamplePackage(),

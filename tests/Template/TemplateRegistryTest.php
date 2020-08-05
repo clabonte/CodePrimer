@@ -37,7 +37,7 @@ class TemplateRegistryTest extends TestCase
     public function testListTemplatesByCategoryShouldPass()
     {
         $templates = $this->registry->listTemplates(Artifact::CODE);
-        self::assertCount(8, $templates);
+        self::assertCount(9, $templates);
 
         $templates = $this->registry->listTemplates(Artifact::CONFIGURATION);
         self::assertEmpty($templates);
@@ -54,6 +54,9 @@ class TemplateRegistryTest extends TestCase
 
     public function testListTemplatesByCategoryAndTypeShouldPass()
     {
+        $templates = $this->registry->listTemplates(Artifact::CODE, 'model');
+        self::assertCount(1, $templates);
+
         $templates = $this->registry->listTemplates(Artifact::CODE, 'entity');
         self::assertCount(3, $templates);
 
@@ -72,6 +75,9 @@ class TemplateRegistryTest extends TestCase
 
     public function testListTemplatesByCategoryTypeAndFormatShouldPass()
     {
+        $templates = $this->registry->listTemplates(Artifact::CODE, 'model', 'php');
+        self::assertCount(1, $templates);
+
         $templates = $this->registry->listTemplates(Artifact::CODE, 'entity', 'php');
         self::assertCount(2, $templates);
 
@@ -117,6 +123,7 @@ class TemplateRegistryTest extends TestCase
     public function templateProvider()
     {
         return [
+            'BusinessModel' => [new Artifact(Artifact::CODE, 'model', 'php')],
             'DoctrineOrmEntity' => [new Artifact(Artifact::CODE, 'entity', 'php', 'doctrineOrm')],
             'PlainEntity' => [new Artifact(Artifact::CODE, 'entity', 'php')],
             'Symfony' => [new Artifact(Artifact::PROJECT, 'symfony', 'sh', 'setup')],

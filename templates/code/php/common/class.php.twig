@@ -11,6 +11,8 @@
 {% set fluent = fluent ?? true %}
 {% set constructor = constructor ?? true %}
 {% set class_modifier = class_modifier ?? '' %}
+{# Backward compatible fix until migration from Entity to BusinessModel is complete in all templates #}
+{% set entity = entity ?? businessModel %}
 {# Block: file_comments
  # Provide the file comments, which typically specify the license associated with the source code
  # and its author.
