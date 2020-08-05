@@ -42,6 +42,8 @@ The following fields are automatically managed by the backend and cannot be modi
 | **updated** | datetime | The date and time at which this user was updated | no |  | no | no |
 | **activationCode** | randomstring | The code required to validate the user&#039;s account | no | qlcS7L | no | no |
 
+---
+<br/><br/>
 ## `UserStats`
 Simple statistics about the user
 
@@ -53,6 +55,8 @@ Simple statistics about the user
 | **lastLogin** | datetime | Last time the user logged in the system | no | *Empty* |  | no | no |
 | **loginCount** | long | Number of time the user logged in the system | no | *Empty* |  | no | no |
 
+---
+<br/><br/>
 ## `Metadata`
 Variable set of extra information
 
@@ -63,6 +67,8 @@ Variable set of extra information
 | **name** | string | The name to uniquely identify this metadata | yes | *N/A* |  | no | no |
 | **value** | text | The value associated with this metadata | yes | *N/A* |  | no | no |
 
+---
+<br/><br/>
 ## `Post`
 Post created by the user
 
@@ -88,6 +94,8 @@ The following fields are automatically managed by the backend and cannot be modi
 | **created** | datetime | Time at which the post was created | no |  | no | no |
 | **updated** | datetime | Last time at which the post was updated | no |  | no | no |
 
+---
+<br/><br/>
 ## `Topic`
 A topic regroups a set of posts made by various authors
 
@@ -113,6 +121,8 @@ The following fields are automatically managed by the backend and cannot be modi
 | **created** | datetime | Time at which the post was created | no |  | no | no |
 | **updated** | datetime | Last time at which the post was updated | no |  | no | no |
 
+---
+<br/><br/>
 ## `Subscription`
 The subscription bought by a user to user our services
 
@@ -137,3 +147,5 @@ The following fields are automatically managed by the backend and cannot be modi
 | **created** | datetime | Time at which the post was created | no |  | no | no |
 | **updated** | datetime | Last time at which the post was updated | no |  | no | no |
 
+---
+<br/><br/>
