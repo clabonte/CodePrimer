@@ -1,7 +1,7 @@
 # CodePrimer Process Modeling
 Once the data model is established, the next step required to define a software-based business is the data processing model. The processing model defines the **set of components that will interact together in order to accomplish various business goals**. 
 
-Although CodePrimer can generate any artifact, its initial implementation is taking **an opinionated view on how processing should be defined and structured**. It lies somewhere between the *monolithic* and *micro service* trends by liberally borrowing from each into an **approach called Business Bundle**.
+Although CodePrimer can generate any artifact, its initial implementation is taking **an opinionated view on how processing should be defined and structured**. It lies somewhere between the *monolithic* and *microservices* trends by liberally borrowing from each into an **approach called Business Bundle**.
 
 ## Business Bundle
 A *Business Bundle* is a set of components interacting together in predictable ways with clear boundaries in order to easily model and implement a business process using the following patterns:
@@ -9,9 +9,9 @@ A *Business Bundle* is a set of components interacting together in predictable w
 - A **[Consumer](Consumer.md)** consumes asynchronous **Messages** and turn them into **Events**.
 - A **[Cron](Cron.md)** produces either **Messages** or **Events** at periodic intervals.
 - An **[Engine](Engine.md)** acts on **Events** to implement **Business Processes**.
-- A **[Repository](Repository.md)** exposes **Entities** to the **Engine** to interact with a **data persistence** layer, such as a database.
+- A **[DataClient](DataClient.md)** exposes an **Interface**  to the **Engine** to interact with a **data persistence** layer, such as a database, in order to retrieve and persist **BusinessModels**.
 - An **[ApiClient](ApiClient.md)** exposes an **Interface** to the **Engine** to interact with **external systems** in synchronous fashion.
-- A **[Publisher](Publisher.md)** allows the **Engine** to trigger **Messages** that can be handled by **other Business Bundles** to trigger their own processing.
+- A **[Publisher](Publisher.md)** allows the **Engine** to trigger **Messages** that can be handled by **the same or other Business Bundles** to trigger their other business processes.
 
 The figure below shows how the various components interact with each other:
 
@@ -22,7 +22,7 @@ More details about each component can be found in the links below:
 - [Controller](Controller.md)
 - [Consumer](Consumer.md)
 - [Cron](Cron.md)
-- [Repository](Repository.md)
+- [DataClient](DataClient.md)
 - [ApiClient](ApiClient.md)
 - [Publisher](Publisher.md)
 
@@ -67,7 +67,7 @@ It allows architects and business analysts to **design business processes around
 ### Data Location
 - *Where is the data located for this process?*
   - **Database** or **filesystem**:
-    - Design and implement a [Repository](Repository.md) to retrieve it via a set of `Entity` elements
+    - Design and implement a [DataClient](DataClient.md) to retrieve it via a set of `Entity` elements
   - **External System**:
     - Design and implement an [ApiClient](ApiClient.md) to retrieve it via `ExternalResource` elements.
 

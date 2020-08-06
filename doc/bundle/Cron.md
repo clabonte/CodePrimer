@@ -11,5 +11,6 @@ In order to build a **production-grade solution**, the following guidelines shou
 
 - The cron component must detect if another instance of the same task is still running when it starts. 
   - If so, it should log an error with the monitoring system (via the [Engine](Engine.md)) and abort its execution to prevent stability issues that may arise from having multiple tasks executed in parallel.
-- A cron component is expected to interact with a [Repository](Repository.md) component in order to extract information about the data that needs to be processed.
-  - A typical example is to retrieve a list of elements to process.  
+- A cron component is expected to interact with a [ReadDataClient](DataClient.md) or a [ReadApiClient](ApiClient.md) component in order to fetch data that needs to be processed.
+  - The fetched data is then used to create the messages and/or event to trigger the actually business process.
+  - A typical example is to retrieve a list of elements that needs to be processed.  

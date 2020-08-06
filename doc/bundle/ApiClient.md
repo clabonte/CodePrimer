@@ -6,7 +6,11 @@ An ApiClient is a component in a [Business Bundle](Overview.md) responsible to s
 ## Guidelines
 In order to build a **production-grade solution**, the following guidelines should be applied to ApiClient components design and implementation:
 
- - An ApiClient should **only be accessed by the [Engine](Engine.md) component** to ensure business-level consistency.
+ - A `ReadApiClient` interface should be defined to allow Business Model objects to be fetched from an external system.
+   - This interface provides a **read only** access to external systems to **other components within the same Business Bundle** in order to allow them to **prepare an event or message** to trigger/send.
+ - A `FullApiClient` interface must be defined as an **extension of the `ReadApiClient`** interface to add push (aka write) capabilities towards external systems to the Business Bundle.
+   - This interface should **only be accessed by the [Engine](Engine.md) component** to ensure business-level consistency and data integrity.
+   - This interface should expose **push methods matching the output of the business processes**. 
  - An **interface must be defined for each ApiClient** to expose list of operations needed from the business point of view for interacting with the external system.
  - An implementation of the ApiClient interface **should use the adapter pattern** to interact with a specific external system.
  - This approach **enforces a good decoupling** of the [Business Bundle](Overview.md) being developed and external systems
