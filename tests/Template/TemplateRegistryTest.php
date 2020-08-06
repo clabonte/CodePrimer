@@ -26,7 +26,7 @@ class TemplateRegistryTest extends TestCase
         $artifact = new Artifact('unit', 'test', 'test', 'test');
 
         $template = new Template('Test', $artifact);
-        $this->registry->addTemplate($template);
+        $this->registry->addTemplate($template, 'Test description');
 
         $newTemplate = $this->registry->getTemplate('unit', 'test', 'test', 'test');
         self::assertNotNull($newTemplate);
