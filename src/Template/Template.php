@@ -15,6 +15,12 @@ class Template
     /** @var AbstractExtension[] The list of extensions required by this template */
     private $extensions;
 
+    /** @var string A description of the template to allow CodePrimer users understand its purpose */
+    private $description;
+
+    /** @var string The current stability status of this template */
+    private $status;
+
     /**
      * Template constructor.
      *
@@ -43,5 +49,41 @@ class Template
     public function getExtensions(): array
     {
         return $this->extensions;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function setDescription(string $description): Template
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function setStatus(string $status): Template
+    {
+        $this->status = $status;
+
+        return $this;
     }
 }
