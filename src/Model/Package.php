@@ -164,7 +164,7 @@ class Package
      */
     public function addEvent(Event $event): self
     {
-        $this->events[$event->getCode()] = $event;
+        $this->events[$event->getName()] = $event;
 
         return $this;
     }

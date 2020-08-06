@@ -5,7 +5,9 @@ use CodePrimer\Builder\ArtifactBuilderFactory;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Helper\PackageHelper;
 use CodePrimer\Model\BusinessModel;
+use CodePrimer\Model\BusinessProcess;
 use CodePrimer\Model\Constraint;
+use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
 use CodePrimer\Renderer\TemplateRenderer;
@@ -17,9 +19,16 @@ require '../vendor/autoload.php';
 
 class ChannelApp
 {
+    // PATH CONSTANTS
     const BASE_PATH = __DIR__.'/../';
     const SCRIPT_OUTPUT_PATH = __DIR__.'/output/';
     const PROJECT_OUTPUT_PATH = __DIR__.'/output/Channel/';
+
+    // ROLE CONSTANTS
+    const REGULAR_MEMBER = 'member';
+    const PREMIUM_MEMBER = 'premium';
+    const AUTHOR = 'author';
+    const ADMIN = 'admin';
 
     /** @var TemplateRegistry */
     private $templateRegistry;
@@ -542,6 +551,25 @@ class ChannelApp
      */
     private function initBusinessProcessingModel(Package $bundle)
     {
+    }
+
+    private function initArticleProcesses(Package $bundle)
+    {
+        // 1. 'Create Article' process
+        $event = new Event(
+            'New Article',
+            'article.new',
+            'Event triggered when a new article is created by an author',
+            $bundle->getBusinessModel('Article'));
+
+        $businessProcess = new BusinessProcess(
+            'Create Article',
+            'Allow an author to create an article in Draft state',
+            $event);
+
+        $businessProcess
+            ->setExternalAccess(true)
+            ->addRole(self::AUTHOR);
     }
 }
 
