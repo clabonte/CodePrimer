@@ -24,6 +24,7 @@ In order to fully understand and leverage the capabilities offered by **CodePrim
 - [Structure and Guidelines](doc/StructureAndGuidelines.md)
 - [CodePrimer Data Modeling](doc/DataModel.md)
 - [CodePrimer Process Modeling](doc/bundle/Overview.md)
+- [Available Artifacts](doc/Artifacts.md)
 
 ## Getting Started
 To get a local copy up and running follow these simple steps.
