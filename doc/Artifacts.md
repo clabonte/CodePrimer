@@ -49,11 +49,11 @@ CodePrimer's vision is to allow architects and senior developers to model busine
 At some point in time, we need to turn our beautiful design in actual source code and, for that, we need to select the programming language and frameworks based on our needs, desire and experience.
 **CodePrimer has been designed to easily generate its various artifacts using any programming language and framework**.
 
-> This is where you can easily contribute to the project. If you are an expert in a language/framework currently missing, feel free to [contribute][CONTRIBUTING.md]
+> This is where you can easily contribute to the project. If you are an expert in a language/framework currently missing, feel free to [contribute](../CONTRIBUTING.md)
 
 ### Planned Artifacts
 Based on the current roadmap, the following artifacts will be added to CodePrimer in the near future:
 
 | Category | Type | Format | Variant | Description | Issue |
 | -------- | ---- | ------ | ------- | ----------- | ----- |
-| Source Code | ReadDataClient | PHP | Interface | [ReadDataClient Interface](doc/bundle/DataClient) | #49
+| Source Code | ReadDataClient | PHP | Interface | [ReadDataClient Interface](doc/bundle/DataClient) | [#49](https://github.com/clabonte/codeprimer/issues/49)
