@@ -52,34 +52,8 @@ The high level roadmap and progress is available [here](https://github.com/clabo
 To have a more detailed view on upcoming changes, please look at the [Product Roadmap][roadmap-url] or [open issues][issues-url] for a list of proposed features and known issues. 
 
 ## Contributing
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. 
 
-Any contributions you make are **greatly appreciated.** 
-
-Here are **some ways you can help**:
-
-1. Pick one of the [issues][issues-url] currently opened.
-2. Select items in the [Project Roadmap][roadmap-url].
-3. Submit your [ideas][ideas-url].
-4. Add support for other programming languages by creating the appropriate [Twig template](https://twig.symfony.com/)
-
-To contribute to **CodePrimer**, follow these steps:
-
-1. Fork this repository
-2. Create your feature branch `git checkout -b feature/AmazingFeature`
-3. Make your changes and commit them `git commit -m 'Add some AmazingFeature'`
-4. Push to the original branch `git push origin feature/AmazingFeature`
-5. Create the Pull Request against the master branch on the `clabonte/codeprimer` repository
-
-If you are interested to contribute on a frequent basis, feel free to contact me so I can add you as a repository member.
-
-In order to maintain the quality of this project, **important rules** must be followed for Pull Requests to be considered:
-
-1. Make sure all test cases are passing by running the following command: `composer phpunit`
-2. Make sure your code is following the project's coding standards by running the following command: `composer php-cs-fixer`
-3. Make sure you maintain the project's code coverage above 90% (ideally 95%)
-
-The **above rules are being strictly enforced** via GitHub workflows for any Pull Request opened against the master branch. 
+See [CONTRIBUTING](CONTRIBUTING.md)
 
 ## Contact
 Christian Labonte [![LinkedIn][linkedin-shield]][linkedin-url]
