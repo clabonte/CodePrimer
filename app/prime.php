@@ -1,0 +1,43 @@
+<?php
+
+use CodePrimer\Template\TemplateRegistry;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+
+require '../vendor/autoload.php';
+
+/**
+ * Temporary class used to maintain documentation until I finalize a proper approach to do so and provide a real CLI
+ * client to handle priming.
+ */
+class CodePrimerApp
+{
+    const BASE_PATH = __DIR__.'/../';
+    const DOC_OUTPUT_PATH = __DIR__.'/../doc/';
+
+    /**
+     * Update the 'Artifacts.md' document semi-automatically based the content of the TemplateRegistry.
+     */
+    public function updateArtifactsList()
+    {
+        $templateRegistry = new TemplateRegistry();
+        $loader = new FilesystemLoader('templates', self::BASE_PATH);
+
+        $templates = $templateRegistry->listTemplates('code');
+
+        /** @var Environment */
+        $twig = new Environment($loader);
+        $templateFilename = 'documentation/markdown/internal/Artifacts.md.twig';
+        $twigTemplate = $twig->load($templateFilename);
+
+        $context = [
+            'templateRegistry' => $templateRegistry,
+        ];
+
+        $content = $twigTemplate->render($context);
+        file_put_contents(self::DOC_OUTPUT_PATH.'Artifacts.md', $content);
+    }
+}
+
+$primer = new CodePrimerApp();
+$primer->updateArtifactsList();
