@@ -33,17 +33,25 @@ class Template
         $this->extensions = $extensions;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getArtifact(): Artifact
     {
         return $this->artifact;
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @return AbstractExtension[]
      */
     public function getExtensions(): array

@@ -34,11 +34,17 @@ class Index
         $this->order = $order;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function setName(string $name): Index
     {
         $this->name = $name;
@@ -46,11 +52,17 @@ class Index
         return $this;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function setDescription(string $description): Index
     {
         $this->description = $description;
@@ -59,6 +71,8 @@ class Index
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @return Field[]
      */
     public function getFields(): array
@@ -67,6 +81,8 @@ class Index
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @param Field[] $fields
      */
     public function setFields(array $fields): Index
@@ -76,11 +92,17 @@ class Index
         return $this;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getOrder(): string
     {
         return $this->order;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function setOrder(string $order): Index
     {
         $this->order = $order;

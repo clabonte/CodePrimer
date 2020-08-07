@@ -62,11 +62,17 @@ class RelationshipSide
         return false;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getBusinessModel(): BusinessModel
     {
         return $this->businessModel;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getField(): ?Field
     {
         return $this->field;

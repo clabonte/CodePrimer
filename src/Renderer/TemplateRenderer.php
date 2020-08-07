@@ -45,6 +45,9 @@ class TemplateRenderer
         return $this->baseFolder;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function setBaseFolder(string $baseFolder): TemplateRenderer
     {
         $this->baseFolder = $baseFolder;
