@@ -19,12 +19,15 @@ class DataBundleTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->dataBundle = new DataBundle('TestBundle', 'Test Description');
+        $this->dataBundle = new DataBundle(DataBundle::INPUT, 'Test Source', 'TestBundle', 'Test Description');
         $this->businessBundle = TestHelper::getSamplePackage();
     }
 
     public function testDefaultValues()
     {
+        self::assertEquals(DataBundle::INPUT, $this->dataBundle->getOrigin());
+        self::assertEquals('Test Source', $this->dataBundle->getSource());
+        self::assertEquals('TestBundle', $this->dataBundle->getName());
         self::assertEquals('TestBundle', $this->dataBundle->getName());
         self::assertEquals('Test Description', $this->dataBundle->getDescription());
         self::assertEmpty($this->dataBundle->getBusinessModels());
@@ -246,5 +249,13 @@ class DataBundleTest extends TestCase
 
         $user = $this->businessBundle->getBusinessModel('User');
         $this->dataBundle->addFields($user, ['firstName'], ['firstName']);
+    }
+
+    public function testInvalidOriginThrowsException()
+    {
+        self::expectException(InvalidArgumentException::class);
+        self::expectExceptionMessage('Invalid origin provided: invalid. Must be one of: input, internal or external');
+
+        $bundle = new DataBundle('invalid');
     }
 }

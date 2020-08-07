@@ -6,10 +6,25 @@ use InvalidArgumentException;
 
 class DataBundle
 {
-    /** @var string */
+    /** @var string The origin of the data is input from a user or another process */
+    const INPUT = 'input';
+
+    /** @var string The origin of the data is an internal data source (i.e. DataClient) */
+    const INTERNAL = 'internal';
+
+    /** @var string The origin of the data is an external data source (i.e. ApiClient) */
+    const EXTERNAL = 'external';
+
+    /** @var string The origin of the data, one of the constants defined above */
+    private $origin;
+
+    /** @var string The source of the data (e.g. ApiClient name) */
+    private $source;
+
+    /** @var string The name associated with this bundle */
     private $name;
 
-    /** @var string */
+    /** @var string A description of the bundle's purpose */
     private $description;
 
     /** @var BusinessModel[] */
@@ -24,10 +39,47 @@ class DataBundle
     /**
      * DataBundle constructor.
      */
-    public function __construct(string $name = '', string $description = '')
+    public function __construct(string $origin, string $source = '', string $name = '', string $description = '')
     {
+        switch ($origin) {
+            case self::INPUT:
+            case self::EXTERNAL:
+            case self::INTERNAL:
+                break;
+            default:
+                throw new InvalidArgumentException('Invalid origin provided: '.$origin.'. Must be one of: input, internal or external');
+        }
+
+        $this->origin = $origin;
+        $this->source = $source;
         $this->name = $name;
         $this->description = $description;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function getOrigin(): string
+    {
+        return $this->origin;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function getSource(): string
+    {
+        return $this->source;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function setSource(string $source): DataBundle
+    {
+        $this->source = $source;
+
+        return $this;
     }
 
     /**
