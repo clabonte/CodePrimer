@@ -46,12 +46,12 @@ class MySqlTwigExtensionTest extends TwigExtensionTest
 
     public function typeDataProvider()
     {
-        $package = TestHelper::getSamplePackage();
+        $businessBundle = TestHelper::getSampleBusinessBundle();
         $adapter = new RelationalDatabaseAdapter();
-        $adapter->generateRelationalFields($package, FieldType::ID);
+        $adapter->generateRelationalFields($businessBundle, FieldType::ID);
 
-        $user = $package->getBusinessModel('User');
-        $metadata = $package->getBusinessModel('Metadata');
+        $user = $businessBundle->getBusinessModel('User');
+        $metadata = $businessBundle->getBusinessModel('Metadata');
 
         return [
             'BOOL' => [new Field('Test', FieldType::BOOL, 'Test Description', true), 'TINYINT(1)'],
@@ -93,11 +93,11 @@ class MySqlTwigExtensionTest extends TwigExtensionTest
 
     public function unsupportedTypeDataProvider()
     {
-        $package = TestHelper::getSamplePackage();
+        $businessBundle = TestHelper::getSampleBusinessBundle();
         $adapter = new RelationalDatabaseAdapter();
-        $adapter->generateRelationalFields($package);
+        $adapter->generateRelationalFields($businessBundle);
 
-        $user = $package->getBusinessModel('User');
+        $user = $businessBundle->getBusinessModel('User');
 
         return [
             'UNKNOWN' => [new Field('Test', 'Unknown', 'Test Description', true)],
@@ -202,14 +202,14 @@ class MySqlTwigExtensionTest extends TwigExtensionTest
 
     public function unsupportedAttributesDataProvider()
     {
-        $package = TestHelper::getSamplePackage();
-        $user = $package->getBusinessModel('User');
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
 
         return [
             'String' => ['Invalid'],
             'Entity' => [$user],
             'RelationshipSide' => [$user->getField('topics')->getRelation()],
-            'Package' => [$package],
+            'Package' => [$businessBundle],
         ];
     }
 
@@ -223,8 +223,8 @@ class MySqlTwigExtensionTest extends TwigExtensionTest
 
     public function indexColumnNameProvider(): array
     {
-        $package = TestHelper::getSamplePackage();
-        $user = $package->getBusinessModel('User');
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
 
         $field1 = new Field('firstName', FieldType::STRING);
         $field1->setSearchable(true);

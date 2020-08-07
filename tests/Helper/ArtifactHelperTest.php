@@ -21,71 +21,71 @@ class ArtifactHelperTest extends TestCase
     /**
      * @dataProvider getDirectoryProvider
      */
-    public function testGetDirectory(BusinessBundle $package, Artifact $artifact, string $expected)
+    public function testGetDirectory(BusinessBundle $businessBundle, Artifact $artifact, string $expected)
     {
-        self::assertEquals($expected, $this->helper->getDirectory($package, $artifact));
+        self::assertEquals($expected, $this->helper->getDirectory($businessBundle, $artifact));
     }
 
     public function getDirectoryProvider()
     {
         return [
             'PHP BusinessModel' => [
-                TestHelper::getSamplePackage(),
+                TestHelper::getSampleBusinessBundle(),
                 new Artifact(Artifact::CODE, 'model', 'php'),
                 'src/Model',
             ],
             'Plain PHP Entity' => [
-                TestHelper::getSamplePackage(),
+                TestHelper::getSampleBusinessBundle(),
                 new Artifact(Artifact::CODE, 'entity', 'php'),
                 'src/Entity',
             ],
             'Doctrine ORM PHP Entity' => [
-                TestHelper::getSamplePackage(),
+                TestHelper::getSampleBusinessBundle(),
                 new Artifact(Artifact::CODE, 'entity', 'php', 'doctrineOrm'),
                 'src/Entity',
             ],
             'Java BusinessModel' => [
-                TestHelper::getSamplePackage(),
+                TestHelper::getSampleBusinessBundle(),
                 new Artifact(Artifact::CODE, 'model', 'java'),
                 'src/codeprimer/tests/model',
             ],
             'Plain Java Entity' => [
-                TestHelper::getSamplePackage(),
+                TestHelper::getSampleBusinessBundle(),
                 new Artifact(Artifact::CODE, 'entity', 'java'),
                 'src/codeprimer/tests/entity',
             ],
             'PHP Repository' => [
-                TestHelper::getSamplePackage(),
+                TestHelper::getSampleBusinessBundle(),
                 new Artifact(Artifact::CODE, 'repository', 'php'),
                 'src/Repository',
             ],
             'Java Repository' => [
-                TestHelper::getSamplePackage(),
+                TestHelper::getSampleBusinessBundle(),
                 new Artifact(Artifact::CODE, 'repository', 'java'),
                 'src/codeprimer/tests/repository',
             ],
             'PHP Unit Tests' => [
-                TestHelper::getSamplePackage(),
+                TestHelper::getSampleBusinessBundle(),
                 new Artifact(Artifact::TESTS, 'unit', 'php'),
                 'tests',
             ],
             'OpenAPI Documentation' => [
-                TestHelper::getSamplePackage(),
+                TestHelper::getSampleBusinessBundle(),
                 new Artifact(Artifact::DOCUMENTATION, 'api', 'openapi'),
                 'docs',
             ],
             'Symfony Project' => [
-                TestHelper::getSamplePackage(),
+                TestHelper::getSampleBusinessBundle(),
                 new Artifact(Artifact::PROJECT, 'symfony', 'sh'),
                 '.',
             ],
             'MySQL Migration' => [
-                TestHelper::getSamplePackage(),
+                TestHelper::getSampleBusinessBundle(),
                 new Artifact(Artifact::CODE, 'migration', 'mysql', 'CreateDatabase'),
                 'migrations',
             ],
             'Markdown Documentation' => [
-                TestHelper::getSamplePackage(),
+                TestHelper::getSampleBusinessBundle(),
                 new Artifact(Artifact::DOCUMENTATION, 'model', 'markdown'),
                 'docs',
             ],

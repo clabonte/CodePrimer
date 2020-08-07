@@ -17,7 +17,7 @@ class ExistingDataTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->businessBundle = TestHelper::getSamplePackage();
+        $this->businessBundle = TestHelper::getSampleBusinessBundle();
     }
 
     public function testValidConstructorShouldPass()

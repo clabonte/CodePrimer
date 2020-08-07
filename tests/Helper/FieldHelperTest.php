@@ -543,12 +543,12 @@ class FieldHelperTest extends TestCase
      */
     public function testIsBusinessModel(Field $field, bool $expected)
     {
-        $package = new BusinessBundle('namespace', 'name');
-        $package
+        $businessBundle = new BusinessBundle('namespace', 'name');
+        $businessBundle
             ->addBusinessModel(new BusinessModel('TestData1', 'description1'))
             ->addBusinessModel(new BusinessModel('TestData4', 'description4'));
 
-        self::assertEquals($expected, $this->helper->isBusinessModel($field, $package));
+        self::assertEquals($expected, $this->helper->isBusinessModel($field, $businessBundle));
     }
 
     public function entityProvider()

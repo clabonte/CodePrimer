@@ -24,6 +24,9 @@ class BusinessBundle
     /** @var BusinessModel[] */
     private $businessModels = [];
 
+    /** @var BusinessProcess[] */
+    private $businessProcesses = [];
+
     /** @var Event[] */
     private $events = [];
 
@@ -43,6 +46,7 @@ class BusinessBundle
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string
      */
     public function getNamespace()
@@ -51,6 +55,7 @@ class BusinessBundle
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $namespace
      *
      * @return BusinessBundle
@@ -62,12 +67,17 @@ class BusinessBundle
         return $this;
     }
 
+    /**
+     * @codeCoverageIgnore
+     * @return string
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
     /**
+     * @codeCoverageIgnore
      * @return BusinessBundle
      */
     public function setName(string $name): self
@@ -77,12 +87,17 @@ class BusinessBundle
         return $this;
     }
 
+    /**
+     * @codeCoverageIgnore
+     * @return string
+     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
     /**
+     * @codeCoverageIgnore
      * @return BusinessBundle
      */
     public function setDescription(string $description): self
@@ -93,6 +108,7 @@ class BusinessBundle
     }
 
     /**
+     * @codeCoverageIgnore
      * @return BusinessModel[]
      */
     public function getBusinessModels(): array
@@ -130,6 +146,50 @@ class BusinessBundle
 
         foreach ($businessModels as $businessModel) {
             $this->addBusinessModel($businessModel);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @return BusinessProcess[]
+     */
+    public function getBusinessProcesses(): array
+    {
+        return $this->businessProcesses;
+    }
+
+    /**
+     * @return BusinessBundle
+     */
+    public function addBusinessProcess(BusinessProcess $businessProcess): self
+    {
+        $this->businessProcesses[$businessProcess->getName()] = $businessProcess;
+
+        return $this;
+    }
+
+    public function getBusinessProcess(string $name): ?BusinessProcess
+    {
+        if (isset($this->businessProcesses[$name])) {
+            return $this->businessProcesses[$name];
+        }
+
+        return null;
+    }
+
+    /**
+     * @param BusinessProcess[] $businessModels
+     *
+     * @return BusinessBundle
+     */
+    public function setBusinessProcesses(array $businessProcesses): self
+    {
+        $this->businessProcesses = [];
+
+        foreach ($businessProcesses as $businessProcess) {
+            $this->addBusinessProcess($businessProcess);
         }
 
         return $this;
@@ -179,6 +239,7 @@ class BusinessBundle
     }
 
     /**
+     * @codeCoverageIgnore
      * @return Set[]
      */
     public function listSets(): array

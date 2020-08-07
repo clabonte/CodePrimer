@@ -72,16 +72,16 @@ class SqlTwigExtensionTest extends TwigExtensionTest
 
     public function foreignKeyProvider()
     {
-        $package = TestHelper::getSamplePackage();
+        $businessBundle = TestHelper::getSampleBusinessBundle();
         // Generate the missing fields
         $adapter = new RelationalDatabaseAdapter();
-        $adapter->generateRelationalFields($package);
+        $adapter->generateRelationalFields($businessBundle);
 
-        $user = $package->getBusinessModel('User');
-        $subscription = $package->getBusinessModel('Subscription');
-        $metadata = $package->getBusinessModel('Metadata');
-        $post = $package->getBusinessModel('Post');
-        $topic = $package->getBusinessModel('Topic');
+        $user = $businessBundle->getBusinessModel('User');
+        $subscription = $businessBundle->getBusinessModel('Subscription');
+        $metadata = $businessBundle->getBusinessModel('Metadata');
+        $post = $businessBundle->getBusinessModel('Post');
+        $topic = $businessBundle->getBusinessModel('Topic');
 
         return [
             'User->UserStat' => [
@@ -120,16 +120,16 @@ class SqlTwigExtensionTest extends TwigExtensionTest
 
     public function foreignKeyExceptionProvider()
     {
-        $package = TestHelper::getSamplePackage();
+        $businessBundle = TestHelper::getSampleBusinessBundle();
         // Generate the missing fields
         $adapter = new RelationalDatabaseAdapter();
-        $adapter->generateRelationalFields($package);
+        $adapter->generateRelationalFields($businessBundle);
 
-        $user = $package->getBusinessModel('User');
-        $subscription = $package->getBusinessModel('Subscription');
-        $metadata = $package->getBusinessModel('Metadata');
-        $post = $package->getBusinessModel('Post');
-        $topic = $package->getBusinessModel('Topic');
+        $user = $businessBundle->getBusinessModel('User');
+        $subscription = $businessBundle->getBusinessModel('Subscription');
+        $metadata = $businessBundle->getBusinessModel('Metadata');
+        $post = $businessBundle->getBusinessModel('Post');
+        $topic = $businessBundle->getBusinessModel('Topic');
 
         return [
             'User->Post' => [$user->getField('posts')->getRelation()],
@@ -143,9 +143,9 @@ class SqlTwigExtensionTest extends TwigExtensionTest
     /**
      * @dataProvider databaseNameProvider
      */
-    public function testDatabaseFilter(BusinessBundle $package, string $expected)
+    public function testDatabaseFilter(BusinessBundle $businessBundle, string $expected)
     {
-        self::assertEquals($expected, $this->twigExtension->databaseFilter($package));
+        self::assertEquals($expected, $this->twigExtension->databaseFilter($businessBundle));
     }
 
     public function databaseNameProvider()
@@ -159,7 +159,7 @@ class SqlTwigExtensionTest extends TwigExtensionTest
             'Sample Name' => [new BusinessBundle('Namespace', 'Sample Name'), 'namespace_sample_name'],
             'Samples Names' => [new BusinessBundle('Namespace', 'Samples Names'), 'namespace_samples_name'],
             'Sample-Name' => [new BusinessBundle('Namespace', 'Sample-Name'), 'namespace_sample_name'],
-            'TestPackage' => [TestHelper::getSamplePackage(), 'code_primer_tests_functional_test'],
+            'TestPackage' => [TestHelper::getSampleBusinessBundle(), 'code_primer_tests_functional_test'],
         ];
     }
 
@@ -186,9 +186,9 @@ class SqlTwigExtensionTest extends TwigExtensionTest
     /**
      * @dataProvider userProvider
      */
-    public function testUserFilter(BusinessBundle $package, string $expected)
+    public function testUserFilter(BusinessBundle $businessBundle, string $expected)
     {
-        self::assertEquals($expected, $this->twigExtension->userFilter($package));
+        self::assertEquals($expected, $this->twigExtension->userFilter($businessBundle));
     }
 
     public function userProvider()
@@ -200,7 +200,7 @@ class SqlTwigExtensionTest extends TwigExtensionTest
             'Sample Name' => [new BusinessBundle('Namespace', 'Sample Name'), 'sample_name'],
             'Samples Names' => [new BusinessBundle('Namespace', 'Samples Names'), 'samples_names'],
             'Sample-Name' => [new BusinessBundle('Namespace', 'Sample-Name'), 'sample_name'],
-            'TestPackage' => [TestHelper::getSamplePackage(), 'functional_test'],
+            'TestPackage' => [TestHelper::getSampleBusinessBundle(), 'functional_test'],
         ];
     }
 
@@ -297,13 +297,13 @@ class SqlTwigExtensionTest extends TwigExtensionTest
 
     public function fieldColumnNameProvider()
     {
-        $package = TestHelper::getSamplePackage();
+        $businessBundle = TestHelper::getSampleBusinessBundle();
         // Generate the missing fields
         $adapter = new RelationalDatabaseAdapter();
-        $adapter->generateRelationalFields($package);
+        $adapter->generateRelationalFields($businessBundle);
 
-        $user = $package->getBusinessModel('User');
-        $metadata = $package->getBusinessModel('Metadata');
+        $user = $businessBundle->getBusinessModel('User');
+        $metadata = $businessBundle->getBusinessModel('Metadata');
 
         return [
             'Name' => [new Field('Name', FieldType::STRING), 'name'],
@@ -348,8 +348,8 @@ class SqlTwigExtensionTest extends TwigExtensionTest
 
     public function indexColumnNameProvider(): array
     {
-        $package = TestHelper::getSamplePackage();
-        $user = $package->getBusinessModel('User');
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
 
         $field1 = new Field('firstName', FieldType::STRING);
         $field1->setSearchable(true);
@@ -383,11 +383,11 @@ class SqlTwigExtensionTest extends TwigExtensionTest
 
     public function columnFilterExceptionProvider()
     {
-        $package = TestHelper::getSamplePackage();
-        $user = $package->getBusinessModel('User');
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
 
         return [
-            'Package' => [$package],
+            'Package' => [$businessBundle],
             'RelationshipSide' => [$user->getField('metadata')->getRelation()],
         ];
     }
@@ -408,9 +408,9 @@ class SqlTwigExtensionTest extends TwigExtensionTest
 
     public function getDatabaseFieldsProvider(): array
     {
-        $package = TestHelper::getSamplePackage();
+        $businessBundle = TestHelper::getSampleBusinessBundle();
 
-        $user = $package->getBusinessModel('User');
+        $user = $businessBundle->getBusinessModel('User');
 
         return [
             'User' => [
@@ -496,10 +496,10 @@ class SqlTwigExtensionTest extends TwigExtensionTest
     public function auditedFieldsProvider(): array
     {
         $helper = new RelationshipTestHelper();
-        $package = $helper->getPackage();
+        $businessBundle = $helper->getBusinessBundle();
 
-        $user = $package->getBusinessModel('User');
-        $metadata = $package->getBusinessModel('Metadata');
+        $user = $businessBundle->getBusinessModel('User');
+        $metadata = $businessBundle->getBusinessModel('Metadata');
 
         return [
             'User with id' => [
@@ -534,7 +534,7 @@ class SqlTwigExtensionTest extends TwigExtensionTest
                 ],
             ],
             'Metadata generated field' => [
-                $package->getBusinessModel('Metadata'),
+                $businessBundle->getBusinessModel('Metadata'),
                 false,
                 [
                     $metadata->getField('name'),
@@ -561,8 +561,8 @@ class SqlTwigExtensionTest extends TwigExtensionTest
 
     public function indexesFunctionProvider(): array
     {
-        $package = TestHelper::getSamplePackage();
-        $user = $package->getBusinessModel('User');
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
 
         $field1 = new Field('name', FieldType::STRING);
         $index1 = new Field('firstName', FieldType::STRING);

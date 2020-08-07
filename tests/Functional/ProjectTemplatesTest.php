@@ -31,7 +31,7 @@ class ProjectTemplatesTest extends TemplateTestCase
         self::assertNotNull($builder);
 
         // Build the artifacts
-        $builder->build($this->package, $template, $this->renderer);
+        $builder->build($this->businessBundle, $template, $this->renderer);
 
         // Make sure the right files have been generated
         $this->assertGeneratedFile('setup.sh', self::SYMFONY_EXPECTED_DIR);

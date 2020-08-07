@@ -20,7 +20,7 @@ class PhpBusinessModelTemplatesTest extends TemplateTestCase
     {
         $this->initEntities();
 
-        self::assertCount(6, $this->package->getBusinessModels());
+        self::assertCount(6, $this->businessBundle->getBusinessModels());
 
         $artifact = new Artifact(Artifact::CODE, 'model', 'php');
 
@@ -33,7 +33,7 @@ class PhpBusinessModelTemplatesTest extends TemplateTestCase
         self::assertNotNull($builder);
 
         // Build the artifacts
-        $builder->build($this->package, $template, $this->renderer);
+        $builder->build($this->businessBundle, $template, $this->renderer);
 
         // Make sure the right files have been generated
         $this->assertGeneratedFile('src/Model/User.php', self::BUSINESS_MODEL_EXPECTED_DIR);

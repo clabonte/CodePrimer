@@ -32,10 +32,10 @@ class SqlTemplatesTest extends TemplateTestCase
 
         // Prepare the entities for Doctrine ORM
         $adapter = new RelationalDatabaseAdapter();
-        $adapter->generateRelationalFields($this->package);
+        $adapter->generateRelationalFields($this->businessBundle);
 
         // Build the artifacts
-        $builder->build($this->package, $template, $this->renderer);
+        $builder->build($this->businessBundle, $template, $this->renderer);
 
         // Make sure the right files have been generated
         $this->assertGeneratedFile('migrations/CreateDatabase.sql', self::MYSQL_EXPECTED_DIR);
@@ -59,10 +59,10 @@ class SqlTemplatesTest extends TemplateTestCase
 
         // Prepare the entities for Doctrine ORM
         $adapter = new RelationalDatabaseAdapter();
-        $adapter->generateRelationalFields($this->package);
+        $adapter->generateRelationalFields($this->businessBundle);
 
         // Build the artifacts
-        $builder->build($this->package, $template, $this->renderer);
+        $builder->build($this->businessBundle, $template, $this->renderer);
 
         // Make sure the right files have been generated
         $this->assertGeneratedFile('migrations/RevertDatabase.sql', self::MYSQL_EXPECTED_DIR);
@@ -86,10 +86,10 @@ class SqlTemplatesTest extends TemplateTestCase
 
         // Prepare the entities for Doctrine ORM
         $adapter = new RelationalDatabaseAdapter();
-        $adapter->generateRelationalFields($this->package);
+        $adapter->generateRelationalFields($this->businessBundle);
 
         // Build the artifacts
-        $builder->build($this->package, $template, $this->renderer);
+        $builder->build($this->businessBundle, $template, $this->renderer);
 
         // Make sure the right files have been generated
         $this->assertGeneratedFile('migrations/CreateUser.sql', self::MYSQL_EXPECTED_DIR);

@@ -9,20 +9,20 @@ use PHPUnit\Framework\TestCase;
 class RelationshipSideTest extends TestCase
 {
     /** @var BusinessBundle */
-    private $package;
+    private $businessBundle;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->package = TestHelper::getSamplePackage();
+        $this->businessBundle = TestHelper::getSampleBusinessBundle();
     }
 
     public function testIsBidirectionalShouldPass()
     {
-        $user = $this->package->getBusinessModel('User');
+        $user = $this->businessBundle->getBusinessModel('User');
         self::assertNotNull($user);
 
-        $post = $this->package->getBusinessModel('Post');
+        $post = $this->businessBundle->getBusinessModel('Post');
         self::assertNotNull($post);
 
         self::assertFalse($user->getField('stats')->getRelation()->isBidirectional(), 'Unidirectional One-to-One validation failure');

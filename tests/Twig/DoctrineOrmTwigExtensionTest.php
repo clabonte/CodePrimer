@@ -153,15 +153,15 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
 
     public function fieldAnnotationsProvider()
     {
-        $package = TestHelper::getSamplePackage();
+        $businessBundle = TestHelper::getSampleBusinessBundle();
         // Generate the missing fields
         $adapter = new RelationalDatabaseAdapter();
-        $adapter->generateRelationalFields($package);
+        $adapter->generateRelationalFields($businessBundle);
 
-        $user = $package->getBusinessModel('User');
-        $subscription = $package->getBusinessModel('Subscription');
-        $metadata = $package->getBusinessModel('Metadata');
-        $topic = $package->getBusinessModel('Topic');
+        $user = $businessBundle->getBusinessModel('User');
+        $subscription = $businessBundle->getBusinessModel('Subscription');
+        $metadata = $businessBundle->getBusinessModel('Metadata');
+        $topic = $businessBundle->getBusinessModel('Topic');
 
         return [
             'Optional String field' => [
@@ -359,15 +359,15 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
 
     public function collectionUsedProvider()
     {
-        $package = TestHelper::getSamplePackage();
-        $user = $package->getBusinessModel('User');
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
 
         return [
             'User' => [$user, true],
-            'UserStats' => [$package->getBusinessModel('UserStats'), false],
-            'Metadata' => [$package->getBusinessModel('Metadata'), false],
-            'Post' => [$package->getBusinessModel('Post'), false],
-            'Topic' => [$package->getBusinessModel('Topic'), true],
+            'UserStats' => [$businessBundle->getBusinessModel('UserStats'), false],
+            'Metadata' => [$businessBundle->getBusinessModel('Metadata'), false],
+            'Post' => [$businessBundle->getBusinessModel('Post'), false],
+            'Topic' => [$businessBundle->getBusinessModel('Topic'), true],
             'Field' => [new Field('SampleField', FieldType::UUID), false],
             'List Field without relation' => [
                 (new Field('SampleField', FieldType::STRING))
@@ -394,8 +394,8 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
 
     public function typeDataProvider()
     {
-        $package = TestHelper::getSamplePackage();
-        $user = $package->getBusinessModel('User');
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
 
         return [
             'id' => [$user->getField('id'), 'string'],
@@ -423,8 +423,8 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
 
     public function hintDataProvider()
     {
-        $package = TestHelper::getSamplePackage();
-        $user = $package->getBusinessModel('User');
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
 
         return [
             'id' => [$user->getField('id'), 'string'],

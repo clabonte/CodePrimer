@@ -1188,9 +1188,9 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
      */
     public function testBusinessModelTest(Field $field, $expectedValue)
     {
-        $package = TestHelper::getSamplePackage();
+        $businessBundle = TestHelper::getSampleBusinessBundle();
 
-        $value = $this->twigExtension->entityTest($field, $package);
+        $value = $this->twigExtension->entityTest($field, $businessBundle);
 
         self::assertEquals($expectedValue, $value);
     }
@@ -1240,10 +1240,10 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     public function oneToOneTestProvider()
     {
-        $package = TestHelper::getSamplePackage();
-        $user = $package->getBusinessModel('User');
-        $post = $package->getBusinessModel('Post');
-        $topic = $package->getBusinessModel('Topic');
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
+        $post = $businessBundle->getBusinessModel('Post');
+        $topic = $businessBundle->getBusinessModel('Topic');
 
         return [
             'ENTITY - No relation' => [$post, false],
@@ -1276,10 +1276,10 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     public function oneToManyTestProvider()
     {
-        $package = TestHelper::getSamplePackage();
-        $user = $package->getBusinessModel('User');
-        $post = $package->getBusinessModel('Post');
-        $topic = $package->getBusinessModel('Topic');
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
+        $post = $businessBundle->getBusinessModel('Post');
+        $topic = $businessBundle->getBusinessModel('Topic');
 
         return [
             'ENTITY - No relation' => [$post, false],
@@ -1312,10 +1312,10 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     public function manyToOneTestProvider()
     {
-        $package = TestHelper::getSamplePackage();
-        $user = $package->getBusinessModel('User');
-        $post = $package->getBusinessModel('Post');
-        $topic = $package->getBusinessModel('Topic');
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
+        $post = $businessBundle->getBusinessModel('Post');
+        $topic = $businessBundle->getBusinessModel('Topic');
 
         return [
             'ENTITY - No relation' => [$user, false],
@@ -1348,10 +1348,10 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     public function manyToManyTestProvider()
     {
-        $package = TestHelper::getSamplePackage();
-        $user = $package->getBusinessModel('User');
-        $post = $package->getBusinessModel('Post');
-        $topic = $package->getBusinessModel('Topic');
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
+        $post = $businessBundle->getBusinessModel('Post');
+        $topic = $businessBundle->getBusinessModel('Topic');
 
         return [
             'ENTITY - No relation' => [$post, false],

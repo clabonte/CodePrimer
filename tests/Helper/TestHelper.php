@@ -14,24 +14,24 @@ class TestHelper
     /**
      * @param bool $withBusinessModels
      */
-    public static function getSamplePackage($withBusinessModels = true, $withRelationships = true): BusinessBundle
+    public static function getSampleBusinessBundle($withBusinessModels = true, $withRelationships = true): BusinessBundle
     {
-        $package = new BusinessBundle('CodePrimer Tests', 'FunctionalTest');
+        $businessBundle = new BusinessBundle('CodePrimer Tests', 'FunctionalTest');
 
         if ($withBusinessModels) {
-            self::addSampleBusinessModels($package);
+            self::addSampleBusinessModels($businessBundle);
         }
 
         if ($withRelationships) {
             // Build the relationships between the entities
-            $packageHelper = new BusinessBundleHelper();
-            $packageHelper->buildRelationships($package);
+            $businessBundleHelper = new BusinessBundleHelper();
+            $businessBundleHelper->buildRelationships($businessBundle);
         }
 
-        return $package;
+        return $businessBundle;
     }
 
-    public static function addSampleBusinessModels(BusinessBundle $package)
+    public static function addSampleBusinessModels(BusinessBundle $businessBundle)
     {
         $businessModel = new  BusinessModel('User', 'This entity represents a user');
         $businessModel
@@ -112,7 +112,7 @@ class TestHelper
                     ->setErrorMessage('This nickname name is already in use. Please select another one.')
         );
 
-        $package->addBusinessModel($businessModel);
+        $businessBundle->addBusinessModel($businessModel);
 
         $businessModel = new BusinessModel('UserStats', 'Simple statistics about the user');
         $businessModel
@@ -120,7 +120,7 @@ class TestHelper
             ->addField(new Field('lastLogin', FieldType::DATETIME, 'Last time the user logged in the system'))
             ->addField(new Field('loginCount', FieldType::LONG, 'Number of time the user logged in the system'));
 
-        $package->addBusinessModel($businessModel);
+        $businessBundle->addBusinessModel($businessModel);
 
         $businessModel = new BusinessModel('Metadata', 'Variable set of extra information');
         $businessModel
@@ -133,7 +133,7 @@ class TestHelper
                     ->setMandatory(true)
             );
 
-        $package->addBusinessModel($businessModel);
+        $businessBundle->addBusinessModel($businessModel);
 
         $businessModel = new BusinessModel('Post', 'Post created by the user');
         $businessModel
@@ -150,7 +150,7 @@ class TestHelper
                     ->setManaged(true)
             );
 
-        $package->addBusinessModel($businessModel);
+        $businessBundle->addBusinessModel($businessModel);
 
         $businessModel = new  BusinessModel('Topic', 'A topic regroups a set of posts made by various authors');
         $businessModel
@@ -173,7 +173,7 @@ class TestHelper
                     ->setManaged(true)
             );
 
-        $package->addBusinessModel($businessModel);
+        $businessBundle->addBusinessModel($businessModel);
 
         $businessModel = new BusinessModel('Subscription', 'The subscription bought by a user to user our services');
         $businessModel
@@ -189,6 +189,6 @@ class TestHelper
                     ->setManaged(true)
             );
 
-        $package->addBusinessModel($businessModel);
+        $businessBundle->addBusinessModel($businessModel);
     }
 }

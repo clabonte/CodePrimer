@@ -27,7 +27,7 @@ class TemplateTestCase extends TestCase
     protected $renderer;
 
     /** @var BusinessBundle */
-    protected $package;
+    protected $businessBundle;
 
     public function setUp(): void
     {
@@ -35,7 +35,7 @@ class TemplateTestCase extends TestCase
 
         $this->templateRegistry = new TemplateRegistry();
         $this->factory = new ArtifactBuilderFactory();
-        $this->package = new BusinessBundle('CodePrimer Tests', 'FunctionalTest');
+        $this->businessBundle = new BusinessBundle('CodePrimer Tests', 'FunctionalTest');
         $loader = new FilesystemLoader('templates', self::ROOT);
         $this->renderer = new TemplateRenderer($loader, self::ACTUAL_DIR);
 
@@ -45,10 +45,10 @@ class TemplateTestCase extends TestCase
 
     protected function initEntities()
     {
-        TestHelper::addSampleBusinessModels($this->package);
+        TestHelper::addSampleBusinessModels($this->businessBundle);
 
-        $packageHelper = new BusinessBundleHelper();
-        $packageHelper->buildRelationships($this->package);
+        $businessBundleHelper = new BusinessBundleHelper();
+        $businessBundleHelper->buildRelationships($this->businessBundle);
     }
 
     protected function assertGeneratedFile(string $filename, string $expectedDir)
