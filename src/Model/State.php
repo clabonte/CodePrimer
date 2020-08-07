@@ -38,47 +38,73 @@ class State
         $this->final = $final;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function setName(string $name): void
     {
         $this->name = $name;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function setDescription(string $description): void
     {
         $this->description = $description;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function isInitial(): bool
     {
         return $this->initial;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function setInitial(bool $initial): void
     {
         $this->initial = $initial;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function isFinal(): bool
     {
         return $this->final;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function setFinal(bool $final): void
     {
         $this->final = $final;
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @return Transition[]
      */
     public function getTransitions(): array

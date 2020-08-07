@@ -47,11 +47,17 @@ class Constraint
         $this->errorMessage = $errorMessage;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function setName(string $name): Constraint
     {
         $this->name = $name;
@@ -60,6 +66,8 @@ class Constraint
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @return Field[]
      */
     public function getFields(): array
@@ -89,11 +97,17 @@ class Constraint
         return null;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function setDescription(string $description): Constraint
     {
         $this->description = $description;
@@ -101,11 +115,17 @@ class Constraint
         return $this;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getErrorMessage(): string
     {
         return $this->errorMessage;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function setErrorMessage(string $errorMessage): Constraint
     {
         $this->errorMessage = $errorMessage;

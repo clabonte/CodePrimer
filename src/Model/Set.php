@@ -31,27 +31,41 @@ class Set
         $this->description = $description;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function setName(string $name): void
     {
         $this->name = $name;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getDescription(): string
     {
         return $this->description;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function setDescription(string $description): void
     {
         $this->description = $description;
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @return Field[]
      */
     public function getFields(): array
@@ -106,6 +120,8 @@ class Set
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @return Element[]
      */
     public function getElements(): array
@@ -114,6 +130,8 @@ class Set
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @param Element[] $elements
      */
     public function setElements(array $elements): void

@@ -27,6 +27,9 @@ class StateMachine
         $this->name = $name;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getName(): string
     {
         return $this->name;
@@ -43,6 +46,8 @@ class StateMachine
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @return State[]
      */
     public function getStates(): array
@@ -51,6 +56,8 @@ class StateMachine
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @return Transition[]
      */
     public function getTransitions(): array

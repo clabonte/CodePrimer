@@ -30,6 +30,9 @@ class RelationshipSide
         $this->setField($field);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getSide(): ?string
     {
         return $this->side;
@@ -85,6 +88,9 @@ class RelationshipSide
         return $this;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getRelationship(): Relationship
     {
         return $this->relationship;
