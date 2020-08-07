@@ -3,7 +3,7 @@
 namespace CodePrimer\Tests\Helper;
 
 use CodePrimer\Helper\ArtifactHelper;
-use CodePrimer\Model\Package;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Template\Artifact;
 use PHPUnit\Framework\TestCase;
 
@@ -21,7 +21,7 @@ class ArtifactHelperTest extends TestCase
     /**
      * @dataProvider getDirectoryProvider
      */
-    public function testGetDirectory(Package $package, Artifact $artifact, string $expected)
+    public function testGetDirectory(BusinessBundle $package, Artifact $artifact, string $expected)
     {
         self::assertEquals($expected, $this->helper->getDirectory($package, $artifact));
     }

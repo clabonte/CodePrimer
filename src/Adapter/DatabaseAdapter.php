@@ -2,9 +2,9 @@
 
 namespace CodePrimer\Adapter;
 
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Package;
 use CodePrimer\Model\Relationship;
 use CodePrimer\Model\RelationshipSide;
 use Doctrine\Common\Inflector\Inflector;
@@ -18,9 +18,9 @@ class DatabaseAdapter
      *
      * @return string
      */
-    public function getDatabaseName(Package $package)
+    public function getDatabaseName(BusinessBundle $businessBundle)
     {
-        $dbName = $package->getNamespace().' '.$package->getName();
+        $dbName = $businessBundle->getNamespace().' '.$businessBundle->getName();
         $name = str_replace(['-', ' ', '.'], '_', Inflector::singularize($dbName));
         $name = Inflector::tableize($name);
         $name = str_replace('__', '_', $name);

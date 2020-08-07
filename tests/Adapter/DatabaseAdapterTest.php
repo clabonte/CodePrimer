@@ -4,9 +4,9 @@ namespace CodePrimer\Tests\Adapter;
 
 use CodePrimer\Adapter\DatabaseAdapter;
 use CodePrimer\Helper\FieldType;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Package;
 use CodePrimer\Model\RelationshipSide;
 use CodePrimer\Tests\Helper\RelationshipTestHelper;
 use CodePrimer\Tests\Helper\TestHelper;
@@ -27,7 +27,7 @@ class DatabaseAdapterTest extends TestCase
     /**
      * @dataProvider databaseNameProvider
      */
-    public function testGetDatabaseName(Package $package, string $expected)
+    public function testGetDatabaseName(BusinessBundle $package, string $expected)
     {
         self::assertEquals($expected, $this->adapter->getDatabaseName($package));
     }
@@ -35,14 +35,14 @@ class DatabaseAdapterTest extends TestCase
     public function databaseNameProvider()
     {
         return [
-            'Name' => [new Package('Namespace', 'Name'), 'namespace_name'],
-            'Namespace Space Name' => [new Package('Namespace Space', 'Name'), 'namespace_space_name'],
-            'Namespace Spaces Name' => [new Package('Namespace Spaces', 'Name'), 'namespace_spaces_name'],
-            'sampleName' => [new Package('Namespace', 'sampleName'), 'namespace_sample_name'],
-            'SampleName' => [new Package('Namespace', 'SampleName'), 'namespace_sample_name'],
-            'Sample Name' => [new Package('Namespace', 'Sample Name'), 'namespace_sample_name'],
-            'Samples Names' => [new Package('Namespace', 'Samples Names'), 'namespace_samples_name'],
-            'Sample-Name' => [new Package('Namespace', 'Sample-Name'), 'namespace_sample_name'],
+            'Name' => [new BusinessBundle('Namespace', 'Name'), 'namespace_name'],
+            'Namespace Space Name' => [new BusinessBundle('Namespace Space', 'Name'), 'namespace_space_name'],
+            'Namespace Spaces Name' => [new BusinessBundle('Namespace Spaces', 'Name'), 'namespace_spaces_name'],
+            'sampleName' => [new BusinessBundle('Namespace', 'sampleName'), 'namespace_sample_name'],
+            'SampleName' => [new BusinessBundle('Namespace', 'SampleName'), 'namespace_sample_name'],
+            'Sample Name' => [new BusinessBundle('Namespace', 'Sample Name'), 'namespace_sample_name'],
+            'Samples Names' => [new BusinessBundle('Namespace', 'Samples Names'), 'namespace_samples_name'],
+            'Sample-Name' => [new BusinessBundle('Namespace', 'Sample-Name'), 'namespace_sample_name'],
             'TestPackage' => [TestHelper::getSamplePackage(), 'code_primer_tests_functional_test'],
         ];
     }

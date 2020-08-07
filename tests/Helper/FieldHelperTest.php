@@ -4,9 +4,9 @@ namespace CodePrimer\Tests\Helper;
 
 use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Helper\FieldType;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Package;
 use PHPUnit\Framework\TestCase;
 
 class FieldHelperTest extends TestCase
@@ -543,7 +543,7 @@ class FieldHelperTest extends TestCase
      */
     public function testIsBusinessModel(Field $field, bool $expected)
     {
-        $package = new Package('namespace', 'name');
+        $package = new BusinessBundle('namespace', 'name');
         $package
             ->addBusinessModel(new BusinessModel('TestData1', 'description1'))
             ->addBusinessModel(new BusinessModel('TestData4', 'description4'));

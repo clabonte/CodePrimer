@@ -2,21 +2,21 @@
 
 namespace CodePrimer\Tests\Helper;
 
+use CodePrimer\Helper\BusinessBundleHelper;
 use CodePrimer\Helper\FieldType;
-use CodePrimer\Helper\PackageHelper;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Package;
 
 class TestHelper
 {
     /**
      * @param bool $withBusinessModels
      */
-    public static function getSamplePackage($withBusinessModels = true, $withRelationships = true): Package
+    public static function getSamplePackage($withBusinessModels = true, $withRelationships = true): BusinessBundle
     {
-        $package = new Package('CodePrimer Tests', 'FunctionalTest');
+        $package = new BusinessBundle('CodePrimer Tests', 'FunctionalTest');
 
         if ($withBusinessModels) {
             self::addSampleBusinessModels($package);
@@ -24,14 +24,14 @@ class TestHelper
 
         if ($withRelationships) {
             // Build the relationships between the entities
-            $packageHelper = new PackageHelper();
+            $packageHelper = new BusinessBundleHelper();
             $packageHelper->buildRelationships($package);
         }
 
         return $package;
     }
 
-    public static function addSampleBusinessModels(Package $package)
+    public static function addSampleBusinessModels(BusinessBundle $package)
     {
         $businessModel = new  BusinessModel('User', 'This entity represents a user');
         $businessModel

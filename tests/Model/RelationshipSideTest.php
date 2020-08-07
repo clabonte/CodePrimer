@@ -2,13 +2,13 @@
 
 namespace CodePrimer\Tests\Model;
 
-use CodePrimer\Model\Package;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Tests\Helper\TestHelper;
 use PHPUnit\Framework\TestCase;
 
 class RelationshipSideTest extends TestCase
 {
-    /** @var Package */
+    /** @var BusinessBundle */
     private $package;
 
     public function setUp(): void

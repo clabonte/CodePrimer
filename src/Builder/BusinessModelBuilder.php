@@ -4,8 +4,8 @@ namespace CodePrimer\Builder;
 
 use CodePrimer\Helper\BusinessModelHelper;
 use CodePrimer\Helper\FieldHelper;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
-use CodePrimer\Model\Package;
 use CodePrimer\Renderer\TemplateRenderer;
 use CodePrimer\Template\Template;
 
@@ -16,11 +16,11 @@ class BusinessModelBuilder implements ArtifactBuilder
      *
      * @throws \Exception
      */
-    public function build(Package $package, Template $template, TemplateRenderer $renderer): array
+    public function build(BusinessBundle $businessBundle, Template $template, TemplateRenderer $renderer): array
     {
         $files = [];
-        foreach ($package->getBusinessModels() as $businessModel) {
-            $files[] = $this->buildBusinessModel($package, $businessModel, $template, $renderer);
+        foreach ($businessBundle->getBusinessModels() as $businessModel) {
+            $files[] = $this->buildBusinessModel($businessBundle, $businessModel, $template, $renderer);
         }
 
         return $files;
@@ -29,10 +29,10 @@ class BusinessModelBuilder implements ArtifactBuilder
     /**
      * @throws \Exception
      */
-    protected function buildBusinessModel(Package $package, BusinessModel $businessModel, Template $template, TemplateRenderer $renderer): string
+    protected function buildBusinessModel(BusinessBundle $businessBundle, BusinessModel $businessModel, Template $template, TemplateRenderer $renderer): string
     {
         $context = [
-            'package' => $package,
+            'package' => $businessBundle,
             'subpackage' => 'Model',
             'model' => $businessModel,
             'businessModel' => $businessModel,
@@ -40,6 +40,6 @@ class BusinessModelBuilder implements ArtifactBuilder
             'fieldHelper' => new FieldHelper(),
         ];
 
-        return $renderer->renderToFile($businessModel->getName(), $package, $template, $context);
+        return $renderer->renderToFile($businessModel->getName(), $businessBundle, $template, $context);
     }
 }

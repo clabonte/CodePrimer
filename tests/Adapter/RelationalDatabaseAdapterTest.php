@@ -4,11 +4,11 @@ namespace CodePrimer\Tests\Adapter;
 
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Helper\FieldType;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Database\Index;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Package;
 use CodePrimer\Model\RelationshipSide;
 use CodePrimer\Tests\Helper\RelationshipTestHelper;
 use CodePrimer\Tests\Helper\TestHelper;
@@ -186,7 +186,7 @@ class RelationalDatabaseAdapterTest extends TestCase
      */
     public function testGenerateIdentifierFieldWithExistingPotentialIdentifierFieldsShouldThrowException()
     {
-        $package = new Package('Test', 'TestPackage');
+        $package = new BusinessBundle('Test', 'TestPackage');
 
         $businessModel = new BusinessModel('TestEntity');
         $businessModel->addField(new Field('id', FieldType::STRING));

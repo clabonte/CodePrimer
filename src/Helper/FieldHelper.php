@@ -2,8 +2,8 @@
 
 namespace CodePrimer\Helper;
 
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Package;
 
 class FieldHelper
 {
@@ -146,11 +146,11 @@ class FieldHelper
     /**
      * Checks if a field represents a known BusinessModel in a given package.
      */
-    public function isBusinessModel(Field $field, Package $package): bool
+    public function isBusinessModel(Field $field, BusinessBundle $businessBundle): bool
     {
         $result = false;
 
-        $businessModel = $package->getBusinessModel($field->getType());
+        $businessModel = $businessBundle->getBusinessModel($field->getType());
         if (isset($businessModel)) {
             $result = true;
         }

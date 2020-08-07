@@ -4,11 +4,11 @@ namespace CodePrimer\Tests\Twig;
 
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Helper\FieldType;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Database\Index;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Package;
 use CodePrimer\Model\RelationshipSide;
 use CodePrimer\Tests\Helper\RelationshipTestHelper;
 use CodePrimer\Tests\Helper\TestHelper;
@@ -143,7 +143,7 @@ class SqlTwigExtensionTest extends TwigExtensionTest
     /**
      * @dataProvider databaseNameProvider
      */
-    public function testDatabaseFilter(Package $package, string $expected)
+    public function testDatabaseFilter(BusinessBundle $package, string $expected)
     {
         self::assertEquals($expected, $this->twigExtension->databaseFilter($package));
     }
@@ -151,14 +151,14 @@ class SqlTwigExtensionTest extends TwigExtensionTest
     public function databaseNameProvider()
     {
         return [
-            'Name' => [new Package('Namespace', 'Name'), 'namespace_name'],
-            'Namespace Space Name' => [new Package('Namespace Space', 'Name'), 'namespace_space_name'],
-            'Namespace Spaces Name' => [new Package('Namespace Spaces', 'Name'), 'namespace_spaces_name'],
-            'sampleName' => [new Package('Namespace', 'sampleName'), 'namespace_sample_name'],
-            'SampleName' => [new Package('Namespace', 'SampleName'), 'namespace_sample_name'],
-            'Sample Name' => [new Package('Namespace', 'Sample Name'), 'namespace_sample_name'],
-            'Samples Names' => [new Package('Namespace', 'Samples Names'), 'namespace_samples_name'],
-            'Sample-Name' => [new Package('Namespace', 'Sample-Name'), 'namespace_sample_name'],
+            'Name' => [new BusinessBundle('Namespace', 'Name'), 'namespace_name'],
+            'Namespace Space Name' => [new BusinessBundle('Namespace Space', 'Name'), 'namespace_space_name'],
+            'Namespace Spaces Name' => [new BusinessBundle('Namespace Spaces', 'Name'), 'namespace_spaces_name'],
+            'sampleName' => [new BusinessBundle('Namespace', 'sampleName'), 'namespace_sample_name'],
+            'SampleName' => [new BusinessBundle('Namespace', 'SampleName'), 'namespace_sample_name'],
+            'Sample Name' => [new BusinessBundle('Namespace', 'Sample Name'), 'namespace_sample_name'],
+            'Samples Names' => [new BusinessBundle('Namespace', 'Samples Names'), 'namespace_samples_name'],
+            'Sample-Name' => [new BusinessBundle('Namespace', 'Sample-Name'), 'namespace_sample_name'],
             'TestPackage' => [TestHelper::getSamplePackage(), 'code_primer_tests_functional_test'],
         ];
     }
@@ -186,7 +186,7 @@ class SqlTwigExtensionTest extends TwigExtensionTest
     /**
      * @dataProvider userProvider
      */
-    public function testUserFilter(Package $package, string $expected)
+    public function testUserFilter(BusinessBundle $package, string $expected)
     {
         self::assertEquals($expected, $this->twigExtension->userFilter($package));
     }
@@ -194,12 +194,12 @@ class SqlTwigExtensionTest extends TwigExtensionTest
     public function userProvider()
     {
         return [
-            'Name' => [new Package('Namespace', 'Name'), 'name'],
-            'sampleName' => [new Package('Namespace', 'sampleName'), 'sample_name'],
-            'SampleName' => [new Package('Namespace', 'SampleName'), 'sample_name'],
-            'Sample Name' => [new Package('Namespace', 'Sample Name'), 'sample_name'],
-            'Samples Names' => [new Package('Namespace', 'Samples Names'), 'samples_names'],
-            'Sample-Name' => [new Package('Namespace', 'Sample-Name'), 'sample_name'],
+            'Name' => [new BusinessBundle('Namespace', 'Name'), 'name'],
+            'sampleName' => [new BusinessBundle('Namespace', 'sampleName'), 'sample_name'],
+            'SampleName' => [new BusinessBundle('Namespace', 'SampleName'), 'sample_name'],
+            'Sample Name' => [new BusinessBundle('Namespace', 'Sample Name'), 'sample_name'],
+            'Samples Names' => [new BusinessBundle('Namespace', 'Samples Names'), 'samples_names'],
+            'Sample-Name' => [new BusinessBundle('Namespace', 'Sample-Name'), 'sample_name'],
             'TestPackage' => [TestHelper::getSamplePackage(), 'functional_test'],
         ];
     }

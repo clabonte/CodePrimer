@@ -76,22 +76,22 @@ Here is the list of *basic data types* currently supported by CodePrimer.
 If you need new ones, feel free to contribute to the project or open an issue to let us know your need.
 
 ### Relationships
-Business Models can be linked together via their field definitions. The relationships are not part of the `BusinessModel` class per se but are being exposed via a `PackageHelper` class. The rationale is that relationship rules belong to the business domain and should be customizable as such without impact on the model itself.
+Business Models can be linked together via their field definitions. The relationships are not part of the `BusinessModel` class per se but are being exposed via a `BusinessBundleHelper` class. The rationale is that relationship rules belong to the business domain and should be customizable as such without impact on the model itself.
 
 CodePrimer currently supports the following relationships:
 - **One to One**: Uni-directional or bi-directional link between two `BusinessModel` classes
-  - Setup when a field has a type that can be mapped to another `BusinessModel` class in the same package
+  - Setup when a field has a type that can be mapped to another `BusinessModel` class in the same bundle
   - If a similar field pointing back to the `BusinessModel` is found in the opposite class, a bi-directional relationship is created on both sides
   - Otherwise, a uni-directional relationship is created on the originating class 
   - Referred as `Relationship::ONE_TO_ONE` in the code  
 - **One to Many**: Uni-directional or bi-directional link between two `BusinessModel` classes
-  - Setup when a field has a type that can be mapped to a list of another `BusinessModel` class in the same package
+  - Setup when a field has a type that can be mapped to a list of another `BusinessModel` class in the same bundle
   - If a similar field pointing back to a single `BusinessModel` is found in the opposite class, a bi-directional relationship is created on both sides
   - Otherwise, a uni-directional relationship is created on the originating class 
   - Referred as `Relationship::ONE_TO_MANY` in the code  
 - **Many to Many**: Bi-directional link between two `BusinessModel` classes
-  - Setup when a field has a type that can be mapped to a list of another `BusinessModel` class in the same package and a similar field pointing back to a list of `BusinessModel` is found in the opposite class
+  - Setup when a field has a type that can be mapped to a list of another `BusinessModel` class in the same bundle and a similar field pointing back to a list of `BusinessModel` is found in the opposite class
   - Referred as `Relationship::MANY_TO_MANY` in the code  
 
-## Business Package
-In CodePrimer, a **Business Package** is a **collection of Business Models and Business Processes** that are related together defining the boundaries of a business component. As such, it is a good entry point to retrieve the list of elements to include when generating a given artifact (e.g. entities).
+## Business Bundle
+In CodePrimer, a **Business Bundle** is a **collection of Business Models and Business Processes** that are related together defining the boundaries of a business component. As such, it is a good entry point to retrieve the list of elements to include when generating a given artifact (e.g. entities).

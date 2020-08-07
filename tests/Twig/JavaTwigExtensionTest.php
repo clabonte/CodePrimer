@@ -3,10 +3,10 @@
 namespace CodePrimer\Tests\Twig;
 
 use CodePrimer\Helper\FieldType;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Package;
 use CodePrimer\Twig\JavaTwigExtension;
 
 class JavaTwigExtensionTest extends TwigExtensionTest
@@ -68,7 +68,7 @@ class JavaTwigExtensionTest extends TwigExtensionTest
             ['class name', 'this.className'],
             [new BusinessModel('Entities'), 'this.entity'],
             [new Field('MYSQL_Field', 'int'), 'this.mYSQLField'],
-            [new Package('Packages', 'Package_name'), 'this.packageName'],
+            [new BusinessBundle('Packages', 'Package_name'), 'this.packageName'],
             [new Event('eventNames', 'Value'), 'this.eventName'],
             [123, 123],
             [1.345, 1.345],
@@ -104,7 +104,7 @@ class JavaTwigExtensionTest extends TwigExtensionTest
             ['class name', 'class.name'],
             [new BusinessModel('Entities'), ''],
             [new Field('MYSQL/Field', 'int'), ''],
-            [new Package('Packages', 'Package_name'), 'packages'],
+            [new BusinessBundle('Packages', 'Package_name'), 'packages'],
             [new Event('Event\\Names', 'Value'), ''],
             [123, ''],
             [1.345, ''],

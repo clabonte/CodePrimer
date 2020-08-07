@@ -3,8 +3,8 @@
 namespace CodePrimer\Twig;
 
 use CodePrimer\Helper\FieldHelper;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Package;
 use Doctrine\Common\Inflector\Inflector;
 use Twig\TwigFilter;
 
@@ -44,7 +44,7 @@ class JavaTwigExtension extends LanguageTwigExtension
     /**
      * Filters a string to transform it to a package equivalent. Converts 'Com\Folder\A' or 'Com/Folder/A' to 'com.folder.a'.
      *
-     * @param string|Package $obj
+     * @param string|BusinessBundle $obj
      *
      * @return string
      */
@@ -52,7 +52,7 @@ class JavaTwigExtension extends LanguageTwigExtension
     {
         $str = '';
 
-        if ($obj instanceof Package) {
+        if ($obj instanceof BusinessBundle) {
             $str = $obj->getNamespace();
         } elseif (is_string($obj)) {
             $str = $obj;
@@ -97,9 +97,9 @@ class JavaTwigExtension extends LanguageTwigExtension
             } elseif ($helper->isString($field)) {
                 $type = 'String';
             } elseif (isset($context['package'])) {
-                /** @var Package $package */
-                $package = $context['package'];
-                if ($helper->isBusinessModel($field, $package)) {
+                /** @var BusinessBundle $businessBundle */
+                $businessBundle = $context['package'];
+                if ($helper->isBusinessModel($field, $businessBundle)) {
                     $type = $field->getType();
                 }
             }
@@ -145,9 +145,9 @@ class JavaTwigExtension extends LanguageTwigExtension
             } elseif ($helper->isString($field)) {
                 $type = 'String';
             } elseif (isset($context['package'])) {
-                /** @var Package $package */
-                $package = $context['package'];
-                if ($helper->isBusinessModel($field, $package)) {
+                /** @var BusinessBundle $businessBundle */
+                $businessBundle = $context['package'];
+                if ($helper->isBusinessModel($field, $businessBundle)) {
                     $type = $field->getType();
                 }
             }

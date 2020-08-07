@@ -2,10 +2,10 @@
 
 namespace CodePrimer\Tests\Helper;
 
+use CodePrimer\Helper\BusinessBundleHelper;
 use CodePrimer\Helper\FieldHelper;
-use CodePrimer\Helper\PackageHelper;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Package;
 use CodePrimer\Model\Relationship;
 use CodePrimer\Model\RelationshipSide;
 use PHPUnit\Framework\TestCase;
@@ -13,16 +13,16 @@ use RuntimeException;
 
 class PackageHelperTest extends TestCase
 {
-    /** @var PackageHelper */
+    /** @var BusinessBundleHelper */
     private $helper;
 
-    /** @var Package */
+    /** @var BusinessBundle */
     private $package;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->helper = new PackageHelper();
+        $this->helper = new BusinessBundleHelper();
         $this->package = TestHelper::getSamplePackage(true, false);
     }
 
@@ -185,7 +185,7 @@ class PackageHelperTest extends TestCase
         self::assertNotNull($postBusinessModel);
 
         // Create a new package with the entities in 'reverse' order
-        $package = new Package('Test', 'TestPackage');
+        $package = new BusinessBundle('Test', 'TestPackage');
         $package->addBusinessModel($postBusinessModel);
         $package->addBusinessModel($userBusinessModel);
 
@@ -320,7 +320,7 @@ class PackageHelperTest extends TestCase
         $stub->method('isBusinessModel')
             ->will($this->returnCallback([$this, 'isBusinessModelStubCallback']));
 
-        $packageHelper = new PackageHelper($stub);
+        $packageHelper = new BusinessBundleHelper($stub);
 
         self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Failed to locate remote entity Unknown in package FunctionalTest');

@@ -3,11 +3,11 @@
 namespace CodePrimer\Twig;
 
 use CodePrimer\Helper\FieldHelper;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Package;
 use CodePrimer\Model\Relationship;
 use CodePrimer\Model\RelationshipSide;
 use CodePrimer\Model\Set;
@@ -264,12 +264,12 @@ class LanguageTwigExtension extends AbstractExtension
      *
      * @return bool
      */
-    public function entityTest($obj, Package $package)
+    public function entityTest($obj, BusinessBundle $businessBundle)
     {
         $result = false;
 
         if ($obj instanceof Field) {
-            $result = $this->fieldHelper->isBusinessModel($obj, $package);
+            $result = $this->fieldHelper->isBusinessModel($obj, $businessBundle);
         }
 
         return $result;
@@ -555,7 +555,7 @@ class LanguageTwigExtension extends AbstractExtension
      * Filters a string to transform it to a file path.
      * Converts 'Com\Folder\A' or 'Com.Folder.A' to 'Com/Folder/A'.
      *
-     * @param string|Package $obj
+     * @param string|BusinessBundle $obj
      *
      * @return string
      */
@@ -563,7 +563,7 @@ class LanguageTwigExtension extends AbstractExtension
     {
         $str = '';
 
-        if ($obj instanceof Package) {
+        if ($obj instanceof BusinessBundle) {
             $str = $obj->getNamespace();
         } elseif (is_string($obj)) {
             $str = $obj;
@@ -580,7 +580,7 @@ class LanguageTwigExtension extends AbstractExtension
      * Filters a string to extract the last part of a path.
      * Converts 'Com\Folder\A' or 'Com/Folder/A' or 'Com.Folder.A' to 'A'.
      *
-     * @param string|Package $obj
+     * @param string|BusinessBundle $obj
      *
      * @return string
      */
@@ -588,7 +588,7 @@ class LanguageTwigExtension extends AbstractExtension
     {
         $str = '';
 
-        if ($obj instanceof Package) {
+        if ($obj instanceof BusinessBundle) {
             $str = $obj->getNamespace();
         } elseif (is_string($obj)) {
             $str = $obj;
@@ -722,9 +722,9 @@ class LanguageTwigExtension extends AbstractExtension
             } elseif ($helper->isString($field)) {
                 $type = 'string';
             } elseif (isset($context['package'])) {
-                /** @var Package $package */
-                $package = $context['package'];
-                if ($helper->isBusinessModel($field, $package)) {
+                /** @var BusinessBundle $businessBundle */
+                $businessBundle = $context['package'];
+                if ($helper->isBusinessModel($field, $businessBundle)) {
                     $type = $field->getType();
                 }
             }
@@ -772,9 +772,9 @@ class LanguageTwigExtension extends AbstractExtension
             } elseif ($helper->isString($field)) {
                 $type = 'string';
             } elseif (isset($context['package'])) {
-                /** @var Package $package */
-                $package = $context['package'];
-                if ($helper->isBusinessModel($field, $package)) {
+                /** @var BusinessBundle $businessBundle */
+                $businessBundle = $context['package'];
+                if ($helper->isBusinessModel($field, $businessBundle)) {
                     $type = $field->getType();
                 }
             }
@@ -853,7 +853,7 @@ class LanguageTwigExtension extends AbstractExtension
             $name = $obj->getName();
         } elseif ($obj instanceof BusinessModel) {
             $name = $obj->getName();
-        } elseif ($obj instanceof Package) {
+        } elseif ($obj instanceof BusinessBundle) {
             $name = $obj->getName();
         } elseif ($obj instanceof Event) {
             $name = $obj->getName();

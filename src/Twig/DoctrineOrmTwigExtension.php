@@ -6,11 +6,11 @@ use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Helper\BusinessModelHelper;
 use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Helper\FieldType;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Database\Index;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Package;
 use CodePrimer\Model\Relationship;
 use CodePrimer\Model\RelationshipSide;
 use Twig\TwigFunction;
@@ -185,15 +185,15 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
         // Build the relationship annotation, if needed
         $relation = $field->getRelation();
         if (isset($relation)) {
-            /** @var Package $package */
-            $package = $context['package'];
+            /** @var BusinessBundle $businessBundle */
+            $businessBundle = $context['package'];
             $side = $relation->getSide();
             $remoteBusinessModel = $relation->getRemoteSide()->getBusinessModel();
             $remoteField = $relation->getRemoteSide()->getField();
 
             switch ($relation->getRelationship()->getType()) {
                 case Relationship::ONE_TO_ONE:
-                    $annotation = '@ORM\OneToOne(targetEntity="'.$this->namespaceFilter($context, $package).'\\'.$this->getName($remoteBusinessModel).'"';
+                    $annotation = '@ORM\OneToOne(targetEntity="'.$this->namespaceFilter($context, $businessBundle).'\\'.$this->getName($remoteBusinessModel).'"';
                     // If this is a unidirectional link, cascade the operations
                     if (!isset($remoteField)) {
                         $annotation .= ', cascade={"persist", "remove"}';
@@ -205,17 +205,17 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
                     break;
                 case Relationship::ONE_TO_MANY:
                     if (RelationshipSide::LEFT == $side) {
-                        $annotation = '@ORM\OneToMany(targetEntity="'.$this->namespaceFilter($context, $package).'\\'.$this->getName($remoteBusinessModel).'"';
+                        $annotation = '@ORM\OneToMany(targetEntity="'.$this->namespaceFilter($context, $businessBundle).'\\'.$this->getName($remoteBusinessModel).'"';
                         $annotation .= ', mappedBy="'.$remoteField->getName().'", cascade={"persist", "remove", "merge"}, orphanRemoval=true';
                     } else {
-                        $annotation = '@ORM\ManyToOne(targetEntity="'.$this->namespaceFilter($context, $package).'\\'.$this->getName($remoteBusinessModel).'"';
+                        $annotation = '@ORM\ManyToOne(targetEntity="'.$this->namespaceFilter($context, $businessBundle).'\\'.$this->getName($remoteBusinessModel).'"';
                         $annotation .= ', inversedBy="'.$remoteField->getName().'"';
                     }
                     $annotation .= ')';
                     $annotations[] = $annotation;
                     break;
                 case Relationship::MANY_TO_MANY:
-                    $annotation = '@ORM\ManyToMany(targetEntity="'.$this->namespaceFilter($context, $package).'\\'.$this->getName($remoteBusinessModel).'"';
+                    $annotation = '@ORM\ManyToMany(targetEntity="'.$this->namespaceFilter($context, $businessBundle).'\\'.$this->getName($remoteBusinessModel).'"';
                     if (RelationshipSide::LEFT == $side) {
                         $annotation .= ', mappedBy="'.$remoteField->getName().'"';
                     } else {

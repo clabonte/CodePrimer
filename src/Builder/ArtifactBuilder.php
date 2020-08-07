@@ -2,7 +2,7 @@
 
 namespace CodePrimer\Builder;
 
-use CodePrimer\Model\Package;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Renderer\TemplateRenderer;
 use CodePrimer\Template\Template;
 use Exception;
@@ -14,5 +14,5 @@ interface ArtifactBuilder
      *
      * @throws Exception
      */
-    public function build(Package $package, Template $template, TemplateRenderer $renderer): array;
+    public function build(BusinessBundle $businessBundle, Template $template, TemplateRenderer $renderer): array;
 }

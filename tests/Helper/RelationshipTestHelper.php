@@ -3,13 +3,13 @@
 namespace CodePrimer\Tests\Helper;
 
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
-use CodePrimer\Model\Package;
 use CodePrimer\Model\RelationshipSide;
 
 class RelationshipTestHelper
 {
-    /** @var Package */
+    /** @var BusinessBundle */
     private $package;
 
     /** @var BusinessModel */
@@ -44,7 +44,7 @@ class RelationshipTestHelper
         $this->topic = $this->package->getBusinessModel('Topic');
     }
 
-    public function getPackage(): Package
+    public function getPackage(): BusinessBundle
     {
         return $this->package;
     }
