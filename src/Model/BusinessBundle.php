@@ -47,6 +47,7 @@ class BusinessBundle
 
     /**
      * @codeCoverageIgnore
+     *
      * @return string
      */
     public function getNamespace()
@@ -56,6 +57,7 @@ class BusinessBundle
 
     /**
      * @codeCoverageIgnore
+     *
      * @param string $namespace
      *
      * @return BusinessBundle
@@ -69,7 +71,6 @@ class BusinessBundle
 
     /**
      * @codeCoverageIgnore
-     * @return string
      */
     public function getName(): string
     {
@@ -78,6 +79,7 @@ class BusinessBundle
 
     /**
      * @codeCoverageIgnore
+     *
      * @return BusinessBundle
      */
     public function setName(string $name): self
@@ -89,7 +91,6 @@ class BusinessBundle
 
     /**
      * @codeCoverageIgnore
-     * @return string
      */
     public function getDescription(): string
     {
@@ -98,6 +99,7 @@ class BusinessBundle
 
     /**
      * @codeCoverageIgnore
+     *
      * @return BusinessBundle
      */
     public function setDescription(string $description): self
@@ -109,6 +111,7 @@ class BusinessBundle
 
     /**
      * @codeCoverageIgnore
+     *
      * @return BusinessModel[]
      */
     public function getBusinessModels(): array
@@ -153,6 +156,7 @@ class BusinessBundle
 
     /**
      * @codeCoverageIgnore
+     *
      * @return BusinessProcess[]
      */
     public function getBusinessProcesses(): array
@@ -240,6 +244,7 @@ class BusinessBundle
 
     /**
      * @codeCoverageIgnore
+     *
      * @return Set[]
      */
     public function listSets(): array

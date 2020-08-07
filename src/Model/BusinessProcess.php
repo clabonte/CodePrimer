@@ -3,9 +3,24 @@
 namespace CodePrimer\Model;
 
 use CodePrimer\Model\Derived\Event;
+use CodePrimer\Model\Derived\Message;
+use InvalidArgumentException;
 
 class BusinessProcess
 {
+    // The following constants define the list of process types supported
+    const CREATE = 'create';
+    const RETRIEVE = 'retrieve';
+    const UPDATE = 'update';
+    const DELETE = 'delete';
+    const CUSTOM = 'custom';
+
+    /** @var string One of the constants above */
+    private $type;
+
+    /** @var string */
+    private $category = '';
+
     /** @var string */
     private $name;
 
@@ -36,19 +51,58 @@ class BusinessProcess
     /** @var array List of external updates that can be produced as an outcome of this process */
     private $externalUpdates = [];
 
-    /** @var array List of messages that can be produced as an outcome of this process */
+    /** @var Message[] List of messages that can be produced as an outcome of this process */
     private $messages = [];
 
     /**
      * BusinessProcess constructor.
      */
-    public function __construct(string $name, string $description, Event $trigger, bool $synchronous = true, bool $asynchronous = false)
+    public function __construct(string $name, string $description, Event $trigger, string $type = self::CUSTOM, bool $synchronous = true, bool $asynchronous = false)
     {
+        $this->validate($type);
+        $this->type = $type;
         $this->name = $name;
         $this->description = $description;
         $this->trigger = $trigger;
         $this->synchronous = $synchronous;
         $this->asynchronous = $asynchronous;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    public function setType(string $type): BusinessProcess
+    {
+        $this->validate($type);
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function getCategory(): string
+    {
+        return $this->category;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function setCategory(string $category): BusinessProcess
+    {
+        $this->category = $category;
+
+        return $this;
     }
 
     /**
@@ -230,6 +284,8 @@ class BusinessProcess
 
     /**
      * @codeCoverageIgnore
+     *
+     * @return Message[]
      */
     public function getMessages(): array
     {
@@ -238,6 +294,8 @@ class BusinessProcess
 
     /**
      * @codeCoverageIgnore
+     *
+     * @param Message[]
      */
     public function setMessages(array $messages): BusinessProcess
     {
@@ -293,9 +351,6 @@ class BusinessProcess
     public function addRole(string $role): BusinessProcess
     {
         if (!$this->containsRole($role)) {
-            if (!isset($this->roles)) {
-                $this->roles = [];
-            }
             $this->roles[] = $role;
         }
 
@@ -317,5 +372,19 @@ class BusinessProcess
         }
 
         return true;
+    }
+
+    private function validate($type)
+    {
+        switch ($type) {
+            case self::CUSTOM:
+            case self::CREATE:
+            case self::RETRIEVE:
+            case self::UPDATE:
+            case self::DELETE:
+                break;
+            default:
+                throw new InvalidArgumentException('Invalid type provided: '.$type.'. Must be one of: create, retrieve, update, delete, custom');
+        }
     }
 }

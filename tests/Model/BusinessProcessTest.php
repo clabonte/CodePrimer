@@ -4,6 +4,7 @@ namespace CodePrimer\Tests\Model;
 
 use CodePrimer\Model\BusinessProcess;
 use CodePrimer\Model\Derived\Event;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class BusinessProcessTest extends TestCase
@@ -21,6 +22,8 @@ class BusinessProcessTest extends TestCase
     {
         self::assertEquals('Test Name', $this->businessProcess->getName());
         self::assertEquals('Test Description', $this->businessProcess->getDescription());
+        self::assertEquals(BusinessProcess::CUSTOM, $this->businessProcess->getType());
+        self::assertEmpty($this->businessProcess->getCategory());
         self::assertTrue($this->businessProcess->isSynchronous());
         self::assertFalse($this->businessProcess->isAsynchronous());
         self::assertFalse($this->businessProcess->isPeriodic());
@@ -66,6 +69,9 @@ class BusinessProcessTest extends TestCase
         self::assertTrue($this->businessProcess->containsRole('admin'));
         self::assertFalse($this->businessProcess->containsRole('user'));
         self::assertFalse($this->businessProcess->containsRole('anonymous'));
+        self::assertTrue($this->businessProcess->isAllowed('admin'));
+        self::assertFalse($this->businessProcess->isAllowed('user'));
+        self::assertFalse($this->businessProcess->isAllowed('anonymous'));
 
         // Adding the same role twice does not change anything
         $this->businessProcess->addRole('admin');
@@ -75,6 +81,9 @@ class BusinessProcessTest extends TestCase
         self::assertTrue($this->businessProcess->containsRole('admin'));
         self::assertFalse($this->businessProcess->containsRole('user'));
         self::assertFalse($this->businessProcess->containsRole('anonymous'));
+        self::assertTrue($this->businessProcess->isAllowed('admin'));
+        self::assertFalse($this->businessProcess->isAllowed('user'));
+        self::assertFalse($this->businessProcess->isAllowed('anonymous'));
 
         // Adding a 2nd role is working as expected
         $this->businessProcess->addRole('user');
@@ -84,5 +93,28 @@ class BusinessProcessTest extends TestCase
         self::assertTrue($this->businessProcess->containsRole('admin'));
         self::assertTrue($this->businessProcess->containsRole('user'));
         self::assertFalse($this->businessProcess->containsRole('anonymous'));
+        self::assertTrue($this->businessProcess->isAllowed('admin'));
+        self::assertTrue($this->businessProcess->isAllowed('user'));
+        self::assertFalse($this->businessProcess->isAllowed('anonymous'));
+    }
+
+    public function testConstructorWithInvalidTypeThrowsException()
+    {
+        self::expectException(InvalidArgumentException::class);
+        self::expectExceptionMessage('Invalid type provided: unknown. Must be one of: create, retrieve, update, delete, custom');
+
+        new BusinessProcess('Test Name', 'Test Description', new Event('Test Event', 'code'), 'unknown');
+    }
+
+    public function testSetInvalidTypeThrowsException()
+    {
+        self::expectException(InvalidArgumentException::class);
+        self::expectExceptionMessage('Invalid type provided: unknown. Must be one of: create, retrieve, update, delete, custom');
+
+        self::assertEquals(BusinessProcess::CUSTOM, $this->businessProcess->getType());
+        $this->businessProcess->setType(BusinessProcess::CREATE);
+        self::assertEquals(BusinessProcess::CREATE, $this->businessProcess->getType());
+
+        $this->businessProcess->setType('unknown');
     }
 }

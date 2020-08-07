@@ -152,7 +152,6 @@ class BusinessBundleTest extends TestCase
         self::assertNull($this->businessBundle->getBusinessProcess('TestData2'));
         self::assertNull($this->businessBundle->getBusinessProcess('TestData3'));
         self::assertNull($this->businessBundle->getBusinessProcess('TestData4'));
-
     }
 
     public function testAddDuplicateBusinessProcessKeepsLast()
