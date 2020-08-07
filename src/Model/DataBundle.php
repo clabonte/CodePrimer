@@ -9,6 +9,9 @@ class DataBundle
     /** @var string The origin of the data is input from a user or another process */
     const INPUT = 'input';
 
+    /** @var string The origin of the data is from the context (e.g. HTTP session) */
+    const CONTEXT = 'context';
+
     /** @var string The origin of the data is an internal data source (i.e. DataClient) */
     const INTERNAL = 'internal';
 
@@ -39,15 +42,16 @@ class DataBundle
     /**
      * DataBundle constructor.
      */
-    public function __construct(string $origin, string $source = '', string $name = '', string $description = '')
+    public function __construct(string $origin = self::INPUT, string $name = '', string $source = '', string $description = '')
     {
         switch ($origin) {
             case self::INPUT:
+            case self::CONTEXT:
             case self::EXTERNAL:
             case self::INTERNAL:
                 break;
             default:
-                throw new InvalidArgumentException('Invalid origin provided: '.$origin.'. Must be one of: input, internal or external');
+                throw new InvalidArgumentException('Invalid origin provided: '.$origin.'. Must be one of: input, context, internal or external');
         }
 
         $this->origin = $origin;
