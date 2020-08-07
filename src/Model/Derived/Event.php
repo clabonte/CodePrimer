@@ -8,7 +8,7 @@
 
 namespace CodePrimer\Model\Derived;
 
-use CodePrimer\Model\DataBundle;
+use CodePrimer\Model\Data\DataBundle;
 use InvalidArgumentException;
 
 class Event
@@ -93,7 +93,7 @@ class Event
         }
 
         if (isset($this->dataBundles[$name])) {
-            throw new InvalidArgumentException('DataBundle already present: '.$name.', please use a unique name for your bundle');
+            throw new InvalidArgumentException('OldDataBundle already present: '.$name.', please use a unique name for your bundle');
         }
         $this->dataBundles[$name] = $dataBundle;
 
