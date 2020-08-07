@@ -52,21 +52,33 @@ class Artifact
         $this->variant = $variant;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getCategory(): string
     {
         return $this->category;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getType(): string
     {
         return $this->type;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getFormat(): string
     {
         return $this->format;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getVariant(): string
     {
         return $this->variant;

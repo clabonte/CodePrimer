@@ -13,11 +13,17 @@ class Element
     /** @var array */
     private $values = [];
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getValues(): array
     {
         return $this->values;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function setValues(array $values): void
     {
         $this->values = $values;
