@@ -5,7 +5,10 @@ use CodePrimer\Builder\ArtifactBuilderFactory;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Helper\PackageHelper;
 use CodePrimer\Model\BusinessModel;
+use CodePrimer\Model\BusinessProcess;
 use CodePrimer\Model\Constraint;
+use CodePrimer\Model\DataBundle;
+use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Package;
 use CodePrimer\Renderer\TemplateRenderer;
@@ -17,9 +20,16 @@ require '../vendor/autoload.php';
 
 class ChannelApp
 {
+    // PATH CONSTANTS
     const BASE_PATH = __DIR__.'/../';
     const SCRIPT_OUTPUT_PATH = __DIR__.'/output/';
     const PROJECT_OUTPUT_PATH = __DIR__.'/output/Channel/';
+
+    // ROLE CONSTANTS
+    const REGULAR_MEMBER = 'member';
+    const PREMIUM_MEMBER = 'premium';
+    const AUTHOR = 'author';
+    const ADMIN = 'admin';
 
     /** @var TemplateRegistry */
     private $templateRegistry;
@@ -542,6 +552,60 @@ class ChannelApp
      */
     private function initBusinessProcessingModel(Package $bundle)
     {
+    }
+
+    private function initArticleProcesses(Package $bundle)
+    {
+        // 1. 'Create Article' process
+        $event = new Event(
+            'New Article',
+            'Event triggered when a new article is created by an author');
+        $event->addDataBundle($data);
+
+        $businessProcess = new BusinessProcess(
+            'Create Article',
+            'Allow an author to create an article in Draft state',
+            $event);
+
+        $businessProcess
+            ->setExternalAccess(true)
+            ->addRole(self::AUTHOR);
+    }
+
+    private function createCreateArticleProcess()
+    {
+        // 1. Define the event that will be used as a trigger for this process
+        $event = new Event(
+            'New Article',
+            'Event triggered when a new article is created by an author');
+
+        // Grab the article details from the user's input
+        $data = new DataBundle();
+        $data->addBusinessModel($this->bundle->getBusinessModel('Article'));
+        $event->addDataBundle($data);
+
+        // Grab the author information from the context
+        $data = new DataBundle(DataBundle::CONTEXT, 'author');
+        $data->addFields($this->bundle->getBusinessModel('User'), ['id']);
+        $event->addDataBundle($data);
+
+        // Create the Business Process
+        $businessProcess = new BusinessProcess(
+            'Create Article',
+            'Allow an author to create an article in Draft state',
+            $event);
+
+        // Set the process attributes:
+        //  - Synchronized (default behavior)
+        //  - Exposed to untrusted parties
+        //  - Restricted to users with the 'Author' role
+        $businessProcess
+            ->setExternalAccess(true)
+            ->addRole(self::AUTHOR);
+
+        // Set the process outcomes
+        //  - Insert in the database
+        //  - Publish 'article.new' message
     }
 }
 

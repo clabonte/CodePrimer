@@ -144,65 +144,57 @@ class PackageTest extends TestCase
     public function testAddEvent()
     {
         $this->package
-            ->addEvent(new Event('TestEvent1', 'test.event.1', 'description1'))
-            ->addEvent(new Event('TestEvent2', 'test.event.2', 'description2'))
-            ->addEvent(new Event('TestEvent3', 'test.event.3', 'description3'));
+            ->addEvent(new Event('TestEvent1', 'description1'))
+            ->addEvent(new Event('TestEvent2', 'description2'))
+            ->addEvent(new Event('TestEvent3', 'description3'));
 
         self::assertCount(3, $this->package->getEvents());
 
-        self::assertNull($this->package->getEvent('TestEvent1'));
-        $event = $this->package->getEvent('test.event.1');
+        $event = $this->package->getEvent('TestEvent1');
         self::assertNotNull($event, 'TestEvent1 not found');
         self::assertEquals('TestEvent1', $event->getName());
-        self::assertEquals('test.event.1', $event->getCode());
         self::assertEquals('description1', $event->getDescription());
 
-        self::assertNull($this->package->getEvent('TestEvent2'));
-        $event = $this->package->getEvent('test.event.2');
+        $event = $this->package->getEvent('TestEvent2');
         self::assertNotNull($event, 'TestEvent2 not found');
         self::assertEquals('TestEvent2', $event->getName());
-        self::assertEquals('test.event.2', $event->getCode());
         self::assertEquals('description2', $event->getDescription());
 
-        self::assertNull($this->package->getEvent('TestEvent3'));
-        $event = $this->package->getEvent('test.event.3');
+        $event = $this->package->getEvent('TestEvent3');
         self::assertNotNull($event, 'TestEvent3 not found');
         self::assertEquals('TestEvent3', $event->getName());
-        self::assertEquals('test.event.3', $event->getCode());
         self::assertEquals('description3', $event->getDescription());
     }
 
     public function testSetEvents()
     {
         $this->package
-            ->addEvent(new Event('TestEvent1', 'test.event.1', 'description1'))
-            ->addEvent(new Event('TestEvent2', 'test.event.2', 'description2'))
-            ->addEvent(new Event('TestEvent3', 'test.event.3', 'description3'));
+            ->addEvent(new Event('TestEvent1', 'description1'))
+            ->addEvent(new Event('TestEvent2', 'description2'))
+            ->addEvent(new Event('TestEvent3', 'description3'));
 
         $events = [
-            new Event('TestEvent4', 'test.event.4', 'description4'),
-            new Event('TestEvent5', 'test.event.5', 'description5'),
+            new Event('TestEvent4', 'description4'),
+            new Event('TestEvent5', 'description5'),
         ];
 
         $this->package->setEvents($events);
 
         self::assertCount(2, $this->package->getEvents());
 
-        $event = $this->package->getEvent('test.event.4');
+        $event = $this->package->getEvent('TestEvent4');
         self::assertNotNull($event, 'TestEvent4 not found');
         self::assertEquals('TestEvent4', $event->getName());
-        self::assertEquals('test.event.4', $event->getCode());
         self::assertEquals('description4', $event->getDescription());
 
-        $event = $this->package->getEvent('test.event.5');
+        $event = $this->package->getEvent('TestEvent5');
         self::assertNotNull($event, 'TestEvent5 not found');
         self::assertEquals('TestEvent5', $event->getName());
-        self::assertEquals('test.event.5', $event->getCode());
         self::assertEquals('description5', $event->getDescription());
 
-        self::assertNull($this->package->getEvent('test.event.1'));
-        self::assertNull($this->package->getEvent('test.event.2'));
-        self::assertNull($this->package->getEvent('test.event.3'));
+        self::assertNull($this->package->getEvent('TestEvent1'));
+        self::assertNull($this->package->getEvent('TestEvent2'));
+        self::assertNull($this->package->getEvent('TestEvent3'));
     }
 
     public function testAddSet()

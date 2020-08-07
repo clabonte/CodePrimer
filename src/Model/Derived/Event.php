@@ -8,160 +8,107 @@
 
 namespace CodePrimer\Model\Derived;
 
-use CodePrimer\Model\BusinessModel;
-use CodePrimer\Model\Field;
+use CodePrimer\Model\DataBundle;
+use InvalidArgumentException;
 
 class Event
 {
+    const DEFAULT_BUNDLE = 'default';
+
     /** @var string */
     private $name;
 
     /** @var string */
     private $description;
 
-    /** @var string */
-    private $code;
+    /** @var DataBundle[] List of data bundles associated with this event */
+    private $dataBundles = [];
 
-    /** @var BusinessModel|null The entity to which this event is associated */
-    private $businessModel;
-
-    /** @var Field[] */
-    private $fields = [];
-
-    /**
-     * Event constructor.
-     */
-    public function __construct(string $name, string $code, string $description = '', ?BusinessModel $businessModel = null)
+    public function __construct(string $name, string $description = '')
     {
         $this->name = $name;
         $this->description = $description;
-        $this->code = $code;
-        $this->businessModel = $businessModel;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
+    public function setName(string $name): Event
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @return Event
+     * @codeCoverageIgnore
      */
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @return Event
-     */
-    public function setDescription(string $description): self
+    public function setDescription(string $description): Event
     {
         $this->description = $description;
 
         return $this;
     }
 
-    public function getCode(): string
-    {
-        return $this->code;
-    }
-
     /**
-     * @return Event
-     */
-    public function setCode(string $code): self
-    {
-        $this->code = $code;
-
-        return $this;
-    }
-
-    /**
-     * @return BusinessModel\null
-     */
-    public function getBusinessModel(): ?BusinessModel
-    {
-        return $this->businessModel;
-    }
-
-    /**
-     * @return Event
-     */
-    public function setBusinessModel(BusinessModel $businessModel): self
-    {
-        $this->businessModel = $businessModel;
-
-        return $this;
-    }
-
-    /**
-     * @return Field[]
-     */
-    public function getFields(): array
-    {
-        return $this->fields;
-    }
-
-    /**
-     * @param Field[] $fields
+     * @codeCoverageIgnore
      *
-     * @return Event
+     * @return string
      */
-    public function setFields(array $fields): self
+    public function getDescription()
     {
-        $this->fields = [];
-        foreach ($fields as $field) {
-            $this->addField($field);
+        return $this->description;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @return DataBundle[]
+     */
+    public function getDataBundles(): array
+    {
+        return $this->dataBundles;
+    }
+
+    /**
+     * Adds a data bundle to this event.
+     *
+     * @return $this
+     *
+     * @throws InvalidArgumentException If a bundle with the same name is already present
+     */
+    public function addDataBundle(DataBundle $dataBundle): self
+    {
+        $name = $dataBundle->getName();
+        if (empty($name)) {
+            $name = self::DEFAULT_BUNDLE;
         }
 
-        return $this;
-    }
-
-    /**
-     * @return Event
-     */
-    public function addField(Field $field): self
-    {
-        $this->fields[$field->getName()] = $field;
+        if (isset($this->dataBundles[$name])) {
+            throw new InvalidArgumentException('DataBundle already present: '.$name.', please use a unique name for your bundle');
+        }
+        $this->dataBundles[$name] = $dataBundle;
 
         return $this;
     }
 
     /**
-     * @param $name
+     * Retrieves a data bundle by its name.
      */
-    public function getField($name): ?Field
+    public function getDataBundle(string $name = self::DEFAULT_BUNDLE): ?DataBundle
     {
-        if (isset($this->fields[$name])) {
-            return $this->fields[$name];
+        if (isset($this->dataBundles[$name])) {
+            return $this->dataBundles[$name];
         }
 
         return null;
-    }
-
-    /**
-     * Retrieves the list of mandatory fields of this event.
-     *
-     * @return array
-     */
-    public function listMandatoryFields()
-    {
-        $fields = [];
-
-        foreach ($this->fields as $field) {
-            if ($field->isMandatory()) {
-                $fields[] = $field;
-            }
-        }
-
-        return $fields;
     }
 }
