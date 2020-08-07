@@ -4,7 +4,7 @@ namespace CodePrimer\Helper;
 
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Package;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\Relationship;
 use CodePrimer\Model\RelationshipSide;
 use RuntimeException;
@@ -26,7 +26,7 @@ class PackageHelper
     /**
      * This method is used to create the relationships between the various entities in a package.
      */
-    public function buildRelationships(Package $package)
+    public function buildRelationships(BusinessBundle $package)
     {
         foreach ($package->getBusinessModels() as $businessModel) {
             foreach ($businessModel->getFields() as $field) {
@@ -42,7 +42,7 @@ class PackageHelper
     /**
      * Creates the relationship between 2 entities.
      */
-    private function createRelationship(Package $package, BusinessModel $businessModel, Field $field): Relationship
+    private function createRelationship(BusinessBundle $package, BusinessModel $businessModel, Field $field): Relationship
     {
         $remoteBusinessModel = $package->getBusinessModel($field->getType());
 
