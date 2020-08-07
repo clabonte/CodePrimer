@@ -3,9 +3,9 @@
 namespace CodePrimer\Twig;
 
 use CodePrimer\Helper\FieldHelper;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Package;
 use Twig\TwigFilter;
 use Twig\TwigTest;
 
@@ -87,14 +87,14 @@ class PhpTwigExtension extends LanguageTwigExtension
     /**
      * Filters a string to transform it to a namespace path. Converts 'Com.Folder.A' or 'Com/Folder/A' to 'Com\Folder\A'.
      *
-     * @param array          $context
-     * @param string|Package $obj
+     * @param array                 $context
+     * @param string|BusinessBundle $obj
      */
     public function namespaceFilter($context, $obj, string $subpackage = null): string
     {
         $str = '';
 
-        if ($obj instanceof Package) {
+        if ($obj instanceof BusinessBundle) {
             $str = $obj->getNamespace();
         } elseif (is_string($obj)) {
             $str = $obj;
@@ -148,9 +148,9 @@ class PhpTwigExtension extends LanguageTwigExtension
             } elseif ($helper->isString($field)) {
                 $type = 'string';
             } elseif (isset($context['package'])) {
-                /** @var Package $package */
-                $package = $context['package'];
-                if ($helper->isBusinessModel($field, $package)) {
+                /** @var BusinessBundle $businessBundle */
+                $businessBundle = $context['package'];
+                if ($helper->isBusinessModel($field, $businessBundle)) {
                     $type = $field->getType();
                 }
             }
@@ -194,9 +194,9 @@ class PhpTwigExtension extends LanguageTwigExtension
             } elseif ($helper->isString($field)) {
                 $type = 'string';
             } elseif (isset($context['package'])) {
-                /** @var Package $package */
-                $package = $context['package'];
-                if ($helper->isBusinessModel($field, $package)) {
+                /** @var BusinessBundle $businessBundle */
+                $businessBundle = $context['package'];
+                if ($helper->isBusinessModel($field, $businessBundle)) {
                     $type = $field->getType();
                 }
             }
@@ -236,9 +236,9 @@ class PhpTwigExtension extends LanguageTwigExtension
             } elseif ($helper->isString($field)) {
                 $type = 'string';
             } elseif (isset($context['package'])) {
-                /** @var Package $package */
-                $package = $context['package'];
-                if ($helper->isBusinessModel($field, $package)) {
+                /** @var BusinessBundle $businessBundle */
+                $businessBundle = $context['package'];
+                if ($helper->isBusinessModel($field, $businessBundle)) {
                     $type = $field->getType();
                 }
             }

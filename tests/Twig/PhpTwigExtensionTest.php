@@ -3,10 +3,10 @@
 namespace CodePrimer\Tests\Twig;
 
 use CodePrimer\Helper\FieldType;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Package;
 use CodePrimer\Tests\Helper\TestHelper;
 use CodePrimer\Twig\PhpTwigExtension;
 
@@ -82,7 +82,7 @@ class PhpTwigExtensionTest extends TwigExtensionTest
             ['class name', '$className'],
             [new BusinessModel('Entities'), '$entities'],
             [new Field('MYSQL_Field', 'int'), '$mYSQLField'],
-            [new Package('Packages', 'Package_name'), '$packageName'],
+            [new BusinessBundle('Packages', 'Package_name'), '$packageName'],
             [new Event('EventName', 'event.code'), '$eventName'],
             [123, 123],
             [1.345, 1.345],
@@ -116,7 +116,7 @@ class PhpTwigExtensionTest extends TwigExtensionTest
             ['class name', '$this->className'],
             [new BusinessModel('Entities'), '$this->entities'],
             [new Field('MYSQL_Field', 'int'), '$this->mYSQLField'],
-            [new Package('Packages', 'Package_name'), '$this->packageName'],
+            [new BusinessBundle('Packages', 'Package_name'), '$this->packageName'],
             [new Event('EventName', 'event.code'), '$this->eventName'],
             [123, 123],
             [1.345, 1.345],
@@ -154,10 +154,10 @@ class PhpTwigExtensionTest extends TwigExtensionTest
             [[], 'class name', null, 'class\name'],
             [[], new BusinessModel('Entities'), null, ''],
             [[], new Field('MYSQL/Field', 'int'), null, ''],
-            [[], new Package('Packages', 'Package_name'), null, 'Packages'],
-            [[], new Package('Packages', 'Package_name'), 'SubPackage', 'Packages\SubPackage'],
-            [['subpackage' => 'SubPackage'], new Package('Packages', 'Package_name'), null, 'Packages\SubPackage'],
-            [['subpackage' => 'SubPackage'], new Package('Packages', 'Package_name'), 'OverrideSubPackage', 'Packages\OverrideSubPackage'],
+            [[], new BusinessBundle('Packages', 'Package_name'), null, 'Packages'],
+            [[], new BusinessBundle('Packages', 'Package_name'), 'SubPackage', 'Packages\SubPackage'],
+            [['subpackage' => 'SubPackage'], new BusinessBundle('Packages', 'Package_name'), null, 'Packages\SubPackage'],
+            [['subpackage' => 'SubPackage'], new BusinessBundle('Packages', 'Package_name'), 'OverrideSubPackage', 'Packages\OverrideSubPackage'],
             [[], new Event('Event\\Name', 'event.code'), null, ''],
             [[], 123, null, ''],
             [[], 1.345, null, ''],

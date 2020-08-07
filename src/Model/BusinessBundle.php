@@ -10,7 +10,7 @@ namespace CodePrimer\Model;
 
 use CodePrimer\Model\Derived\Event;
 
-class Package
+class BusinessBundle
 {
     /** @var string */
     private $namespace;
@@ -53,7 +53,7 @@ class Package
     /**
      * @param string $namespace
      *
-     * @return Package
+     * @return BusinessBundle
      */
     public function setNamespace($namespace): self
     {
@@ -68,7 +68,7 @@ class Package
     }
 
     /**
-     * @return Package
+     * @return BusinessBundle
      */
     public function setName(string $name): self
     {
@@ -83,7 +83,7 @@ class Package
     }
 
     /**
-     * @return Package
+     * @return BusinessBundle
      */
     public function setDescription(string $description): self
     {
@@ -101,7 +101,7 @@ class Package
     }
 
     /**
-     * @return Package
+     * @return BusinessBundle
      */
     public function addBusinessModel(BusinessModel $businessModel): self
     {
@@ -122,7 +122,7 @@ class Package
     /**
      * @param BusinessModel[] $businessModels
      *
-     * @return Package
+     * @return BusinessBundle
      */
     public function setBusinessModels(array $businessModels): self
     {
@@ -146,7 +146,7 @@ class Package
     /**
      * @param Event[] $events
      *
-     * @return Package
+     * @return BusinessBundle
      */
     public function setEvents(array $events): self
     {
@@ -160,7 +160,7 @@ class Package
     }
 
     /**
-     * @return Package
+     * @return BusinessBundle
      */
     public function addEvent(Event $event): self
     {
@@ -198,7 +198,7 @@ class Package
     /**
      * @param Set[] $sets
      *
-     * @return Package
+     * @return BusinessBundle
      */
     public function setSets(array $sets): self
     {
@@ -212,7 +212,7 @@ class Package
     }
 
     /**
-     * @return Package
+     * @return BusinessBundle
      */
     public function addSet(Set $set): self
     {

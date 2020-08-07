@@ -4,10 +4,10 @@ namespace CodePrimer\Adapter;
 
 use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Helper\FieldType;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Database\Index;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Package;
 use CodePrimer\Model\Relationship;
 use CodePrimer\Model\RelationshipSide;
 use Doctrine\Common\Inflector\Inflector;
@@ -20,17 +20,17 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
      *
      * @param string $identifierType The type to use for identifiers, one of FieldType:UUID or FieldType::ID
      */
-    public function generateRelationalFields(Package $package, string $identifierType = FieldType::UUID)
+    public function generateRelationalFields(BusinessBundle $businessBundle, string $identifierType = FieldType::UUID)
     {
         // Start by adding missing identifiers for the various entities
-        foreach ($package->getBusinessModels() as $businessModel) {
+        foreach ($businessBundle->getBusinessModels() as $businessModel) {
             if (null === $businessModel->getIdentifier()) {
                 $this->generateIdentifierField($businessModel, $identifierType);
             }
         }
 
         // Add all missing foreign key fields to allow ORMs to work as expected
-        foreach ($package->getBusinessModels() as $businessModel) {
+        foreach ($businessBundle->getBusinessModels() as $businessModel) {
             foreach ($businessModel->getFields() as $field) {
                 $relation = $field->getRelation();
                 if (null !== $relation) {

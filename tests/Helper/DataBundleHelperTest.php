@@ -3,11 +3,11 @@
 namespace CodePrimer\Tests\Helper;
 
 use CodePrimer\Helper\DataBundleHelper;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\DataBundle;
 use CodePrimer\Model\Data\ExistingData;
 use CodePrimer\Model\Data\InputData;
-use CodePrimer\Model\Package;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
@@ -19,7 +19,7 @@ class DataBundleHelperTest extends TestCase
     /** @var DataBundle */
     private $dataBundle;
 
-    /** @var Package */
+    /** @var BusinessBundle */
     private $businessBundle;
 
     public function setUp(): void

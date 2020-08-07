@@ -2,21 +2,21 @@
 
 namespace CodePrimer\Tests\Model;
 
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Derived\Event;
-use CodePrimer\Model\Package;
 use CodePrimer\Model\Set;
 use PHPUnit\Framework\TestCase;
 
 class PackageTest extends TestCase
 {
-    /** @var Package */
+    /** @var BusinessBundle */
     private $package;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->package = new Package('TestNamespace', 'TestName');
+        $this->package = new BusinessBundle('TestNamespace', 'TestName');
     }
 
     public function testBasicSetters()
@@ -40,7 +40,7 @@ class PackageTest extends TestCase
         $this->package->setNamespace($namespace);
         self::assertEquals($expected, $this->package->getNamespace());
 
-        $package = new Package($namespace, $namespace);
+        $package = new BusinessBundle($namespace, $namespace);
         self::assertEquals($expected, $package->getNamespace());
         self::assertEquals($namespace, $package->getName());
     }

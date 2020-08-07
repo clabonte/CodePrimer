@@ -2,9 +2,9 @@
 
 namespace CodePrimer\Helper;
 
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Package;
 use Doctrine\Common\Inflector\Inflector;
 
 class BusinessModelHelper
@@ -96,7 +96,7 @@ class BusinessModelHelper
      *
      * @return array
      */
-    public function listBusinessAttributeFields(BusinessModel $businessModel, Package $bundle)
+    public function listBusinessAttributeFields(BusinessModel $businessModel, BusinessBundle $bundle)
     {
         $fields = [];
 

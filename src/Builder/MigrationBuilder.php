@@ -2,10 +2,10 @@
 
 namespace CodePrimer\Builder;
 
+use CodePrimer\Helper\BusinessBundleHelper;
 use CodePrimer\Helper\BusinessModelHelper;
 use CodePrimer\Helper\FieldHelper;
-use CodePrimer\Helper\PackageHelper;
-use CodePrimer\Model\Package;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Renderer\TemplateRenderer;
 use CodePrimer\Template\Template;
 
@@ -16,17 +16,17 @@ class MigrationBuilder implements ArtifactBuilder
      *
      * @throws \Exception
      */
-    public function build(Package $package, Template $template, TemplateRenderer $renderer): array
+    public function build(BusinessBundle $businessBundle, Template $template, TemplateRenderer $renderer): array
     {
         $artifact = $template->getArtifact();
 
         $files = [];
         switch (strtolower($artifact->getVariant())) {
             case 'doctrine':
-                $files[] = $this->buildDoctrineMigration($package, $template, $renderer);
+                $files[] = $this->buildDoctrineMigration($businessBundle, $template, $renderer);
                 break;
             default:
-                $files[] = $this->buildDatabaseMigration($package, $template, $renderer);
+                $files[] = $this->buildDatabaseMigration($businessBundle, $template, $renderer);
         }
 
         return $files;
@@ -35,22 +35,22 @@ class MigrationBuilder implements ArtifactBuilder
     /**
      * @throws \Exception
      */
-    private function buildDatabaseMigration(Package $package, Template $template, TemplateRenderer $renderer): string
+    private function buildDatabaseMigration(BusinessBundle $businessBundle, Template $template, TemplateRenderer $renderer): string
     {
         $context = [
-            'package' => $package,
-            'packageHelper' => new PackageHelper(),
+            'package' => $businessBundle,
+            'packageHelper' => new BusinessBundleHelper(),
             'entityHelper' => new BusinessModelHelper(),
             'fieldHelper' => new FieldHelper(),
         ];
 
-        return $renderer->renderToFile($template->getName(), $package, $template, $context);
+        return $renderer->renderToFile($template->getName(), $businessBundle, $template, $context);
     }
 
     /**
      * @throws \Exception
      */
-    private function buildDoctrineMigration(Package $package, Template $template, TemplateRenderer $renderer): string
+    private function buildDoctrineMigration(BusinessBundle $businessBundle, Template $template, TemplateRenderer $renderer): string
     {
         // Doctrine Migration Version:
         // It is strongly recommended that the Version{date} migration class name format is used and that the various
@@ -61,14 +61,14 @@ class MigrationBuilder implements ArtifactBuilder
         $filename = 'Version00000000000001';
 
         $context = [
-            'package' => $package,
+            'package' => $businessBundle,
             'subpackage' => 'Migrations',
             'model' => $filename,
-            'packageHelper' => new PackageHelper(),
+            'packageHelper' => new BusinessBundleHelper(),
             'entityHelper' => new BusinessModelHelper(),
             'fieldHelper' => new FieldHelper(),
         ];
 
-        return $renderer->renderToFile($filename, $package, $template, $context);
+        return $renderer->renderToFile($filename, $businessBundle, $template, $context);
     }
 }

@@ -2,15 +2,15 @@
 
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Builder\ArtifactBuilderFactory;
+use CodePrimer\Helper\BusinessBundleHelper;
 use CodePrimer\Helper\FieldType;
-use CodePrimer\Helper\PackageHelper;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\BusinessProcess;
 use CodePrimer\Model\Constraint;
 use CodePrimer\Model\DataBundle;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Package;
 use CodePrimer\Renderer\TemplateRenderer;
 use CodePrimer\Template\Artifact;
 use CodePrimer\Template\TemplateRegistry;
@@ -40,7 +40,7 @@ class ChannelApp
     /** @var TemplateRenderer */
     private $templateRenderer;
 
-    /** @var Package */
+    /** @var BusinessBundle */
     private $bundle;
 
     /**
@@ -145,11 +145,11 @@ class ChannelApp
     /**
      * Creates an empty 'Business Bundle'.
      *
-     * @return Package The Business Bundle to use for modeling your application
+     * @return BusinessBundle The Business Bundle to use for modeling your application
      */
     private function createBusinessBundle()
     {
-        $bundle = new Package('io.codeprimer.sample', 'Channel');
+        $bundle = new BusinessBundle('io.codeprimer.sample', 'Channel');
         $bundle->setDescription('This sample application is used to show how model a business application using CodePrimer');
 
         return $bundle;
@@ -158,9 +158,9 @@ class ChannelApp
     /**
      * Creates the application's Business Data Model for a given 'Business Bundle'.
      *
-     * @param Package $bundle The 'Business Bundle' used to store the Business Data Model
+     * @param BusinessBundle $bundle The 'Business Bundle' used to store the Business Data Model
      */
-    private function initBusinessDataModel(Package $bundle)
+    private function initBusinessDataModel(BusinessBundle $bundle)
     {
         // Create the BusinessModel objects defining the application's data model
         $bundle->addBusinessModel($this->createUserDataModel());
@@ -175,7 +175,7 @@ class ChannelApp
         $bundle->addBusinessModel($this->createPayoutDataModel());
 
         // Establish the relationships between the various BusinessModel objects
-        $packageHelper = new PackageHelper();
+        $packageHelper = new BusinessBundleHelper();
         $packageHelper->buildRelationships($bundle);
     }
 
@@ -548,13 +548,13 @@ class ChannelApp
     /**
      * Creates the application's Business Processing Model for a given 'Business Bundle'.
      *
-     * @param Package $bundle The 'Business Bundle' used to store the Business Data Model
+     * @param BusinessBundle $bundle The 'Business Bundle' used to store the Business Data Model
      */
-    private function initBusinessProcessingModel(Package $bundle)
+    private function initBusinessProcessingModel(BusinessBundle $bundle)
     {
     }
 
-    private function initArticleProcesses(Package $bundle)
+    private function initArticleProcesses(BusinessBundle $bundle)
     {
         // 1. 'Create Article' process
         $event = new Event(

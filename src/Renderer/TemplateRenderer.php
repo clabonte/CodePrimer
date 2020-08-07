@@ -3,7 +3,7 @@
 namespace CodePrimer\Renderer;
 
 use CodePrimer\Helper\ArtifactHelper;
-use CodePrimer\Model\Package;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Template\Artifact;
 use CodePrimer\Template\Template;
 use Twig\Environment;
@@ -111,11 +111,11 @@ class TemplateRenderer
      *
      * @throws \Exception
      */
-    public function renderToFile(string $filename, Package $package, Template $template, $context = []): string
+    public function renderToFile(string $filename, BusinessBundle $businessBundle, Template $template, $context = []): string
     {
         $content = $this->renderTemplate($template, $context);
 
-        $dir = $this->helper->getDirectory($package, $template->getArtifact());
+        $dir = $this->helper->getDirectory($businessBundle, $template->getArtifact());
         $extension = $this->helper->getFilenameExtension($template->getArtifact());
 
         $file = $this->baseFolder.$dir.'/'.$filename.$extension;

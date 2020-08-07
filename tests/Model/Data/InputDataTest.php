@@ -2,16 +2,16 @@
 
 namespace CodePrimer\Tests\Model\Data;
 
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\InputData;
-use CodePrimer\Model\Package;
 use CodePrimer\Tests\Helper\TestHelper;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 class InputDataTest extends TestCase
 {
-    /** @var Package */
+    /** @var BusinessBundle */
     private $businessBundle;
 
     public function setUp(): void

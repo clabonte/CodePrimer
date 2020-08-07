@@ -4,7 +4,7 @@ namespace CodePrimer\Builder;
 
 use CodePrimer\Helper\BusinessModelHelper;
 use CodePrimer\Helper\FieldHelper;
-use CodePrimer\Model\Package;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Renderer\TemplateRenderer;
 use CodePrimer\Template\Template;
 
@@ -13,7 +13,7 @@ class BundleDocumentationBuilder implements ArtifactBuilder
     /**
      * {@inheritdoc}
      */
-    public function build(Package $bundle, Template $template, TemplateRenderer $renderer): array
+    public function build(BusinessBundle $bundle, Template $template, TemplateRenderer $renderer): array
     {
         $context = [
             'bundle' => $bundle,

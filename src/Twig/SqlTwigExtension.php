@@ -5,10 +5,10 @@ namespace CodePrimer\Twig;
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Helper\BusinessModelHelper;
 use CodePrimer\Helper\FieldHelper;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Database\Index;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Package;
 use CodePrimer\Model\RelationshipSide;
 use Doctrine\Common\Inflector\Inflector;
 use Exception;
@@ -76,9 +76,9 @@ class SqlTwigExtension extends LanguageTwigExtension
     /**
      * Returns the database name associated with a Package.
      */
-    public function databaseFilter(Package $package): string
+    public function databaseFilter(BusinessBundle $businessBundle): string
     {
-        return $this->databaseAdapter->getDatabaseName($package);
+        return $this->databaseAdapter->getDatabaseName($businessBundle);
     }
 
     /**
@@ -147,9 +147,9 @@ class SqlTwigExtension extends LanguageTwigExtension
     /**
      * Returns the user name to use for connecting to the database based on a given Package.
      */
-    public function userFilter(Package $package): string
+    public function userFilter(BusinessBundle $businessBundle): string
     {
-        $name = str_replace(['-', ' ', '.'], '_', $package->getName());
+        $name = str_replace(['-', ' ', '.'], '_', $businessBundle->getName());
         $name = Inflector::tableize($name);
         $name = str_replace('__', '_', $name);
 

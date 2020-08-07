@@ -3,8 +3,8 @@
 namespace CodePrimer\Tests\Functional;
 
 use CodePrimer\Builder\ArtifactBuilderFactory;
-use CodePrimer\Helper\PackageHelper;
-use CodePrimer\Model\Package;
+use CodePrimer\Helper\BusinessBundleHelper;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Renderer\TemplateRenderer;
 use CodePrimer\Template\TemplateRegistry;
 use CodePrimer\Tests\Helper\TestHelper;
@@ -26,7 +26,7 @@ class TemplateTestCase extends TestCase
     /** @var TemplateRenderer */
     protected $renderer;
 
-    /** @var Package */
+    /** @var BusinessBundle */
     protected $package;
 
     public function setUp(): void
@@ -35,7 +35,7 @@ class TemplateTestCase extends TestCase
 
         $this->templateRegistry = new TemplateRegistry();
         $this->factory = new ArtifactBuilderFactory();
-        $this->package = new Package('CodePrimer Tests', 'FunctionalTest');
+        $this->package = new BusinessBundle('CodePrimer Tests', 'FunctionalTest');
         $loader = new FilesystemLoader('templates', self::ROOT);
         $this->renderer = new TemplateRenderer($loader, self::ACTUAL_DIR);
 
@@ -47,7 +47,7 @@ class TemplateTestCase extends TestCase
     {
         TestHelper::addSampleBusinessModels($this->package);
 
-        $packageHelper = new PackageHelper();
+        $packageHelper = new BusinessBundleHelper();
         $packageHelper->buildRelationships($this->package);
     }
 

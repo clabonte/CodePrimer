@@ -2,7 +2,7 @@
 
 namespace CodePrimer\Helper;
 
-use CodePrimer\Model\Package;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Template\Artifact;
 
 class ArtifactHelper
@@ -10,7 +10,7 @@ class ArtifactHelper
     /**
      * @return string
      */
-    public function getDirectory(Package $package, Artifact $artifact)
+    public function getDirectory(BusinessBundle $businessBundle, Artifact $artifact)
     {
         $dir = '.';
 
@@ -33,7 +33,7 @@ class ArtifactHelper
                         $dir .= '/Model';
                         break;
                     case 'java':
-                        $dir .= '/'.$this->getJavaBasePath($package).'/model';
+                        $dir .= '/'.$this->getJavaBasePath($businessBundle).'/model';
                         break;
                 }
                 break;
@@ -43,7 +43,7 @@ class ArtifactHelper
                         $dir .= '/Entity';
                         break;
                     case 'java':
-                        $dir .= '/'.$this->getJavaBasePath($package).'/entity';
+                        $dir .= '/'.$this->getJavaBasePath($businessBundle).'/entity';
                         break;
                 }
                 break;
@@ -53,7 +53,7 @@ class ArtifactHelper
                         $dir .= '/Repository';
                         break;
                     case 'java':
-                        $dir .= '/'.$this->getJavaBasePath($package).'/repository';
+                        $dir .= '/'.$this->getJavaBasePath($businessBundle).'/repository';
                         break;
                 }
                 break;
@@ -96,8 +96,8 @@ class ArtifactHelper
         return $extension;
     }
 
-    private function getJavaBasePath(Package $package)
+    private function getJavaBasePath(BusinessBundle $businessBundle)
     {
-        return str_replace(['.', '\\', ' '], '/', strtolower($package->getNamespace()));
+        return str_replace(['.', '\\', ' '], '/', strtolower($businessBundle->getNamespace()));
     }
 }

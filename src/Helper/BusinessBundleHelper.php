@@ -2,14 +2,14 @@
 
 namespace CodePrimer\Helper;
 
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\Relationship;
 use CodePrimer\Model\RelationshipSide;
 use RuntimeException;
 
-class PackageHelper
+class BusinessBundleHelper
 {
     /** @var FieldHelper */
     private $fieldHelper;
@@ -26,13 +26,13 @@ class PackageHelper
     /**
      * This method is used to create the relationships between the various entities in a package.
      */
-    public function buildRelationships(BusinessBundle $package)
+    public function buildRelationships(BusinessBundle $businessBundle)
     {
-        foreach ($package->getBusinessModels() as $businessModel) {
+        foreach ($businessBundle->getBusinessModels() as $businessModel) {
             foreach ($businessModel->getFields() as $field) {
-                if ($this->fieldHelper->isBusinessModel($field, $package)) {
+                if ($this->fieldHelper->isBusinessModel($field, $businessBundle)) {
                     if (null === $field->getRelation()) {
-                        $this->createRelationship($package, $businessModel, $field);
+                        $this->createRelationship($businessBundle, $businessModel, $field);
                     }
                 }
             }
@@ -42,13 +42,13 @@ class PackageHelper
     /**
      * Creates the relationship between 2 entities.
      */
-    private function createRelationship(BusinessBundle $package, BusinessModel $businessModel, Field $field): Relationship
+    private function createRelationship(BusinessBundle $businessBundle, BusinessModel $businessModel, Field $field): Relationship
     {
-        $remoteBusinessModel = $package->getBusinessModel($field->getType());
+        $remoteBusinessModel = $businessBundle->getBusinessModel($field->getType());
 
         // Make sure the remote entity exists
         if (null === $remoteBusinessModel) {
-            throw new RuntimeException('Failed to locate remote entity '.$field->getType().' in package '.$package->getName());
+            throw new RuntimeException('Failed to locate remote entity '.$field->getType().' in package '.$businessBundle->getName());
         }
 
         // Look for fields to link back
