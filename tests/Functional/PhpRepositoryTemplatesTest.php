@@ -21,7 +21,7 @@ class PhpRepositoryTemplatesTest extends TemplateTestCase
     {
         $this->initEntities();
 
-        self::assertCount(6, $this->package->getBusinessModels());
+        self::assertCount(6, $this->businessBundle->getBusinessModels());
 
         $artifact = new Artifact(Artifact::CODE, 'Repository', 'php', 'doctrineOrm');
 
@@ -35,10 +35,10 @@ class PhpRepositoryTemplatesTest extends TemplateTestCase
 
         // Prepare the entities for Doctrine ORM
         $adapter = new RelationalDatabaseAdapter();
-        $adapter->generateRelationalFields($this->package);
+        $adapter->generateRelationalFields($this->businessBundle);
 
         // Build the artifacts
-        $builder->build($this->package, $template, $this->renderer);
+        $builder->build($this->businessBundle, $template, $this->renderer);
 
         // Make sure the right files have been generated
         $this->assertGeneratedFile('src/Repository/UserRepository.php', self::DOCTRINE_ORM_EXPECTED_DIR);

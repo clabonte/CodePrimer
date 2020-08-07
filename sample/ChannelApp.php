@@ -3,13 +3,18 @@
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Builder\ArtifactBuilderFactory;
 use CodePrimer\Helper\BusinessBundleHelper;
+use CodePrimer\Helper\DataBundleHelper;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\BusinessProcess;
 use CodePrimer\Model\Constraint;
-use CodePrimer\Model\DataBundle;
+use CodePrimer\Model\Data\Data;
+use CodePrimer\Model\Data\DataBundle;
+use CodePrimer\Model\Data\ExistingData;
+use CodePrimer\Model\Data\InputData;
 use CodePrimer\Model\Derived\Event;
+use CodePrimer\Model\Derived\Message;
 use CodePrimer\Model\Field;
 use CodePrimer\Renderer\TemplateRenderer;
 use CodePrimer\Template\Artifact;
@@ -41,7 +46,10 @@ class ChannelApp
     private $templateRenderer;
 
     /** @var BusinessBundle */
-    private $bundle;
+    private $businessBundle;
+
+    /** @var DataBundleHelper */
+    private $dataBundleHelper;
 
     /**
      * ChannelApp constructor.
@@ -109,7 +117,7 @@ class ChannelApp
         $builder = $this->builderFactory->createBuilder($artifact);
 
         // Build the artifacts
-        $builder->build($this->bundle, $template, $this->templateRenderer);
+        $builder->build($this->businessBundle, $template, $this->templateRenderer);
     }
 
     /**
@@ -121,6 +129,7 @@ class ChannelApp
         $this->builderFactory = new ArtifactBuilderFactory();
         $loader = new FilesystemLoader('templates', self::BASE_PATH);
         $this->templateRenderer = new TemplateRenderer($loader, self::SCRIPT_OUTPUT_PATH);
+        $this->dataBundleHelper = new DataBundleHelper();
     }
 
     /**
@@ -129,17 +138,17 @@ class ChannelApp
     private function initBusinessBundle()
     {
         // Step 1 - Create the Business Bundle that will contain your model
-        $this->bundle = $this->createBusinessBundle();
+        $this->businessBundle = $this->createBusinessBundle();
 
         // Step 2 - Add your Business Data Model to your Bundle
-        $this->initBusinessDataModel($this->bundle);
+        $this->initBusinessDataModel($this->businessBundle);
 
         // Prepare the relationships for a relational database
         $adapter = new RelationalDatabaseAdapter();
-        $adapter->generateRelationalFields($this->bundle);
+        $adapter->generateRelationalFields($this->businessBundle);
 
         // Step 3 - Add your Business Process Model to your Bundle
-        $this->initBusinessProcessingModel($this->bundle);
+        $this->initBusinessProcessingModel($this->businessBundle);
     }
 
     /**
@@ -548,64 +557,64 @@ class ChannelApp
     /**
      * Creates the application's Business Processing Model for a given 'Business Bundle'.
      *
-     * @param BusinessBundle $bundle The 'Business Bundle' used to store the Business Data Model
+     * @param BusinessBundle $businessBundle The 'Business Bundle' used to store the Business Data Model
      */
-    private function initBusinessProcessingModel(BusinessBundle $bundle)
+    private function initBusinessProcessingModel(BusinessBundle $businessBundle)
     {
+        $businessBundle->addBusinessProcess($this->createCreateArticleProcess());
     }
 
-    private function initArticleProcesses(BusinessBundle $bundle)
+    private function createCreateArticleProcess(): BusinessProcess
     {
-        // 1. 'Create Article' process
+        // 1. Define the data required for this process
+        //    - Title, body: mandatory input
+        //    - Description: optional input
+        //    - Author: existing from context
+        $dataBundle = new DataBundle();
+
+        $article = $this->businessBundle->getBusinessModel('Article');
+        $this->dataBundleHelper->addFieldsAsMandatoryInput($dataBundle, $article, ['title', 'body', 'topic'], InputData::NEW, Data::REFERENCE);
+        $this->dataBundleHelper->addFieldsAsOptionalInput($dataBundle, $article, ['description', 'labels'], InputData::NEW_OR_UPDATED);
+        $this->dataBundleHelper->addFieldsAsExisting($dataBundle, $article, ['author'], ExistingData::CONTEXT, Data::REFERENCE);
+
+        // 2. Define the event that will be used as a trigger for this process
         $event = new Event(
             'New Article',
             'Event triggered when a new article is created by an author');
-        $event->addDataBundle($data);
+        $event->addDataBundle($dataBundle);
 
-        $businessProcess = new BusinessProcess(
-            'Create Article',
-            'Allow an author to create an article in Draft state',
-            $event);
-
-        $businessProcess
-            ->setExternalAccess(true)
-            ->addRole(self::AUTHOR);
-    }
-
-    private function createCreateArticleProcess()
-    {
-        // 1. Define the event that will be used as a trigger for this process
-        $event = new Event(
-            'New Article',
-            'Event triggered when a new article is created by an author');
-
-        // Grab the article details from the user's input
-        $data = new DataBundle();
-        $data->addBusinessModel($this->bundle->getBusinessModel('Article'));
-        $event->addDataBundle($data);
-
-        // Grab the author information from the context
-        $data = new DataBundle(DataBundle::CONTEXT, 'author');
-        $data->addFields($this->bundle->getBusinessModel('User'), ['id']);
-        $event->addDataBundle($data);
-
-        // Create the Business Process
+        // 3. Create the Business Process
         $businessProcess = new BusinessProcess(
             'Create Article',
             'Allow an author to create an article in Draft state',
             $event);
 
         // Set the process attributes:
+        //  = Category = Articles
+        //  - Type = Create
         //  - Synchronized (default behavior)
         //  - Exposed to untrusted parties
         //  - Restricted to users with the 'Author' role
         $businessProcess
+            ->setCategory('Articles')
+            ->setType(BusinessProcess::CREATE)
             ->setExternalAccess(true)
             ->addRole(self::AUTHOR);
 
-        // Set the process outcomes
+        // 4. Set the process outcomes
         //  - Insert in the database
+        $dbBundle = new DataBundle();
+        $this->dataBundleHelper->addBusinessModelAsInput($dbBundle, $article, InputData::NEW);
+        $businessProcess->setInternalUpdates([$dbBundle]);
+
         //  - Publish 'article.new' message
+        $msgBundle = new DataBundle();
+        $this->dataBundleHelper->addBusinessModelAsExisting($msgBundle, $article, ExistingData::INTERNAL, '', Data::FULL);
+        $message = new Message('article.new');
+        $message->addDataBundle($msgBundle);
+        $businessProcess->setMessages([$message]);
+
+        return $businessProcess;
     }
 }
 

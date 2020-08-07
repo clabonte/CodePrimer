@@ -27,7 +27,7 @@ class DataBundleHelperTest extends TestCase
         parent::setUp();
         $this->dataBundle = new DataBundle('TestBundle', 'Test Description');
         $this->helper = new DataBundleHelper();
-        $this->businessBundle = TestHelper::getSamplePackage();
+        $this->businessBundle = TestHelper::getSampleBusinessBundle();
     }
 
     public function testAddBusinessModelAsInputShouldOnlyAddUnmanagedFields()

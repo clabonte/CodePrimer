@@ -11,37 +11,37 @@ use CodePrimer\Model\RelationshipSide;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
-class PackageHelperTest extends TestCase
+class BusinessBundleHelperTest extends TestCase
 {
     /** @var BusinessBundleHelper */
     private $helper;
 
     /** @var BusinessBundle */
-    private $package;
+    private $businessBundle;
 
     public function setUp(): void
     {
         parent::setUp();
         $this->helper = new BusinessBundleHelper();
-        $this->package = TestHelper::getSamplePackage(true, false);
+        $this->businessBundle = TestHelper::getSampleBusinessBundle(true, false);
     }
 
     public function testBuildRelationshipsShouldPass()
     {
         // Make sure there is no relationship before building them
-        foreach ($this->package->getBusinessModels() as $businessModel) {
+        foreach ($this->businessBundle->getBusinessModels() as $businessModel) {
             foreach ($businessModel->getFields() as $field) {
                 self::assertNull($field->getRelation(), 'Unexpected relation found for field '.$field->getName().' in entity '.$businessModel->getName());
             }
         }
 
-        $this->helper->buildRelationships($this->package);
+        $this->helper->buildRelationships($this->businessBundle);
 
         // Make sure it has only created relations on the right set of fields
         $fieldHelper = new FieldHelper();
-        foreach ($this->package->getBusinessModels() as $businessModel) {
+        foreach ($this->businessBundle->getBusinessModels() as $businessModel) {
             foreach ($businessModel->getFields() as $field) {
-                if ($fieldHelper->isBusinessModel($field, $this->package)) {
+                if ($fieldHelper->isBusinessModel($field, $this->businessBundle)) {
                     self::assertNotNull($field->getRelation(), 'Missing relation for field '.$field->getName().' in entity '.$businessModel->getName());
                 } else {
                     self::assertNull($field->getRelation(), 'Unexpected relation found for field '.$field->getName().' in entity '.$businessModel->getName());
@@ -55,12 +55,12 @@ class PackageHelperTest extends TestCase
      */
     public function testBuildOneToOneUnidirectionalRelationshipsShouldPass()
     {
-        $this->helper->buildRelationships($this->package);
+        $this->helper->buildRelationships($this->businessBundle);
 
-        $userBusinessModel = $this->package->getBusinessModel('User');
+        $userBusinessModel = $this->businessBundle->getBusinessModel('User');
         self::assertNotNull($userBusinessModel);
 
-        $statsBusinessModel = $this->package->getBusinessModel('UserStats');
+        $statsBusinessModel = $this->businessBundle->getBusinessModel('UserStats');
         self::assertNotNull($statsBusinessModel);
 
         $field = $userBusinessModel->getField('stats');
@@ -90,12 +90,12 @@ class PackageHelperTest extends TestCase
      */
     public function testBuildOneToManyUnidirectionalRelationshipsShouldPass()
     {
-        $this->helper->buildRelationships($this->package);
+        $this->helper->buildRelationships($this->businessBundle);
 
-        $userBusinessModel = $this->package->getBusinessModel('User');
+        $userBusinessModel = $this->businessBundle->getBusinessModel('User');
         self::assertNotNull($userBusinessModel);
 
-        $metadataBusinessModel = $this->package->getBusinessModel('Metadata');
+        $metadataBusinessModel = $this->businessBundle->getBusinessModel('Metadata');
         self::assertNotNull($metadataBusinessModel);
 
         $field = $userBusinessModel->getField('metadata');
@@ -125,12 +125,12 @@ class PackageHelperTest extends TestCase
      */
     public function testBuildOneToManyBidirectionalRelationshipsShouldPass()
     {
-        $this->helper->buildRelationships($this->package);
+        $this->helper->buildRelationships($this->businessBundle);
 
-        $userBusinessModel = $this->package->getBusinessModel('User');
+        $userBusinessModel = $this->businessBundle->getBusinessModel('User');
         self::assertNotNull($userBusinessModel);
 
-        $postBusinessModel = $this->package->getBusinessModel('Post');
+        $postBusinessModel = $this->businessBundle->getBusinessModel('Post');
         self::assertNotNull($postBusinessModel);
 
         $remoteField = $postBusinessModel->getField('author');
@@ -178,19 +178,19 @@ class PackageHelperTest extends TestCase
      */
     public function testBuildReverseOneToManyBidirectionalRelationshipsShouldPass()
     {
-        $userBusinessModel = $this->package->getBusinessModel('User');
+        $userBusinessModel = $this->businessBundle->getBusinessModel('User');
         self::assertNotNull($userBusinessModel);
 
-        $postBusinessModel = $this->package->getBusinessModel('Post');
+        $postBusinessModel = $this->businessBundle->getBusinessModel('Post');
         self::assertNotNull($postBusinessModel);
 
         // Create a new package with the entities in 'reverse' order
-        $package = new BusinessBundle('Test', 'TestPackage');
-        $package->addBusinessModel($postBusinessModel);
-        $package->addBusinessModel($userBusinessModel);
+        $businessBundle = new BusinessBundle('Test', 'TestPackage');
+        $businessBundle->addBusinessModel($postBusinessModel);
+        $businessBundle->addBusinessModel($userBusinessModel);
 
         // Build the relationships
-        $this->helper->buildRelationships($package);
+        $this->helper->buildRelationships($businessBundle);
 
         $remoteField = $postBusinessModel->getField('author');
         self::assertNotNull($remoteField);
@@ -237,12 +237,12 @@ class PackageHelperTest extends TestCase
      */
     public function testBuildManyToManyRelationshipShouldPass()
     {
-        $this->helper->buildRelationships($this->package);
+        $this->helper->buildRelationships($this->businessBundle);
 
-        $userBusinessModel = $this->package->getBusinessModel('User');
+        $userBusinessModel = $this->businessBundle->getBusinessModel('User');
         self::assertNotNull($userBusinessModel);
 
-        $topicBusinessModel = $this->package->getBusinessModel('Topic');
+        $topicBusinessModel = $this->businessBundle->getBusinessModel('Topic');
         self::assertNotNull($topicBusinessModel);
 
         $remoteField = $topicBusinessModel->getField('authors');
@@ -291,7 +291,7 @@ class PackageHelperTest extends TestCase
      */
     public function testBuildRelationshipForBusinessModelWithMultipleLinksShouldThrowException()
     {
-        $postBusinessModel = $this->package->getBusinessModel('Post');
+        $postBusinessModel = $this->businessBundle->getBusinessModel('Post');
         self::assertNotNull($postBusinessModel);
 
         // Add a 'Reviewer' field to a post that also points to the 'User' entity
@@ -300,7 +300,7 @@ class PackageHelperTest extends TestCase
         self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Multiple bidirectional relationships found between the same entities: User and Post. This is not supported yet');
 
-        $this->helper->buildRelationships($this->package);
+        $this->helper->buildRelationships($this->businessBundle);
     }
 
     /**
@@ -310,7 +310,7 @@ class PackageHelperTest extends TestCase
     public function testBuildRelationshipForUnknownBusinessModelShouldThrowException()
     {
         // Add a field to a fake entity to the Post entity
-        $postBusinessModel = $this->package->getBusinessModel('Post');
+        $postBusinessModel = $this->businessBundle->getBusinessModel('Post');
         self::assertNotNull($postBusinessModel);
         $fakeField = new Field('reviewer', 'Unknown');
         $postBusinessModel->addField($fakeField);
@@ -320,12 +320,12 @@ class PackageHelperTest extends TestCase
         $stub->method('isBusinessModel')
             ->will($this->returnCallback([$this, 'isBusinessModelStubCallback']));
 
-        $packageHelper = new BusinessBundleHelper($stub);
+        $businessBundleHelper = new BusinessBundleHelper($stub);
 
         self::expectException(RuntimeException::class);
         self::expectExceptionMessage('Failed to locate remote entity Unknown in package FunctionalTest');
 
-        $packageHelper->buildRelationships($this->package);
+        $businessBundleHelper->buildRelationships($this->businessBundle);
     }
 
     /**

@@ -473,23 +473,23 @@ class PhpTwigExtensionTest extends TwigExtensionTest
 
     public function dateTimeUsedProvider()
     {
-        $package = TestHelper::getSamplePackage();
+        $businessBundle = TestHelper::getSampleBusinessBundle();
 
         return [
             'User' => [
-                $package->getBusinessModel('User'),
+                $businessBundle->getBusinessModel('User'),
                 true,
             ],
             'Metadata' => [
-                $package->getBusinessModel('Metadata'),
+                $businessBundle->getBusinessModel('Metadata'),
                 false,
             ],
             'Post' => [
-                $package->getBusinessModel('Post'),
+                $businessBundle->getBusinessModel('Post'),
                 true,
             ],
             'Topic' => [
-                $package->getBusinessModel('Topic'),
+                $businessBundle->getBusinessModel('Topic'),
                 true,
             ],
         ];

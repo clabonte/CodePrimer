@@ -21,7 +21,7 @@ class PhpMigrationTemplatesTest extends TemplateTestCase
     {
         $this->initEntities();
 
-        self::assertCount(6, $this->package->getBusinessModels());
+        self::assertCount(6, $this->businessBundle->getBusinessModels());
 
         $artifact = new Artifact(Artifact::CODE, 'Migration', 'php', 'doctrine');
 
@@ -35,10 +35,10 @@ class PhpMigrationTemplatesTest extends TemplateTestCase
 
         // Prepare the entities for Doctrine ORM
         $adapter = new RelationalDatabaseAdapter();
-        $adapter->generateRelationalFields($this->package);
+        $adapter->generateRelationalFields($this->businessBundle);
 
         // Build the artifacts
-        $files = $builder->build($this->package, $template, $this->renderer);
+        $files = $builder->build($this->businessBundle, $template, $this->renderer);
 
         self::assertCount(1, $files);
 

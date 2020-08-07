@@ -25,14 +25,14 @@ class ApplicationTest extends TemplateTestCase
         // ----------------------------------
         // Prepare the package
         $this->initEntities();
-        $this->package->setNamespace('App');
+        $this->businessBundle->setNamespace('App');
 
         // Configure the output folder of the renderer
         $this->renderer->setBaseFolder(self::SYMFONY_APP_FOLDER);
 
         // Prepare the entities for Doctrine ORM
         $adapter = new RelationalDatabaseAdapter();
-        $adapter->generateRelationalFields($this->package);
+        $adapter->generateRelationalFields($this->businessBundle);
 
         // ------------------------------
         // Generate the Doctrine entities
@@ -48,7 +48,7 @@ class ApplicationTest extends TemplateTestCase
         self::assertNotNull($builder);
 
         // Build the artifacts
-        $builder->build($this->package, $template, $this->renderer);
+        $builder->build($this->businessBundle, $template, $this->renderer);
 
         // ----------------------------------
         // Generate the Doctrine repositories
@@ -64,7 +64,7 @@ class ApplicationTest extends TemplateTestCase
         self::assertNotNull($builder);
 
         // Build the artifacts
-        $builder->build($this->package, $template, $this->renderer);
+        $builder->build($this->businessBundle, $template, $this->renderer);
 
         // ----------------------------------
         // Generate the SQL migration scripts
@@ -80,7 +80,7 @@ class ApplicationTest extends TemplateTestCase
         self::assertNotNull($builder);
 
         // Build the artifacts
-        $builder->build($this->package, $template, $this->renderer);
+        $builder->build($this->businessBundle, $template, $this->renderer);
 
         $artifact = new Artifact(Artifact::CODE, 'Migration', 'mysql', 'RevertDatabase');
 
@@ -93,7 +93,7 @@ class ApplicationTest extends TemplateTestCase
         self::assertNotNull($builder);
 
         // Build the artifacts
-        $builder->build($this->package, $template, $this->renderer);
+        $builder->build($this->businessBundle, $template, $this->renderer);
 
         // ----------------------------------
         // Generate the Doctrine migration
@@ -109,6 +109,6 @@ class ApplicationTest extends TemplateTestCase
         self::assertNotNull($builder);
 
         // Build the artifacts
-        $builder->build($this->package, $template, $this->renderer);
+        $builder->build($this->businessBundle, $template, $this->renderer);
     }
 }

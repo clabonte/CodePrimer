@@ -27,9 +27,9 @@ class DatabaseAdapterTest extends TestCase
     /**
      * @dataProvider databaseNameProvider
      */
-    public function testGetDatabaseName(BusinessBundle $package, string $expected)
+    public function testGetDatabaseName(BusinessBundle $businessBundle, string $expected)
     {
-        self::assertEquals($expected, $this->adapter->getDatabaseName($package));
+        self::assertEquals($expected, $this->adapter->getDatabaseName($businessBundle));
     }
 
     public function databaseNameProvider()
@@ -43,7 +43,7 @@ class DatabaseAdapterTest extends TestCase
             'Sample Name' => [new BusinessBundle('Namespace', 'Sample Name'), 'namespace_sample_name'],
             'Samples Names' => [new BusinessBundle('Namespace', 'Samples Names'), 'namespace_samples_name'],
             'Sample-Name' => [new BusinessBundle('Namespace', 'Sample-Name'), 'namespace_sample_name'],
-            'TestPackage' => [TestHelper::getSamplePackage(), 'code_primer_tests_functional_test'],
+            'TestPackage' => [TestHelper::getSampleBusinessBundle(), 'code_primer_tests_functional_test'],
         ];
     }
 

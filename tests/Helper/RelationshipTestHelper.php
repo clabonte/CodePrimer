@@ -10,7 +10,7 @@ use CodePrimer\Model\RelationshipSide;
 class RelationshipTestHelper
 {
     /** @var BusinessBundle */
-    private $package;
+    private $businessBundle;
 
     /** @var BusinessModel */
     private $user;
@@ -32,21 +32,21 @@ class RelationshipTestHelper
      */
     public function __construct()
     {
-        $this->package = TestHelper::getSamplePackage();
+        $this->businessBundle = TestHelper::getSampleBusinessBundle();
         $adapter = new RelationalDatabaseAdapter();
-        $adapter->generateRelationalFields($this->package);
+        $adapter->generateRelationalFields($this->businessBundle);
 
         // Extract the common entities used for testing
-        $this->user = $this->package->getBusinessModel('User');
-        $this->subscription = $this->package->getBusinessModel('Subscription');
-        $this->metadata = $this->package->getBusinessModel('Metadata');
-        $this->post = $this->package->getBusinessModel('Post');
-        $this->topic = $this->package->getBusinessModel('Topic');
+        $this->user = $this->businessBundle->getBusinessModel('User');
+        $this->subscription = $this->businessBundle->getBusinessModel('Subscription');
+        $this->metadata = $this->businessBundle->getBusinessModel('Metadata');
+        $this->post = $this->businessBundle->getBusinessModel('Post');
+        $this->topic = $this->businessBundle->getBusinessModel('Topic');
     }
 
-    public function getPackage(): BusinessBundle
+    public function getBusinessBundle(): BusinessBundle
     {
-        return $this->package;
+        return $this->businessBundle;
     }
 
     public function getOneToOneUnidirectionalRelationship(): RelationshipSide

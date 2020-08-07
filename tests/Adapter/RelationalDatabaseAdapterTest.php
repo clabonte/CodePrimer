@@ -42,8 +42,8 @@ class RelationalDatabaseAdapterTest extends TestCase
 
     public function indexesProvider(): array
     {
-        $package = TestHelper::getSamplePackage();
-        $user = $package->getBusinessModel('User');
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
 
         $field1 = new Field('name', FieldType::STRING);
         $index1 = new Field('firstName', FieldType::STRING);
@@ -116,30 +116,30 @@ class RelationalDatabaseAdapterTest extends TestCase
 
     public function testGenerateRelationalIdentifierFields()
     {
-        $package = TestHelper::getSamplePackage();
+        $businessBundle = TestHelper::getSampleBusinessBundle();
 
         // Make sure there are a few fields which are missing ID fields
-        $businessModel = $package->getBusinessModel('UserStats');
+        $businessModel = $businessBundle->getBusinessModel('UserStats');
         self::assertNotNull($businessModel);
         self::assertNull($businessModel->getIdentifier());
 
-        $businessModel = $package->getBusinessModel('Metadata');
+        $businessModel = $businessBundle->getBusinessModel('Metadata');
         self::assertNotNull($businessModel);
         self::assertNull($businessModel->getIdentifier());
 
-        $businessModel = $package->getBusinessModel('Post');
+        $businessModel = $businessBundle->getBusinessModel('Post');
         self::assertNotNull($businessModel);
         self::assertNull($businessModel->getIdentifier());
 
         // Add a new BusinessModel with an 'id' field that does not qualify as an identifier
         $businessModel = new BusinessModel('TestEntity');
         $businessModel->addField(new Field('id', FieldType::STRING));
-        $package->addBusinessModel($businessModel);
+        $businessBundle->addBusinessModel($businessModel);
 
         // Generate the missing fields
-        $this->adapter->generateRelationalFields($package);
+        $this->adapter->generateRelationalFields($businessBundle);
 
-        $businessModel = $package->getBusinessModel('UserStats');
+        $businessModel = $businessBundle->getBusinessModel('UserStats');
         self::assertNotNull($businessModel);
         $field = $businessModel->getIdentifier();
         self::assertNotNull($field);
@@ -149,7 +149,7 @@ class RelationalDatabaseAdapterTest extends TestCase
         self::assertTrue($field->isManaged());
         self::assertTrue($field->isMandatory());
 
-        $businessModel = $package->getBusinessModel('Metadata');
+        $businessModel = $businessBundle->getBusinessModel('Metadata');
         self::assertNotNull($businessModel);
         $field = $businessModel->getIdentifier();
         self::assertNotNull($field);
@@ -159,7 +159,7 @@ class RelationalDatabaseAdapterTest extends TestCase
         self::assertTrue($field->isManaged());
         self::assertTrue($field->isMandatory());
 
-        $businessModel = $package->getBusinessModel('Post');
+        $businessModel = $businessBundle->getBusinessModel('Post');
         self::assertNotNull($businessModel);
         $field = $businessModel->getIdentifier();
         self::assertNotNull($field);
@@ -169,7 +169,7 @@ class RelationalDatabaseAdapterTest extends TestCase
         self::assertTrue($field->isManaged());
         self::assertTrue($field->isMandatory());
 
-        $businessModel = $package->getBusinessModel('TestEntity');
+        $businessModel = $businessBundle->getBusinessModel('TestEntity');
         self::assertNotNull($businessModel);
         $field = $businessModel->getIdentifier();
         self::assertNotNull($field);
@@ -186,36 +186,36 @@ class RelationalDatabaseAdapterTest extends TestCase
      */
     public function testGenerateIdentifierFieldWithExistingPotentialIdentifierFieldsShouldThrowException()
     {
-        $package = new BusinessBundle('Test', 'TestPackage');
+        $businessBundle = new BusinessBundle('Test', 'TestPackage');
 
         $businessModel = new BusinessModel('TestEntity');
         $businessModel->addField(new Field('id', FieldType::STRING));
         $businessModel->addField(new Field('testEntityId', FieldType::STRING));
         self::assertNull($businessModel->getIdentifier(), 'BusinessModel has an unexpected Identifier field');
 
-        $package->addBusinessModel($businessModel);
+        $businessBundle->addBusinessModel($businessModel);
 
         self::expectException(\RuntimeException::class);
         self::expectExceptionMessage('Cannot generate ID field for entity TestEntity: "id" and "testEntityId" fields are already defined. Did you forget to specify an identifier for this entity?');
 
         // Generate the missing fields
-        $this->adapter->generateRelationalFields($package);
+        $this->adapter->generateRelationalFields($businessBundle);
     }
 
     public function testGenerateRelationalForeignFields()
     {
-        $package = TestHelper::getSamplePackage();
+        $businessBundle = TestHelper::getSampleBusinessBundle();
 
         // Make sure we are missing the link between Metadata and User
-        $businessModel = $package->getBusinessModel('Metadata');
+        $businessModel = $businessBundle->getBusinessModel('Metadata');
         self::assertNotNull($businessModel);
         self::assertNull($businessModel->getField('userId'));
 
         // Generate the missing fields
-        $this->adapter->generateRelationalFields($package);
+        $this->adapter->generateRelationalFields($businessBundle);
 
         // Make sure the missing field has been properly added
-        $businessModel = $package->getBusinessModel('Metadata');
+        $businessModel = $businessBundle->getBusinessModel('Metadata');
         self::assertNotNull($businessModel);
         $field = $businessModel->getField('user');
         self::assertNotNull($field);
@@ -302,9 +302,9 @@ class RelationalDatabaseAdapterTest extends TestCase
 
     public function getDatabaseFieldsProvider(): array
     {
-        $package = TestHelper::getSamplePackage();
+        $businessBundle = TestHelper::getSampleBusinessBundle();
 
-        $user = $package->getBusinessModel('User');
+        $user = $businessBundle->getBusinessModel('User');
 
         return [
             'User' => [
@@ -344,10 +344,10 @@ class RelationalDatabaseAdapterTest extends TestCase
     public function getAuditedFieldsProvider(): array
     {
         $helper = new RelationshipTestHelper();
-        $package = $helper->getPackage();
+        $businessBundle = $helper->getBusinessBundle();
 
-        $user = $package->getBusinessModel('User');
-        $metadata = $package->getBusinessModel('Metadata');
+        $user = $businessBundle->getBusinessModel('User');
+        $metadata = $businessBundle->getBusinessModel('Metadata');
 
         return [
             'User with id' => [
@@ -382,7 +382,7 @@ class RelationalDatabaseAdapterTest extends TestCase
                 ],
             ],
             'Metadata generated field' => [
-                $package->getBusinessModel('Metadata'),
+                $businessBundle->getBusinessModel('Metadata'),
                 false,
                 [
                     $metadata->getField('name'),

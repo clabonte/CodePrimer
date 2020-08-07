@@ -158,13 +158,13 @@ class BusinessModelHelperTest extends TestCase
 
     public function testGetLinkedEntitiesShouldPass()
     {
-        $package = TestHelper::getSamplePackage();
-        $user = $package->getBusinessModel('User');
-        $stats = $package->getBusinessModel('UserStats');
-        $topic = $package->getBusinessModel('Topic');
-        $post = $package->getBusinessModel('Post');
-        $metadata = $package->getBusinessModel('Metadata');
-        $subscription = $package->getBusinessModel('Subscription');
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
+        $stats = $businessBundle->getBusinessModel('UserStats');
+        $topic = $businessBundle->getBusinessModel('Topic');
+        $post = $businessBundle->getBusinessModel('Post');
+        $metadata = $businessBundle->getBusinessModel('Metadata');
+        $subscription = $businessBundle->getBusinessModel('Subscription');
 
         $linkedEntities = $this->businessModelHelper->getLinkedBusinessModels($user);
         self::assertCount(5, $linkedEntities);
@@ -177,11 +177,11 @@ class BusinessModelHelperTest extends TestCase
 
     public function testListBusinessAttributesFieldsShouldPass()
     {
-        $package = TestHelper::getSamplePackage();
-        $user = $package->getBusinessModel('User');
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
         $user->addField(new Field('bizAttribute', 'NotAModel'));
 
-        $fields = $this->businessModelHelper->listBusinessAttributeFields($user, $package);
+        $fields = $this->businessModelHelper->listBusinessAttributeFields($user, $businessBundle);
         self::assertCount(7, $fields);
         self::assertContains($user->getField('firstName'), $fields);
         self::assertContains($user->getField('lastName'), $fields);
