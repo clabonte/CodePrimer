@@ -35,6 +35,16 @@ class ArtifactHelper
                     case 'java':
                         $dir .= '/'.$this->getJavaBasePath($businessBundle).'/model';
                         break;
+                    case 'markdown':
+                        $dir .= '/DataModel';
+                        break;
+                }
+                break;
+            case 'process':
+                switch ($artifact->getFormat()) {
+                    case 'markdown':
+                        $dir .= '/Process';
+                        break;
                 }
                 break;
             case 'entity':

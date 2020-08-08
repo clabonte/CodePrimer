@@ -1,0 +1,9 @@
+{# This template generates the overview page of an application business process using Markdown to include in a repository #}
+# {{ bundle.name }} Processing Model
+The {{ bundle.name }} has the following processes available
+
+| Business Process | Category | Type | Description |
+| ---------------- | -------- | ---- | ------------|
+{% for businessProcess in bundle.businessProcesses %}
+| [{{ businessProcess.name }}]({{ businessProcess|class }}.md) | {{ businessProcess.category }} | {{ businessProcess.type|title }} | {{ businessProcess.description }} |
+{% endfor %}

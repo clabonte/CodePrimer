@@ -49,6 +49,8 @@ class TemplateTestCase extends TestCase
 
         $businessBundleHelper = new BusinessBundleHelper();
         $businessBundleHelper->buildRelationships($this->businessBundle);
+
+        TestHelper::addSampleBusinessProcesses($this->businessBundle);
     }
 
     protected function assertGeneratedFile(string $filename, string $expectedDir)
