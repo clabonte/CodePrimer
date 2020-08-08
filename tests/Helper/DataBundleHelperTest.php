@@ -8,6 +8,7 @@ use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\DataBundle;
 use CodePrimer\Model\Data\ExistingData;
 use CodePrimer\Model\Data\InputData;
+use CodePrimer\Model\Data\InputDataBundle;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
@@ -190,6 +191,16 @@ class DataBundleHelperTest extends TestCase
         self::expectException(InvalidArgumentException::class);
         $user = $this->businessBundle->getBusinessModel('User');
         $this->helper->addFieldsAsExisting($this->dataBundle, $user, $user->getFields(), '', 'unknown');
+    }
+
+    public function testAddingExistingDataToInputDataBundleThrowsException()
+    {
+        self::expectException(InvalidArgumentException::class);
+        self::expectExceptionMessage('InputDataBundle only supports InputData arguments');
+
+        $dataBundle = new InputDataBundle();
+        $user = $this->businessBundle->getBusinessModel('User');
+        $this->helper->addFieldsAsExisting($dataBundle, $user, $user->getFields());
     }
 
     private function assertEmptyDataBundle()
