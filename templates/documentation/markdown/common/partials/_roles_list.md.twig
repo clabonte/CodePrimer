@@ -1,0 +1,17 @@
+{# Prints a list of roles in Mardkdown format along with a link to the role definitions
+ # Variables:
+ #  - roles: Array of roles to print
+ #}
+{% spaceless %}
+{% if roles is empty %}
+*Anyone*
+{% elseif roles|length == 1 %}
+{{ roles[0]|title }}
+{% else %}
+<ul>
+{% for role in roles %}
+   <li>{{ role|title }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endspaceless %}

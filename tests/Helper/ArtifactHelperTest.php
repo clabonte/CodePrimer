@@ -84,10 +84,15 @@ class ArtifactHelperTest extends TestCase
                 new Artifact(Artifact::CODE, 'migration', 'mysql', 'CreateDatabase'),
                 'migrations',
             ],
-            'Markdown Documentation' => [
+            'Markdown Model Documentation' => [
                 TestHelper::getSampleBusinessBundle(),
                 new Artifact(Artifact::DOCUMENTATION, 'model', 'markdown'),
-                'docs',
+                'docs/DataModel',
+            ],
+            'Markdown Process Documentation' => [
+                TestHelper::getSampleBusinessBundle(),
+                new Artifact(Artifact::DOCUMENTATION, 'process', 'markdown'),
+                'docs/Process',
             ],
         ];
     }

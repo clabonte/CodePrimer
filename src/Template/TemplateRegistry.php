@@ -168,7 +168,11 @@ class TemplateRegistry
     protected function initDocumentationTemplates()
     {
         $extensions = [new LanguageTwigExtension()];
-        $this->addTemplate(new Template('DataModel', new Artifact(Artifact::DOCUMENTATION, 'model', 'markdown'), $extensions),
+        $this->addTemplate(new Template('Overview', new Artifact(Artifact::DOCUMENTATION, 'model', 'markdown'), $extensions),
             'Generates Markdown documentation of your data model to include in your repository');
+        $this->addTemplate(new Template('Overview', new Artifact(Artifact::DOCUMENTATION, 'process', 'markdown', 'index'), $extensions),
+            'Generates Markdown index file of your business processes to include in your repository');
+        $this->addTemplate(new Template('BusinessProcess', new Artifact(Artifact::DOCUMENTATION, 'process', 'markdown', 'details'), $extensions),
+            'Generates Markdown detailed documentation of your business processes to include in your repository');
     }
 }

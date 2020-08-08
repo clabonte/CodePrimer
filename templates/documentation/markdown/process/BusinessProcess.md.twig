@@ -1,0 +1,41 @@
+{# This template generates detailed documentation of an application DataProcess using Markdown to include in a repository #}
+# {{ businessProcess.name }} Business Process
+{{ businessProcess.description }}
+
+## Overview
+ - **Category**: {{ businessProcess.category }}
+ - **Type**: {{ businessProcess.type|title }}
+ - **Trigger**: [{{ businessProcess.trigger.name }} Event](#{{ businessProcess.trigger.name|lower|replace({' ':''}) }}event)
+
+| Roles | External Access | Synchronous | Asynchronous | Periodic |
+| ----- | --------------- | ----------- | ------------ | -------- |
+| {% include 'documentation/markdown/common/partials/_roles_list.md.twig' with {'roles': businessProcess.roles} %} | {{ businessProcess.externalAccess ? ':white_check_mark:' : ':x:' }} | {{ businessProcess.synchronous ? ':white_check_mark:' : ':x:' }} | {{ businessProcess.asynchronous ? ':white_check_mark:' : ':x:' }} | {{ businessProcess.periodic ? ':white_check_mark:' : ':x:' }}
+
+## Input
+The following data is required as an input to this process
+
+### {{ businessProcess.trigger.name }} Event
+{{ businessProcess.trigger.description }}
+#### Data
+{% if businessProcess.trigger.getDataBundle() is empty %}
+*N/A*
+{% else %}
+    {% include 'documentation/markdown/common/partials/_dataBundleTable.md.twig' with {'dataBundle': businessProcess.trigger.getDataBundle()} %}
+{% endif %}
+
+### Context Data
+
+### Internal Data
+
+### External Data
+
+## Output
+This process produces the following output
+
+### Context Data Updates
+
+### Internal Data Updates
+
+### External Data Updates
+
+### Messages

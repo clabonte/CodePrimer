@@ -16,7 +16,7 @@ class MarkdownDocumentationTemplatesTest extends TemplateTestCase
     /**
      * @throws \Exception
      */
-    public function testDataModelTemplate()
+    public function testDataModelOverviewTemplate()
     {
         $this->initEntities();
 
@@ -36,6 +36,58 @@ class MarkdownDocumentationTemplatesTest extends TemplateTestCase
         $builder->build($this->businessBundle, $template, $this->renderer);
 
         // Make sure the right files have been generated
-        $this->assertGeneratedFile('docs/DataModel.md', self::DOCUMENTATION_EXPECTED_DIR);
+        $this->assertGeneratedFile('docs/DataModel/Overview.md', self::DOCUMENTATION_EXPECTED_DIR);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testProcessOverviewTemplate()
+    {
+        $this->initEntities();
+
+        self::assertCount(1, $this->businessBundle->getBusinessProcesses());
+
+        $artifact = new Artifact(Artifact::DOCUMENTATION, 'process', 'markdown', 'index');
+
+        // Extract the template to use for this artifact
+        $template = $this->templateRegistry->getTemplateForArtifact($artifact);
+        self::assertNotNull($template);
+
+        // Extract the builder to use for this artifact
+        $builder = $this->factory->createBuilder($artifact);
+        self::assertNotNull($builder);
+
+        // Build the artifacts
+        $builder->build($this->businessBundle, $template, $this->renderer);
+
+        // Make sure the right files have been generated
+        $this->assertGeneratedFile('docs/Process/Overview.md', self::DOCUMENTATION_EXPECTED_DIR);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testProcessDetailsTemplates()
+    {
+        $this->initEntities();
+
+        self::assertCount(1, $this->businessBundle->getBusinessProcesses());
+
+        $artifact = new Artifact(Artifact::DOCUMENTATION, 'process', 'markdown', 'details');
+
+        // Extract the template to use for this artifact
+        $template = $this->templateRegistry->getTemplateForArtifact($artifact);
+        self::assertNotNull($template);
+
+        // Extract the builder to use for this artifact
+        $builder = $this->factory->createBuilder($artifact);
+        self::assertNotNull($builder);
+
+        // Build the artifacts
+        $builder->build($this->businessBundle, $template, $this->renderer);
+
+        // Make sure the right files have been generated
+        $this->assertGeneratedFile('docs/Process/SynchronousProcess.md', self::DOCUMENTATION_EXPECTED_DIR);
     }
 }

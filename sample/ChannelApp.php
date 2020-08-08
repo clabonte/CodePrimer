@@ -101,6 +101,16 @@ class ChannelApp
         $this->templateRenderer->setBaseFolder(self::PROJECT_OUTPUT_PATH);
         $artifact = new Artifact(Artifact::DOCUMENTATION, 'model', 'markdown');
         $this->primeArtifact($artifact);
+
+        // 2. Prime 'Processing Model' overview documentation in Markdown
+        $this->templateRenderer->setBaseFolder(self::PROJECT_OUTPUT_PATH);
+        $artifact = new Artifact(Artifact::DOCUMENTATION, 'process', 'markdown', 'index');
+        $this->primeArtifact($artifact);
+
+        // 3. Prime 'Processing Model' detailed documentation in Markdown
+        $this->templateRenderer->setBaseFolder(self::PROJECT_OUTPUT_PATH);
+        $artifact = new Artifact(Artifact::DOCUMENTATION, 'process', 'markdown', 'details');
+        $this->primeArtifact($artifact);
     }
 
     /**

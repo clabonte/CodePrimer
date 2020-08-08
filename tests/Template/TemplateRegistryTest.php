@@ -43,7 +43,7 @@ class TemplateRegistryTest extends TestCase
         self::assertEmpty($templates);
 
         $templates = $this->registry->listTemplates(Artifact::DOCUMENTATION);
-        self::assertCount(1, $templates);
+        self::assertCount(3, $templates);
 
         $templates = $this->registry->listTemplates(Artifact::PROJECT);
         self::assertCount(1, $templates);
@@ -52,46 +52,50 @@ class TemplateRegistryTest extends TestCase
         self::assertEmpty($templates);
     }
 
-    public function testListTemplatesByCategoryAndTypeShouldPass()
+    /**
+     * @dataProvider categoryAndTypeProvider
+     */
+    public function testListTemplatesByCategoryAndTypeShouldPass($category, $type, $expectedCount)
     {
-        $templates = $this->registry->listTemplates(Artifact::CODE, 'model');
-        self::assertCount(1, $templates);
-
-        $templates = $this->registry->listTemplates(Artifact::CODE, 'entity');
-        self::assertCount(3, $templates);
-
-        $templates = $this->registry->listTemplates(Artifact::CODE, 'Entity');
-        self::assertCount(3, $templates);
-
-        $templates = $this->registry->listTemplates(Artifact::CODE, 'Repository');
-        self::assertCount(1, $templates);
-
-        $templates = $this->registry->listTemplates(Artifact::CODE, 'Migration');
-        self::assertCount(4, $templates);
-
-        $templates = $this->registry->listTemplates(Artifact::PROJECT, 'Symfony');
-        self::assertCount(1, $templates);
+        $templates = $this->registry->listTemplates($category, $type);
+        self::assertCount($expectedCount, $templates);
     }
 
-    public function testListTemplatesByCategoryTypeAndFormatShouldPass()
+    public function categoryAndTypeProvider()
     {
-        $templates = $this->registry->listTemplates(Artifact::CODE, 'model', 'php');
-        self::assertCount(1, $templates);
+        return [
+            'Code model' => [Artifact::CODE, 'model', 1],
+            'Code entity' => [Artifact::CODE, 'entity', 3],
+            'Code Entity' => [Artifact::CODE, 'Entity', 3],
+            'Code Repository' => [Artifact::CODE, 'Repository', 1],
+            'Code Migration' => [Artifact::CODE, 'Migration', 4],
+            'Project Symfony' => [Artifact::PROJECT, 'Symfony', 1],
+            'Documentation Model' => [Artifact::DOCUMENTATION, 'Model', 1],
+            'Documentation Process' => [Artifact::DOCUMENTATION, 'Process', 2],
+        ];
+    }
 
-        $templates = $this->registry->listTemplates(Artifact::CODE, 'entity', 'php');
-        self::assertCount(2, $templates);
+    /**
+     * @dataProvider categoryTypeAndFormatProvider
+     */
+    public function testListTemplatesByCategoryTypeAndFormatShouldPass($category, $type, $format, $expectedCount)
+    {
+        $templates = $this->registry->listTemplates($category, $type, $format);
+        self::assertCount($expectedCount, $templates);
+    }
 
-        $templates = $this->registry->listTemplates(Artifact::CODE, 'Entity', 'PHP');
-        self::assertCount(2, $templates);
-
-        $templates = $this->registry->listTemplates(Artifact::CODE, 'Entity', 'Java');
-        self::assertCount(1, $templates);
-
-        $templates = $this->registry->listTemplates(Artifact::CODE, 'Migration', 'MySQL');
-        self::assertCount(3, $templates);
-
-        $templates = $this->registry->listTemplates(Artifact::PROJECT, 'Symfony', 'sh');
-        self::assertCount(1, $templates);
+    public function categoryTypeAndFormatProvider()
+    {
+        return [
+            'Code model - PHP' => [Artifact::CODE, 'model', 'php', 1],
+            'Code entity - PHP' => [Artifact::CODE, 'entity', 'php', 2],
+            'Code Entity - PHP' => [Artifact::CODE, 'Entity', 'PHP', 2],
+            'Code Entity - Java' => [Artifact::CODE, 'Entity', 'Java', 1],
+            'Code Migration - MySQL' => [Artifact::CODE, 'Migration', 'MySQL', 3],
+            'Project Symfony - sh' => [Artifact::PROJECT, 'Symfony', 'sh', 1],
+            'Documentation Model - markdown' => [Artifact::DOCUMENTATION, 'Model', 'markdown', 1],
+            'Documentation Process - markdown' => [Artifact::DOCUMENTATION, 'Process', 'markdown', 2],
+        ];
     }
 
     /**

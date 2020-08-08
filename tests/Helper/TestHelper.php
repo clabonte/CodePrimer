@@ -6,7 +6,9 @@ use CodePrimer\Helper\BusinessBundleHelper;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
+use CodePrimer\Model\BusinessProcess;
 use CodePrimer\Model\Constraint;
+use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 
 class TestHelper
@@ -14,12 +16,15 @@ class TestHelper
     /**
      * @param bool $withBusinessModels
      */
-    public static function getSampleBusinessBundle($withBusinessModels = true, $withRelationships = true): BusinessBundle
+    public static function getSampleBusinessBundle($withBusinessModels = true, $withRelationships = true, $withBusinessProcesses = true): BusinessBundle
     {
         $businessBundle = new BusinessBundle('CodePrimer Tests', 'FunctionalTest');
 
         if ($withBusinessModels) {
             self::addSampleBusinessModels($businessBundle);
+            if ($withBusinessProcesses) {
+                self::addSampleBusinessProcesses($businessBundle);
+            }
         }
 
         if ($withRelationships) {
@@ -190,5 +195,13 @@ class TestHelper
             );
 
         $businessBundle->addBusinessModel($businessModel);
+    }
+
+    public static function addSampleBusinessProcesses(BusinessBundle $businessBundle)
+    {
+        // Synchronous process without data
+        $event = new Event('Simple Event');
+        $businessProcess = new BusinessProcess('Synchronous Process', 'This is a sample Synchronous', $event);
+        $businessBundle->addBusinessProcess($businessProcess);
     }
 }

@@ -5,7 +5,9 @@ namespace CodePrimer\Twig;
 use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
+use CodePrimer\Model\BusinessProcess;
 use CodePrimer\Model\Constraint;
+use CodePrimer\Model\Data\DataBundle;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Relationship;
@@ -853,7 +855,11 @@ class LanguageTwigExtension extends AbstractExtension
             $name = $obj->getName();
         } elseif ($obj instanceof BusinessModel) {
             $name = $obj->getName();
+        } elseif ($obj instanceof BusinessProcess) {
+            $name = $obj->getName();
         } elseif ($obj instanceof BusinessBundle) {
+            $name = $obj->getName();
+        } elseif ($obj instanceof DataBundle) {
             $name = $obj->getName();
         } elseif ($obj instanceof Event) {
             $name = $obj->getName();
