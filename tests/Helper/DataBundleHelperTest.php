@@ -7,6 +7,7 @@ use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\DataBundle;
 use CodePrimer\Model\Data\ExistingData;
+use CodePrimer\Model\Data\FetchDataBundle;
 use CodePrimer\Model\Data\InputData;
 use CodePrimer\Model\Data\InputDataBundle;
 use InvalidArgumentException;
@@ -201,6 +202,26 @@ class DataBundleHelperTest extends TestCase
         $dataBundle = new InputDataBundle();
         $user = $this->businessBundle->getBusinessModel('User');
         $this->helper->addFieldsAsExisting($dataBundle, $user, $user->getFields());
+    }
+
+    public function testAddingInputDataToFetchDataBundleThrowsException()
+    {
+        self::expectException(InvalidArgumentException::class);
+        self::expectExceptionMessage('FetchDataBundle only supports ExistingData arguments');
+
+        $dataBundle = new FetchDataBundle();
+        $user = $this->businessBundle->getBusinessModel('User');
+        $this->helper->addFieldsAsMandatoryInput($dataBundle, $user, $user->getFields());
+    }
+
+    public function testAddingExistingDataFromInvalidSourceThrowsException()
+    {
+        self::expectException(InvalidArgumentException::class);
+        self::expectExceptionMessage('This DataBundle only supports data from the following source: default. Received: other');
+
+        $dataBundle = new FetchDataBundle();
+        $user = $this->businessBundle->getBusinessModel('User');
+        $this->helper->addFieldsAsExisting($dataBundle, $user, $user->getFields(), 'other');
     }
 
     private function assertEmptyDataBundle()
