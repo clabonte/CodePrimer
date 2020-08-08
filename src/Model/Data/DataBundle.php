@@ -10,11 +10,12 @@ class DataBundle
     /** @var string A description of the bundle's purpose */
     private $description;
 
-    /** @var InputData[][] */
-    private $inputData = [];
-
-    /** @var ExistingData[][] */
-    private $existingData = [];
+    /**
+     * Keys: [BusinessModel.name][Field.name].
+     *
+     * @var Data[][]
+     */
+    private $data = [];
 
     /**
      * DataBundle constructor.
@@ -44,93 +45,48 @@ class DataBundle
     /**
      * @codeCoverageIgnore
      *
-     * @return InputData[][]
+     * @return Data[][]
      */
-    public function getInputData(): array
+    public function getData(): array
     {
-        return $this->inputData;
+        return $this->data;
     }
 
-    /**
-     * @codeCoverageIgnore
-     *
-     * @return ExistingData[][]
-     */
-    public function getExistingData(): array
-    {
-        return $this->existingData;
-    }
-
-    public function addInputData(InputData $data): self
+    public function addData(Data $data): self
     {
         $modelName = $data->getBusinessModel()->getName();
         $fieldName = $data->getField()->getName();
 
-        if (!isset($this->inputData[$modelName])) {
-            $this->inputData[$modelName] = [];
+        if (!isset($this->data[$modelName])) {
+            $this->data[$modelName] = [];
         }
-        $this->inputData[$modelName][$fieldName] = $data;
-
-        return $this;
-    }
-
-    public function addExistingData(ExistingData $data): self
-    {
-        $modelName = $data->getBusinessModel()->getName();
-        $fieldName = $data->getField()->getName();
-
-        if (!isset($this->existingData[$modelName])) {
-            $this->existingData[$modelName] = [];
-        }
-        $this->existingData[$modelName][$fieldName] = $data;
+        $this->data[$modelName][$fieldName] = $data;
 
         return $this;
     }
 
     public function isBusinessModelPresent(string $name): bool
     {
-        return isset($this->inputData[$name]) || isset($this->existingData[$name]);
+        return isset($this->data[$name]);
     }
 
     /**
      * @return string[]
      */
-    public function listInputDataBusinessModelNames(): array
+    public function listBusinessModelNames(): array
     {
-        return array_keys($this->inputData);
-    }
-
-    /**
-     * @return string[]
-     */
-    public function listExistingDataBusinessModelNames(): array
-    {
-        return array_keys($this->existingData);
+        return array_keys($this->data);
     }
 
     /**
      * Return the list of input data defined in this bundle for a given business model.
      *
-     * @return InputData[]
+     * @return Data[]
      */
-    public function listInputData(string $businessModelName): array
+    public function listData(string $businessModelName): array
     {
-        if (isset($this->inputData[$businessModelName])) {
-            return $this->inputData[$businessModelName];
-        }
-
-        return [];
-    }
-
-    /**
-     * Return the list of existing data defined in this bundle for a given business model.
-     *
-     * @return ExistingData[]
-     */
-    public function listExistingData(string $businessModelName): array
-    {
-        if (isset($this->existingData[$businessModelName])) {
-            return $this->existingData[$businessModelName];
+        if (isset($this->data[$businessModelName])) {
+            return $this->data[$businessModelName];
         }
 
         return [];
