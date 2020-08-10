@@ -186,7 +186,6 @@ class ChannelApp
         $packageHelper->buildRelationships($bundle);
     }
 
-
     /**
      * Creates the application's Business Processing Model for a given 'Business Bundle'.
      *

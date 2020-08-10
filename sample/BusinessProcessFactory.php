@@ -10,9 +10,8 @@ use CodePrimer\Model\Data\InputDataBundle;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Derived\Message;
 
-
 /**
- * Factory used to create the various BusinessProcesses instances needed in our Channel sample application
+ * Factory used to create the various BusinessProcesses instances needed in our Channel sample application.
  */
 class BusinessProcessFactory
 {
@@ -82,5 +81,4 @@ class BusinessProcessFactory
 
         return $businessProcess;
     }
-
 }

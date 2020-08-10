@@ -1,13 +1,12 @@
 <?php
 
-
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Field;
 
 /**
- * Factory used to create the various BusinessModel instances needed in our Channel sample application
+ * Factory used to create the various BusinessModel instances needed in our Channel sample application.
  */
 class BusinessModelFactory
 {
@@ -376,5 +375,4 @@ class BusinessModelFactory
 
         return $businessModel;
     }
-
 }
