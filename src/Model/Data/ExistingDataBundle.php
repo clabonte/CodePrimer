@@ -2,8 +2,6 @@
 
 namespace CodePrimer\Model\Data;
 
-use InvalidArgumentException;
-
 /**
  * Class ExistingDataBundle
  * This class carries a set of ExistingData only along with a query indicating how to retrieve them.

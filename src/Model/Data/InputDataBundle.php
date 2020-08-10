@@ -2,8 +2,6 @@
 
 namespace CodePrimer\Model\Data;
 
-use InvalidArgumentException;
-
 /**
  * Class InputDataBundle
  * This class carries a set of InputData only.

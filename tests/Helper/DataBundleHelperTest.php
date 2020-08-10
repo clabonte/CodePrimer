@@ -209,7 +209,6 @@ class DataBundleHelperTest extends TestCase
         $this->helper->addFieldsAsExisting($dataBundle, $user, $user->getFields(), 'other');
     }
      */
-
     private function assertEmptyDataBundle()
     {
         self::assertEmpty($this->inputDataBundle->listBusinessModelNames());
