@@ -4,9 +4,10 @@ namespace CodePrimer\Helper;
 
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Data\Data;
-use CodePrimer\Model\Data\DataBundle;
 use CodePrimer\Model\Data\ExistingData;
+use CodePrimer\Model\Data\ExistingDataBundle;
 use CodePrimer\Model\Data\InputData;
+use CodePrimer\Model\Data\InputDataBundle;
 use CodePrimer\Model\Field;
 
 class DataBundleHelper
@@ -14,12 +15,12 @@ class DataBundleHelper
     /**
      * Adds all the unmanaged fields of a BusinessModel as input data to a bundle following the model's mandatory/optional field definition.
      */
-    public function addBusinessModelAsInput(DataBundle $dataBundle, BusinessModel $businessModel, string $type, string $details = Data::BASIC)
+    public function addBusinessModelAsInput(InputDataBundle $dataBundle, BusinessModel $businessModel, string $details = Data::BASIC)
     {
         foreach ($businessModel->getFields() as $field) {
             if (!$field->isManaged()) {
-                $data = new InputData($type, $businessModel, $field, $field->isMandatory(), $details);
-                $dataBundle->addInputData($data);
+                $data = new InputData($businessModel, $field, $field->isMandatory(), $details);
+                $dataBundle->add($data);
             }
         }
     }
@@ -29,11 +30,11 @@ class DataBundleHelper
      *
      * @param Field[]|string[] $fields
      */
-    public function addFieldsAsMandatoryInput(DataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $type, string $details = Data::BASIC)
+    public function addFieldsAsMandatoryInput(InputDataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $details = Data::BASIC)
     {
         foreach ($fields as $field) {
-            $data = new InputData($type, $businessModel, $field, true, $details);
-            $dataBundle->addInputData($data);
+            $data = new InputData($businessModel, $field, true, $details);
+            $dataBundle->add($data);
         }
     }
 
@@ -42,22 +43,22 @@ class DataBundleHelper
      *
      * @param Field[]|string[] $fields
      */
-    public function addFieldsAsOptionalInput(DataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $type, string $details = Data::BASIC)
+    public function addFieldsAsOptionalInput(InputDataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $details = Data::BASIC)
     {
         foreach ($fields as $field) {
-            $data = new InputData($type, $businessModel, $field, false, $details);
-            $dataBundle->addInputData($data);
+            $data = new InputData($businessModel, $field, false, $details);
+            $dataBundle->add($data);
         }
     }
 
     /**
      * Adds all the fields (including managed ones) of a BusinessModel as existing data to a bundle.
      */
-    public function addBusinessModelAsExisting(DataBundle $dataBundle, BusinessModel $businessModel, string $origin, string $source = '', string $details = Data::BASIC)
+    public function addBusinessModelAsExisting(ExistingDataBundle $dataBundle, BusinessModel $businessModel, string $source = ExistingData::DEFAULT_SOURCE, string $details = Data::BASIC)
     {
         foreach ($businessModel->getFields() as $field) {
-            $data = new ExistingData($origin, $businessModel, $field, $source, $details);
-            $dataBundle->addExistingData($data);
+            $data = new ExistingData($businessModel, $field, $source, $details);
+            $dataBundle->add($data);
         }
     }
 
@@ -66,11 +67,11 @@ class DataBundleHelper
      *
      * @param Field[]|string[] $fields
      */
-    public function addFieldsAsExisting(DataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $origin, string $source = '', string $details = Data::BASIC)
+    public function addFieldsAsExisting(ExistingDataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $source = ExistingData::DEFAULT_SOURCE, string $details = Data::BASIC)
     {
         foreach ($fields as $field) {
-            $data = new ExistingData($origin, $businessModel, $field, $source, $details);
-            $dataBundle->addExistingData($data);
+            $data = new ExistingData($businessModel, $field, $source, $details);
+            $dataBundle->add($data);
         }
     }
 }
