@@ -15,11 +15,8 @@ class InputDataBundle extends DataBundle
         parent::__construct($name, $description);
     }
 
-    public function addData(Data $data): DataBundle
+    public function add(InputData $data): DataBundle
     {
-        if ($data instanceof InputData) {
-            return parent::addData($data);
-        }
-        throw new InvalidArgumentException('InputDataBundle only supports InputData arguments');
+        return parent::addData($data);
     }
 }

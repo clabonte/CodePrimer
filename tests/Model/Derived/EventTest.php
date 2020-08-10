@@ -2,7 +2,7 @@
 
 namespace CodePrimer\Tests\Model\Derived;
 
-use CodePrimer\Model\Data\DataBundle;
+use CodePrimer\Model\Data\InputDataBundle;
 use CodePrimer\Model\Derived\Event;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
@@ -27,7 +27,7 @@ class EventTest extends TestCase
 
     public function testAddDefaultDataBundleShouldWork()
     {
-        $bundle = new DataBundle();
+        $bundle = new InputDataBundle();
 
         $this->event->addDataBundle($bundle);
         self::assertCount(1, $this->event->getDataBundles());
@@ -36,8 +36,8 @@ class EventTest extends TestCase
 
     public function testAddNamedDataBundleShouldWork()
     {
-        $bundle1 = new DataBundle('bundle 1', 'description 1');
-        $bundle2 = new DataBundle('bundle 2', 'description 2');
+        $bundle1 = new InputDataBundle('bundle 1', 'description 1');
+        $bundle2 = new InputDataBundle('bundle 2', 'description 2');
 
         $this->event->addDataBundle($bundle1);
         self::assertCount(1, $this->event->getDataBundles());
@@ -57,8 +57,8 @@ class EventTest extends TestCase
         self::expectException(InvalidArgumentException::class);
         self::expectExceptionMessage('DataBundle already present: '.Event::DEFAULT_BUNDLE.', please use a unique name for your bundle');
 
-        $bundle = new DataBundle();
-        $bundle2 = new DataBundle();
+        $bundle = new InputDataBundle();
+        $bundle2 = new InputDataBundle();
 
         $this->event->addDataBundle($bundle);
         $this->event->addDataBundle($bundle2);
@@ -67,10 +67,10 @@ class EventTest extends TestCase
     public function testAddingDuplicateDataBundleThrowsException()
     {
         self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('OldDataBundle already present: bundle 1, please use a unique name for your bundle');
+        self::expectExceptionMessage('DataBundle already present: bundle 1, please use a unique name for your bundle');
 
-        $bundle1 = new DataBundle('bundle 1');
-        $bundle2 = new DataBundle('bundle 1');
+        $bundle1 = new InputDataBundle('bundle 1');
+        $bundle2 = new InputDataBundle('bundle 1');
 
         $this->event->addDataBundle($bundle1);
         $this->event->addDataBundle($bundle2);

@@ -8,7 +8,7 @@
 
 namespace CodePrimer\Model\Derived;
 
-use CodePrimer\Model\Data\DataBundle;
+use CodePrimer\Model\Data\InputDataBundle;
 use InvalidArgumentException;
 
 class Event
@@ -21,7 +21,7 @@ class Event
     /** @var string */
     private $description;
 
-    /** @var DataBundle[] List of data bundles associated with this event */
+    /** @var InputDataBundle[] List of data bundles associated with this event */
     private $dataBundles = [];
 
     public function __construct(string $name, string $description = '')
@@ -71,7 +71,7 @@ class Event
     /**
      * @codeCoverageIgnore
      *
-     * @return DataBundle[]
+     * @return InputDataBundle[]
      */
     public function getDataBundles(): array
     {
@@ -85,7 +85,7 @@ class Event
      *
      * @throws InvalidArgumentException If a bundle with the same name is already present
      */
-    public function addDataBundle(DataBundle $dataBundle): self
+    public function addDataBundle(InputDataBundle $dataBundle): self
     {
         $name = $dataBundle->getName();
         if (empty($name)) {
@@ -93,7 +93,7 @@ class Event
         }
 
         if (isset($this->dataBundles[$name])) {
-            throw new InvalidArgumentException('OldDataBundle already present: '.$name.', please use a unique name for your bundle');
+            throw new InvalidArgumentException('DataBundle already present: '.$name.', please use a unique name for your bundle');
         }
         $this->dataBundles[$name] = $dataBundle;
 
@@ -103,7 +103,7 @@ class Event
     /**
      * Retrieves a data bundle by its name.
      */
-    public function getDataBundle(string $name = self::DEFAULT_BUNDLE): ?DataBundle
+    public function getDataBundle(string $name = self::DEFAULT_BUNDLE): ?InputDataBundle
     {
         if (isset($this->dataBundles[$name])) {
             return $this->dataBundles[$name];

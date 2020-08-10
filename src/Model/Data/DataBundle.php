@@ -2,7 +2,7 @@
 
 namespace CodePrimer\Model\Data;
 
-class DataBundle
+abstract class DataBundle
 {
     /** @var string The name associated with this bundle */
     private $name;
@@ -52,7 +52,7 @@ class DataBundle
         return $this->data;
     }
 
-    public function addData(Data $data): self
+    protected function addData(Data $data): self
     {
         $modelName = $data->getBusinessModel()->getName();
         $fieldName = $data->getField()->getName();
