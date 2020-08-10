@@ -17,7 +17,7 @@ class RelationshipSide
     private $field;
 
     /** @var Relationship The relationship this which this side belongs */
-    private $relationship;
+    private $relationship = null;
 
     /**
      * RelationshipSide constructor.
@@ -97,7 +97,7 @@ class RelationshipSide
     /**
      * @codeCoverageIgnore
      */
-    public function getRelationship(): Relationship
+    public function getRelationship(): ?Relationship
     {
         return $this->relationship;
     }
@@ -134,7 +134,7 @@ class RelationshipSide
         $remoteSide = $this->getRemoteSide();
         if ($remoteSide) {
             if (null !== $remoteSide->getField()) {
-                $result = true;
+                $result = (null !== $this->field);
             }
         }
 

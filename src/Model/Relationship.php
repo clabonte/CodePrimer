@@ -31,16 +31,25 @@ class Relationship
         $this->rightSide = $rightSide;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getType(): string
     {
         return $this->type;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getLeftSide(): RelationshipSide
     {
         return $this->leftSide;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getRightSide(): RelationshipSide
     {
         return $this->rightSide;
