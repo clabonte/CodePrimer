@@ -12,7 +12,7 @@
 | {% include 'documentation/markdown/common/partials/_roles_list.md.twig' with {'roles': businessProcess.roles} %} | {{ businessProcess.externalAccess ? ':white_check_mark:' : ':x:' }} | {{ businessProcess.synchronous ? ':white_check_mark:' : ':x:' }} | {{ businessProcess.asynchronous ? ':white_check_mark:' : ':x:' }} | {{ businessProcess.periodic ? ':white_check_mark:' : ':x:' }}
 
 ## Input
-The following data is required as an input to this process
+This process requires the following input
 
 ### {{ businessProcess.trigger.name }} Event
 {{ businessProcess.trigger.description }}
@@ -20,7 +20,7 @@ The following data is required as an input to this process
 {% if businessProcess.trigger.getDataBundle() is empty %}
 *N/A*
 {% else %}
-    {% include 'documentation/markdown/common/partials/_dataBundleTable.md.twig' with {'dataBundle': businessProcess.trigger.getDataBundle()} %}
+    {% include 'documentation/markdown/common/partials/_inputDataBundleTable.md.twig' with {'dataBundle': businessProcess.trigger.getDataBundle()} %}
 {% endif %}
 
 ### Context Data
@@ -39,3 +39,7 @@ This process produces the following output
 ### External Data Updates
 
 ### Messages
+
+{% for message in businessProcess.messages %}
+    {%~ include 'documentation/markdown/common/partials/_messageTable.md.twig' with {'message': message} %}
+{% endfor %}

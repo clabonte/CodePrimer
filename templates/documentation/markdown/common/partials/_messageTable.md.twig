@@ -1,0 +1,7 @@
+#### {{ message.id }}  - {{ message.name }}
+{{ message.description }}
+
+**Data**:
+{% include 'documentation/markdown/common/partials/_existingDataBundleTable.md.twig' with {'dataBundle': message.dataBundle} %}
+
+**Example**:
