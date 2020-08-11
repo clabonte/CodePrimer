@@ -104,6 +104,31 @@ class DataBundleHelperTest extends TestCase
         }
     }
 
+    public function testAddStringFieldsAsMandatoryAddsAllFieldsProperly()
+    {
+        $user = $this->businessBundle->getBusinessModel('User');
+        $this->assertEmptyDataBundle($this->eventDataBundle);
+
+        $this->helper->addFieldsAsMandatory($this->eventDataBundle, $user, ['crmId', 'stats'], Data::REFERENCE);
+        self::assertCount(1, $this->eventDataBundle->listBusinessModelNames());
+        self::assertTrue($this->eventDataBundle->isBusinessModelPresent('User'));
+        $list = $this->eventDataBundle->listData('User');
+        self::assertCount(2, $list);
+
+        // Validate that each data has been properly created
+        self::assertArrayHasKey('crmId', $list);
+        $data = $list['crmId'];
+        self::assertInstanceOf(EventData::class, $data);
+        self::assertEquals(Data::BASIC, $data->getDetails());
+        self::assertTrue($data->isMandatory());
+
+        self::assertArrayHasKey('stats', $list);
+        $data = $list['stats'];
+        self::assertInstanceOf(EventData::class, $data);
+        self::assertEquals(Data::REFERENCE, $data->getDetails());
+        self::assertTrue($data->isMandatory());
+    }
+
     public function testAddFieldsInEventDataBundleConvertsDataToEventData()
     {
         $user = $this->businessBundle->getBusinessModel('User');

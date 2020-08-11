@@ -8,6 +8,7 @@ use CodePrimer\Model\Data\DataBundle;
 use CodePrimer\Model\Data\EventData;
 use CodePrimer\Model\Data\EventDataBundle;
 use CodePrimer\Model\Field;
+use InvalidArgumentException;
 
 class DataBundleHelper
 {
@@ -27,7 +28,7 @@ class DataBundleHelper
     public function addFieldsAsMandatory(EventDataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $fieldDetails = Data::BASIC)
     {
         foreach ($fields as $field) {
-            $data = new EventData($businessModel, $field, true, $this->mapDetails($field, $fieldDetails));
+            $data = new EventData($businessModel, $field, true, $this->mapDetails($businessModel, $field, $fieldDetails));
             $dataBundle->add($data);
         }
     }
@@ -40,7 +41,7 @@ class DataBundleHelper
     public function addFieldsAsOptional(EventDataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $fieldDetails = Data::BASIC)
     {
         foreach ($fields as $field) {
-            $data = new EventData($businessModel, $field, false, $this->mapDetails($field, $fieldDetails));
+            $data = new EventData($businessModel, $field, false, $this->mapDetails($businessModel, $field, $fieldDetails));
             $dataBundle->add($data);
         }
     }
@@ -58,7 +59,7 @@ class DataBundleHelper
             return;
         }
         foreach ($businessModel->getFields() as $field) {
-            $data = new Data($businessModel, $field, $this->mapDetails($field, $fieldDetails));
+            $data = new Data($businessModel, $field, $this->mapDetails($businessModel, $field, $fieldDetails));
             $dataBundle->add($data);
         }
     }
@@ -71,7 +72,7 @@ class DataBundleHelper
     public function addFields(DataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $fieldDetails = Data::BASIC)
     {
         foreach ($fields as $field) {
-            $data = new Data($businessModel, $field, $this->mapDetails($field, $fieldDetails));
+            $data = new Data($businessModel, $field, $this->mapDetails($businessModel, $field, $fieldDetails));
             $dataBundle->add($data);
         }
     }
@@ -83,14 +84,26 @@ class DataBundleHelper
     {
         foreach ($businessModel->getFields() as $field) {
             if (!$field->isManaged()) {
-                $data = new EventData($businessModel, $field, $field->isMandatory(), $this->mapDetails($field, $fieldDetails));
+                $data = new EventData($businessModel, $field, $field->isMandatory(), $this->mapDetails($businessModel, $field, $fieldDetails));
                 $dataBundle->add($data);
             }
         }
     }
 
-    private function mapDetails(Field $field, string $fieldDetails): string
+    /**
+     * @param Field|string $desiredField
+     */
+    private function mapDetails(BusinessModel $businessModel, $desiredField, string $fieldDetails): string
     {
+        if (!$desiredField instanceof Field) {
+            $field = $businessModel->getField($desiredField);
+            if (null === $field) {
+                throw new InvalidArgumentException('Requested field '.$desiredField.' is not defined in BusinessModel '.$businessModel->getName());
+            }
+        } else {
+            $field = $desiredField;
+        }
+
         if ($this->fieldHelper->isNativeType($field)) {
             return Data::BASIC;
         }
