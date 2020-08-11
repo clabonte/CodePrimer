@@ -2,7 +2,7 @@
 
 namespace CodePrimer\Model\Derived;
 
-use CodePrimer\Model\Data\ExistingDataBundle;
+use CodePrimer\Model\Data\DataBundle;
 use InvalidArgumentException;
 
 class Message
@@ -15,7 +15,7 @@ class Message
     /** @var string */
     private $description;
 
-    /** @var ExistingDataBundle[] List of data bundles associated with this event */
+    /** @var DataBundle[] List of data bundles associated with this event */
     private $dataBundles = [];
 
     /** @var string The message's unique ID in the bundle */
@@ -80,7 +80,7 @@ class Message
     /**
      * @codeCoverageIgnore
      *
-     * @return ExistingDataBundle[]
+     * @return DataBundle[]
      */
     public function getDataBundles(): array
     {
@@ -94,7 +94,7 @@ class Message
      *
      * @throws InvalidArgumentException If a bundle with the same name is already present
      */
-    public function addDataBundle(ExistingDataBundle $dataBundle): self
+    public function addDataBundle(DataBundle $dataBundle): self
     {
         $name = $dataBundle->getName();
         if (empty($name)) {
@@ -112,7 +112,7 @@ class Message
     /**
      * Retrieves a data bundle by its name.
      */
-    public function getDataBundle(string $name = self::DEFAULT_BUNDLE): ?ExistingDataBundle
+    public function getDataBundle(string $name = self::DEFAULT_BUNDLE): ?DataBundle
     {
         if (isset($this->dataBundles[$name])) {
             return $this->dataBundles[$name];

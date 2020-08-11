@@ -2,6 +2,10 @@
 
 namespace CodePrimer\Model;
 
+use CodePrimer\Model\Data\ContextDataBundle;
+use CodePrimer\Model\Data\DataBundle;
+use CodePrimer\Model\Data\ExternalDataBundle;
+use CodePrimer\Model\Data\InternalDataBundle;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Derived\Message;
 use InvalidArgumentException;
@@ -28,7 +32,7 @@ class BusinessProcess
     private $description;
 
     /** @var Event The event that can trigger this process */
-    private $trigger;
+    private $event;
 
     /** @var bool Whether the process can be triggered synchronously */
     private $synchronous;
@@ -45,11 +49,11 @@ class BusinessProcess
     /** @var array List of roles that are allowed to trigger this process. Empty = anyone */
     private $roles = [];
 
-    /** @var array List of internal updates that can be produced as an outcome of this process */
-    private $internalUpdates = [];
+    /** @var DataBundle[][] List of data used/required as input for this process */
+    private $requiredData = [];
 
-    /** @var array List of external updates that can be produced as an outcome of this process */
-    private $externalUpdates = [];
+    /** @var DataBundle[][] List of data updates produced as an outcome of this process */
+    private $producedData = [];
 
     /** @var Message[] List of messages that can be produced as an outcome of this process */
     private $messages = [];
@@ -57,13 +61,13 @@ class BusinessProcess
     /**
      * BusinessProcess constructor.
      */
-    public function __construct(string $name, string $description, Event $trigger, string $type = self::CUSTOM, bool $synchronous = true, bool $asynchronous = false)
+    public function __construct(string $name, string $description, Event $event, string $type = self::CUSTOM, bool $synchronous = true, bool $asynchronous = false)
     {
         $this->validate($type);
         $this->type = $type;
         $this->name = $name;
         $this->description = $description;
-        $this->trigger = $trigger;
+        $this->event = $event;
         $this->synchronous = $synchronous;
         $this->asynchronous = $asynchronous;
     }
@@ -144,17 +148,17 @@ class BusinessProcess
     /**
      * @codeCoverageIgnore
      */
-    public function getTrigger(): Event
+    public function getEvent(): Event
     {
-        return $this->trigger;
+        return $this->event;
     }
 
     /**
      * @codeCoverageIgnore
      */
-    public function setTrigger(Event $trigger): BusinessProcess
+    public function setEvent(Event $event): BusinessProcess
     {
-        $this->trigger = $trigger;
+        $this->event = $event;
 
         return $this;
     }
@@ -236,50 +240,170 @@ class BusinessProcess
         return $this;
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
-    public function getInternalUpdates(): array
+    public function isDataRequired(): bool
     {
-        return $this->internalUpdates;
+        return count($this->requiredData) > 0;
     }
 
     /**
      * @codeCoverageIgnore
+     *
+     * @return DataBundle[][]
      */
-    public function setInternalUpdates(array $internalUpdates): BusinessProcess
+    public function getRequiredData(): array
     {
-        $this->internalUpdates = $internalUpdates;
+        return $this->requiredData;
+    }
+
+    public function addRequiredData(DataBundle $dataBundle): BusinessProcess
+    {
+        $type = get_class($dataBundle);
+        if (empty($this->requiredData[$type])) {
+            $this->requiredData[$type] = [];
+        }
+        $this->requiredData[$type][$dataBundle->getName()] = $dataBundle;
 
         return $this;
     }
 
-    public function isProducingInternalUpdates(): bool
+    public function isContextDataRequired(): bool
     {
-        return (null !== $this->internalUpdates) && count($this->internalUpdates) > 0;
+        $type = ContextDataBundle::class;
+
+        return isset($this->requiredData[$type]) && (count($this->requiredData[$type]) > 0);
+    }
+
+    /**
+     * @return DataBundle[]
+     */
+    public function getRequiredContextData(): array
+    {
+        if ($this->isContextDataRequired()) {
+            return $this->requiredData[ContextDataBundle::class];
+        }
+
+        return [];
+    }
+
+    public function isInternalDataRequired(): bool
+    {
+        $type = InternalDataBundle::class;
+
+        return isset($this->requiredData[$type]) && (count($this->requiredData[$type]) > 0);
+    }
+
+    /**
+     * @return DataBundle[]
+     */
+    public function getRequiredInternalData(): array
+    {
+        if ($this->isInternalDataRequired()) {
+            return $this->requiredData[InternalDataBundle::class];
+        }
+
+        return [];
+    }
+
+    public function isExternalDataRequired(): bool
+    {
+        $type = ExternalDataBundle::class;
+
+        return isset($this->requiredData[$type]) && (count($this->requiredData[$type]) > 0);
+    }
+
+    /**
+     * @return DataBundle[]
+     */
+    public function getRequiredExternalData(): array
+    {
+        if ($this->isExternalDataRequired()) {
+            return $this->requiredData[ExternalDataBundle::class];
+        }
+
+        return [];
     }
 
     /**
      * @codeCoverageIgnore
+     *
+     * @return DataBundle[]
      */
-    public function getExternalUpdates(): array
+    public function getProducedData(): array
     {
-        return $this->externalUpdates;
+        return $this->producedData;
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
-    public function setExternalUpdates(array $externalUpdates): BusinessProcess
+    public function isDataProduced(): bool
     {
-        $this->externalUpdates = $externalUpdates;
+        return count($this->producedData) > 0;
+    }
+
+    public function addProducedData(DataBundle $dataBundle): BusinessProcess
+    {
+        $type = get_class($dataBundle);
+        if (empty($this->producedData[$type])) {
+            $this->producedData[$type] = [];
+        }
+        $this->producedData[$type][$dataBundle->getName()] = $dataBundle;
 
         return $this;
     }
 
-    public function isProducingExternalUpdates(): bool
+    public function isContextDataProduced(): bool
     {
-        return (null !== $this->externalUpdates) && count($this->externalUpdates) > 0;
+        $type = ContextDataBundle::class;
+
+        return isset($this->producedData[$type]) && (count($this->producedData[$type]) > 0);
+    }
+
+    /**
+     * @return DataBundle[]
+     */
+    public function getProducedContextData(): array
+    {
+        if ($this->isContextDataProduced()) {
+            return $this->producedData[ContextDataBundle::class];
+        }
+
+        return [];
+    }
+
+    public function isInternalDataProduced(): bool
+    {
+        $type = InternalDataBundle::class;
+
+        return isset($this->producedData[$type]) && (count($this->producedData[$type]) > 0);
+    }
+
+    /**
+     * @return DataBundle[]
+     */
+    public function getProducedInternalData(): array
+    {
+        if ($this->isInternalDataProduced()) {
+            return $this->producedData[InternalDataBundle::class];
+        }
+
+        return [];
+    }
+
+    public function isExternalDataProduced(): bool
+    {
+        $type = ExternalDataBundle::class;
+
+        return isset($this->producedData[$type]) && (count($this->producedData[$type]) > 0);
+    }
+
+    /**
+     * @return DataBundle[]
+     */
+    public function getProducedExternalData(): array
+    {
+        if ($this->isExternalDataProduced()) {
+            return $this->producedData[ExternalDataBundle::class];
+        }
+
+        return [];
     }
 
     /**
@@ -294,19 +418,17 @@ class BusinessProcess
 
     /**
      * @codeCoverageIgnore
-     *
-     * @param Message[]
      */
-    public function setMessages(array $messages): BusinessProcess
+    public function addMessage(Message $message): BusinessProcess
     {
-        $this->messages = $messages;
+        $this->messages[$message->getId()] = $message;
 
         return $this;
     }
 
-    public function isProducingMessages(): bool
+    public function isMessageProduced(): bool
     {
-        return (null !== $this->messages) && count($this->messages) > 0;
+        return count($this->messages) > 0;
     }
 
     /**

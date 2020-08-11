@@ -5,37 +5,80 @@
 ## Overview
  - **Category**: {{ businessProcess.category }}
  - **Type**: {{ businessProcess.type|title }}
- - **Trigger**: [{{ businessProcess.trigger.name }} Event](#{{ businessProcess.trigger.name|lower|replace({' ':''}) }}event)
+ - **Trigger**: [{{ businessProcess.event.name }} Event](#{{ businessProcess.event.name|lower|replace({' ':''}) }}event)
 
 | Roles | External Access | Synchronous | Asynchronous | Periodic |
 | ----- | --------------- | ----------- | ------------ | -------- |
 | {% include 'documentation/markdown/common/partials/_roles_list.md.twig' with {'roles': businessProcess.roles} %} | {{ businessProcess.externalAccess ? ':white_check_mark:' : ':x:' }} | {{ businessProcess.synchronous ? ':white_check_mark:' : ':x:' }} | {{ businessProcess.asynchronous ? ':white_check_mark:' : ':x:' }} | {{ businessProcess.periodic ? ':white_check_mark:' : ':x:' }}
 
-## Input
-The following data is required as an input to this process
-
-### {{ businessProcess.trigger.name }} Event
-{{ businessProcess.trigger.description }}
-#### Data
-{% if businessProcess.trigger.getDataBundle() is empty %}
+## {{ businessProcess.event.name }} Event
+{{ businessProcess.event.description }}
+### Data
+{% if businessProcess.event.getDataBundle() is empty %}
 *N/A*
 {% else %}
-    {% include 'documentation/markdown/common/partials/_dataBundleTable.md.twig' with {'dataBundle': businessProcess.trigger.getDataBundle()} %}
+    {% include 'documentation/markdown/common/partials/_eventDataBundleTable.md.twig' with {'dataBundle': businessProcess.event.getDataBundle()} %}
 {% endif %}
 
+## Required Data
+{% if businessProcess.isDataRequired %}
+In order to handle the event above, this process also needs the following data:
+    {%~ if businessProcess.isContextDataRequired %}
 ### Context Data
+        {%~ for dataBundle in businessProcess.getRequiredContextData %}
+            {%~ include 'documentation/markdown/common/partials/_contextDataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
+        {%~ endfor %}
+    {%~ endif %}
 
+    {%~ if businessProcess.isInternalDataRequired %}
 ### Internal Data
+        {%~ for dataBundle in businessProcess.getRequiredInternalData %}
+            {%~ include 'documentation/markdown/common/partials/_internalDataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
+        {%~ endfor %}
+    {%~ endif %}
 
+    {%~ if businessProcess.isExternalDataRequired %}
 ### External Data
+        {%~ for dataBundle in businessProcess.getRequiredExternalData %}
+            {%~ include 'documentation/markdown/common/partials/_externalDataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
+        {%~ endfor %}
+    {%~ endif %}
+{% else %}
+N/A - *This process does not require any data other to process the event*
+{% endif %}
 
-## Output
-This process produces the following output
+## Produced Data
+{% if businessProcess.isDataProduced %}
+Upon successful completion, this process will produce/update the following data:
+    {%~ if businessProcess.isContextDataProduced %}
+### Context Data
+        {%~ for dataBundle in businessProcess.getProducedContextData %}
+            {%~ include 'documentation/markdown/common/partials/_contextDataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
+        {%~ endfor %}
+    {%~ endif %}
 
-### Context Data Updates
+    {%~ if businessProcess.isInternalDataProduced %}
+### Internal Data
+        {%~ for dataBundle in businessProcess.getProducedInternalData %}
+            {%~ include 'documentation/markdown/common/partials/_internalDataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
+        {%~ endfor %}
+    {%~ endif %}
 
-### Internal Data Updates
+    {%~ if businessProcess.isExternalDataProduced %}
+### External Data
+        {%~ for dataBundle in businessProcess.getProducedExternalData %}
+            {%~ include 'documentation/markdown/common/partials/_externalDataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
+        {%~ endfor %}
+    {%~ endif %}
+{% else %}
+N/A - *This process does not produce/update any data*
+{% endif %}
 
-### External Data Updates
-
-### Messages
+## Messages
+{% if businessProcess.isMessageProduced %}
+    {%~ for message in businessProcess.messages %}
+        {%~ include 'documentation/markdown/common/partials/_messageTable.md.twig' with {'message': message} %}
+    {%~ endfor %}
+{% else %}
+N/A - *This process does not produce any message*
+{% endif %}

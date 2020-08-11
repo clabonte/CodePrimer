@@ -10,27 +10,16 @@ This is a sample Synchronous
 | ----- | --------------- | ----------- | ------------ | -------- |
 | *Anyone* | :x: | :white_check_mark: | :x: | :x:
 
-## Input
-The following data is required as an input to this process
+## Simple Event Event
 
-### Simple Event Event
-
-#### Data
+### Data
 *N/A*
 
-### Context Data
+## Required Data
+N/A - *This process does not require any data other to process the event*
 
-### Internal Data
+## Produced Data
+N/A - *This process does not produce/update any data*
 
-### External Data
-
-## Output
-This process produces the following output
-
-### Context Data Updates
-
-### Internal Data Updates
-
-### External Data Updates
-
-### Messages
+## Messages
+N/A - *This process does not produce any message*
