@@ -23,8 +23,14 @@ class DataBundleHelperTest extends TestCase
     /** @var EventDataBundle */
     private $eventDataBundle;
 
+    /** @var ContextDataBundle */
+    private $contextDataBundle;
+
     /** @var InternalDataBundle */
-    private $dataBundle;
+    private $internalDataBundle;
+
+    /** @var ExternalDataBundle */
+    private $externalDataBundle;
 
     /** @var BusinessBundle */
     private $businessBundle;
@@ -32,8 +38,10 @@ class DataBundleHelperTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->eventDataBundle = new EventDataBundle('TestEventBundle', 'Test Description');
-        $this->dataBundle = new InternalDataBundle('TestExistingBundle', 'Test Description');
+        $this->eventDataBundle = new EventDataBundle('TestEventBundle', 'Test Event Bundle Description');
+        $this->contextDataBundle = new ContextDataBundle('TestContextBundle', 'Test Context Bundle Description');
+        $this->internalDataBundle = new InternalDataBundle('TestInternalBundle', 'Test Internal Bundle Description');
+        $this->externalDataBundle = new ExternalDataBundle('TestExternalBundle', 'Test External Bundle Description');
         $this->helper = new DataBundleHelper();
         $this->businessBundle = TestHelper::getSampleBusinessBundle();
     }
@@ -127,6 +135,36 @@ class DataBundleHelperTest extends TestCase
         self::assertInstanceOf(EventData::class, $data);
         self::assertEquals(Data::REFERENCE, $data->getDetails());
         self::assertTrue($data->isMandatory());
+    }
+
+    public function testAddBusinessModelExceptFieldsAddsTheRightFields()
+    {
+        $user = $this->businessBundle->getBusinessModel('User');
+        $this->assertEmptyDataBundle($this->eventDataBundle);
+
+        $this->helper->addBusinessModelExceptFields($this->eventDataBundle, $user, [$user->getField('crmId'), $user->getField('stats')], Data::REFERENCE);
+        self::assertCount(1, $this->eventDataBundle->listBusinessModelNames());
+        self::assertTrue($this->eventDataBundle->isBusinessModelPresent('User'));
+        $list = $this->eventDataBundle->listData('User');
+        self::assertCount(9, $list);
+
+        self::assertArrayNotHasKey('crmId', $list);
+        self::assertArrayNotHasKey('stats', $list);
+    }
+
+    public function testAddBusinessModelExceptStringFieldsAddsTheRightFields()
+    {
+        $user = $this->businessBundle->getBusinessModel('User');
+        $this->assertEmptyDataBundle($this->internalDataBundle);
+
+        $this->helper->addBusinessModelExceptFields($this->internalDataBundle, $user, ['crmId', 'stats'], Data::REFERENCE);
+        self::assertCount(1, $this->internalDataBundle->listBusinessModelNames());
+        self::assertTrue($this->internalDataBundle->isBusinessModelPresent('User'));
+        $list = $this->internalDataBundle->listData('User');
+        self::assertCount(13, $list);
+
+        self::assertArrayNotHasKey('crmId', $list);
+        self::assertArrayNotHasKey('stats', $list);
     }
 
     public function testAddFieldsInEventDataBundleConvertsDataToEventData()
@@ -236,18 +274,18 @@ class DataBundleHelperTest extends TestCase
     {
         self::expectException(InvalidArgumentException::class);
         $user = $this->businessBundle->getBusinessModel('User');
-        $this->helper->addBusinessModel($this->dataBundle, $user, 'unknown');
+        $this->helper->addBusinessModel($this->internalDataBundle, $user, 'unknown');
     }
 
     public function testAddFieldsAddsAllFieldsProperly()
     {
         $user = $this->businessBundle->getBusinessModel('User');
-        $this->assertEmptyDataBundle($this->dataBundle);
+        $this->assertEmptyDataBundle($this->internalDataBundle);
 
-        $this->helper->addFields($this->dataBundle, $user, $user->getFields());
-        self::assertCount(1, $this->dataBundle->listBusinessModelNames());
-        self::assertTrue($this->dataBundle->isBusinessModelPresent('User'));
-        $list = $this->dataBundle->listData('User');
+        $this->helper->addFields($this->internalDataBundle, $user, $user->getFields());
+        self::assertCount(1, $this->internalDataBundle->listBusinessModelNames());
+        self::assertTrue($this->internalDataBundle->isBusinessModelPresent('User'));
+        $list = $this->internalDataBundle->listData('User');
         self::assertCount(15, $list);
 
         // Validate that each data has been properly created
@@ -261,7 +299,7 @@ class DataBundleHelperTest extends TestCase
     {
         self::expectException(InvalidArgumentException::class);
         $user = $this->businessBundle->getBusinessModel('User');
-        $this->helper->addFields($this->dataBundle, $user, $user->getFields(), 'unknown');
+        $this->helper->addFields($this->internalDataBundle, $user, $user->getFields(), 'unknown');
     }
 
     private function assertEmptyDataBundle($dataBundle)

@@ -79,7 +79,7 @@ class BusinessProcessFactory
 
         // 6. Publish 'article.new' message
         $msgBundle = new DataBundle();
-        $this->dataBundleHelper->addBusinessModel($msgBundle, $article, Data::FULL);
+        $this->dataBundleHelper->addBusinessModelExceptFields($msgBundle, $article, ['views'], Data::FULL);
         $message = new Message('article.new');
         $message->addDataBundle($msgBundle);
         $businessProcess->addMessage($message);

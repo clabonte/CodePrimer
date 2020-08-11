@@ -1,7 +1,13 @@
-{# Prints a table of elements that are part of a ExistingDataBundle
+{# Prints a table of elements that are part of an InternalDataBundle
  # Variables:
- #  - dataBundle: The ExistingDataBundle object to use
+ #  - dataBundle: The InternalDataBundle object to use
  #}
+{% if dataBundle.name %}
+**Name**: {{ dataBundle.name }}
+{% endif %}
+{% if dataBundle.description %}
+{{ dataBundle.description }}
+{% endif %}
 
 | BusinessModel | Field | Level |
 | ------------- | ----- | ----- |

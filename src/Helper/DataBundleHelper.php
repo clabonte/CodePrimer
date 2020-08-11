@@ -65,6 +65,28 @@ class DataBundleHelper
     }
 
     /**
+     * Adds all fields of a BusinessModel based on the type of bundle provided as input:
+     *  - EventDataBundle: Adds only the unmanaged fields of a BusinessModel as input data based on the model's mandatory/optional field definition.
+     *  - Others: Adds all the fields (including managed ones) of a BusinessModel.
+     *
+     * @param Field[]|string[] $excludeFields
+     */
+    public function addBusinessModelExceptFields(DataBundle $dataBundle, BusinessModel $businessModel, array $excludeFields, string $fieldDetails = Data::BASIC)
+    {
+        if ($dataBundle instanceof EventDataBundle) {
+            $this->addBusinessModelExceptFieldsAsEventData($dataBundle, $businessModel, $excludeFields, $fieldDetails);
+
+            return;
+        }
+        foreach ($businessModel->getFields() as $field) {
+            if (!$this->isFieldInList($field, $excludeFields)) {
+                $data = new Data($businessModel, $field, $this->mapDetails($businessModel, $field, $fieldDetails));
+                $dataBundle->add($data);
+            }
+        }
+    }
+
+    /**
      * Adds a specific list of fields of a BusinessModel as existing data to a bundle.
      *
      * @param Field[]|string[] $fields
@@ -91,6 +113,19 @@ class DataBundleHelper
     }
 
     /**
+     * Adds all the unmanaged fields of a BusinessModel as input data to a bundle following the model's mandatory/optional field definition.
+     */
+    private function addBusinessModelExceptFieldsAsEventData(EventDataBundle $dataBundle, BusinessModel $businessModel, array $excludeFields, string $fieldDetails = Data::BASIC)
+    {
+        foreach ($businessModel->getFields() as $field) {
+            if (!$field->isManaged() && !$this->isFieldInList($field, $excludeFields)) {
+                $data = new EventData($businessModel, $field, $field->isMandatory(), $this->mapDetails($businessModel, $field, $fieldDetails));
+                $dataBundle->add($data);
+            }
+        }
+    }
+
+    /**
      * @param Field|string $desiredField
      */
     private function mapDetails(BusinessModel $businessModel, $desiredField, string $fieldDetails): string
@@ -109,5 +144,23 @@ class DataBundleHelper
         }
 
         return $fieldDetails;
+    }
+
+    /**
+     * @param Field[]|string[] $excludeFields
+     */
+    private function isFieldInList(Field $field, array $excludeFields): bool
+    {
+        foreach ($excludeFields as $excludeField) {
+            if ($excludeField instanceof Field) {
+                if ($field->getName() == $excludeField->getName()) {
+                    return true;
+                }
+            } elseif ($field->getName() == $excludeField) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

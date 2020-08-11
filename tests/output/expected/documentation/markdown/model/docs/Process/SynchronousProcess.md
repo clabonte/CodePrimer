@@ -4,34 +4,22 @@ This is a sample Synchronous
 ## Overview
  - **Category**: 
  - **Type**: Custom
- - **Trigger**: [ Event](#event)
+ - **Trigger**: [Simple Event Event](#simpleeventevent)
 
 | Roles | External Access | Synchronous | Asynchronous | Periodic |
 | ----- | --------------- | ----------- | ------------ | -------- |
 | *Anyone* | :x: | :white_check_mark: | :x: | :x:
 
-## Input
-This process requires the following input
+## Simple Event Event
 
-###  Event
-
-#### Data
+### Data
 *N/A*
 
-### Context Data
+## Required Data
+N/A - *This process does not require any data other to process the event*
 
-### Internal Data
+## Produced Data
+N/A - *This process does not produce/update any data*
 
-### External Data
-
-## Output
-This process produces the following output
-
-### Context Data Updates
-
-### Internal Data Updates
-
-### External Data Updates
-
-### Messages
-
+## Messages
+N/A - *This process does not produce any message*

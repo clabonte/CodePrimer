@@ -1,0 +1,18 @@
+{# Prints a table of elements that are part of a ContextDataBundle
+ # Variables:
+ #  - dataBundle: The ContextDataBundle object to use
+ #}
+{% if dataBundle.name %}
+**Name**: {{ dataBundle.name }}
+{% endif %}
+{% if dataBundle.description %}
+{{ dataBundle.description }}
+{% endif %}
+
+| BusinessModel | Field | Level |
+| ------------- | ----- | ----- |
+{% for model in dataBundle.data %}
+    {%~ for data in model %}
+| [{{ data.businessModel|class }}](../DataModel/{{ data.businessModel|class }}.md) | {{ data.field.name }} | {{ data.details|title }} |
+    {%~ endfor %}
+{% endfor %}
