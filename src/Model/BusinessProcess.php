@@ -28,7 +28,7 @@ class BusinessProcess
     private $description;
 
     /** @var Event The event that can trigger this process */
-    private $trigger;
+    private $event;
 
     /** @var bool Whether the process can be triggered synchronously */
     private $synchronous;
@@ -57,13 +57,13 @@ class BusinessProcess
     /**
      * BusinessProcess constructor.
      */
-    public function __construct(string $name, string $description, Event $trigger, string $type = self::CUSTOM, bool $synchronous = true, bool $asynchronous = false)
+    public function __construct(string $name, string $description, Event $event, string $type = self::CUSTOM, bool $synchronous = true, bool $asynchronous = false)
     {
         $this->validate($type);
         $this->type = $type;
         $this->name = $name;
         $this->description = $description;
-        $this->trigger = $trigger;
+        $this->event = $event;
         $this->synchronous = $synchronous;
         $this->asynchronous = $asynchronous;
     }
@@ -144,17 +144,17 @@ class BusinessProcess
     /**
      * @codeCoverageIgnore
      */
-    public function getTrigger(): Event
+    public function getEvent(): Event
     {
-        return $this->trigger;
+        return $this->event;
     }
 
     /**
      * @codeCoverageIgnore
      */
-    public function setTrigger(Event $trigger): BusinessProcess
+    public function setEvent(Event $event): BusinessProcess
     {
-        $this->trigger = $trigger;
+        $this->event = $event;
 
         return $this;
     }

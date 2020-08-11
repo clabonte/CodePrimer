@@ -7,9 +7,8 @@ use CodePrimer\Model\ BusinessModel;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessProcess;
 use CodePrimer\Model\Constraint;
-use CodePrimer\Model\Data\ExistingData;
-use CodePrimer\Model\Data\ExistingDataBundle;
-use CodePrimer\Model\Data\InputDataBundle;
+use CodePrimer\Model\Data\DataBundle;
+use CodePrimer\Model\Data\EventDataBundle;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Set;
@@ -283,8 +282,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             [new Field('MYSQL_Field', 'int'), 'MYSQLField'],
             [new BusinessBundle('Packages', 'Package_name'), 'PackageName'],
             [new BusinessProcess('business process', 'test', new Event('event')), 'BusinessProcess'],
-            [new InputDataBundle('inputDataBundle'), 'InputDataBundle'],
-            [new ExistingDataBundle(ExistingData::DEFAULT_SOURCE, 'existingDataBundle'), 'ExistingDataBundle'],
+            [new EventDataBundle('eventDataBundle'), 'EventDataBundle'],
+            [new DataBundle('dataBundle'), 'DataBundle'],
             [new Event('valueNames', 'Event'), 'ValueNames'],
             [123, 123],
             [1.345, 1.345],

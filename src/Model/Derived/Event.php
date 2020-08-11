@@ -8,7 +8,7 @@
 
 namespace CodePrimer\Model\Derived;
 
-use CodePrimer\Model\Data\InputDataBundle;
+use CodePrimer\Model\Data\EventDataBundle;
 use InvalidArgumentException;
 
 class Event
@@ -21,7 +21,7 @@ class Event
     /** @var string */
     private $description;
 
-    /** @var InputDataBundle[] List of data bundles associated with this event */
+    /** @var EventDataBundle[] List of data bundles associated with this event */
     private $dataBundles = [];
 
     public function __construct(string $name, string $description = '')
@@ -71,7 +71,7 @@ class Event
     /**
      * @codeCoverageIgnore
      *
-     * @return InputDataBundle[]
+     * @return EventDataBundle[]
      */
     public function getDataBundles(): array
     {
@@ -85,7 +85,7 @@ class Event
      *
      * @throws InvalidArgumentException If a bundle with the same name is already present
      */
-    public function addDataBundle(InputDataBundle $dataBundle): self
+    public function addDataBundle(EventDataBundle $dataBundle): self
     {
         $name = $dataBundle->getName();
         if (empty($name)) {
@@ -103,7 +103,7 @@ class Event
     /**
      * Retrieves a data bundle by its name.
      */
-    public function getDataBundle(string $name = self::DEFAULT_BUNDLE): ?InputDataBundle
+    public function getDataBundle(string $name = self::DEFAULT_BUNDLE): ?EventDataBundle
     {
         if (isset($this->dataBundles[$name])) {
             return $this->dataBundles[$name];

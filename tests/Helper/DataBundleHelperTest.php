@@ -3,13 +3,15 @@
 namespace CodePrimer\Tests\Helper;
 
 use CodePrimer\Helper\DataBundleHelper;
+use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Model\BusinessBundle;
+use CodePrimer\Model\Data\ContextDataBundle;
 use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\DataBundle;
-use CodePrimer\Model\Data\ExistingData;
-use CodePrimer\Model\Data\ExistingDataBundle;
-use CodePrimer\Model\Data\InputData;
-use CodePrimer\Model\Data\InputDataBundle;
+use CodePrimer\Model\Data\EventData;
+use CodePrimer\Model\Data\EventDataBundle;
+use CodePrimer\Model\Data\ExternalDataBundle;
+use CodePrimer\Model\Data\InternalDataBundle;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
@@ -18,11 +20,11 @@ class DataBundleHelperTest extends TestCase
     /** @var DataBundleHelper */
     private $helper;
 
-    /** @var InputDataBundle */
-    private $inputDataBundle;
+    /** @var EventDataBundle */
+    private $eventDataBundle;
 
-    /** @var ExistingDataBundle */
-    private $existingDataBundle;
+    /** @var InternalDataBundle */
+    private $dataBundle;
 
     /** @var BusinessBundle */
     private $businessBundle;
@@ -30,188 +32,216 @@ class DataBundleHelperTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->inputDataBundle = new InputDataBundle('TestInputBundle', 'Test Description');
-        $this->existingDataBundle = new ExistingDataBundle(ExistingData::DEFAULT_SOURCE, 'TestExistingBundle', 'Test Description');
+        $this->eventDataBundle = new EventDataBundle('TestEventBundle', 'Test Description');
+        $this->dataBundle = new InternalDataBundle('TestExistingBundle', 'Test Description');
         $this->helper = new DataBundleHelper();
         $this->businessBundle = TestHelper::getSampleBusinessBundle();
     }
 
-    public function testAddBusinessModelAsInputShouldOnlyAddUnmanagedFields()
+    public function testAddBusinessModelOnEventDataBundleShouldOnlyAddUnmanagedFields()
     {
         $user = $this->businessBundle->getBusinessModel('User');
-        $this->assertEmptyDataBundle();
-        self::assertFalse($this->inputDataBundle->isBusinessModelPresent('User'));
-        self::assertEmpty($this->inputDataBundle->listData('User'));
+        $this->assertEmptyDataBundle($this->eventDataBundle);
+        self::assertFalse($this->eventDataBundle->isBusinessModelPresent('User'));
+        self::assertEmpty($this->eventDataBundle->listData('User'));
 
-        $this->helper->addBusinessModelAsInput($this->inputDataBundle, $user);
-        self::assertCount(1, $this->inputDataBundle->listBusinessModelNames());
-        self::assertTrue($this->inputDataBundle->isBusinessModelPresent('User'));
-        $list = $this->inputDataBundle->listData('User');
+        $this->helper->addBusinessModel($this->eventDataBundle, $user);
+        self::assertCount(1, $this->eventDataBundle->listBusinessModelNames());
+        self::assertTrue($this->eventDataBundle->isBusinessModelPresent('User'));
+        $list = $this->eventDataBundle->listData('User');
         self::assertCount(11, $list);
 
         // Validate that each data has been properly created
         foreach ($list as $data) {
-            self::assertInstanceOf(InputData::class, $data);
+            self::assertInstanceOf(EventData::class, $data);
             self::assertEquals(Data::BASIC, $data->getDetails());
             self::assertEquals($data->getField()->isMandatory(), $data->isMandatory());
         }
 
         // Adding the same model with different attributes overrides the existing data
-        $this->helper->addBusinessModelAsInput($this->inputDataBundle, $user, Data::REFERENCE);
-        self::assertCount(1, $this->inputDataBundle->listBusinessModelNames());
-        self::assertTrue($this->inputDataBundle->isBusinessModelPresent('User'));
-        $list = $this->inputDataBundle->listData('User');
+        $this->helper->addBusinessModel($this->eventDataBundle, $user, Data::REFERENCE);
+        self::assertCount(1, $this->eventDataBundle->listBusinessModelNames());
+        self::assertTrue($this->eventDataBundle->isBusinessModelPresent('User'));
+        $list = $this->eventDataBundle->listData('User');
         self::assertCount(11, $list);
 
         // Validate that each data has been properly created
+        $fieldHelper = new FieldHelper();
         foreach ($list as $data) {
-            self::assertInstanceOf(InputData::class, $data);
-            self::assertEquals(Data::REFERENCE, $data->getDetails());
+            self::assertInstanceOf(EventData::class, $data);
+            if ($fieldHelper->isNativeType($data->getField())) {
+                self::assertEquals(Data::BASIC, $data->getDetails());
+            } else {
+                self::assertEquals(Data::REFERENCE, $data->getDetails());
+            }
             self::assertEquals($data->getField()->isMandatory(), $data->isMandatory());
         }
     }
 
-    public function testAddBusinessModelAsInputWithInvalidArgumentThrowsException()
+    public function testAddBusinessModelOnEventDataBundleWithInvalidArgumentThrowsException()
     {
         self::expectException(InvalidArgumentException::class);
         $user = $this->businessBundle->getBusinessModel('User');
-        $this->helper->addBusinessModelAsInput($this->inputDataBundle, $user, 'unknown');
+        $this->helper->addBusinessModel($this->eventDataBundle, $user, 'unknown');
     }
 
-    public function testAddFieldsAsMandatoryInputAddsAllFieldsProperly()
+    public function testAddFieldsAsMandatoryAddsAllFieldsProperly()
     {
         $user = $this->businessBundle->getBusinessModel('User');
-        $this->assertEmptyDataBundle();
+        $this->assertEmptyDataBundle($this->eventDataBundle);
 
-        $this->helper->addFieldsAsMandatoryInput($this->inputDataBundle, $user, $user->getFields());
-        self::assertCount(1, $this->inputDataBundle->listBusinessModelNames());
-        self::assertTrue($this->inputDataBundle->isBusinessModelPresent('User'));
-        $list = $this->inputDataBundle->listData('User');
+        $this->helper->addFieldsAsMandatory($this->eventDataBundle, $user, $user->getFields());
+        self::assertCount(1, $this->eventDataBundle->listBusinessModelNames());
+        self::assertTrue($this->eventDataBundle->isBusinessModelPresent('User'));
+        $list = $this->eventDataBundle->listData('User');
         self::assertCount(15, $list);
 
         // Validate that each data has been properly created
         foreach ($list as $data) {
-            self::assertInstanceOf(InputData::class, $data);
+            self::assertInstanceOf(EventData::class, $data);
             self::assertEquals(Data::BASIC, $data->getDetails());
             self::assertTrue($data->isMandatory());
         }
     }
 
-    public function testAddFieldsAsMandatoryInputWithInvalidArgumentThrowsException()
-    {
-        self::expectException(InvalidArgumentException::class);
-        $user = $this->businessBundle->getBusinessModel('User');
-        $this->helper->addFieldsAsMandatoryInput($this->inputDataBundle, $user, $user->getFields(), 'unknown');
-    }
-
-    public function testAddFieldsAsOptionalInputAddsAllFieldsProperly()
+    public function testAddFieldsInEventDataBundleConvertsDataToEventData()
     {
         $user = $this->businessBundle->getBusinessModel('User');
-        $this->assertEmptyDataBundle();
+        $this->assertEmptyDataBundle($this->eventDataBundle);
 
-        $this->helper->addFieldsAsOptionalInput($this->inputDataBundle, $user, $user->getFields());
-        self::assertCount(1, $this->inputDataBundle->listBusinessModelNames());
-        self::assertTrue($this->inputDataBundle->isBusinessModelPresent('User'));
-        $list = $this->inputDataBundle->listData('User');
+        $this->helper->addFields($this->eventDataBundle, $user, $user->getFields());
+        self::assertCount(1, $this->eventDataBundle->listBusinessModelNames());
+        self::assertTrue($this->eventDataBundle->isBusinessModelPresent('User'));
+        $list = $this->eventDataBundle->listData('User');
         self::assertCount(15, $list);
 
         // Validate that each data has been properly created
         foreach ($list as $data) {
-            self::assertInstanceOf(InputData::class, $data);
+            self::assertInstanceOf(EventData::class, $data);
+            self::assertEquals(Data::BASIC, $data->getDetails());
+            self::assertEquals($data->getField()->isMandatory(), $data->isMandatory());
+        }
+    }
+
+    public function testAddFieldsAsMandatoryWithInvalidArgumentThrowsException()
+    {
+        self::expectException(InvalidArgumentException::class);
+        $user = $this->businessBundle->getBusinessModel('User');
+        $this->helper->addFieldsAsMandatory($this->eventDataBundle, $user, $user->getFields(), 'unknown');
+    }
+
+    public function testAddFieldsAsOptionalAddsAllFieldsProperly()
+    {
+        $user = $this->businessBundle->getBusinessModel('User');
+        $this->assertEmptyDataBundle($this->eventDataBundle);
+
+        $this->helper->addFieldsAsOptional($this->eventDataBundle, $user, $user->getFields());
+        self::assertCount(1, $this->eventDataBundle->listBusinessModelNames());
+        self::assertTrue($this->eventDataBundle->isBusinessModelPresent('User'));
+        $list = $this->eventDataBundle->listData('User');
+        self::assertCount(15, $list);
+
+        // Validate that each data has been properly created
+        foreach ($list as $data) {
+            self::assertInstanceOf(EventData::class, $data);
             self::assertEquals(Data::BASIC, $data->getDetails());
             self::assertFalse($data->isMandatory());
         }
     }
 
-    public function testAddFieldsAsOptionalInputWithInvalidArgumentThrowsException()
+    public function testAddFieldsAsOptionalWithInvalidArgumentThrowsException()
     {
         self::expectException(InvalidArgumentException::class);
         $user = $this->businessBundle->getBusinessModel('User');
-        $this->helper->addFieldsAsOptionalInput($this->inputDataBundle, $user, $user->getFields(), 'unknown');
-    }
-
-    public function testAddBusinessModelAsExistingShouldAddAllFields()
-    {
-        $user = $this->businessBundle->getBusinessModel('User');
-        $this->assertEmptyDataBundle();
-        self::assertFalse($this->existingDataBundle->isBusinessModelPresent('User'));
-        self::assertEmpty($this->existingDataBundle->listData('User'));
-
-        $this->helper->addBusinessModelAsExisting($this->existingDataBundle, $user);
-        self::assertCount(1, $this->existingDataBundle->listBusinessModelNames());
-        self::assertTrue($this->existingDataBundle->isBusinessModelPresent('User'));
-        $list = $this->existingDataBundle->listData('User');
-        self::assertCount(15, $list);
-
-        // Validate that each data has been properly created
-        foreach ($list as $data) {
-            self::assertInstanceOf(ExistingData::class, $data);
-            self::assertEquals(Data::BASIC, $data->getDetails());
-            self::assertEquals(ExistingData::DEFAULT_SOURCE, $data->getSource());
-        }
-
-        // Adding the same model with different attributes overrides the existing data
-        $this->helper->addBusinessModelAsExisting($this->existingDataBundle, $user, 'Test Source 2', Data::REFERENCE);
-        self::assertCount(1, $this->existingDataBundle->listBusinessModelNames());
-        self::assertTrue($this->existingDataBundle->isBusinessModelPresent('User'));
-        $list = $this->existingDataBundle->listData('User');
-        self::assertCount(15, $list);
-
-        // Validate that each data has been properly created
-        foreach ($list as $data) {
-            self::assertInstanceOf(ExistingData::class, $data);
-            self::assertEquals(Data::REFERENCE, $data->getDetails());
-            self::assertEquals('Test Source 2', $data->getSource());
-        }
-    }
-
-    public function testAddBusinessModelAsExistingWithInvalidArgumentThrowsException()
-    {
-        self::expectException(InvalidArgumentException::class);
-        $user = $this->businessBundle->getBusinessModel('User');
-        $this->helper->addBusinessModelAsExisting($this->existingDataBundle, $user, '', 'unknown');
-    }
-
-    public function testAddFieldsAsExistingAddsAllFieldsProperly()
-    {
-        $user = $this->businessBundle->getBusinessModel('User');
-        $this->assertEmptyDataBundle();
-
-        $this->helper->addFieldsAsExisting($this->existingDataBundle, $user, $user->getFields());
-        self::assertCount(1, $this->existingDataBundle->listBusinessModelNames());
-        self::assertTrue($this->existingDataBundle->isBusinessModelPresent('User'));
-        $list = $this->existingDataBundle->listData('User');
-        self::assertCount(15, $list);
-
-        // Validate that each data has been properly created
-        foreach ($list as $data) {
-            self::assertInstanceOf(ExistingData::class, $data);
-            self::assertEquals(Data::BASIC, $data->getDetails());
-            self::assertEquals(ExistingData::DEFAULT_SOURCE, $data->getSource());
-        }
-    }
-
-    public function testAddFieldsAsExistingWithInvalidArgumentThrowsException()
-    {
-        self::expectException(InvalidArgumentException::class);
-        $user = $this->businessBundle->getBusinessModel('User');
-        $this->helper->addFieldsAsExisting($this->existingDataBundle, $user, $user->getFields(), '', 'unknown');
+        $this->helper->addFieldsAsOptional($this->eventDataBundle, $user, $user->getFields(), 'unknown');
     }
 
     /**
-    public function testAddingExistingDataFromInvalidSourceThrowsException()
+     * @dataProvider dataBundleProvider
+     */
+    public function testAddBusinessModelShouldAddAllFields($dataBundle)
+    {
+        $user = $this->businessBundle->getBusinessModel('User');
+        $this->assertEmptyDataBundle($dataBundle);
+        self::assertFalse($dataBundle->isBusinessModelPresent('User'));
+        self::assertEmpty($dataBundle->listData('User'));
+
+        $this->helper->addBusinessModel($dataBundle, $user);
+        self::assertCount(1, $dataBundle->listBusinessModelNames());
+        self::assertTrue($dataBundle->isBusinessModelPresent('User'));
+        $list = $dataBundle->listData('User');
+        self::assertCount(15, $list);
+
+        // Validate that each data has been properly created
+        foreach ($list as $data) {
+            self::assertInstanceOf(Data::class, $data);
+            self::assertEquals(Data::BASIC, $data->getDetails());
+        }
+
+        // Adding the same model with different attributes overrides the existing data
+        $this->helper->addBusinessModel($dataBundle, $user, Data::REFERENCE);
+        self::assertCount(1, $dataBundle->listBusinessModelNames());
+        self::assertTrue($dataBundle->isBusinessModelPresent('User'));
+        $list = $dataBundle->listData('User');
+        self::assertCount(15, $list);
+
+        // Validate that each data has been properly created
+        $fieldHelper = new FieldHelper();
+        foreach ($list as $data) {
+            self::assertInstanceOf(Data::class, $data);
+            if ($fieldHelper->isNativeType($data->getField())) {
+                self::assertEquals(Data::BASIC, $data->getDetails());
+            } else {
+                self::assertEquals(Data::REFERENCE, $data->getDetails());
+            }
+        }
+    }
+
+    public function dataBundleProvider()
+    {
+        return [
+            'DataBundle' => [new DataBundle()],
+            'ContextDataBundle' => [new ContextDataBundle()],
+            'InternalDataBundle' => [new InternalDataBundle()],
+            'ExternalDataBundle' => [new ExternalDataBundle()],
+        ];
+    }
+
+    public function testAddBusinessModelWithInvalidArgumentThrowsException()
     {
         self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('This DataBundle only supports data from the following source: default. Received: other');
-
-        $dataBundle = new ExistingDataBundle();
         $user = $this->businessBundle->getBusinessModel('User');
-        $this->helper->addFieldsAsExisting($dataBundle, $user, $user->getFields(), 'other');
+        $this->helper->addBusinessModel($this->dataBundle, $user, 'unknown');
     }
-     */
-    private function assertEmptyDataBundle()
+
+    public function testAddFieldsAddsAllFieldsProperly()
     {
-        self::assertEmpty($this->inputDataBundle->listBusinessModelNames());
-        self::assertEmpty($this->inputDataBundle->getData());
+        $user = $this->businessBundle->getBusinessModel('User');
+        $this->assertEmptyDataBundle($this->dataBundle);
+
+        $this->helper->addFields($this->dataBundle, $user, $user->getFields());
+        self::assertCount(1, $this->dataBundle->listBusinessModelNames());
+        self::assertTrue($this->dataBundle->isBusinessModelPresent('User'));
+        $list = $this->dataBundle->listData('User');
+        self::assertCount(15, $list);
+
+        // Validate that each data has been properly created
+        foreach ($list as $data) {
+            self::assertInstanceOf(Data::class, $data);
+            self::assertEquals(Data::BASIC, $data->getDetails());
+        }
+    }
+
+    public function testAddFieldsWithInvalidArgumentThrowsException()
+    {
+        self::expectException(InvalidArgumentException::class);
+        $user = $this->businessBundle->getBusinessModel('User');
+        $this->helper->addFields($this->dataBundle, $user, $user->getFields(), 'unknown');
+    }
+
+    private function assertEmptyDataBundle($dataBundle)
+    {
+        self::assertEmpty($dataBundle->listBusinessModelNames());
+        self::assertEmpty($dataBundle->getData());
     }
 }

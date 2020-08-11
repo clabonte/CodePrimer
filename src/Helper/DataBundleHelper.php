@@ -4,25 +4,19 @@ namespace CodePrimer\Helper;
 
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Data\Data;
-use CodePrimer\Model\Data\ExistingData;
-use CodePrimer\Model\Data\ExistingDataBundle;
-use CodePrimer\Model\Data\InputData;
-use CodePrimer\Model\Data\InputDataBundle;
+use CodePrimer\Model\Data\DataBundle;
+use CodePrimer\Model\Data\EventData;
+use CodePrimer\Model\Data\EventDataBundle;
 use CodePrimer\Model\Field;
 
 class DataBundleHelper
 {
-    /**
-     * Adds all the unmanaged fields of a BusinessModel as input data to a bundle following the model's mandatory/optional field definition.
-     */
-    public function addBusinessModelAsInput(InputDataBundle $dataBundle, BusinessModel $businessModel, string $details = Data::BASIC)
+    /** @var FieldHelper */
+    private $fieldHelper;
+
+    public function __construct()
     {
-        foreach ($businessModel->getFields() as $field) {
-            if (!$field->isManaged()) {
-                $data = new InputData($businessModel, $field, $field->isMandatory(), $details);
-                $dataBundle->add($data);
-            }
-        }
+        $this->fieldHelper = new FieldHelper();
     }
 
     /**
@@ -30,10 +24,10 @@ class DataBundleHelper
      *
      * @param Field[]|string[] $fields
      */
-    public function addFieldsAsMandatoryInput(InputDataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $details = Data::BASIC)
+    public function addFieldsAsMandatory(EventDataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $fieldDetails = Data::BASIC)
     {
         foreach ($fields as $field) {
-            $data = new InputData($businessModel, $field, true, $details);
+            $data = new EventData($businessModel, $field, true, $this->mapDetails($field, $fieldDetails));
             $dataBundle->add($data);
         }
     }
@@ -43,21 +37,28 @@ class DataBundleHelper
      *
      * @param Field[]|string[] $fields
      */
-    public function addFieldsAsOptionalInput(InputDataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $details = Data::BASIC)
+    public function addFieldsAsOptional(EventDataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $fieldDetails = Data::BASIC)
     {
         foreach ($fields as $field) {
-            $data = new InputData($businessModel, $field, false, $details);
+            $data = new EventData($businessModel, $field, false, $this->mapDetails($field, $fieldDetails));
             $dataBundle->add($data);
         }
     }
 
     /**
-     * Adds all the fields (including managed ones) of a BusinessModel as existing data to a bundle.
+     * Adds all fields of a BusinessModel based on the type of bundle provided as input:
+     *  - EventDataBundle: Adds only the unmanaged fields of a BusinessModel as input data based on the model's mandatory/optional field definition.
+     *  - Others: Adds all the fields (including managed ones) of a BusinessModel.
      */
-    public function addBusinessModelAsExisting(ExistingDataBundle $dataBundle, BusinessModel $businessModel, string $source = ExistingData::DEFAULT_SOURCE, string $details = Data::BASIC)
+    public function addBusinessModel(DataBundle $dataBundle, BusinessModel $businessModel, string $fieldDetails = Data::BASIC)
     {
+        if ($dataBundle instanceof EventDataBundle) {
+            $this->addBusinessModelAsEventData($dataBundle, $businessModel, $fieldDetails);
+
+            return;
+        }
         foreach ($businessModel->getFields() as $field) {
-            $data = new ExistingData($businessModel, $field, $source, $details);
+            $data = new Data($businessModel, $field, $this->mapDetails($field, $fieldDetails));
             $dataBundle->add($data);
         }
     }
@@ -67,11 +68,33 @@ class DataBundleHelper
      *
      * @param Field[]|string[] $fields
      */
-    public function addFieldsAsExisting(ExistingDataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $source = ExistingData::DEFAULT_SOURCE, string $details = Data::BASIC)
+    public function addFields(DataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $fieldDetails = Data::BASIC)
     {
         foreach ($fields as $field) {
-            $data = new ExistingData($businessModel, $field, $source, $details);
+            $data = new Data($businessModel, $field, $this->mapDetails($field, $fieldDetails));
             $dataBundle->add($data);
         }
+    }
+
+    /**
+     * Adds all the unmanaged fields of a BusinessModel as input data to a bundle following the model's mandatory/optional field definition.
+     */
+    private function addBusinessModelAsEventData(EventDataBundle $dataBundle, BusinessModel $businessModel, string $fieldDetails = Data::BASIC)
+    {
+        foreach ($businessModel->getFields() as $field) {
+            if (!$field->isManaged()) {
+                $data = new EventData($businessModel, $field, $field->isMandatory(), $this->mapDetails($field, $fieldDetails));
+                $dataBundle->add($data);
+            }
+        }
+    }
+
+    private function mapDetails(Field $field, string $fieldDetails): string
+    {
+        if ($this->fieldHelper->isNativeType($field)) {
+            return Data::BASIC;
+        }
+
+        return $fieldDetails;
     }
 }

@@ -5,7 +5,7 @@ namespace CodePrimer\Model\Data;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
 
-class InputData extends Data
+class EventData extends Data
 {
     /** @var bool Whether this data is mandatory or optional */
     private $mandatory;
@@ -32,7 +32,7 @@ class InputData extends Data
     /**
      * @codeCoverageIgnore
      */
-    public function setMandatory(bool $mandatory): InputData
+    public function setMandatory(bool $mandatory): EventData
     {
         $this->mandatory = $mandatory;
 

@@ -2,8 +2,7 @@
 
 namespace CodePrimer\Tests\Model\Derived;
 
-use CodePrimer\Model\Data\ExistingData;
-use CodePrimer\Model\Data\ExistingDataBundle;
+use CodePrimer\Model\Data\DataBundle;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Derived\Message;
 use InvalidArgumentException;
@@ -39,7 +38,7 @@ class MessageTest extends TestCase
 
     public function testAddDefaultDataBundleShouldWork()
     {
-        $bundle = new ExistingDataBundle();
+        $bundle = new DataBundle();
 
         $this->message->addDataBundle($bundle);
         self::assertCount(1, $this->message->getDataBundles());
@@ -48,8 +47,8 @@ class MessageTest extends TestCase
 
     public function testAddNamedDataBundleShouldWork()
     {
-        $bundle1 = new ExistingDataBundle(ExistingData::DEFAULT_SOURCE, 'bundle 1', 'description 1');
-        $bundle2 = new ExistingDataBundle(ExistingData::DEFAULT_SOURCE, 'bundle 2', 'description 2');
+        $bundle1 = new DataBundle('bundle 1', 'description 1');
+        $bundle2 = new DataBundle('bundle 2', 'description 2');
 
         $this->message->addDataBundle($bundle1);
         self::assertCount(1, $this->message->getDataBundles());
@@ -69,8 +68,8 @@ class MessageTest extends TestCase
         self::expectException(InvalidArgumentException::class);
         self::expectExceptionMessage('DataBundle already present: '.Event::DEFAULT_BUNDLE.', please use a unique name for your bundle');
 
-        $bundle = new ExistingDataBundle();
-        $bundle2 = new ExistingDataBundle();
+        $bundle = new DataBundle();
+        $bundle2 = new DataBundle();
 
         $this->message->addDataBundle($bundle);
         $this->message->addDataBundle($bundle2);
@@ -81,8 +80,8 @@ class MessageTest extends TestCase
         self::expectException(InvalidArgumentException::class);
         self::expectExceptionMessage('DataBundle already present: bundle 1, please use a unique name for your bundle');
 
-        $bundle1 = new ExistingDataBundle(ExistingData::DEFAULT_SOURCE, 'bundle 1');
-        $bundle2 = new ExistingDataBundle(ExistingData::DEFAULT_SOURCE, 'bundle 1');
+        $bundle1 = new DataBundle('bundle 1');
+        $bundle2 = new DataBundle('bundle 1');
 
         $this->message->addDataBundle($bundle1);
         $this->message->addDataBundle($bundle2);

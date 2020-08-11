@@ -33,7 +33,7 @@ class BusinessProcessTest extends TestCase
         self::assertFalse($this->businessProcess->isProducingInternalUpdates());
         self::assertFalse($this->businessProcess->isProducingMessages());
 
-        self::assertNotNull($this->businessProcess->getTrigger());
+        self::assertNotNull($this->businessProcess->getEvent());
 
         self::assertNotNull($this->businessProcess->getPeriodicTriggers());
         self::assertEmpty($this->businessProcess->getPeriodicTriggers());

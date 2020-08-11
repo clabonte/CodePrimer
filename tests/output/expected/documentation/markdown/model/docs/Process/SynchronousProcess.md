@@ -4,16 +4,16 @@ This is a sample Synchronous
 ## Overview
  - **Category**: 
  - **Type**: Custom
- - **Trigger**: [Simple Event Event](#simpleeventevent)
+ - **Trigger**: [ Event](#event)
 
 | Roles | External Access | Synchronous | Asynchronous | Periodic |
 | ----- | --------------- | ----------- | ------------ | -------- |
 | *Anyone* | :x: | :white_check_mark: | :x: | :x:
 
 ## Input
-The following data is required as an input to this process
+This process requires the following input
 
-### Simple Event Event
+###  Event
 
 #### Data
 *N/A*
@@ -34,3 +34,4 @@ This process produces the following output
 ### External Data Updates
 
 ### Messages
+

@@ -4,9 +4,9 @@ use CodePrimer\Helper\DataBundleHelper;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessProcess;
 use CodePrimer\Model\Data\Data;
+use CodePrimer\Model\Data\EventDataBundle;
 use CodePrimer\Model\Data\ExistingData;
-use CodePrimer\Model\Data\ExistingDataBundle;
-use CodePrimer\Model\Data\InputDataBundle;
+use CodePrimer\Model\Data\InternalDataBundle;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Derived\Message;
 
@@ -33,12 +33,12 @@ class BusinessProcessFactory
         //    - Optional:
         //      - description
         //      - labels
-        $inputBundle = new InputDataBundle();
+        $inputBundle = new EventDataBundle();
 
         $article = $businessBundle->getBusinessModel('Article');
-        $this->dataBundleHelper->addFieldsAsMandatoryInput($inputBundle, $article, ['title', 'body']);
-        $this->dataBundleHelper->addFieldsAsMandatoryInput($inputBundle, $article, ['topic'], Data::REFERENCE);
-        $this->dataBundleHelper->addFieldsAsOptionalInput($inputBundle, $article, ['description', 'labels'], Data::FULL);
+        $this->dataBundleHelper->addFieldsAsMandatory($inputBundle, $article, ['title', 'body']);
+        $this->dataBundleHelper->addFieldsAsMandatory($inputBundle, $article, ['topic'], Data::REFERENCE);
+        $this->dataBundleHelper->addFieldsAsOptional($inputBundle, $article, ['description', 'labels'], Data::FULL);
 
         // 2. Define the event that will be used as a trigger for this process
         $event = new Event(
@@ -73,8 +73,8 @@ class BusinessProcessFactory
         */
 
         //  - Publish 'article.new' message
-        $msgBundle = new ExistingDataBundle();
-        $this->dataBundleHelper->addBusinessModelAsExisting($msgBundle, $article, ExistingData::DEFAULT_SOURCE, Data::FULL);
+        $msgBundle = new InternalDataBundle();
+        $this->dataBundleHelper->addBusinessModel($msgBundle, $article, ExistingData::DEFAULT_SOURCE, Data::FULL);
         $message = new Message('article.new');
         $message->addDataBundle($msgBundle);
         $businessProcess->setMessages([$message]);

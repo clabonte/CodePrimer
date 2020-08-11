@@ -6,9 +6,9 @@ use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
 use InvalidArgumentException;
 
-abstract class Data
+class Data
 {
-    // Constants used to specify the level of details associated with a given field of type BusinessModel
+    // Constants used to specify the level of details associated with a given, non-native field
     /** @var string Only need a reference to the BusinessModel associated with a given field */
     const REFERENCE = 'reference';
     /** @var string Only need the mandatory fields of the BusinessModel associated with a given field */
@@ -29,6 +29,7 @@ abstract class Data
      * Data constructor.
      *
      * @param Field|string $field
+     * @param string       $details The level of details to associate with a non-native field (e.g. BusinessModel)
      *
      * @throws InvalidArgumentException If the details provided is not valid
      */
