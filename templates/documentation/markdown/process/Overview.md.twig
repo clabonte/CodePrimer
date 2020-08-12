@@ -2,8 +2,15 @@
 # {{ bundle.name }} Processing Model
 The {{ bundle.name }} has the following processes available
 
-| Business Process | Category | Type | Description |
-| ---------------- | -------- | ---- | ------------|
-{% for businessProcess in bundle.businessProcesses %}
-| [{{ businessProcess.name }}]({{ businessProcess|class }}.md) | {{ businessProcess.category }} | {{ businessProcess.type|title }} | {{ businessProcess.description }} |
+{% for category in bundle.businessProcessCategories %}
+## Category: {{ category }}
+
+| Business Process | Type | Description | Triggering Event | Message Produced |
+| ---------------- | ---- | ------------| ---------------- | ---------------- |
+{% for businessProcess in bundle.getBusinessProcessesForCategory(category) %}
+| [{{ businessProcess.name }}]({{ businessProcess|class }}.md) | {{ businessProcess.type|title }} | {{ businessProcess.description }} | [{{ businessProcess.event.name }}]({{ businessProcess|class }}.md#{{ businessProcess.event.name|lower|replace({' ':'-'}) }}-event) | {% include 'documentation/markdown/common/partials/_messages_list.md.twig' with {'messages': businessProcess.messages} %} |
 {% endfor %}
+
+{% endfor %}
+
+

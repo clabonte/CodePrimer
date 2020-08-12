@@ -36,7 +36,7 @@ class BundleDocumentationBuilder implements ArtifactBuilder
             'bundle' => $bundle,
             'businessBundleHelper' => new BusinessBundleHelper(),
             'businessModelHelper' => new BusinessModelHelper(),
-            'dataBundleHelper' => new DataBundleHelper(),
+            'dataBundleHelper' => new DataBundleHelper($bundle),
             'fieldHelper' => new FieldHelper(),
         ];
 
@@ -49,7 +49,7 @@ class BundleDocumentationBuilder implements ArtifactBuilder
             'bundle' => $bundle,
             'businessBundleHelper' => new BusinessBundleHelper(),
             'businessModelHelper' => new BusinessModelHelper(),
-            'dataBundleHelper' => new DataBundleHelper(),
+            'dataBundleHelper' => new DataBundleHelper($bundle),
             'fieldHelper' => new FieldHelper(),
         ];
 

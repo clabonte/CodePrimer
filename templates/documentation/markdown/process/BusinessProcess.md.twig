@@ -5,7 +5,7 @@
 ## Overview
  - **Category**: {{ businessProcess.category }}
  - **Type**: {{ businessProcess.type|title }}
- - **Trigger**: [{{ businessProcess.event.name }} Event](#{{ businessProcess.event.name|lower|replace({' ':''}) }}event)
+ - **Trigger**: [{{ businessProcess.event.name }} Event](#{{ businessProcess.event.name|lower|replace({' ':'-'}) }}-event)
 
 | Roles | External Access | Synchronous | Asynchronous | Periodic |
 | ----- | --------------- | ----------- | ------------ | -------- |
@@ -44,7 +44,7 @@ In order to handle the event above, this process also needs the following data:
         {%~ endfor %}
     {%~ endif %}
 {% else %}
-N/A - *This process does not require any data other to process the event*
+N/A - *This process does not require any other data to process the event*
 {% endif %}
 
 ## Produced Data
@@ -82,3 +82,6 @@ N/A - *This process does not produce/update any data*
 {% else %}
 N/A - *This process does not produce any message*
 {% endif %}
+
+---
+[Back to list](Overview.md)

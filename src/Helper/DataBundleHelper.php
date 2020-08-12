@@ -2,6 +2,7 @@
 
 namespace CodePrimer\Helper;
 
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\DataBundle;
@@ -12,12 +13,34 @@ use InvalidArgumentException;
 
 class DataBundleHelper
 {
+    /** @var BusinessBundle */
+    private $businessBundle;
+
     /** @var FieldHelper */
     private $fieldHelper;
 
-    public function __construct()
+    public function __construct(BusinessBundle $businessBundle)
     {
+        $this->businessBundle = $businessBundle;
         $this->fieldHelper = new FieldHelper();
+    }
+
+    /**
+     * Creates a DataBundle object from an existing one by copying the name, description and cloning data elements
+     * into a new instance.
+     */
+    public function createDataBundleFromExisting(DataBundle $existingBundle): DataBundle
+    {
+        $dataBundle = new DataBundle($existingBundle->getName(), $existingBundle->getDescription());
+
+        foreach ($existingBundle->getData() as $list) {
+            foreach ($list as $data) {
+                $newData = new Data($data->getBusinessModel(), $data->getField(), $data->getDetails());
+                $dataBundle->add($newData);
+            }
+        }
+
+        return $dataBundle;
     }
 
     /**
@@ -65,6 +88,26 @@ class DataBundleHelper
     }
 
     /**
+     * Adds all fields of a BusinessModel that are considered attributes, i.e. not link to other BusinessModels.
+     */
+    public function addBusinessModelAttributes(DataBundle $dataBundle, BusinessModel $businessModel, bool $includeManagedAttributes = false)
+    {
+        if ($dataBundle instanceof EventDataBundle) {
+            $this->addBusinessModelAttributesAsEventData($dataBundle, $businessModel);
+
+            return;
+        }
+        foreach ($businessModel->getFields() as $field) {
+            if (!$this->fieldHelper->isBusinessModel($field, $this->businessBundle)) {
+                if ($includeManagedAttributes || !$field->isManaged()) {
+                    $data = new Data($businessModel, $field);
+                    $dataBundle->add($data);
+                }
+            }
+        }
+    }
+
+    /**
      * Adds all fields of a BusinessModel based on the type of bundle provided as input:
      *  - EventDataBundle: Adds only the unmanaged fields of a BusinessModel as input data based on the model's mandatory/optional field definition.
      *  - Others: Adds all the fields (including managed ones) of a BusinessModel.
@@ -107,6 +150,16 @@ class DataBundleHelper
         foreach ($businessModel->getFields() as $field) {
             if (!$field->isManaged()) {
                 $data = new EventData($businessModel, $field, $field->isMandatory(), $this->mapDetails($businessModel, $field, $fieldDetails));
+                $dataBundle->add($data);
+            }
+        }
+    }
+
+    private function addBusinessModelAttributesAsEventData(DataBundle $dataBundle, BusinessModel $businessModel)
+    {
+        foreach ($businessModel->getFields() as $field) {
+            if (!$field->isManaged() && !$this->fieldHelper->isBusinessModel($field, $this->businessBundle)) {
+                $data = new EventData($businessModel, $field, $field->isMandatory());
                 $dataBundle->add($data);
             }
         }

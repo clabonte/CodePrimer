@@ -2,6 +2,7 @@
 
 namespace CodePrimer\Model;
 
+use CodePrimer\Helper\ProcessType;
 use CodePrimer\Model\Data\ContextDataBundle;
 use CodePrimer\Model\Data\DataBundle;
 use CodePrimer\Model\Data\ExternalDataBundle;
@@ -12,14 +13,9 @@ use InvalidArgumentException;
 
 class BusinessProcess
 {
-    // The following constants define the list of process types supported
-    const CREATE = 'create';
-    const RETRIEVE = 'retrieve';
-    const UPDATE = 'update';
-    const DELETE = 'delete';
-    const CUSTOM = 'custom';
-
-    /** @var string One of the constants above */
+    /** @var string One of the ProcessType constants
+     *  @see ProcessType
+     */
     private $type;
 
     /** @var string */
@@ -61,7 +57,7 @@ class BusinessProcess
     /**
      * BusinessProcess constructor.
      */
-    public function __construct(string $name, string $description, Event $event, string $type = self::CUSTOM, bool $synchronous = true, bool $asynchronous = false)
+    public function __construct(string $name, string $description, Event $event, string $type = ProcessType::CUSTOM, bool $synchronous = true, bool $asynchronous = false)
     {
         $this->validate($type);
         $this->type = $type;
@@ -496,17 +492,22 @@ class BusinessProcess
         return true;
     }
 
+    // TODO Move this method to a proper helper
     private function validate($type)
     {
         switch ($type) {
-            case self::CUSTOM:
-            case self::CREATE:
-            case self::RETRIEVE:
-            case self::UPDATE:
-            case self::DELETE:
+            case ProcessType::LOGIN:
+            case ProcessType::REGISTER:
+            case ProcessType::LOGOUT:
+            case ProcessType::CUSTOM:
+            case ProcessType::CREATE:
+            case ProcessType::RETRIEVE:
+            case ProcessType::STATUS_UPDATE:
+            case ProcessType::UPDATE:
+            case ProcessType::DELETE:
                 break;
             default:
-                throw new InvalidArgumentException('Invalid type provided: '.$type.'. Must be one of: create, retrieve, update, delete, custom');
+                throw new InvalidArgumentException('Invalid type provided: '.$type.'. Must be one of the ProcessType constants');
         }
     }
 }

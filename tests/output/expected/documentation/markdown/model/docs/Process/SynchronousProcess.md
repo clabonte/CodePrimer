@@ -4,7 +4,7 @@ This is a sample Synchronous
 ## Overview
  - **Category**: 
  - **Type**: Custom
- - **Trigger**: [Simple Event Event](#simpleeventevent)
+ - **Trigger**: [Simple Event Event](#simple-event-event)
 
 | Roles | External Access | Synchronous | Asynchronous | Periodic |
 | ----- | --------------- | ----------- | ------------ | -------- |
@@ -16,10 +16,13 @@ This is a sample Synchronous
 *N/A*
 
 ## Required Data
-N/A - *This process does not require any data other to process the event*
+N/A - *This process does not require any other data to process the event*
 
 ## Produced Data
 N/A - *This process does not produce/update any data*
 
 ## Messages
 N/A - *This process does not produce any message*
+
+---
+[Back to list](Overview.md)

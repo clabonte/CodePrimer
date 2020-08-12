@@ -200,6 +200,38 @@ class BusinessBundle
     }
 
     /**
+     * @return string[]
+     */
+    public function getBusinessProcessCategories(): array
+    {
+        $result = [];
+
+        foreach ($this->businessProcesses as $businessProcess) {
+            if (!in_array($businessProcess->getCategory(), $result)) {
+                $result[] = $businessProcess->getCategory();
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return BusinessProcess[]
+     */
+    public function getBusinessProcessesForCategory(string $category): array
+    {
+        $result = [];
+
+        foreach ($this->businessProcesses as $businessProcess) {
+            if ($category == $businessProcess->getCategory()) {
+                $result[] = $businessProcess;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * @return Event[]
      */
     public function getEvents(): array

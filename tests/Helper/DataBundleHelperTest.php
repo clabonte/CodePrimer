@@ -42,8 +42,8 @@ class DataBundleHelperTest extends TestCase
         $this->contextDataBundle = new ContextDataBundle('TestContextBundle', 'Test Context Bundle Description');
         $this->internalDataBundle = new InternalDataBundle('TestInternalBundle', 'Test Internal Bundle Description');
         $this->externalDataBundle = new ExternalDataBundle('TestExternalBundle', 'Test External Bundle Description');
-        $this->helper = new DataBundleHelper();
         $this->businessBundle = TestHelper::getSampleBusinessBundle();
+        $this->helper = new DataBundleHelper($this->businessBundle);
     }
 
     public function testAddBusinessModelOnEventDataBundleShouldOnlyAddUnmanagedFields()
@@ -91,6 +91,30 @@ class DataBundleHelperTest extends TestCase
         self::expectException(InvalidArgumentException::class);
         $user = $this->businessBundle->getBusinessModel('User');
         $this->helper->addBusinessModel($this->eventDataBundle, $user, 'unknown');
+    }
+
+    public function testAddBusinessModelAttributesOnEventDataBundleShouldOnlyAddUnmanagedAttributes()
+    {
+        $user = $this->businessBundle->getBusinessModel('User');
+        $this->assertEmptyDataBundle($this->eventDataBundle);
+        self::assertFalse($this->eventDataBundle->isBusinessModelPresent('User'));
+        self::assertEmpty($this->eventDataBundle->listData('User'));
+
+        $this->helper->addBusinessModelAttributes($this->eventDataBundle, $user, true);
+        self::assertCount(1, $this->eventDataBundle->listBusinessModelNames());
+        self::assertTrue($this->eventDataBundle->isBusinessModelPresent('User'));
+        $list = $this->eventDataBundle->listData('User');
+        self::assertCount(6, $list);
+
+        $fieldHelper = new FieldHelper();
+        // Validate that each data has been properly created
+        foreach ($list as $data) {
+            self::assertInstanceOf(EventData::class, $data);
+            self::assertEquals(Data::BASIC, $data->getDetails());
+            self::assertEquals($data->getField()->isMandatory(), $data->isMandatory());
+            self::assertFalse($fieldHelper->isBusinessModel($data->getField(), $this->businessBundle));
+            self::assertFalse($data->getField()->isManaged());
+        }
     }
 
     public function testAddFieldsAsMandatoryAddsAllFieldsProperly()
@@ -260,13 +284,64 @@ class DataBundleHelperTest extends TestCase
         }
     }
 
+    /**
+     * @dataProvider dataBundleProvider
+     */
+    public function testAddBusinessModelAttributesOnDataBundleShouldOnlyAddUnmanagedAttributes($dataBundle)
+    {
+        $user = $this->businessBundle->getBusinessModel('User');
+        $this->assertEmptyDataBundle($dataBundle);
+        self::assertFalse($dataBundle->isBusinessModelPresent('User'));
+        self::assertEmpty($dataBundle->listData('User'));
+
+        $this->helper->addBusinessModelAttributes($dataBundle, $user);
+        self::assertCount(1, $dataBundle->listBusinessModelNames());
+        self::assertTrue($dataBundle->isBusinessModelPresent('User'));
+        $list = $dataBundle->listData('User');
+        self::assertCount(6, $list);
+
+        $fieldHelper = new FieldHelper();
+        // Validate that each data has been properly created
+        foreach ($list as $data) {
+            self::assertEquals(Data::class, get_class($data));
+            self::assertEquals(Data::BASIC, $data->getDetails());
+            self::assertFalse($fieldHelper->isBusinessModel($data->getField(), $this->businessBundle));
+            self::assertFalse($data->getField()->isManaged());
+        }
+    }
+
+    /**
+     * @dataProvider dataBundleProvider
+     */
+    public function testAddBusinessModelAttributesOnDataBundleShouldOnlyAddManagedAttributes($dataBundle)
+    {
+        $user = $this->businessBundle->getBusinessModel('User');
+        $this->assertEmptyDataBundle($dataBundle);
+        self::assertFalse($dataBundle->isBusinessModelPresent('User'));
+        self::assertEmpty($dataBundle->listData('User'));
+
+        $this->helper->addBusinessModelAttributes($dataBundle, $user, true);
+        self::assertCount(1, $dataBundle->listBusinessModelNames());
+        self::assertTrue($dataBundle->isBusinessModelPresent('User'));
+        $list = $dataBundle->listData('User');
+        self::assertCount(10, $list);
+
+        $fieldHelper = new FieldHelper();
+        // Validate that each data has been properly created
+        foreach ($list as $data) {
+            self::assertEquals(Data::class, get_class($data));
+            self::assertEquals(Data::BASIC, $data->getDetails());
+            self::assertFalse($fieldHelper->isBusinessModel($data->getField(), $this->businessBundle));
+        }
+    }
+
     public function dataBundleProvider()
     {
         return [
-            'DataBundle' => [new DataBundle()],
-            'ContextDataBundle' => [new ContextDataBundle()],
-            'InternalDataBundle' => [new InternalDataBundle()],
-            'ExternalDataBundle' => [new ExternalDataBundle()],
+            'DataBundle' => [new DataBundle('Test DataBundle', 'Test DataBundle description')],
+            'ContextDataBundle' => [new ContextDataBundle('Test ContextDataBundle', 'Test ContextDataBundle description')],
+            'InternalDataBundle' => [new InternalDataBundle('Test InternalDataBundle', 'Test InternalDataBundle description')],
+            'ExternalDataBundle' => [new ExternalDataBundle('Test ExternalDataBundle', 'Test ExternalDataBundle description')],
         ];
     }
 
@@ -302,9 +377,95 @@ class DataBundleHelperTest extends TestCase
         $this->helper->addFields($this->internalDataBundle, $user, $user->getFields(), 'unknown');
     }
 
+    /**
+     * @dataProvider allDataBundleVariantsProvider
+     */
+    public function testCreateDataBundleFromExistingShouldWork(DataBundle $existingDataBundle)
+    {
+        $dataBundle = $this->helper->createDataBundleFromExisting($existingDataBundle);
+
+        self::assertInstanceOf(DataBundle::class, $dataBundle);
+        self::assertEquals($existingDataBundle->getName(), $dataBundle->getName());
+        self::assertEquals($existingDataBundle->getDescription(), $dataBundle->getDescription());
+        self::assertCount(count($existingDataBundle->getData()), $dataBundle->getData());
+        self::assertEquals($existingDataBundle->listBusinessModelNames(), $dataBundle->listBusinessModelNames());
+
+        // Make sure all data has been properly created
+        foreach ($existingDataBundle->getData() as $key => $existingList) {
+            self::assertArrayHasKey($key, $dataBundle->getData());
+            self::assertTrue($dataBundle->isBusinessModelPresent($key));
+
+            $list = $dataBundle->listData($key);
+            self::assertCount(count($existingList), $list);
+
+            foreach ($list as $data) {
+                self::assertEquals(Data::class, get_class($data));
+                self::assertTrue($this->isDataPresent($data, $existingList));
+            }
+        }
+    }
+
+    public function allDataBundleVariantsProvider()
+    {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
+
+        return [
+            'DataBundle' => [
+                (new DataBundle('Test DataBundle', 'Test DataBundle description'))
+                    ->add(new Data($user, $user->getField('firstName')))
+                    ->add(new Data($user, $user->getField('lastName')))
+                    ->add(new Data($user, $user->getField('topics'), Data::REFERENCE))
+                    ->add(new Data($user, $user->getField('stats'), Data::FULL)),
+            ],
+            'ContextDataBundle' => [
+                (new ContextDataBundle('Test ContextDataBundle', 'Test ContextDataBundle description'))
+                    ->add(new Data($user, $user->getField('firstName')))
+                    ->add(new Data($user, $user->getField('lastName')))
+                    ->add(new Data($user, $user->getField('topics'), Data::REFERENCE))
+                    ->add(new Data($user, $user->getField('stats'), Data::FULL)),
+            ],
+            'InternalDataBundle' => [
+                (new InternalDataBundle('Test InternalDataBundle', 'Test InternalDataBundle description'))
+                    ->add(new Data($user, $user->getField('firstName')))
+                    ->add(new Data($user, $user->getField('lastName')))
+                    ->add(new Data($user, $user->getField('topics'), Data::REFERENCE))
+                    ->add(new Data($user, $user->getField('stats'), Data::FULL)),
+            ],
+            'ExternalDataBundle' => [
+                (new ExternalDataBundle('Test ExternalDataBundle', 'Test ExternalDataBundle description'))
+                    ->add(new Data($user, $user->getField('firstName')))
+                    ->add(new Data($user, $user->getField('lastName')))
+                    ->add(new Data($user, $user->getField('topics'), Data::REFERENCE))
+                    ->add(new Data($user, $user->getField('stats'), Data::FULL)),
+            ],
+            'EventDataBundle' => [
+                (new EventDataBundle('Test EventDataBundle', 'Test EventDataBundle description'))
+                    ->add(new EventData($user, $user->getField('firstName'), true))
+                    ->add(new EventData($user, $user->getField('lastName'), true))
+                    ->add(new EventData($user, $user->getField('topics'), false, Data::REFERENCE))
+                    ->add(new EventData($user, $user->getField('stats'), true, Data::FULL)),
+            ],
+        ];
+    }
+
     private function assertEmptyDataBundle($dataBundle)
     {
         self::assertEmpty($dataBundle->listBusinessModelNames());
         self::assertEmpty($dataBundle->getData());
+    }
+
+    /**
+     * @param Data[] $existingList
+     */
+    private function isDataPresent(Data $data, array $existingList): bool
+    {
+        foreach ($existingList as $existingData) {
+            if ($data->isSame($existingData)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

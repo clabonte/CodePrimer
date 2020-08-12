@@ -62,4 +62,28 @@ class DataTest extends TestCase
 
         new Data($this->businessBundle->getBusinessModel('User'), 'firstName', 'unknown');
     }
+
+    /**
+     * @dataProvider isSameProvider
+     */
+    public function testIsSameWorksAsExpected(Data $testData, string $fieldName, bool $expectedResult)
+    {
+        $data = new Data($this->businessBundle->getBusinessModel('User'), $fieldName);
+
+        self::assertEquals($expectedResult, $data->isSame($testData));
+    }
+
+    public function isSameProvider()
+    {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
+        $post = $businessBundle->getBusinessModel('Post');
+
+        return [
+            'Different Model' => [new Data($post, $post->getField('created')), 'created', false],
+            'Different Field' => [new Data($user, $user->getField('firstName')), 'created', false],
+            'Different Details' => [new Data($user, $user->getField('topics'), Data::FULL), 'topics', false],
+            'Same' => [new Data($user, $user->getField('topics')), 'topics', true],
+        ];
+    }
 }

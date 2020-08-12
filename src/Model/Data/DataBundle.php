@@ -85,6 +85,31 @@ class DataBundle
         return $this;
     }
 
+    public function isPresent(string $modelName, string $fieldName): bool
+    {
+        return isset($this->data[$modelName][$fieldName]);
+    }
+
+    public function get(string $modelName, string $fieldName): ?Data
+    {
+        if (isset($this->data[$modelName][$fieldName])) {
+            return $this->data[$modelName][$fieldName];
+        }
+
+        return null;
+    }
+
+    public function remove(string $modelName, string $fieldName): bool
+    {
+        if (isset($this->data[$modelName][$fieldName])) {
+            unset($this->data[$modelName][$fieldName]);
+
+            return true;
+        }
+
+        return false;
+    }
+
     public function isBusinessModelPresent(string $name): bool
     {
         return isset($this->data[$name]);
