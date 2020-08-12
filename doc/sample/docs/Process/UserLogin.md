@@ -52,3 +52,6 @@ user.login: Message published when a user has successfully authenticated with ou
 | [User](../DataModel/Overview.md#user) | email | email | User email address | Basic |
 
 **Example**:
+
+---
+[Back to list](Overview.md)

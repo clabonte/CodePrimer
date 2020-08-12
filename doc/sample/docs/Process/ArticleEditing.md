@@ -1,31 +1,31 @@
-# New Article Creation Business Process
-This process is triggered when an author creates a new article. The article will be in &#039;Draft&#039; status until the author decides to submit it for approval.
+# Article Editing Business Process
+This process is triggered when an author wants to modify one of his existing articles.
 
 ## Overview
  - **Category**: Articles
- - **Type**: Create
- - **Trigger**: [New Article Event](#new-article-event)
+ - **Type**: Update
+ - **Trigger**: [Update Article Event](#update-article-event)
 
 | Roles | External Access | Synchronous | Asynchronous | Periodic |
 | ----- | --------------- | ----------- | ------------ | -------- |
 | Author | :white_check_mark: | :white_check_mark: | :x: | :x:
 
-## New Article Event
-Event triggered when a new article is created by an author
+## Update Article Event
+Event triggered when an existing article is updated by its author
 ### Data
     
 | BusinessModel | Field | Mandatory | Level |
 | ------------- | ----- | --------- | ----- |
-| [Article](../DataModel/Overview.md#article) | title | yes | Basic |
-| [Article](../DataModel/Overview.md#article) | body | yes | Basic |
-| [Article](../DataModel/Overview.md#article) | topic | yes | Reference |
+| [Article](../DataModel/Overview.md#article) | topic | no | Reference |
+| [Article](../DataModel/Overview.md#article) | title | no | Basic |
+| [Article](../DataModel/Overview.md#article) | body | no | Basic |
 | [Article](../DataModel/Overview.md#article) | description | no | Basic |
 | [Article](../DataModel/Overview.md#article) | labels | no | Full |
 
 ## Required Data
 In order to handle the event above, this process also needs the following data:
 ### Context Data
-Set the article&#039;s author based on the user who triggered the event.
+Retrieve the user id from the context to ensure he is the article&#039;s author
 
 | BusinessModel | Field | Level |
 | ------------- | ----- | ----- |
@@ -37,7 +37,7 @@ Set the article&#039;s author based on the user who triggered the event.
 Upon successful completion, this process will produce/update the following data:
 
 ### Internal Data
-Save the new article internally
+Update the article internally
 
 | BusinessModel | Field | Level |
 | ------------- | ----- | ----- |
@@ -55,8 +55,8 @@ Save the new article internally
 
 
 ## Messages
-### Message article.new
-article.new: Message published when a new, draft article has been created by a user
+### Message article.updated
+article.updated: Message published when an existing article has been updated by a user
 
 **Data**:
 

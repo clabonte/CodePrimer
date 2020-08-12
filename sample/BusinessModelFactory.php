@@ -45,6 +45,24 @@ class BusinessModelFactory
                 (new Field('password', FieldType::PASSWORD, 'User password to access our application'))
                     ->setMandatory(true)
             )
+            // TODO Replace by a DataSet once this feature is available
+            ->addField(
+                (new Field('role', FieldType::STRING, 'User role in the application'))
+                    ->setExample('member')
+                    ->setMandatory(true)
+                    ->setDefault('member')
+                    ->setSearchable(true)
+                    ->setManaged(true)
+            )
+            // TODO Replace by a DataSet once this feature is available
+            ->addField(
+                (new Field('status', FieldType::STRING, 'User status'))
+                    ->setExample('active')
+                    ->setMandatory(true)
+                    ->setDefault('active')
+                    ->setSearchable(true)
+                    ->setManaged(true)
+            )
 
             // Step 2: Add business relations
             ->addField(new Field('account', 'Account', "User's account to track earnings"))
@@ -114,6 +132,14 @@ class BusinessModelFactory
             )
             ->addField(
                 (new Field('body', FieldType::TEXT, 'The article main body'))
+                    ->setSearchable(true)
+            )
+            // TODO Replace by a DataSet once this feature is available
+            ->addField(
+                (new Field('status', FieldType::STRING, 'The article status'))
+                    ->setExample('draft')
+                    ->setMandatory(true)
+                    ->setDefault('draft')
                     ->setSearchable(true)
             )
 

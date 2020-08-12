@@ -44,3 +44,6 @@ user.logout: Message published when a user has successfully logged out from our 
 | [User](../DataModel/Overview.md#user) | email | email | User email address | Basic |
 
 **Example**:
+
+---
+[Back to list](Overview.md)

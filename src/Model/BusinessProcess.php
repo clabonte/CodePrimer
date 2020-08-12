@@ -502,6 +502,7 @@ class BusinessProcess
             case ProcessType::CUSTOM:
             case ProcessType::CREATE:
             case ProcessType::RETRIEVE:
+            case ProcessType::STATUS_UPDATE:
             case ProcessType::UPDATE:
             case ProcessType::DELETE:
                 break;

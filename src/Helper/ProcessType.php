@@ -15,6 +15,8 @@ interface ProcessType
     public const LOGOUT = 'logout';
     public const CREATE = 'create';
     public const RETRIEVE = 'retrieve';
+    /** @var string Process invoked when a status update is attempted on a business model */
+    public const STATUS_UPDATE = 'status update';
     public const UPDATE = 'update';
     public const DELETE = 'delete';
     public const CUSTOM = 'custom';

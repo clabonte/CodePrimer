@@ -39,6 +39,8 @@ The following fields are automatically managed by the backend and cannot be modi
 
 | Name | Type | Description | Mandatory | Example | Searchable | Unique |
 | ---- | ---- | ----------- | --------- | ------- | ---------- | ------ |
+| **role** | string | User role in the application | yes | member | yes | no |
+| **status** | string | User status | yes | active | yes | no |
 | **id** | uuid | User&#039;s unique ID in our system | yes | b34d38eb-1164-4289-98b4-65706837c4d7 | no | no |
 | **created** | datetime | The date and time at which this user was created | no |  | no | no |
 | **updated** | datetime | The date and time at which this user was updated | no |  | no | no |
@@ -55,6 +57,7 @@ An article in our application
 | **title** | string | Article title | no | *Empty* | How to go from idea to production-ready solution in a day with CodePrimer | yes | no |
 | **description** | text | Article description | no | *Empty* | This article explains how architects can save days/weeks of prepare to get a production-grade application up and running using the technology of their choice. | yes | no |
 | **body** | text | The article main body | no | *Empty* |  | yes | no |
+| **status** | string | The article status | yes | *N/A* | draft | yes | no |
 
 ### Business Relations
 

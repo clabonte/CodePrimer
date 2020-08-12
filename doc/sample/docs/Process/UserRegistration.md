@@ -38,6 +38,8 @@ User profile created
 | [User](../DataModel/Overview.md#user) | nickname | Basic |
 | [User](../DataModel/Overview.md#user) | email | Basic |
 | [User](../DataModel/Overview.md#user) | password | Basic |
+| [User](../DataModel/Overview.md#user) | role | Basic |
+| [User](../DataModel/Overview.md#user) | status | Basic |
 | [User](../DataModel/Overview.md#user) | id | Basic |
 | [User](../DataModel/Overview.md#user) | created | Basic |
 | [User](../DataModel/Overview.md#user) | updated | Basic |
@@ -55,8 +57,13 @@ user.new: Message published when a new user has been created in our application
 | [User](../DataModel/Overview.md#user) | lastName | string | User last name | Basic |
 | [User](../DataModel/Overview.md#user) | nickname | string | The name used to identify this user publicly in the application | Basic |
 | [User](../DataModel/Overview.md#user) | email | email | User email address | Basic |
+| [User](../DataModel/Overview.md#user) | role | string | User role in the application | Basic |
+| [User](../DataModel/Overview.md#user) | status | string | User status | Basic |
 | [User](../DataModel/Overview.md#user) | id | uuid | User&#039;s unique ID in our system | Basic |
 | [User](../DataModel/Overview.md#user) | created | datetime | The date and time at which this user was created | Basic |
 | [User](../DataModel/Overview.md#user) | updated | datetime | The date and time at which this user was updated | Basic |
 
 **Example**:
+
+---
+[Back to list](Overview.md)

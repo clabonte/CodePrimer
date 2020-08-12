@@ -198,7 +198,10 @@ class ChannelApp
         $businessBundle->addBusinessProcess($processFactory->createLoginProcess($this->businessBundle));
         $businessBundle->addBusinessProcess($processFactory->createLogoutProcess($this->businessBundle));
         $businessBundle->addBusinessProcess($processFactory->createRegisterProcess($this->businessBundle));
+
         $businessBundle->addBusinessProcess($processFactory->createNewArticleProcess($this->businessBundle));
+        $businessBundle->addBusinessProcess($processFactory->createUpdateArticleProcess($this->businessBundle));
+        $businessBundle->addBusinessProcess($processFactory->createSubmitArticleProcess($this->businessBundle));
     }
 }
 

@@ -227,4 +227,105 @@ class BusinessProcessFactory
 
         return $businessProcess;
     }
+
+    public function createUpdateArticleProcess(BusinessBundle $businessBundle): BusinessProcess
+    {
+        $dataBundleHelper = new DataBundleHelper($businessBundle);
+        $article = $businessBundle->getBusinessModel('Article');
+        $user = $businessBundle->getBusinessModel('User');
+
+        // 1. Define the input data required for this process
+        $eventBundle = new EventDataBundle();
+        $dataBundleHelper->addFieldsAsOptional($eventBundle, $article, ['topic'], Data::REFERENCE);
+        $dataBundleHelper->addFieldsAsOptional($eventBundle, $article, ['title', 'body', 'description', 'labels'], Data::FULL);
+
+        // 2. Define the event that will be used as a trigger for this process
+        $event = new Event(
+            'Update Article',
+            'Event triggered when an existing article is updated by its author');
+        $event->addDataBundle($eventBundle);
+
+        // 3. Create the Business Process
+        $businessProcess = new BusinessProcess(
+            'Article Editing',
+            'This process is triggered when an author wants to modify one of his existing articles.',
+            $event);
+
+        // Set the process attributes:
+        $businessProcess
+            ->setCategory('Articles')
+            ->setType(ProcessType::UPDATE)
+            ->setExternalAccess(true)
+            ->addRole(ChannelApp::AUTHOR);
+
+        // 4. Define the bundle of data required by this process
+        $contextData = new ContextDataBundle();
+        $contextData->setDescription("Retrieve the user id from the context to ensure he is the article's author");
+        $dataBundleHelper->addFields($contextData, $user, ['id']);
+        $businessProcess->addRequiredData($contextData);
+
+        // 5. Define the bundle of data produced by this process
+        $internalData = new InternalDataBundle();
+        $internalData->setDescription('Update the article internally');
+        $dataBundleHelper->addBusinessModel($internalData, $article, Data::REFERENCE);
+        $businessProcess->addProducedData($internalData);
+
+        // 6. Publish 'article.updated' message
+        $msgBundle = new DataBundle();
+        $dataBundleHelper->addBusinessModelExceptFields($msgBundle, $article, ['views'], Data::FULL);
+        $message = new Message('article.updated');
+        $message
+            ->setDescription('Message published when an existing article has been updated by a user')
+            ->addDataBundle($msgBundle);
+        $businessProcess->addMessage($message);
+
+        return $businessProcess;
+    }
+
+    public function createSubmitArticleProcess(BusinessBundle $businessBundle): BusinessProcess
+    {
+        $dataBundleHelper = new DataBundleHelper($businessBundle);
+        $article = $businessBundle->getBusinessModel('Article');
+        $user = $businessBundle->getBusinessModel('User');
+
+        // 1. Define the input data required for this process
+        $eventBundle = new EventDataBundle();
+        $dataBundleHelper->addFieldsAsMandatory($eventBundle, $article, ['id']);
+
+        // 2. Define the event that will be used as a trigger for this process
+        $event = new Event(
+            'Submit Article',
+            'Event triggered when an article is submitted for review');
+        $event->addDataBundle($eventBundle);
+
+        // 3. Create the Business Process
+        $businessProcess = new BusinessProcess(
+            'Submit Article for Review',
+            'This process is triggered when an author has finished editing an article and is ready to submit it for review.',
+            $event);
+
+        // Set the process attributes:
+        $businessProcess
+            ->setCategory('Articles')
+            ->setType(ProcessType::STATUS_UPDATE)
+            ->setExternalAccess(true)
+            ->addRole(ChannelApp::AUTHOR);
+
+        // 4. Define the bundle of data required by this process
+        $contextData = new ContextDataBundle();
+        $contextData->setDescription("Retrieve the user id from the context to ensure he is the article's author");
+        $dataBundleHelper->addFields($contextData, $user, ['id']);
+        $businessProcess->addRequiredData($contextData);
+
+        // 5. Define the bundle of data produced by this process
+        $internalData = new InternalDataBundle();
+        $internalData->setDescription('Update the article status');
+        $dataBundleHelper->addFields($internalData, $article, ['status']);
+        $businessProcess->addProducedData($internalData);
+
+        // 6. Publish message
+        // N/A
+
+        return $businessProcess;
+    }
 }
