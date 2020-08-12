@@ -6,7 +6,9 @@ use CodePrimer\Helper\BusinessModelHelper;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use RuntimeException;
 
 class BusinessModelHelperTest extends TestCase
 {
@@ -190,5 +192,95 @@ class BusinessModelHelperTest extends TestCase
         self::assertContains($user->getField('password'), $fields);
         self::assertContains($user->getField('crmId'), $fields);
         self::assertContains($user->getField('bizAttribute'), $fields);
+    }
+
+    /**
+     * @dataProvider identifierFieldProvider
+     */
+    public function testGenerateIdentifierFieldShouldPass(BusinessModel $businessModel, string $expectedName, string $expectedType)
+    {
+        self::assertNull($businessModel->getField($expectedName));
+
+        $field = $this->businessModelHelper->generateIdentifierField($businessModel, $expectedType);
+        self::assertNotNull($field);
+        self::assertEquals($expectedName, $field->getName());
+        self::assertEquals($expectedType, $field->getType());
+        self::assertTrue($field->isManaged());
+        self::assertTrue($field->isMandatory());
+        self::assertTrue($field->isGenerated());
+        self::assertNotEmpty($field->getExample());
+        self::assertNotNull($businessModel->getField($expectedName));
+    }
+
+    public function identifierFieldProvider()
+    {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
+        $topic = $businessBundle->getBusinessModel('Topic');
+
+        return [
+            'Topic - UUID' => [$topic, 'id', FieldType::UUID],
+            'User - ID' => [$user, 'userId', FieldType::ID],
+        ];
+    }
+
+    public function testGenerateIdentifierFieldWithInvalidTypeThrowsException()
+    {
+        self::expectException(InvalidArgumentException::class);
+        self::expectExceptionMessage('Invalid identifier type provided: unknown. Must be either FieldType::UUID or FieldType.ID');
+
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
+        $this->businessModelHelper->generateIdentifierField($user, 'unknown');
+    }
+
+    public function testGenerateIdentifierFieldWithUnavailableNameThrowsException()
+    {
+        self::expectException(RuntimeException::class);
+        self::expectExceptionMessage('Cannot generate ID field for business model User: "id" and "userId" fields are already defined. Did you forget to specify an identifier for this model?');
+
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
+        $user->addField(new Field('userId', FieldType::STRING));
+        $this->businessModelHelper->generateIdentifierField($user);
+    }
+
+    /**
+     * @dataProvider timestampFieldsProvider
+     */
+    public function testGenerateTimestampFieldsShouldWork(BusinessModel $businessModel, bool $created, bool $updated)
+    {
+        self::assertNull($businessModel->getField('created'));
+        self::assertNull($businessModel->getField('updated'));
+
+        $this->businessModelHelper->generateTimestampFields($businessModel, $created, $updated);
+        if ($created) {
+            $field = $businessModel->getField('created');
+            self::assertNotNull($field);
+            self::assertEquals(FieldType::DATETIME, $field->getType());
+            self::assertTrue($field->isManaged());
+            self::assertFalse($field->isMandatory());
+            self::assertTrue($field->isGenerated());
+            self::assertNotEmpty($field->getExample());
+        }
+        if ($updated) {
+            $field = $businessModel->getField('updated');
+            self::assertNotNull($field);
+            self::assertEquals(FieldType::DATETIME, $field->getType());
+            self::assertTrue($field->isManaged());
+            self::assertFalse($field->isMandatory());
+            self::assertTrue($field->isGenerated());
+            self::assertNotEmpty($field->getExample());
+        }
+    }
+
+    public function timestampFieldsProvider()
+    {
+        return [
+            'Both' => [new BusinessModel('TestModel'), true, true],
+            'Created only' => [new BusinessModel('TestModel'), true, false],
+            'Updated only' => [new BusinessModel('TestModel'), false, true],
+            'None' => [new BusinessModel('TestModel'), false, false],
+        ];
     }
 }
