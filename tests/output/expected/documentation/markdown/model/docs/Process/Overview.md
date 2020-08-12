@@ -5,7 +5,7 @@ The FunctionalTest has the following processes available
 
 | Business Process | Type | Description | Triggering Event | Message Produced |
 | ---------------- | ---- | ------------| ---------------- | ---------------- |
-| [Synchronous Process](SynchronousProcess.md) | Custom | This is a sample Synchronous | Simple Event | *N/A* |
+| [Synchronous Process](SynchronousProcess.md) | Custom | This is a sample Synchronous | [Simple Event](SynchronousProcess.md#simple-event-event) | *N/A* |
 
 
 
