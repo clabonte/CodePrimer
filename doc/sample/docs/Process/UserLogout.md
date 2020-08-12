@@ -22,7 +22,7 @@ Information from the context about the user to logout
 
 | BusinessModel | Field | Level |
 | ------------- | ----- | ----- |
-| [User](../../../../../doc/sample/docs/DataModel/User.md) | id | Basic |
+| [User](../DataModel/Overview.md#user) | id | Basic |
 
 
 
@@ -37,10 +37,10 @@ user.logout: Message published when a user has successfully logged out from our 
 
 | BusinessModel | Field | Type | Description | Level |
 | ------------- | ----- | ---- | ----------- | ------|
-| [User](../../../../../doc/sample/docs/DataModel/User.md) | id | uuid | User&#039;s unique ID in our system | Basic |
-| [User](../../../../../doc/sample/docs/DataModel/User.md) | firstName | string | User first name | Basic |
-| [User](../../../../../doc/sample/docs/DataModel/User.md) | lastName | string | User last name | Basic |
-| [User](../../../../../doc/sample/docs/DataModel/User.md) | nickname | string | The name used to identify this user publicly in the application | Basic |
-| [User](../../../../../doc/sample/docs/DataModel/User.md) | email | email | User email address | Basic |
+| [User](../DataModel/Overview.md#user) | id | uuid | User&#039;s unique ID in our system | Basic |
+| [User](../DataModel/Overview.md#user) | firstName | string | User first name | Basic |
+| [User](../DataModel/Overview.md#user) | lastName | string | User last name | Basic |
+| [User](../DataModel/Overview.md#user) | nickname | string | The name used to identify this user publicly in the application | Basic |
+| [User](../DataModel/Overview.md#user) | email | email | User email address | Basic |
 
 **Example**:

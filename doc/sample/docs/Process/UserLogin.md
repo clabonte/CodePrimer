@@ -16,8 +16,8 @@ Event triggered when user wants to login with the application
     
 | BusinessModel | Field | Mandatory | Level |
 | ------------- | ----- | --------- | ----- |
-| [User](../../../../../doc/sample/docs/DataModel/User.md) | email | yes | Basic |
-| [User](../../../../../doc/sample/docs/DataModel/User.md) | password | yes | Basic |
+| [User](../DataModel/Overview.md#user) | email | yes | Basic |
+| [User](../DataModel/Overview.md#user) | password | yes | Basic |
 
 ## Required Data
 N/A - *This process does not require any other data to process the event*
@@ -29,11 +29,11 @@ User information to add to the context
 
 | BusinessModel | Field | Level |
 | ------------- | ----- | ----- |
-| [User](../../../../../doc/sample/docs/DataModel/User.md) | id | Basic |
-| [User](../../../../../doc/sample/docs/DataModel/User.md) | firstName | Basic |
-| [User](../../../../../doc/sample/docs/DataModel/User.md) | lastName | Basic |
-| [User](../../../../../doc/sample/docs/DataModel/User.md) | nickname | Basic |
-| [User](../../../../../doc/sample/docs/DataModel/User.md) | email | Basic |
+| [User](../DataModel/Overview.md#user) | id | Basic |
+| [User](../DataModel/Overview.md#user) | firstName | Basic |
+| [User](../DataModel/Overview.md#user) | lastName | Basic |
+| [User](../DataModel/Overview.md#user) | nickname | Basic |
+| [User](../DataModel/Overview.md#user) | email | Basic |
 
 
 
@@ -45,10 +45,10 @@ user.login: Message published when a user has successfully authenticated with ou
 
 | BusinessModel | Field | Type | Description | Level |
 | ------------- | ----- | ---- | ----------- | ------|
-| [User](../../../../../doc/sample/docs/DataModel/User.md) | id | uuid | User&#039;s unique ID in our system | Basic |
-| [User](../../../../../doc/sample/docs/DataModel/User.md) | firstName | string | User first name | Basic |
-| [User](../../../../../doc/sample/docs/DataModel/User.md) | lastName | string | User last name | Basic |
-| [User](../../../../../doc/sample/docs/DataModel/User.md) | nickname | string | The name used to identify this user publicly in the application | Basic |
-| [User](../../../../../doc/sample/docs/DataModel/User.md) | email | email | User email address | Basic |
+| [User](../DataModel/Overview.md#user) | id | uuid | User&#039;s unique ID in our system | Basic |
+| [User](../DataModel/Overview.md#user) | firstName | string | User first name | Basic |
+| [User](../DataModel/Overview.md#user) | lastName | string | User last name | Basic |
+| [User](../DataModel/Overview.md#user) | nickname | string | The name used to identify this user publicly in the application | Basic |
+| [User](../DataModel/Overview.md#user) | email | email | User email address | Basic |
 
 **Example**:

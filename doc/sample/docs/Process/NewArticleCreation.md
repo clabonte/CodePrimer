@@ -16,11 +16,11 @@ Event triggered when a new article is created by an author
     
 | BusinessModel | Field | Mandatory | Level |
 | ------------- | ----- | --------- | ----- |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | title | yes | Basic |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | body | yes | Basic |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | topic | yes | Reference |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | description | no | Basic |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | labels | no | Full |
+| [Article](../DataModel/Overview.md#article) | title | yes | Basic |
+| [Article](../DataModel/Overview.md#article) | body | yes | Basic |
+| [Article](../DataModel/Overview.md#article) | topic | yes | Reference |
+| [Article](../DataModel/Overview.md#article) | description | no | Basic |
+| [Article](../DataModel/Overview.md#article) | labels | no | Full |
 
 ## Required Data
 In order to handle the event above, this process also needs the following data:
@@ -29,7 +29,7 @@ Set the article&#039;s author based on the user who triggered the event.
 
 | BusinessModel | Field | Level |
 | ------------- | ----- | ----- |
-| [User](../../../../../doc/sample/docs/DataModel/User.md) | id | Basic |
+| [User](../DataModel/Overview.md#user) | id | Basic |
 
 
 
@@ -41,16 +41,16 @@ Save the new article internally
 
 | BusinessModel | Field | Level |
 | ------------- | ----- | ----- |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | title | Basic |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | description | Basic |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | body | Basic |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | author | Reference |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | topic | Reference |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | labels | Reference |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | views | Reference |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | id | Basic |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | created | Basic |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | updated | Basic |
+| [Article](../DataModel/Overview.md#article) | title | Basic |
+| [Article](../DataModel/Overview.md#article) | description | Basic |
+| [Article](../DataModel/Overview.md#article) | body | Basic |
+| [Article](../DataModel/Overview.md#article) | author | Reference |
+| [Article](../DataModel/Overview.md#article) | topic | Reference |
+| [Article](../DataModel/Overview.md#article) | labels | Reference |
+| [Article](../DataModel/Overview.md#article) | views | Reference |
+| [Article](../DataModel/Overview.md#article) | id | Basic |
+| [Article](../DataModel/Overview.md#article) | created | Basic |
+| [Article](../DataModel/Overview.md#article) | updated | Basic |
 
 
 ## Messages
@@ -61,14 +61,14 @@ article.new: Message published when a new, draft article has been created by a u
 
 | BusinessModel | Field | Type | Description | Level |
 | ------------- | ----- | ---- | ----------- | ------|
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | title | string | Article title | Basic |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | description | text | Article description | Basic |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | body | text | The article main body | Basic |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | author | [User](../../../../../doc/sample/docs/DataModel/User.md) | User who created the article | Full |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | topic | [Topic](../../../../../doc/sample/docs/DataModel/Topic.md) | Topic to which this article belongs | Full |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | labels | List of [Label](../../../../../doc/sample/docs/DataModel/Label.md) | List of labels associated with this article by the author | Full |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | id | uuid | Article&#039;s unique ID in our system | Basic |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | created | datetime | The date and time at which this article was created | Basic |
-| [Article](../../../../../doc/sample/docs/DataModel/Article.md) | updated | datetime | The date and time at which this article was updated | Basic |
+| [Article](../DataModel/Overview.md#article) | title | string | Article title | Basic |
+| [Article](../DataModel/Overview.md#article) | description | text | Article description | Basic |
+| [Article](../DataModel/Overview.md#article) | body | text | The article main body | Basic |
+| [Article](../DataModel/Overview.md#article) | author | [User](../DataModel/Overview.md#user) | User who created the article | Full |
+| [Article](../DataModel/Overview.md#article) | topic | [Topic](../DataModel/Overview.md#topic) | Topic to which this article belongs | Full |
+| [Article](../DataModel/Overview.md#article) | labels | List of [Label](../DataModel/Overview.md#label) | List of labels associated with this article by the author | Full |
+| [Article](../DataModel/Overview.md#article) | id | uuid | Article&#039;s unique ID in our system | Basic |
+| [Article](../DataModel/Overview.md#article) | created | datetime | The date and time at which this article was created | Basic |
+| [Article](../DataModel/Overview.md#article) | updated | datetime | The date and time at which this article was updated | Basic |
 
 **Example**:
