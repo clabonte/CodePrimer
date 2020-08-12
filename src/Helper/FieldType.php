@@ -2,6 +2,9 @@
 
 namespace CodePrimer\Helper;
 
+    /**
+     * This interface defines the list of 'native' field types currently supported by CodePrimer.
+     */
     interface FieldType
     {
         public const UUID = 'uuid';

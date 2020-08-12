@@ -1,0 +1,18 @@
+{# Prints a list of messages in Mardkdown format along with a link to the message definition
+ # Variables:
+ #  - messages: Array of messages to print
+ #}
+{% spaceless %}
+{% if messages is empty %}
+*N/A*
+{% elseif messages|length == 1 %}
+{% set message = messages|first %}
+{{ message.id }}
+{% else %}
+<ul>
+{% for message in messages %}
+   <li>{{ message.id }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endspaceless %}

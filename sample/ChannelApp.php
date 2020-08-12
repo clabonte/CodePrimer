@@ -195,6 +195,9 @@ class ChannelApp
     {
         $processFactory = new BusinessProcessFactory();
 
+        $businessBundle->addBusinessProcess($processFactory->createLoginProcess($this->businessBundle));
+        $businessBundle->addBusinessProcess($processFactory->createLogoutProcess($this->businessBundle));
+        $businessBundle->addBusinessProcess($processFactory->createRegisterProcess($this->businessBundle));
         $businessBundle->addBusinessProcess($processFactory->createNewArticleProcess($this->businessBundle));
     }
 }

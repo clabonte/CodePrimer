@@ -173,6 +173,42 @@ class BusinessBundleTest extends TestCase
         self::assertEquals('description5', $businessProcess->getDescription());
     }
 
+    public function testBusinessCategoriesShouldWork()
+    {
+        self::assertEmpty($this->businessBundle->getBusinessProcessCategories());
+        self::assertEmpty($this->businessBundle->getBusinessProcessesForCategory('Test Category 1'));
+        self::assertEmpty($this->businessBundle->getBusinessProcessesForCategory('Test Category 2'));
+
+        $bp1 = new BusinessProcess('TestData1', 'description1', new Event('TestEvent1'));
+        $bp1->setCategory('Test Category 1');
+
+        $bp2 = new BusinessProcess('TestData2', 'description2', new Event('TestEvent2'));
+        $bp2->setCategory('Test Category 1');
+
+        $bp3 = new BusinessProcess('TestData3', 'description3', new Event('TestEvent3'));
+        $bp3->setCategory('Test Category 1');
+
+        $bp4 = new BusinessProcess('TestData4', 'description4', new Event('TestEvent4'));
+        $bp4->setCategory('Test Category 2');
+
+        $this->businessBundle->setBusinessProcesses([$bp1, $bp2, $bp3, $bp4]);
+
+        self::assertCount(2, $this->businessBundle->getBusinessProcessCategories());
+        $cat1 = $this->businessBundle->getBusinessProcessesForCategory('Test Category 1');
+        self::assertCount(3, $cat1);
+        self::assertContains($bp1, $cat1);
+        self::assertContains($bp2, $cat1);
+        self::assertContains($bp3, $cat1);
+        self::assertNotContains($bp4, $cat1);
+
+        $cat2 = $this->businessBundle->getBusinessProcessesForCategory('Test Category 2');
+        self::assertCount(1, $cat2);
+        self::assertNotContains($bp1, $cat2);
+        self::assertNotContains($bp2, $cat2);
+        self::assertNotContains($bp3, $cat2);
+        self::assertContains($bp4, $cat2);
+    }
+
     public function testSetEntities()
     {
         $this->businessBundle

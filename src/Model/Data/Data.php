@@ -66,6 +66,21 @@ class Data
         return $this->details;
     }
 
+    public function isSame(Data $otherData): bool
+    {
+        $result = true;
+
+        if ($this->businessModel->getName() !== $otherData->getBusinessModel()->getName()) {
+            $result = false;
+        } elseif ($this->field->getName() !== $otherData->getField()->getName()) {
+            $result = false;
+        } elseif ($this->details !== $otherData->getDetails()) {
+            $result = false;
+        }
+
+        return $result;
+    }
+
     /**
      * @param Field|string $requestedField
      *

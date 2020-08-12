@@ -2,6 +2,7 @@
 
 namespace CodePrimer\Tests\Model;
 
+use CodePrimer\Helper\ProcessType;
 use CodePrimer\Model\BusinessProcess;
 use CodePrimer\Model\Data\ContextDataBundle;
 use CodePrimer\Model\Data\ExternalDataBundle;
@@ -26,7 +27,7 @@ class BusinessProcessTest extends TestCase
     {
         self::assertEquals('Test Name', $this->businessProcess->getName());
         self::assertEquals('Test Description', $this->businessProcess->getDescription());
-        self::assertEquals(BusinessProcess::CUSTOM, $this->businessProcess->getType());
+        self::assertEquals(ProcessType::CUSTOM, $this->businessProcess->getType());
         self::assertEmpty($this->businessProcess->getCategory());
         self::assertTrue($this->businessProcess->isSynchronous());
         self::assertFalse($this->businessProcess->isAsynchronous());
@@ -211,7 +212,7 @@ class BusinessProcessTest extends TestCase
     public function testConstructorWithInvalidTypeThrowsException()
     {
         self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('Invalid type provided: unknown. Must be one of: create, retrieve, update, delete, custom');
+        self::expectExceptionMessage('Invalid type provided: unknown. Must be one of the ProcessType constants');
 
         new BusinessProcess('Test Name', 'Test Description', new Event('Test Event', 'code'), 'unknown');
     }
@@ -219,11 +220,11 @@ class BusinessProcessTest extends TestCase
     public function testSetInvalidTypeThrowsException()
     {
         self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('Invalid type provided: unknown. Must be one of: create, retrieve, update, delete, custom');
+        self::expectExceptionMessage('Invalid type provided: unknown. Must be one of the ProcessType constants');
 
-        self::assertEquals(BusinessProcess::CUSTOM, $this->businessProcess->getType());
-        $this->businessProcess->setType(BusinessProcess::CREATE);
-        self::assertEquals(BusinessProcess::CREATE, $this->businessProcess->getType());
+        self::assertEquals(ProcessType::CUSTOM, $this->businessProcess->getType());
+        $this->businessProcess->setType(ProcessType::CREATE);
+        self::assertEquals(ProcessType::CREATE, $this->businessProcess->getType());
 
         $this->businessProcess->setType('unknown');
     }
