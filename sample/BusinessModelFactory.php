@@ -1,5 +1,6 @@
 <?php
 
+use CodePrimer\Helper\BusinessModelHelper;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Constraint;
@@ -15,6 +16,8 @@ class BusinessModelFactory
      */
     public function createUserDataModel()
     {
+        $businessModelHelper = new BusinessModelHelper();
+
         $businessModel = new BusinessModel('User', 'A registered used in our application');
         $businessModel->setAudited(true);
 
@@ -77,23 +80,11 @@ class BusinessModelFactory
             ->addField(
                 (new Field('interests', 'Interest', 'List of topics user is interested in'))
                     ->setList(true)
-            )
-
-            // Step 3: Add internal fields
-            ->addField(
-                (new Field('id', FieldType::UUID, "User's unique ID in our system"))
-                    ->setMandatory(true)
-                    ->setManaged(true)
-                    ->setExample('b34d38eb-1164-4289-98b4-65706837c4d7')
-            )
-            ->addField(
-                (new Field('created', FieldType::DATETIME, 'The date and time at which this user was created'))
-                    ->setManaged(true)
-            )
-            ->addField(
-                (new Field('updated', FieldType::DATETIME, 'The date and time at which this user was updated'))
-                    ->setManaged(true)
             );
+
+        // Step 3: Add internal fields
+        $businessModelHelper->generateIdentifierField($businessModel);
+        $businessModelHelper->generateTimestampFields($businessModel);
 
         // Step 4: Add unique field constraints along with the error message to use when violated
         $businessModel
