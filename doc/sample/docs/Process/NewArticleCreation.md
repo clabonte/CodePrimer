@@ -4,7 +4,7 @@ This process is triggered when an author creates a new article. The article will
 ## Overview
  - **Category**: Articles
  - **Type**: Create
- - **Trigger**: [New Article Event](#newarticleevent)
+ - **Trigger**: [New Article Event](#new-article-event)
 
 | Roles | External Access | Synchronous | Asynchronous | Periodic |
 | ----- | --------------- | ----------- | ------------ | -------- |

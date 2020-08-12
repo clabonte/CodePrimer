@@ -4,7 +4,7 @@ This process is triggered when a user is leaving the application. Upon success, 
 ## Overview
  - **Category**: Users
  - **Type**: Logout
- - **Trigger**: [Logout Request Event](#logoutrequestevent)
+ - **Trigger**: [Logout Request Event](#logout-request-event)
 
 | Roles | External Access | Synchronous | Asynchronous | Periodic |
 | ----- | --------------- | ----------- | ------------ | -------- |

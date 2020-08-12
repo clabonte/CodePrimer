@@ -4,7 +4,7 @@ This process is triggered when a user wants to login with our application. Upon 
 ## Overview
  - **Category**: Users
  - **Type**: Login
- - **Trigger**: [Login Request Event](#loginrequestevent)
+ - **Trigger**: [Login Request Event](#login-request-event)
 
 | Roles | External Access | Synchronous | Asynchronous | Periodic |
 | ----- | --------------- | ----------- | ------------ | -------- |

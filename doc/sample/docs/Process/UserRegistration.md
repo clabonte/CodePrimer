@@ -4,7 +4,7 @@ This process is triggered when a user wants to register with our application. Up
 ## Overview
  - **Category**: Users
  - **Type**: Register
- - **Trigger**: [Registration Request Event](#registrationrequestevent)
+ - **Trigger**: [Registration Request Event](#registration-request-event)
 
 | Roles | External Access | Synchronous | Asynchronous | Periodic |
 | ----- | --------------- | ----------- | ------------ | -------- |
