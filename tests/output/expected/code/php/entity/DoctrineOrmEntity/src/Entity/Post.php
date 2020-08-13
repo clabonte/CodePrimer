@@ -94,6 +94,7 @@ class Post
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $id
      * @return Post
      */
@@ -104,6 +105,7 @@ class Post
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string
      */
     public function getId(): string
@@ -112,6 +114,7 @@ class Post
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $title
      * @return Post
      */
@@ -122,6 +125,7 @@ class Post
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string
      */
     public function getTitle(): string
@@ -130,6 +134,7 @@ class Post
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $body
      * @return Post
      */
@@ -140,6 +145,7 @@ class Post
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string
      */
     public function getBody(): string
@@ -148,6 +154,7 @@ class Post
     }
 
     /**
+     * @codeCoverageIgnore
      * @param DateTimeInterface|null $scheduled
      * @return Post
      */
@@ -158,6 +165,7 @@ class Post
     }
 
     /**
+     * @codeCoverageIgnore
      * @return DateTimeInterface|null
      */
     public function getScheduled(): ?DateTimeInterface
@@ -166,6 +174,7 @@ class Post
     }
 
     /**
+     * @codeCoverageIgnore
      * @param User $author
      * @return Post
      */
@@ -176,6 +185,7 @@ class Post
     }
 
     /**
+     * @codeCoverageIgnore
      * @return User
      */
     public function getAuthor(): User
@@ -184,6 +194,7 @@ class Post
     }
 
     /**
+     * @codeCoverageIgnore
      * @param Topic $topic
      * @return Post
      */
@@ -194,6 +205,7 @@ class Post
     }
 
     /**
+     * @codeCoverageIgnore
      * @return Topic
      */
     public function getTopic(): Topic
@@ -202,6 +214,7 @@ class Post
     }
 
     /**
+     * @codeCoverageIgnore
      * @param DateTimeInterface|null $created
      * @return Post
      */
@@ -212,6 +225,7 @@ class Post
     }
 
     /**
+     * @codeCoverageIgnore
      * @return DateTimeInterface|null
      */
     public function getCreated(): ?DateTimeInterface
@@ -220,6 +234,7 @@ class Post
     }
 
     /**
+     * @codeCoverageIgnore
      * @param DateTimeInterface|null $updated
      * @return Post
      */
@@ -230,6 +245,7 @@ class Post
     }
 
     /**
+     * @codeCoverageIgnore
      * @return DateTimeInterface|null
      */
     public function getUpdated(): ?DateTimeInterface

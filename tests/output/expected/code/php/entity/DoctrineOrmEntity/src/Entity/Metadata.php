@@ -62,6 +62,7 @@ class Metadata
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $name
      * @return Metadata
      */
@@ -72,6 +73,7 @@ class Metadata
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string
      */
     public function getName(): string
@@ -80,6 +82,7 @@ class Metadata
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $value
      * @return Metadata
      */
@@ -90,6 +93,7 @@ class Metadata
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string
      */
     public function getValue(): string
@@ -98,6 +102,7 @@ class Metadata
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $id
      * @return Metadata
      */
@@ -108,6 +113,7 @@ class Metadata
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string
      */
     public function getId(): string
@@ -116,6 +122,7 @@ class Metadata
     }
 
     /**
+     * @codeCoverageIgnore
      * @param User|null $user
      * @return Metadata
      */
@@ -126,6 +133,7 @@ class Metadata
     }
 
     /**
+     * @codeCoverageIgnore
      * @return User|null
      */
     public function getUser(): ?User

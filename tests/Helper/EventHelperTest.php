@@ -103,7 +103,7 @@ class EventHelperTest extends TestCase
         $event = $bundle->getEvent('Registration Request');
         self::assertNotNull($event);
 
-        $list = $helper->listMandatoryData($event);
+        $list = $helper->getMandatoryData($event);
         self::assertCount(2, $list);
         $this->assertDataPresent(new Data($user, 'email'), $list);
         $this->assertDataPresent(new Data($user, 'password'), $list);

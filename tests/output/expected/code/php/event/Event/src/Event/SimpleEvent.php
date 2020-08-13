@@ -15,11 +15,4 @@ namespace CodePrimer\Tests\Event;
  */
 class SimpleEvent
 {
-    /**
-     * SimpleEvent default constructor
-     */
-    public function __construct(
-    ) {
-    }
-
 }

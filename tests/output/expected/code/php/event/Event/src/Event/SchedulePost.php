@@ -17,17 +17,63 @@ namespace CodePrimer\Tests\Event;
  */
 class SchedulePost
 {
-    /** @var string  */
+    /** @var string The post's unique ID in our system */
     protected $id;
 
-    /** @var string  */
+    /** @var string The time at which this post must be published */
     protected $scheduled;
 
     /**
      * SchedulePost default constructor
+     * @var string $id The post's unique ID in our system
+     * @var string $scheduled The time at which this post must be published
      */
     public function __construct(
+        string $id,
+        string $scheduled
     ) {
+        $this->id = $id;
+        $this->scheduled = $scheduled;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @param string $id
+     * @return SchedulePost
+     */
+    public function setId(string $id): SchedulePost
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @param string $scheduled
+     * @return SchedulePost
+     */
+    public function setScheduled(string $scheduled): SchedulePost
+    {
+        $this->scheduled = $scheduled;
+        return $this;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @return string
+     */
+    public function getScheduled(): string
+    {
+        return $this->scheduled;
     }
 
 }

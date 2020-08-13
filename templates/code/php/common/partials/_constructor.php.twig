@@ -1,27 +1,28 @@
 {# Template: _constructor.php.twig
  # This template outputs a default constructor in a PHP class
+ # Variables:
+ # - mandatoryFields: List of mandatory fields to include in the constructor. If not set, model.mandatoryFields will be used
  #}
+{% set mandatoryFields = mandatoryFields ?? model.mandatoryFields %}
+{% if not mandatoryFields is empty %}
     /**
      * {{ model|class }} default constructor
-{% for field in model.fields %}
-    {%~ if field.mandatory %}
+    {%~ for field in mandatoryFields %}
      * @var {{ field|hint }} {{ field|variable }} {{ field.description|raw }}
-    {%~ endif %}
-{% endfor %}
+    {%~ endfor %}
      */
     public function __construct(
-{% for field in model.mandatoryFields %}
-    {%~ if loop.last %}
+    {%~ for field in mandatoryFields %}
+        {%~ if loop.last %}
         {{ field|type }} {{ field|variable }}
-    {%~ else  %}
+        {%~ else  %}
         {{ field|type }} {{ field|variable }},
-    {%~ endif %}
-{% endfor %}
+        {%~ endif %}
+    {%~ endfor %}
     ) {
-{% for field in model.fields %}
-    {%~ if field.mandatory %}
+    {%~ for field in mandatoryFields %}
         {{ field|member }} = {{ field|variable }};
-    {%~ endif %}
-{% endfor %}
+    {%~ endfor %}
     }
 
+{% endif %}

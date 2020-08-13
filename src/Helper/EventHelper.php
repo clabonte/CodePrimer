@@ -11,7 +11,7 @@ class EventHelper
     /**
      * @return EventData[]
      */
-    public function listMandatoryData(Event $event): array
+    public function getMandatoryData(Event $event): array
     {
         $data = [];
         foreach ($event->getDataBundles() as $dataBundle) {

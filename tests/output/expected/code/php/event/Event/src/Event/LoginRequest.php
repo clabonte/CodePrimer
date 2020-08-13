@@ -15,17 +15,63 @@ namespace CodePrimer\Tests\Event;
  */
 class LoginRequest
 {
-    /** @var string  */
+    /** @var string User email address */
     protected $email;
 
-    /** @var string  */
+    /** @var string User password */
     protected $password;
 
     /**
      * LoginRequest default constructor
+     * @var string $email User email address
+     * @var string $password User password
      */
     public function __construct(
+        string $email,
+        string $password
     ) {
+        $this->email = $email;
+        $this->password = $password;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @param string $email
+     * @return LoginRequest
+     */
+    public function setEmail(string $email): LoginRequest
+    {
+        $this->email = $email;
+        return $this;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @param string $password
+     * @return LoginRequest
+     */
+    public function setPassword(string $password): LoginRequest
+    {
+        $this->password = $password;
+        return $this;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @return string
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
     }
 
 }

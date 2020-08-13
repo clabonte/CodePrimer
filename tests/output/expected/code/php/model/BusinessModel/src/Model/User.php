@@ -79,6 +79,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $id
      * @return User
      */
@@ -89,6 +90,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string
      */
     public function getId(): string
@@ -97,6 +99,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string|null $firstName
      * @return User
      */
@@ -107,6 +110,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string|null
      */
     public function getFirstName(): ?string
@@ -115,6 +119,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string|null $lastName
      * @return User
      */
@@ -125,6 +130,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string|null
      */
     public function getLastName(): ?string
@@ -133,6 +139,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string|null $nickname
      * @return User
      */
@@ -143,6 +150,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string|null
      */
     public function getNickname(): ?string
@@ -151,6 +159,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $email
      * @return User
      */
@@ -161,6 +170,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string
      */
     public function getEmail(): string
@@ -169,6 +179,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $password
      * @return User
      */
@@ -179,6 +190,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string
      */
     public function getPassword(): string
@@ -187,6 +199,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @param DateTimeInterface|null $created
      * @return User
      */
@@ -197,6 +210,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @return DateTimeInterface|null
      */
     public function getCreated(): ?DateTimeInterface
@@ -205,6 +219,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @param DateTimeInterface|null $updated
      * @return User
      */
@@ -215,6 +230,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @return DateTimeInterface|null
      */
     public function getUpdated(): ?DateTimeInterface
@@ -223,6 +239,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string|null $crmId
      * @return User
      */
@@ -233,6 +250,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string|null
      */
     public function getCrmId(): ?string
@@ -241,6 +259,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string|null $activationCode
      * @return User
      */
@@ -251,6 +270,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string|null
      */
     public function getActivationCode(): ?string
@@ -259,6 +279,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @param UserStats|null $stats
      * @return User
      */
@@ -269,6 +290,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @return UserStats|null
      */
     public function getStats(): ?UserStats
@@ -277,6 +299,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @param Subscription|null $subscription
      * @return User
      */
@@ -287,6 +310,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @return Subscription|null
      */
     public function getSubscription(): ?Subscription
@@ -295,6 +319,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @param Metadata[]|null $metadata
      * @return User
      */
@@ -305,6 +330,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @return Metadata[]|null
      */
     public function getMetadata(): ?array
@@ -313,6 +339,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @param Post[]|null $posts
      * @return User
      */
@@ -323,6 +350,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @return Post[]|null
      */
     public function getPosts(): ?array
@@ -331,6 +359,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @param Topic[]|null $topics
      * @return User
      */
@@ -341,6 +370,7 @@ class User
     }
 
     /**
+     * @codeCoverageIgnore
      * @return Topic[]|null
      */
     public function getTopics(): ?array

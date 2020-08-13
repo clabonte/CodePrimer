@@ -35,6 +35,7 @@ class Metadata
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $name
      * @return Metadata
      */
@@ -45,6 +46,7 @@ class Metadata
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string
      */
     public function getName(): string
@@ -53,6 +55,7 @@ class Metadata
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $value
      * @return Metadata
      */
@@ -63,6 +66,7 @@ class Metadata
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string
      */
     public function getValue(): string

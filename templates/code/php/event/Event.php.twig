@@ -1,4 +1,5 @@
 {% extends "code/php/common/class.php.twig" %}
+{% set dataList = eventHelper.getNamedData(event) %}
 
 {# Override the includes block to include the DateTime class if needed #}
 {% block includes %}
@@ -7,9 +8,31 @@
 
     {%~ endif %}
 {% endblock %}
+
 {# Override the fields block to deal with data elements #}
 {% block fields %}
-    {%~ for data in eventHelper.getNamedData(event) %}
-    {%~ include 'code/php/common/partials/_field.php.twig' with {'field': data} %}
+    {%~ for data in dataList %}
+        {%~ include 'code/php/common/partials/_field.php.twig' with {'field': data} %}
+    {%~ endfor %}
+{% endblock %}
+
+{# Override the constructor block to deal with data elements #}
+{% block constructor %}
+    {%~ include 'code/php/common/partials/_constructor.php.twig' with {'mandatoryFields': eventHelper.getMandatoryData(event)}  %}
+{% endblock %}
+
+{# Override the setters and getters block to deal with data elements #}
+{% block setters_getters %}
+    {%~ for data in dataList %}
+        {%~ if setters %}
+            {%~ if fluent %}
+                {%~ include 'code/php/common/partials/_fluent_setter.php.twig' with {'field': data}  %}
+            {%~ else %}
+                {%~ include 'code/php/common/partials/_setter.php.twig' with {'field': data}  %}
+            {%~ endif %}
+        {%~ endif %}
+        {%~ if getters %}
+            {%~ include 'code/php/common/partials/_getter.php.twig' with {'field': data}  %}
+        {%~ endif %}
     {%~ endfor %}
 {% endblock %}
