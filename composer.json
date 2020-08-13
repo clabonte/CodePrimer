@@ -42,7 +42,7 @@
         }
     },
     "scripts": {
-        "php-cs-fixer": "php-cs-fixer fix",
+        "format-code": "php-cs-fixer fix",
         "phpunit": "vendor/bin/phpunit -c phpunit.xml.dist",
         "sample-app": "cd sample; php ChannelApp.php; cd ..",
         "update-doc": "cd app; php prime.php; cd .."
