@@ -3,12 +3,32 @@
 namespace CodePrimer\Helper;
 
 use CodePrimer\Model\Data\Data;
+use CodePrimer\Model\Data\EventData;
 use CodePrimer\Model\Derived\Event;
 
 class EventHelper
 {
     /**
-     * @return Data[]
+     * @return EventData[]
+     */
+    public function listMandatoryData(Event $event): array
+    {
+        $data = [];
+        foreach ($event->getDataBundles() as $dataBundle) {
+            foreach ($dataBundle->getData() as $list) {
+                foreach ($list as $item) {
+                    if ($item->isMandatory()) {
+                        $data[] = $item;
+                    }
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * @return EventData[]
      */
     public function getNamedData(Event $event): array
     {

@@ -12,6 +12,7 @@ The FunctionalTest has the following processes available
 | Business Process | Type | Description | Triggering Event | Message Produced |
 | ---------------- | ---- | ------------| ---------------- | ---------------- |
 | [User Login](UserLogin.md) | Login | This process is triggered when a user wants to login with our application. Upon success, the context is updated with the user information. | [Login Request](UserLogin.md#login-request-event) | user.login |
+| [User Registration](UserRegistration.md) | Register | This process is triggered when a user wants to register with our application. Upon success, the user is created internally but is not logged in yet. | [Registration Request](UserRegistration.md#registration-request-event) | user.new |
 
 ## Category: Posts
 

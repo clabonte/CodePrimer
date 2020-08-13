@@ -3,6 +3,7 @@
 namespace CodePrimer\Tests\Helper;
 
 use CodePrimer\Helper\EventHelper;
+use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\EventData;
 use CodePrimer\Model\Data\EventDataBundle;
 use CodePrimer\Model\Derived\Event;
@@ -91,5 +92,35 @@ class EventHelperTest extends TestCase
         self::assertArrayHasKey('bundle2UserCreated', $data);
         self::assertArrayHasKey('bundle2UserUpdated', $data);
         self::assertArrayHasKey('bundle2TopicUpdated', $data);
+    }
+
+    public function testListMandatoryFieldsShouldReturnProperFields()
+    {
+        $helper = new EventHelper();
+        $bundle = TestHelper::getSampleBusinessBundle();
+        $user = $bundle->getBusinessModel('User');
+
+        $event = $bundle->getEvent('Registration Request');
+        self::assertNotNull($event);
+
+        $list = $helper->listMandatoryData($event);
+        self::assertCount(2, $list);
+        $this->assertDataPresent(new Data($user, 'email'), $list);
+        $this->assertDataPresent(new Data($user, 'password'), $list);
+    }
+
+    /**
+     * @param Data[] $list
+     */
+    private function assertDataPresent(Data $expectedData, array $list)
+    {
+        $found = false;
+
+        foreach ($list as $data) {
+            if ($data->isSame($expectedData)) {
+                $found = true;
+            }
+        }
+        self::assertTrue($found, 'Data not found: '.$expectedData->getBusinessModel()->getName().', '.$expectedData->getField()->getName());
     }
 }

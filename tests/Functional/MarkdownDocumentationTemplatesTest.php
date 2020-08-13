@@ -47,7 +47,7 @@ class MarkdownDocumentationTemplatesTest extends TemplateTestCase
     {
         $this->initEntities();
 
-        self::assertCount(3, $this->businessBundle->getBusinessProcesses());
+        self::assertCount(4, $this->businessBundle->getBusinessProcesses());
 
         $artifact = new Artifact(Artifact::DOCUMENTATION, 'process', 'markdown', 'index');
 
@@ -75,7 +75,7 @@ class MarkdownDocumentationTemplatesTest extends TemplateTestCase
         $languageExtension = new LanguageTwigExtension();
 
         $businessProcesses = $this->businessBundle->getBusinessProcesses();
-        self::assertCount(3, $businessProcesses);
+        self::assertCount(4, $businessProcesses);
 
         $artifact = new Artifact(Artifact::DOCUMENTATION, 'process', 'markdown', 'details');
 

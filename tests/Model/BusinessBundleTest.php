@@ -245,7 +245,7 @@ class BusinessBundleTest extends TestCase
     public function testGetEventsIncludeBusinessProcessEvents()
     {
         $businessBundle = TestHelper::getSampleBusinessBundle();
-        self::assertCount(3, $businessBundle->getEvents());
+        self::assertCount(4, $businessBundle->getEvents());
     }
 
     public function testAddEvent()

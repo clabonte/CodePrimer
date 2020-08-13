@@ -269,7 +269,54 @@ class TestHelper
         $businessBundle->addBusinessProcess($businessProcess);
 
         // --------------------------------------------------------
-        // Process 3: Schedule a post
+        // Process 3: Simulate a register process
+        // --------------------------------------------------------
+        // 1. Define the input data required for this process
+        $eventBundle = new EventDataBundle();
+        $dataBundleHelper->addFieldsAsMandatory($eventBundle, $user, ['email', 'password']);
+        $dataBundleHelper->addFieldsAsOptional($eventBundle, $user, ['firstName', 'lastName', 'nickname']);
+
+        // 2. Define the event that will trigger this process
+        $event = new Event(
+            'Registration Request',
+            'Event triggered when user wants to register with the application');
+        $event->addDataBundle($eventBundle);
+
+        // 3. Create the Business Process
+        $businessProcess = new BusinessProcess(
+            'User Registration',
+            'This process is triggered when a user wants to register with our application. Upon success, the user is created internally but is not logged in yet.',
+            $event);
+
+        // Set the process attributes
+        $businessProcess
+            ->setCategory('Users')
+            ->setType(ProcessType::REGISTER)
+            ->setExternalAccess(true);
+
+        // 4. Define the bundle of data required by this process
+        // N/A
+
+        // 5. Define the bundle of data produced by this process
+        $internalBundle = new InternalDataBundle();
+        $internalBundle->setDescription('User profile created');
+        $dataBundleHelper->addBusinessModelAttributes($internalBundle, $user, true);
+        $businessProcess->addProducedData($internalBundle);
+
+        // 6. Define the message(s) published by this process
+        $msgBundle = $dataBundleHelper->createDataBundleFromExisting($internalBundle);
+        $msgBundle->remove($user->getName(), 'password');
+        $message = new Message('user.new');
+        $message
+            ->setDescription('Message published when a new user has been created in our application')
+            ->addDataBundle($msgBundle);
+
+        $businessProcess->addMessage($message);
+
+        $businessBundle->addBusinessProcess($businessProcess);
+
+        // --------------------------------------------------------
+        // Process 4: Schedule a post
         // --------------------------------------------------------
         // 1. Define the input data required for this process
         $eventBundle = new EventDataBundle();

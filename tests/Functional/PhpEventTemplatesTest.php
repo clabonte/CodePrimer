@@ -23,7 +23,7 @@ class PhpEventTemplatesTest extends TemplateTestCase
         $languageExtension = new LanguageTwigExtension();
 
         $events = $this->businessBundle->getEvents();
-        self::assertCount(3, $events);
+        self::assertCount(4, $events);
 
         $artifact = new Artifact(Artifact::CODE, 'event', 'php');
 
