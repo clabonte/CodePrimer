@@ -7,6 +7,7 @@ use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\BusinessProcess;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Set;
+use CodePrimer\Tests\Helper\TestHelper;
 use PHPUnit\Framework\TestCase;
 
 class BusinessBundleTest extends TestCase
@@ -241,6 +242,12 @@ class BusinessBundleTest extends TestCase
         self::assertNull($this->businessBundle->getBusinessModel('TestData4'));
     }
 
+    public function testGetEventsIncludeBusinessProcessEvents()
+    {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        self::assertCount(3, $businessBundle->getEvents());
+    }
+
     public function testAddEvent()
     {
         $this->businessBundle
@@ -264,37 +271,42 @@ class BusinessBundleTest extends TestCase
         self::assertNotNull($event, 'TestEvent3 not found');
         self::assertEquals('TestEvent3', $event->getName());
         self::assertEquals('description3', $event->getDescription());
+
+        self::assertNull($this->businessBundle->getEvent('TestEvent4'));
     }
 
-    public function testSetEvents()
+    public function testAddSameEventNameOverridesFirstOne()
     {
         $this->businessBundle
             ->addEvent(new Event('TestEvent1', 'description1'))
-            ->addEvent(new Event('TestEvent2', 'description2'))
-            ->addEvent(new Event('TestEvent3', 'description3'));
-
-        $events = [
-            new Event('TestEvent4', 'description4'),
-            new Event('TestEvent5', 'description5'),
-        ];
-
-        $this->businessBundle->setEvents($events);
+            ->addEvent(new Event('TestEvent2', 'description2'));
 
         self::assertCount(2, $this->businessBundle->getEvents());
 
-        $event = $this->businessBundle->getEvent('TestEvent4');
-        self::assertNotNull($event, 'TestEvent4 not found');
-        self::assertEquals('TestEvent4', $event->getName());
-        self::assertEquals('description4', $event->getDescription());
+        $event = $this->businessBundle->getEvent('TestEvent1');
+        self::assertNotNull($event, 'TestEvent1 not found');
+        self::assertEquals('TestEvent1', $event->getName());
+        self::assertEquals('description1', $event->getDescription());
 
-        $event = $this->businessBundle->getEvent('TestEvent5');
-        self::assertNotNull($event, 'TestEvent5 not found');
-        self::assertEquals('TestEvent5', $event->getName());
-        self::assertEquals('description5', $event->getDescription());
+        $event = $this->businessBundle->getEvent('TestEvent2');
+        self::assertNotNull($event, 'TestEvent2 not found');
+        self::assertEquals('TestEvent2', $event->getName());
+        self::assertEquals('description2', $event->getDescription());
 
-        self::assertNull($this->businessBundle->getEvent('TestEvent1'));
-        self::assertNull($this->businessBundle->getEvent('TestEvent2'));
-        self::assertNull($this->businessBundle->getEvent('TestEvent3'));
+        $this->businessBundle
+            ->addEvent(new Event('TestEvent1', 'description3'));
+
+        self::assertCount(2, $this->businessBundle->getEvents());
+
+        $event = $this->businessBundle->getEvent('TestEvent1');
+        self::assertNotNull($event, 'TestEvent1 not found');
+        self::assertEquals('TestEvent1', $event->getName());
+        self::assertEquals('description3', $event->getDescription());
+
+        $event = $this->businessBundle->getEvent('TestEvent2');
+        self::assertNotNull($event, 'TestEvent2 not found');
+        self::assertEquals('TestEvent2', $event->getName());
+        self::assertEquals('description2', $event->getDescription());
     }
 
     public function testAddSet()

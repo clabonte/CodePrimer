@@ -1,5 +1,5 @@
-# Synchronous Process Business Process
-This is a sample Synchronous
+# Synchronous Process No Data Business Process
+This is a sample synchronous process that does not require any data as input
 
 ## Overview
  - **Category**: 

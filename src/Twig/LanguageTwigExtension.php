@@ -7,6 +7,7 @@ use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\BusinessProcess;
 use CodePrimer\Model\Constraint;
+use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\DataBundle;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
@@ -860,6 +861,8 @@ class LanguageTwigExtension extends AbstractExtension
         } elseif ($obj instanceof BusinessBundle) {
             $name = $obj->getName();
         } elseif ($obj instanceof DataBundle) {
+            $name = $obj->getName();
+        } elseif ($obj instanceof Data) {
             $name = $obj->getName();
         } elseif ($obj instanceof Event) {
             $name = $obj->getName();

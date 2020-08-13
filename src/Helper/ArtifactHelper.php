@@ -4,6 +4,7 @@ namespace CodePrimer\Helper;
 
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Template\Artifact;
+use Doctrine\Inflector\InflectorFactory;
 
 class ArtifactHelper
 {
@@ -13,6 +14,7 @@ class ArtifactHelper
     public function getDirectory(BusinessBundle $businessBundle, Artifact $artifact)
     {
         $dir = '.';
+        $inflector = InflectorFactory::create()->build();
 
         switch ($artifact->getCategory()) {
             case Artifact::CODE:
@@ -26,54 +28,30 @@ class ArtifactHelper
                 break;
         }
 
-        switch ($artifact->getType()) {
-            case 'model':
-                switch ($artifact->getFormat()) {
-                    case 'php':
-                        $dir .= '/Model';
-                        break;
-                    case 'java':
-                        $dir .= '/'.$this->getJavaBasePath($businessBundle).'/model';
-                        break;
-                    case 'markdown':
+        switch ($artifact->getFormat()) {
+            case 'php':
+                if (Artifact::CODE == $artifact->getCategory()) {
+                    $dir .= '/'.$inflector->classify($artifact->getType());
+                    if (!empty($artifact->getVariant())) {
+                        //$dir .= '/'.$inflector->classify($artifact->getVariant());
+                    }
+                }
+                break;
+            case 'java':
+                if (Artifact::CODE == $artifact->getCategory()) {
+                    $dir .= '/'.$this->getJavaBasePath($businessBundle).'/'.strtolower($artifact->getType());
+                }
+                break;
+            case 'mysql':
+                $dir = $inflector->pluralize(strtolower($artifact->getType()));
+                break;
+            case 'markdown':
+                switch ($artifact->getType()) {
+                    case 'model':
                         $dir .= '/DataModel';
                         break;
-                }
-                break;
-            case 'process':
-                switch ($artifact->getFormat()) {
-                    case 'markdown':
-                        $dir .= '/Process';
-                        break;
-                }
-                break;
-            case 'entity':
-                switch ($artifact->getFormat()) {
-                    case 'php':
-                        $dir .= '/Entity';
-                        break;
-                    case 'java':
-                        $dir .= '/'.$this->getJavaBasePath($businessBundle).'/entity';
-                        break;
-                }
-                break;
-            case 'repository':
-                switch ($artifact->getFormat()) {
-                    case 'php':
-                        $dir .= '/Repository';
-                        break;
-                    case 'java':
-                        $dir .= '/'.$this->getJavaBasePath($businessBundle).'/repository';
-                        break;
-                }
-                break;
-            case 'migration':
-                switch ($artifact->getFormat()) {
-                    case 'php':
-                        $dir .= '/Migrations';
-                        break;
-                    case 'mysql':
-                        $dir = 'migrations';
+                    default:
+                        $dir .= '/'.$inflector->classify($artifact->getType());
                         break;
                 }
         }

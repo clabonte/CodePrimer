@@ -11,7 +11,7 @@ use Doctrine\Migrations\AbstractMigration;
 {% endblock %}
 
 {% block namespace %}
-namespace DoctrineMigrations;
+namespace {{ package|namespace }};
 {% endblock %}
 
 {#- Block: class_comments

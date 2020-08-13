@@ -25,7 +25,7 @@ If you are interested to contribute on a frequent basis, **feel free to contact 
 In order to maintain the quality of this project, **important rules** must be followed for a **Pull Request to be considered**:
 
 1. **Make sure all test cases are passing** by running the following command: `composer phpunit`
-2. **Make sure your code is following the project's coding standards** by running the following command: `composer php-cs-fixer`
+2. **Make sure your code is following the project's coding standards** by running the following command: `composer format-code`
 3. **Make sure you maintain the project's code coverage above 90%** (ideally 95%)
 
 > The **above rules are being strictly enforced** via GitHub workflows for any Pull Request opened against the master branch. 

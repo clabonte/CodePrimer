@@ -2,6 +2,7 @@
 
 namespace CodePrimer\Tests\Renderer;
 
+use CodePrimer\Helper\ArtifactHelper;
 use CodePrimer\Renderer\TemplateRenderer;
 use CodePrimer\Template\Artifact;
 use CodePrimer\Template\Template;
@@ -102,5 +103,13 @@ class TemplateRendererTest extends TestCase
         $content = $this->helper->renderTemplate($template);
 
         self::assertEquals($expected, $content);
+    }
+
+    public function testConstructorWithCustomerHelperShouldPass()
+    {
+        $stub = $this->getMockBuilder(ArtifactHelper::class)->getMock();
+
+        $renderer = new TemplateRenderer($this->loader, self::ROOT.'output/actual', $stub);
+        self::assertEquals($stub, $renderer->getHelper());
     }
 }

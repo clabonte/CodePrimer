@@ -123,9 +123,13 @@ class TemplateRegistry
         $phpExtensions = [new PhpTwigExtension()];
         $doctrineOrmExtensions = [new DoctrineOrmTwigExtension()];
 
-        // PHP BusinessModel templates
+        // PHP BusinessModel
         $this->addTemplate(new Template('BusinessModel', new Artifact(Artifact::CODE, 'model', 'php'), $phpExtensions),
             'Generate plain PHP BusinessModel classes');
+
+        // PHP Event
+        $this->addTemplate(new Template('Event', new Artifact(Artifact::CODE, 'event', 'php'), $phpExtensions),
+            'Generate plain PHP Event classes');
 
         // PHP Entity
         $this->addTemplate(new Template('PlainEntity', new Artifact(Artifact::CODE, 'entity', 'php'), $phpExtensions),

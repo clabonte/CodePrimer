@@ -22,6 +22,14 @@ use Doctrine\ORM\Mapping as ORM;
 class Post
 {
     /**
+     * @var string The post's unique ID in our system
+     * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(name="id", type="string", length=36)
+     */
+    protected $id = '';
+
+    /**
      * @var string The post title
      * @ORM\Column(name="title", type="string", length=255)
      */
@@ -32,6 +40,12 @@ class Post
      * @ORM\Column(name="body", type="text")
      */
     protected $body = '';
+
+    /**
+     * @var DateTimeInterface|null The time at which this post must be published
+     * @ORM\Column(name="scheduled", type="datetime", nullable=true)
+     */
+    protected $scheduled = null;
 
     /**
      * @var User The user who created this post
@@ -58,33 +72,43 @@ class Post
     protected $updated = null;
 
     /**
-     * @var string DB unique identifier field
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="UUID")
-     * @ORM\Column(name="id", type="string", length=36)
-     */
-    protected $id = '';
-
-    /**
      * Post default constructor
+     * @var string $id The post's unique ID in our system
      * @var string $title The post title
      * @var string $body The post body
      * @var User $author The user who created this post
      * @var Topic $topic The topic to which this post belongs
-     * @var string $id DB unique identifier field
      */
     public function __construct(
+        string $id,
         string $title,
         string $body,
         User $author,
-        Topic $topic,
-        string $id
+        Topic $topic
     ) {
+        $this->id = $id;
         $this->title = $title;
         $this->body = $body;
         $this->author = $author;
         $this->topic = $topic;
+    }
+
+    /**
+     * @param string $id
+     * @return Post
+     */
+    public function setId(string $id): Post
+    {
         $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     /**
@@ -121,6 +145,24 @@ class Post
     public function getBody(): string
     {
         return $this->body;
+    }
+
+    /**
+     * @param DateTimeInterface|null $scheduled
+     * @return Post
+     */
+    public function setScheduled(?DateTimeInterface $scheduled): Post
+    {
+        $this->scheduled = $scheduled;
+        return $this;
+    }
+
+    /**
+     * @return DateTimeInterface|null
+     */
+    public function getScheduled(): ?DateTimeInterface
+    {
+        return $this->scheduled;
     }
 
     /**
@@ -193,24 +235,6 @@ class Post
     public function getUpdated(): ?DateTimeInterface
     {
         return $this->updated;
-    }
-
-    /**
-     * @param string $id
-     * @return Post
-     */
-    public function setId(string $id): Post
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->id;
     }
 
     /**

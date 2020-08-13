@@ -17,11 +17,17 @@ use \DateTimeInterface;
  */
 class Post
 {
+    /** @var string The post's unique ID in our system */
+    protected $id = '';
+
     /** @var string The post title */
     protected $title = '';
 
     /** @var string The post body */
     protected $body = '';
+
+    /** @var DateTimeInterface|null The time at which this post must be published */
+    protected $scheduled = null;
 
     /** @var User The user who created this post */
     protected $author;
@@ -37,21 +43,42 @@ class Post
 
     /**
      * Post default constructor
+     * @var string $id The post's unique ID in our system
      * @var string $title The post title
      * @var string $body The post body
      * @var User $author The user who created this post
      * @var Topic $topic The topic to which this post belongs
      */
     public function __construct(
+        string $id,
         string $title,
         string $body,
         User $author,
         Topic $topic
     ) {
+        $this->id = $id;
         $this->title = $title;
         $this->body = $body;
         $this->author = $author;
         $this->topic = $topic;
+    }
+
+    /**
+     * @param string $id
+     * @return Post
+     */
+    public function setId(string $id): Post
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
     }
 
     /**
@@ -88,6 +115,24 @@ class Post
     public function getBody(): string
     {
         return $this->body;
+    }
+
+    /**
+     * @param DateTimeInterface|null $scheduled
+     * @return Post
+     */
+    public function setScheduled(?DateTimeInterface $scheduled): Post
+    {
+        $this->scheduled = $scheduled;
+        return $this;
+    }
+
+    /**
+     * @return DateTimeInterface|null
+     */
+    public function getScheduled(): ?DateTimeInterface
+    {
+        return $this->scheduled;
     }
 
     /**

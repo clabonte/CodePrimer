@@ -2,10 +2,14 @@
 
 namespace CodePrimer\Helper;
 
+use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Derived\Event;
 
 class EventHelper
 {
+    /**
+     * @return Data[]
+     */
     public function getNamedData(Event $event): array
     {
         $this->setDataNames($event);

@@ -127,10 +127,6 @@ class RelationalDatabaseAdapterTest extends TestCase
         self::assertNotNull($businessModel);
         self::assertNull($businessModel->getIdentifier());
 
-        $businessModel = $businessBundle->getBusinessModel('Post');
-        self::assertNotNull($businessModel);
-        self::assertNull($businessModel->getIdentifier());
-
         // Add a new BusinessModel with an 'id' field that does not qualify as an identifier
         $businessModel = new BusinessModel('TestEntity');
         $businessModel->addField(new Field('id', FieldType::STRING));
@@ -150,16 +146,6 @@ class RelationalDatabaseAdapterTest extends TestCase
         self::assertTrue($field->isMandatory());
 
         $businessModel = $businessBundle->getBusinessModel('Metadata');
-        self::assertNotNull($businessModel);
-        $field = $businessModel->getIdentifier();
-        self::assertNotNull($field);
-        self::assertEquals(FieldType::UUID, $field->getType());
-        self::assertEquals('id', $field->getName());
-        self::assertTrue($field->isGenerated());
-        self::assertTrue($field->isManaged());
-        self::assertTrue($field->isMandatory());
-
-        $businessModel = $businessBundle->getBusinessModel('Post');
         self::assertNotNull($businessModel);
         $field = $businessModel->getIdentifier();
         self::assertNotNull($field);
