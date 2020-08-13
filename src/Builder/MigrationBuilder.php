@@ -62,7 +62,7 @@ class MigrationBuilder implements ArtifactBuilder
 
         $context = [
             'package' => $businessBundle,
-            'subpackage' => 'Migrations',
+            'subpackage' => 'Migration',
             'model' => $filename,
             'packageHelper' => new BusinessBundleHelper(),
             'entityHelper' => new BusinessModelHelper(),

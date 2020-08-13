@@ -56,6 +56,14 @@ class TemplateRenderer
     }
 
     /**
+     * @codeCoverageIgnore
+     */
+    public function getHelper(): ArtifactHelper
+    {
+        return $this->helper;
+    }
+
+    /**
      * Loads a Twig template based on the following logic:
      * If an extended version of this template exists in the ext/ folder, this one will be returned by this method.
      * Otherwise, the original template requested will be returned.

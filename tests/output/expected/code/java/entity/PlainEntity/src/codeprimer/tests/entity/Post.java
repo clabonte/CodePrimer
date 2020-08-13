@@ -14,11 +14,17 @@ package codeprimer.tests;
  */
 public class Post
 {
+    /** The post's unique ID in our system */
+    private String id = "";
+
     /** The post title */
     private String title = "";
 
     /** The post body */
     private String body = "";
+
+    /** The time at which this post must be published */
+    private Date scheduled = null;
 
     /** The user who created this post */
     private User author;
@@ -34,21 +40,40 @@ public class Post
 
     /**
      * Post default constructor
+     * @param id The post's unique ID in our system
      * @param title The post title
      * @param body The post body
      * @param author The user who created this post
      * @param topic The topic to which this post belongs
      */
     public Post (
+        String id,
         String title,
         String body,
         User author,
         Topic topic
     ) {
+        this.id = id;
         this.title = title;
         this.body = body;
         this.author = author;
         this.topic = topic;
+    }
+
+    /**
+     * @param id
+     * @return Post
+     */
+    public Post setId(String id) {
+        this.id = id;
+        return this;
+    }
+
+    /**
+     * @return String
+     */
+    public String getId() {
+        return this.id;
     }
 
     /**
@@ -81,6 +106,22 @@ public class Post
      */
     public String getBody() {
         return this.body;
+    }
+
+    /**
+     * @param scheduled
+     * @return Post
+     */
+    public Post setScheduled(Date scheduled) {
+        this.scheduled = scheduled;
+        return this;
+    }
+
+    /**
+     * @return Date
+     */
+    public Date getScheduled() {
+        return this.scheduled;
     }
 
     /**

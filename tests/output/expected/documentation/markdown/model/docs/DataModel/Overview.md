@@ -78,6 +78,7 @@ Post created by the user
 | ---- | ---- | ----------- | --------- | ------- | ------- | ---------- | ------ |
 | **title** | string | The post title | yes | *N/A* |  | no | no |
 | **body** | text | The post body | yes | *N/A* |  | no | no |
+| **scheduled** | datetime | The time at which this post must be published | no | *Empty* |  | no | no |
 
 ### Business Relations
 
@@ -91,6 +92,7 @@ The following fields are automatically managed by the backend and cannot be modi
 
 | Name | Type | Description | Mandatory | Example | Searchable | Unique |
 | ---- | ---- | ----------- | --------- | ------- | ---------- | ------ |
+| **id** | uuid | The post&#039;s unique ID in our system | yes | deadbeef-1164-4289-98b4-65706837c4d7 | no | no |
 | **created** | datetime | Time at which the post was created | no |  | no | no |
 | **updated** | datetime | Last time at which the post was updated | no |  | no | no |
 

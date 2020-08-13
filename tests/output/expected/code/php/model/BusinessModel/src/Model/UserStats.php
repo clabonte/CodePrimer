@@ -27,13 +27,7 @@ class UserStats
     protected $loginCount = null;
 
     /**
-     * UserStats default constructor
-     */
-    public function __construct(
-    ) {
-    }
-
-    /**
+     * @codeCoverageIgnore
      * @param DateTimeInterface|null $firstLogin
      * @return UserStats
      */
@@ -44,6 +38,7 @@ class UserStats
     }
 
     /**
+     * @codeCoverageIgnore
      * @return DateTimeInterface|null
      */
     public function getFirstLogin(): ?DateTimeInterface
@@ -52,6 +47,7 @@ class UserStats
     }
 
     /**
+     * @codeCoverageIgnore
      * @param DateTimeInterface|null $lastLogin
      * @return UserStats
      */
@@ -62,6 +58,7 @@ class UserStats
     }
 
     /**
+     * @codeCoverageIgnore
      * @return DateTimeInterface|null
      */
     public function getLastLogin(): ?DateTimeInterface
@@ -70,6 +67,7 @@ class UserStats
     }
 
     /**
+     * @codeCoverageIgnore
      * @param int|null $loginCount
      * @return UserStats
      */
@@ -80,6 +78,7 @@ class UserStats
     }
 
     /**
+     * @codeCoverageIgnore
      * @return int|null
      */
     public function getLoginCount(): ?int

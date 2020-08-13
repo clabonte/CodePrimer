@@ -6,7 +6,7 @@
  * file that was distributed with this source code.
  */
 
-namespace DoctrineMigrations;
+namespace CodePrimer\Tests\Migration;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
@@ -14,7 +14,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Class Version00000000000001
  * This is the initial migration used to create the MySQL-compatible database for the application
- * @package CodePrimer\Tests\Migrations
+ * @package CodePrimer\Tests\Migration
  */
 final class Version00000000000001 extends AbstractMigration
 {

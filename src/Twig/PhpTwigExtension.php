@@ -2,10 +2,13 @@
 
 namespace CodePrimer\Twig;
 
+use CodePrimer\Helper\EventHelper;
 use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
+use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
+use InvalidArgumentException;
 use Twig\TwigFilter;
 use Twig\TwigTest;
 
@@ -37,18 +40,33 @@ class PhpTwigExtension extends LanguageTwigExtension
 
     /**
      * Checks if the DateTime type is used/required for a given entity.
+     *
+     * @param BusinessModel|Event $obj
      */
-    public function dateTimeUsed(BusinessModel $businessModel): bool
+    public function dateTimeUsed($obj): bool
     {
         $result = false;
 
-        $helper = new FieldHelper();
+        $fieldHelper = new FieldHelper();
 
-        foreach ($businessModel->getFields() as $field) {
-            if ($helper->isDateTime($field) || $helper->isDate($field) || $helper->isTime($field)) {
-                $result = true;
-                break;
+        if ($obj instanceof BusinessModel) {
+            foreach ($obj->getFields() as $field) {
+                if ($fieldHelper->isDateTime($field) || $fieldHelper->isDate($field) || $fieldHelper->isTime($field)) {
+                    $result = true;
+                    break;
+                }
             }
+        } elseif ($obj instanceof Event) {
+            $eventHelper = new EventHelper();
+            $list = $eventHelper->getNamedData($obj);
+            foreach ($list as $data) {
+                if ($fieldHelper->isDateTime($data->getField()) || $fieldHelper->isDate($data->getField()) || $fieldHelper->isTime($data->getField())) {
+                    $result = true;
+                    break;
+                }
+            }
+        } else {
+            throw new InvalidArgumentException('dateTimeUsed() PHP filter only support BusinessModel and Event');
         }
 
         return $result;

@@ -73,13 +73,14 @@ CREATE TABLE IF NOT EXISTS `metadata` (
 
 -- Creates a table to hold Post entities
 CREATE TABLE IF NOT EXISTS `posts` (
+  `id` CHAR(36) NOT NULL COMMENT 'The post''s unique ID in our system' COLLATE ascii_general_ci,
   `title` VARCHAR(255) NOT NULL COMMENT 'The post title',
   `body` LONGTEXT NOT NULL COMMENT 'The post body',
+  `scheduled` DATETIME NULL DEFAULT NULL COMMENT 'The time at which this post must be published',
   `author_id` CHAR(36) NOT NULL COMMENT 'The user who created this post' COLLATE ascii_general_ci,
   `topic_id` CHAR(36) NOT NULL COMMENT 'The topic to which this post belongs' COLLATE ascii_general_ci,
   `created` DATETIME NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Time at which the post was created',
   `updated` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last time at which the post was updated',
-  `id` CHAR(36) NOT NULL COMMENT 'DB unique identifier field' COLLATE ascii_general_ci,
   INDEX author_id_idx (author_id) COMMENT 'User foreign key',
   INDEX topic_id_idx (topic_id) COMMENT 'Topic foreign key',
   PRIMARY KEY (`id`)

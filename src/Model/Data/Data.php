@@ -25,6 +25,12 @@ class Data
     /** @var string One of the following constants: REFERENCE, BASIC, FULL */
     private $details;
 
+    /** @var string The name associated with this data (e.g. variable) based on its usage/location context */
+    private $name;
+
+    /** @var string|null A description of this data. If not set, the field's description will be used */
+    private $description = null;
+
     /**
      * Data constructor.
      *
@@ -64,6 +70,46 @@ class Data
     public function getDetails(): string
     {
         return $this->details;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function setName(string $name): Data
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string A description of this data, or the associated field's description if one is not provided
+     */
+    public function getDescription(): string
+    {
+        if (null === $this->description) {
+            return $this->field->getDescription();
+        }
+
+        return $this->description;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function setDescription(string $description): Data
+    {
+        $this->description = $description;
+
+        return $this;
     }
 
     public function isSame(Data $otherData): bool

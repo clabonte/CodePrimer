@@ -170,6 +170,8 @@ class BusinessBundle
     public function addBusinessProcess(BusinessProcess $businessProcess): self
     {
         $this->businessProcesses[$businessProcess->getName()] = $businessProcess;
+        // Automatically add the event triggering this process
+        $this->addEvent($businessProcess->getEvent());
 
         return $this;
     }
@@ -237,22 +239,6 @@ class BusinessBundle
     public function getEvents(): array
     {
         return $this->events;
-    }
-
-    /**
-     * @param Event[] $events
-     *
-     * @return BusinessBundle
-     */
-    public function setEvents(array $events): self
-    {
-        $this->events = [];
-
-        foreach ($events as $businessModel) {
-            $this->addEvent($businessModel);
-        }
-
-        return $this;
     }
 
     /**

@@ -83,6 +83,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $title
      * @return Topic
      */
@@ -93,6 +94,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string
      */
     public function getTitle(): string
@@ -101,6 +103,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string|null $description
      * @return Topic
      */
@@ -111,6 +114,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string|null
      */
     public function getDescription(): ?string
@@ -119,6 +123,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @param Collection|User[]|null $authors
      * @return Topic
      */
@@ -129,6 +134,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @return Collection|User[]|null
      */
     public function getAuthors(): Collection
@@ -137,6 +143,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @param Collection|Post[]|null $posts
      * @return Topic
      */
@@ -147,6 +154,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @return Collection|Post[]|null
      */
     public function getPosts(): Collection
@@ -155,6 +163,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @param DateTimeInterface|null $created
      * @return Topic
      */
@@ -165,6 +174,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @return DateTimeInterface|null
      */
     public function getCreated(): ?DateTimeInterface
@@ -173,6 +183,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @param DateTimeInterface|null $updated
      * @return Topic
      */
@@ -183,6 +194,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @return DateTimeInterface|null
      */
     public function getUpdated(): ?DateTimeInterface
@@ -191,6 +203,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $id
      * @return Topic
      */
@@ -201,6 +214,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string
      */
     public function getId(): string

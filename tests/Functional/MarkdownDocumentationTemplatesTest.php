@@ -3,6 +3,7 @@
 namespace CodePrimer\Tests\Functional;
 
 use CodePrimer\Template\Artifact;
+use CodePrimer\Twig\LanguageTwigExtension;
 
 /**
  * Class MarkdownDocumentationTemplatesTest.
@@ -46,7 +47,7 @@ class MarkdownDocumentationTemplatesTest extends TemplateTestCase
     {
         $this->initEntities();
 
-        self::assertCount(1, $this->businessBundle->getBusinessProcesses());
+        self::assertCount(4, $this->businessBundle->getBusinessProcesses());
 
         $artifact = new Artifact(Artifact::DOCUMENTATION, 'process', 'markdown', 'index');
 
@@ -71,8 +72,10 @@ class MarkdownDocumentationTemplatesTest extends TemplateTestCase
     public function testProcessDetailsTemplates()
     {
         $this->initEntities();
+        $languageExtension = new LanguageTwigExtension();
 
-        self::assertCount(1, $this->businessBundle->getBusinessProcesses());
+        $businessProcesses = $this->businessBundle->getBusinessProcesses();
+        self::assertCount(4, $businessProcesses);
 
         $artifact = new Artifact(Artifact::DOCUMENTATION, 'process', 'markdown', 'details');
 
@@ -88,6 +91,9 @@ class MarkdownDocumentationTemplatesTest extends TemplateTestCase
         $builder->build($this->businessBundle, $template, $this->renderer);
 
         // Make sure the right files have been generated
-        $this->assertGeneratedFile('docs/Process/SynchronousProcess.md', self::DOCUMENTATION_EXPECTED_DIR);
+        foreach ($businessProcesses as $businessProcess) {
+            $class = $languageExtension->classFilter($businessProcess);
+            $this->assertGeneratedFile("docs/Process/$class.md", self::DOCUMENTATION_EXPECTED_DIR);
+        }
     }
 }

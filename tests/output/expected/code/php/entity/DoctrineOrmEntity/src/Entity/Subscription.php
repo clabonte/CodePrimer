@@ -79,6 +79,7 @@ class Subscription
     }
 
     /**
+     * @codeCoverageIgnore
      * @param User $user
      * @return Subscription
      */
@@ -89,6 +90,7 @@ class Subscription
     }
 
     /**
+     * @codeCoverageIgnore
      * @return User
      */
     public function getUser(): User
@@ -97,6 +99,7 @@ class Subscription
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $plan
      * @return Subscription
      */
@@ -107,6 +110,7 @@ class Subscription
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string
      */
     public function getPlan(): string
@@ -115,6 +119,7 @@ class Subscription
     }
 
     /**
+     * @codeCoverageIgnore
      * @param DateTimeInterface $renewal
      * @return Subscription
      */
@@ -125,6 +130,7 @@ class Subscription
     }
 
     /**
+     * @codeCoverageIgnore
      * @return DateTimeInterface
      */
     public function getRenewal(): DateTimeInterface
@@ -133,6 +139,7 @@ class Subscription
     }
 
     /**
+     * @codeCoverageIgnore
      * @param DateTimeInterface|null $created
      * @return Subscription
      */
@@ -143,6 +150,7 @@ class Subscription
     }
 
     /**
+     * @codeCoverageIgnore
      * @return DateTimeInterface|null
      */
     public function getCreated(): ?DateTimeInterface
@@ -151,6 +159,7 @@ class Subscription
     }
 
     /**
+     * @codeCoverageIgnore
      * @param DateTimeInterface|null $updated
      * @return Subscription
      */
@@ -161,6 +170,7 @@ class Subscription
     }
 
     /**
+     * @codeCoverageIgnore
      * @return DateTimeInterface|null
      */
     public function getUpdated(): ?DateTimeInterface
@@ -169,6 +179,7 @@ class Subscription
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $id
      * @return Subscription
      */
@@ -179,6 +190,7 @@ class Subscription
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string
      */
     public function getId(): string

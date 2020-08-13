@@ -57,6 +57,7 @@ class UserStats
     }
 
     /**
+     * @codeCoverageIgnore
      * @param DateTimeInterface|null $firstLogin
      * @return UserStats
      */
@@ -67,6 +68,7 @@ class UserStats
     }
 
     /**
+     * @codeCoverageIgnore
      * @return DateTimeInterface|null
      */
     public function getFirstLogin(): ?DateTimeInterface
@@ -75,6 +77,7 @@ class UserStats
     }
 
     /**
+     * @codeCoverageIgnore
      * @param DateTimeInterface|null $lastLogin
      * @return UserStats
      */
@@ -85,6 +88,7 @@ class UserStats
     }
 
     /**
+     * @codeCoverageIgnore
      * @return DateTimeInterface|null
      */
     public function getLastLogin(): ?DateTimeInterface
@@ -93,6 +97,7 @@ class UserStats
     }
 
     /**
+     * @codeCoverageIgnore
      * @param int|null $loginCount
      * @return UserStats
      */
@@ -103,6 +108,7 @@ class UserStats
     }
 
     /**
+     * @codeCoverageIgnore
      * @return int|null
      */
     public function getLoginCount(): ?int
@@ -111,6 +117,7 @@ class UserStats
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $id
      * @return UserStats
      */
@@ -121,6 +128,7 @@ class UserStats
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string
      */
     public function getId(): string

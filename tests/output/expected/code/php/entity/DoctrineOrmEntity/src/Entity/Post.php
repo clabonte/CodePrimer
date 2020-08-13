@@ -22,6 +22,14 @@ use Doctrine\ORM\Mapping as ORM;
 class Post
 {
     /**
+     * @var string The post's unique ID in our system
+     * @ORM\Id()
+     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(name="id", type="string", length=36)
+     */
+    protected $id = '';
+
+    /**
      * @var string The post title
      * @ORM\Column(name="title", type="string", length=255)
      */
@@ -32,6 +40,12 @@ class Post
      * @ORM\Column(name="body", type="text")
      */
     protected $body = '';
+
+    /**
+     * @var DateTimeInterface|null The time at which this post must be published
+     * @ORM\Column(name="scheduled", type="datetime", nullable=true)
+     */
+    protected $scheduled = null;
 
     /**
      * @var User The user who created this post
@@ -58,144 +72,29 @@ class Post
     protected $updated = null;
 
     /**
-     * @var string DB unique identifier field
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="UUID")
-     * @ORM\Column(name="id", type="string", length=36)
-     */
-    protected $id = '';
-
-    /**
      * Post default constructor
+     * @var string $id The post's unique ID in our system
      * @var string $title The post title
      * @var string $body The post body
      * @var User $author The user who created this post
      * @var Topic $topic The topic to which this post belongs
-     * @var string $id DB unique identifier field
      */
     public function __construct(
+        string $id,
         string $title,
         string $body,
         User $author,
-        Topic $topic,
-        string $id
+        Topic $topic
     ) {
-        $this->title = $title;
-        $this->body = $body;
-        $this->author = $author;
-        $this->topic = $topic;
         $this->id = $id;
-    }
-
-    /**
-     * @param string $title
-     * @return Post
-     */
-    public function setTitle(string $title): Post
-    {
         $this->title = $title;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param string $body
-     * @return Post
-     */
-    public function setBody(string $body): Post
-    {
         $this->body = $body;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBody(): string
-    {
-        return $this->body;
-    }
-
-    /**
-     * @param User $author
-     * @return Post
-     */
-    public function setAuthor(User $author): Post
-    {
         $this->author = $author;
-        return $this;
-    }
-
-    /**
-     * @return User
-     */
-    public function getAuthor(): User
-    {
-        return $this->author;
-    }
-
-    /**
-     * @param Topic $topic
-     * @return Post
-     */
-    public function setTopic(Topic $topic): Post
-    {
         $this->topic = $topic;
-        return $this;
     }
 
     /**
-     * @return Topic
-     */
-    public function getTopic(): Topic
-    {
-        return $this->topic;
-    }
-
-    /**
-     * @param DateTimeInterface|null $created
-     * @return Post
-     */
-    public function setCreated(?DateTimeInterface $created): Post
-    {
-        $this->created = $created;
-        return $this;
-    }
-
-    /**
-     * @return DateTimeInterface|null
-     */
-    public function getCreated(): ?DateTimeInterface
-    {
-        return $this->created;
-    }
-
-    /**
-     * @param DateTimeInterface|null $updated
-     * @return Post
-     */
-    public function setUpdated(?DateTimeInterface $updated): Post
-    {
-        $this->updated = $updated;
-        return $this;
-    }
-
-    /**
-     * @return DateTimeInterface|null
-     */
-    public function getUpdated(): ?DateTimeInterface
-    {
-        return $this->updated;
-    }
-
-    /**
+     * @codeCoverageIgnore
      * @param string $id
      * @return Post
      */
@@ -206,11 +105,152 @@ class Post
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string
      */
     public function getId(): string
     {
         return $this->id;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @param string $title
+     * @return Post
+     */
+    public function setTitle(string $title): Post
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @param string $body
+     * @return Post
+     */
+    public function setBody(string $body): Post
+    {
+        $this->body = $body;
+        return $this;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @return string
+     */
+    public function getBody(): string
+    {
+        return $this->body;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @param DateTimeInterface|null $scheduled
+     * @return Post
+     */
+    public function setScheduled(?DateTimeInterface $scheduled): Post
+    {
+        $this->scheduled = $scheduled;
+        return $this;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @return DateTimeInterface|null
+     */
+    public function getScheduled(): ?DateTimeInterface
+    {
+        return $this->scheduled;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @param User $author
+     * @return Post
+     */
+    public function setAuthor(User $author): Post
+    {
+        $this->author = $author;
+        return $this;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @return User
+     */
+    public function getAuthor(): User
+    {
+        return $this->author;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @param Topic $topic
+     * @return Post
+     */
+    public function setTopic(Topic $topic): Post
+    {
+        $this->topic = $topic;
+        return $this;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @return Topic
+     */
+    public function getTopic(): Topic
+    {
+        return $this->topic;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @param DateTimeInterface|null $created
+     * @return Post
+     */
+    public function setCreated(?DateTimeInterface $created): Post
+    {
+        $this->created = $created;
+        return $this;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @return DateTimeInterface|null
+     */
+    public function getCreated(): ?DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @param DateTimeInterface|null $updated
+     * @return Post
+     */
+    public function setUpdated(?DateTimeInterface $updated): Post
+    {
+        $this->updated = $updated;
+        return $this;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @return DateTimeInterface|null
+     */
+    public function getUpdated(): ?DateTimeInterface
+    {
+        return $this->updated;
     }
 
     /**

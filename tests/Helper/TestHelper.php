@@ -3,12 +3,18 @@
 namespace CodePrimer\Tests\Helper;
 
 use CodePrimer\Helper\BusinessBundleHelper;
+use CodePrimer\Helper\DataBundleHelper;
 use CodePrimer\Helper\FieldType;
+use CodePrimer\Helper\ProcessType;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\BusinessProcess;
 use CodePrimer\Model\Constraint;
+use CodePrimer\Model\Data\ContextDataBundle;
+use CodePrimer\Model\Data\EventDataBundle;
+use CodePrimer\Model\Data\InternalDataBundle;
 use CodePrimer\Model\Derived\Event;
+use CodePrimer\Model\Derived\Message;
 use CodePrimer\Model\Field;
 
 class TestHelper
@@ -142,8 +148,15 @@ class TestHelper
 
         $businessModel = new BusinessModel('Post', 'Post created by the user');
         $businessModel
+            ->addField(
+                (new Field('id', FieldType::UUID, "The post's unique ID in our system"))
+                    ->setMandatory(true)
+                    ->setManaged(true)
+                    ->setExample('deadbeef-1164-4289-98b4-65706837c4d7')
+            )
             ->addField(new Field('title', FieldType::STRING, 'The post title', true))
             ->addField(new Field('body', FieldType::TEXT, 'The post body', true))
+            ->addField(new Field('scheduled', FieldType::DATETIME, 'The time at which this post must be published', false))
             ->addField(new Field('author', 'User', 'The user who created this post', true))
             ->addField(new Field('topic', 'Topic', 'The topic to which this post belongs', true))
             ->addField(
@@ -199,9 +212,146 @@ class TestHelper
 
     public static function addSampleBusinessProcesses(BusinessBundle $businessBundle)
     {
-        // Synchronous process without data
+        $dataBundleHelper = new DataBundleHelper($businessBundle);
+        $user = $businessBundle->getBusinessModel('User');
+        $post = $businessBundle->getBusinessModel('Post');
+
+        // --------------------------------------------------------
+        // Process 1: Add a simple synchronous process without data
+        // --------------------------------------------------------
         $event = new Event('Simple Event');
-        $businessProcess = new BusinessProcess('Synchronous Process', 'This is a sample Synchronous', $event);
+        $businessProcess = new BusinessProcess('Synchronous Process No Data', 'This is a sample synchronous process that does not require any data as input', $event);
+        $businessBundle->addBusinessProcess($businessProcess);
+
+        // --------------------------------------------------------
+        // Process 2: Simulate a login process
+        // --------------------------------------------------------
+        // 1. Define the input data required for this process
+        $eventBundle = new EventDataBundle();
+        $dataBundleHelper->addFieldsAsMandatory($eventBundle, $user, ['email', 'password']);
+
+        // 2. Define the event that will trigger this process
+        $event = new Event(
+            'Login Request',
+            'Event triggered when user wants to login with the application');
+        $event->addDataBundle($eventBundle);
+
+        // 3. Create the Business Process
+        $businessProcess = new BusinessProcess(
+            'User Login',
+            'This process is triggered when a user wants to login with our application. Upon success, the context is updated with the user information.',
+            $event);
+
+        // Set the process attributes
+        $businessProcess
+            ->setCategory('Users')
+            ->setType(ProcessType::LOGIN)
+            ->setExternalAccess(true);
+
+        // 4. Define the bundle of data required by this process
+        // N/A
+
+        // 5. Define the bundle of data produced by this process
+        $contextBundle = new ContextDataBundle();
+        $contextBundle->setDescription('User information to add to the context');
+        $dataBundleHelper->addFields($contextBundle, $user, ['id', 'firstName', 'lastName', 'nickname', 'email'/*, 'role'*/]);
+        $businessProcess->addProducedData($contextBundle);
+
+        // 6. Publish a 'user.login' message with the same info as the one put in the context
+        $msgBundle = $dataBundleHelper->createDataBundleFromExisting($contextBundle);
+        $message = new Message('user.login');
+        $message
+            ->setDescription('Message published when a user has successfully authenticated with our application')
+            ->addDataBundle($msgBundle);
+
+        $businessProcess->addMessage($message);
+
+        $businessBundle->addBusinessProcess($businessProcess);
+
+        // --------------------------------------------------------
+        // Process 3: Simulate a register process
+        // --------------------------------------------------------
+        // 1. Define the input data required for this process
+        $eventBundle = new EventDataBundle();
+        $dataBundleHelper->addFieldsAsMandatory($eventBundle, $user, ['email', 'password']);
+        $dataBundleHelper->addFieldsAsOptional($eventBundle, $user, ['firstName', 'lastName', 'nickname']);
+
+        // 2. Define the event that will trigger this process
+        $event = new Event(
+            'Registration Request',
+            'Event triggered when user wants to register with the application');
+        $event->addDataBundle($eventBundle);
+
+        // 3. Create the Business Process
+        $businessProcess = new BusinessProcess(
+            'User Registration',
+            'This process is triggered when a user wants to register with our application. Upon success, the user is created internally but is not logged in yet.',
+            $event);
+
+        // Set the process attributes
+        $businessProcess
+            ->setCategory('Users')
+            ->setType(ProcessType::REGISTER)
+            ->setExternalAccess(true);
+
+        // 4. Define the bundle of data required by this process
+        // N/A
+
+        // 5. Define the bundle of data produced by this process
+        $internalBundle = new InternalDataBundle();
+        $internalBundle->setDescription('User profile created');
+        $dataBundleHelper->addBusinessModelAttributes($internalBundle, $user, true);
+        $businessProcess->addProducedData($internalBundle);
+
+        // 6. Define the message(s) published by this process
+        $msgBundle = $dataBundleHelper->createDataBundleFromExisting($internalBundle);
+        $msgBundle->remove($user->getName(), 'password');
+        $message = new Message('user.new');
+        $message
+            ->setDescription('Message published when a new user has been created in our application')
+            ->addDataBundle($msgBundle);
+
+        $businessProcess->addMessage($message);
+
+        $businessBundle->addBusinessProcess($businessProcess);
+
+        // --------------------------------------------------------
+        // Process 4: Schedule a post
+        // --------------------------------------------------------
+        // 1. Define the input data required for this process
+        $eventBundle = new EventDataBundle();
+        $dataBundleHelper->addFieldsAsMandatory($eventBundle, $post, ['id', 'scheduled']);
+
+        // 2. Define the event that will trigger this process
+        $event = new Event(
+            'Schedule Post',
+            'Event triggered when user wants to schedule a post at a given time');
+        $event->addDataBundle($eventBundle);
+
+        // 3. Create the Business Process
+        $businessProcess = new BusinessProcess(
+            'Schedule Publication',
+            'This process is triggered when a user wants to publish a specific post at at given time.',
+            $event);
+
+        // Set the process attributes
+        $businessProcess
+            ->setCategory('Posts')
+            ->setType(ProcessType::UPDATE)
+            ->setExternalAccess(true);
+
+        // 4. Define the bundle of data required by this process
+        // N/A
+
+        // 5. Define the bundle of data produced/updated by this process
+        $internalBundle = new InternalDataBundle();
+        $internalBundle->setDescription('Post fields to update in the database');
+        $dataBundleHelper->addFields($internalBundle, $post, ['scheduled']);
+        $businessProcess->addProducedData($contextBundle);
+
+        // 6. Publish a message to trigger other processes
+        // N/A
+
         $businessBundle->addBusinessProcess($businessProcess);
     }
 }

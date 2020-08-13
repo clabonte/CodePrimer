@@ -61,6 +61,11 @@ class ChannelApp
         $this->templateRenderer->setBaseFolder(self::PROJECT_OUTPUT_PATH);
         $artifact = new Artifact(Artifact::CODE, 'model', 'php');
         $this->primeArtifact($artifact);
+
+        // 3. Prime 'Event' source code
+        $this->templateRenderer->setBaseFolder(self::PROJECT_OUTPUT_PATH);
+        $artifact = new Artifact(Artifact::CODE, 'event', 'php');
+        $this->primeArtifact($artifact);
     }
 
     /**

@@ -5,10 +5,13 @@ namespace CodePrimer\Tests\Twig;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
+use CodePrimer\Model\Data\Data;
+use CodePrimer\Model\Data\DataBundle;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 use CodePrimer\Tests\Helper\TestHelper;
 use CodePrimer\Twig\PhpTwigExtension;
+use InvalidArgumentException;
 
 class PhpTwigExtensionTest extends TwigExtensionTest
 {
@@ -465,10 +468,12 @@ class PhpTwigExtensionTest extends TwigExtensionTest
 
     /**
      * @dataProvider dateTimeUsedProvider
+     *
+     * @param BusinessModel|Event $obj
      */
-    public function testDateTimeUsedShouldPass(BusinessModel $businessModel, bool $expected)
+    public function testDateTimeUsedShouldPass($obj, bool $expected)
     {
-        self::assertEquals($expected, $this->twigExtension->dateTimeUsed($businessModel));
+        self::assertEquals($expected, $this->twigExtension->dateTimeUsed($obj));
     }
 
     public function dateTimeUsedProvider()
@@ -492,6 +497,26 @@ class PhpTwigExtensionTest extends TwigExtensionTest
                 $businessBundle->getBusinessModel('Topic'),
                 true,
             ],
+            'Event without timestamp' => [
+                $businessBundle->getEvent('Login Request'),
+                false,
+            ],
+            'Event with timestamp' => [
+                $businessBundle->getEvent('Schedule Post'),
+                true,
+            ],
         ];
+    }
+
+    public function testDateTimeUsedWithInvalidTypeThrowsException()
+    {
+        self::expectException(InvalidArgumentException::class);
+        self::expectExceptionMessage('dateTimeUsed() PHP filter only support BusinessModel and Event');
+
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
+        $dataBundle = new DataBundle();
+        $dataBundle->add(new Data($businessBundle->getBusinessModel('User'), 'created'));
+        $this->twigExtension->dateTimeUsed($dataBundle);
     }
 }

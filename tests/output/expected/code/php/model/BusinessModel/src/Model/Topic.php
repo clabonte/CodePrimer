@@ -46,6 +46,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string $title
      * @return Topic
      */
@@ -56,6 +57,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string
      */
     public function getTitle(): string
@@ -64,6 +66,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @param string|null $description
      * @return Topic
      */
@@ -74,6 +77,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @return string|null
      */
     public function getDescription(): ?string
@@ -82,6 +86,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @param User[]|null $authors
      * @return Topic
      */
@@ -92,6 +97,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @return User[]|null
      */
     public function getAuthors(): ?array
@@ -100,6 +106,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @param Post[]|null $posts
      * @return Topic
      */
@@ -110,6 +117,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @return Post[]|null
      */
     public function getPosts(): ?array
@@ -118,6 +126,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @param DateTimeInterface|null $created
      * @return Topic
      */
@@ -128,6 +137,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @return DateTimeInterface|null
      */
     public function getCreated(): ?DateTimeInterface
@@ -136,6 +146,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @param DateTimeInterface|null $updated
      * @return Topic
      */
@@ -146,6 +157,7 @@ class Topic
     }
 
     /**
+     * @codeCoverageIgnore
      * @return DateTimeInterface|null
      */
     public function getUpdated(): ?DateTimeInterface

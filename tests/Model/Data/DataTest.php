@@ -86,4 +86,18 @@ class DataTest extends TestCase
             'Same' => [new Data($user, $user->getField('topics')), 'topics', true],
         ];
     }
+
+    public function testGetDescriptionShouldFallbackOnFieldIfNotSet()
+    {
+        $user = $this->businessBundle->getBusinessModel('User');
+        $data = new Data($user, 'id');
+
+        self::assertEquals($user->getField('id')->getDescription(), $data->getDescription());
+
+        $data->setDescription('Test Description Override');
+        self::assertEquals('Test Description Override', $data->getDescription());
+
+        $data->setDescription('');
+        self::assertEquals('', $data->getDescription());
+    }
 }
