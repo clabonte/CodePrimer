@@ -7,6 +7,7 @@ use CodePrimer\Model\BusinessProcess;
 use CodePrimer\Model\Data\ContextDataBundle;
 use CodePrimer\Model\Data\ExternalDataBundle;
 use CodePrimer\Model\Data\InternalDataBundle;
+use CodePrimer\Model\Data\ReturnedDataBundle;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Derived\Message;
 use InvalidArgumentException;
@@ -37,6 +38,9 @@ class BusinessProcessTest extends TestCase
 
         $this->assertNoRequiredData($this->businessProcess);
         $this->assertNoProducedData($this->businessProcess);
+
+        self::assertFalse($this->businessProcess->isDataReturned());
+        self::assertEmpty($this->businessProcess->getReturnedData());
 
         self::assertFalse($this->businessProcess->isMessageProduced());
         self::assertEmpty($this->businessProcess->getMessages());
@@ -207,6 +211,18 @@ class BusinessProcessTest extends TestCase
         self::assertTrue($this->businessProcess->isMessageProduced());
         self::assertCount(1, $this->businessProcess->getMessages());
         self::assertArrayHasKey('message.id', $this->businessProcess->getMessages());
+    }
+
+    public function testAddReturnedDataShouldWork()
+    {
+        self::assertFalse($this->businessProcess->isDataReturned());
+        self::assertEmpty($this->businessProcess->getReturnedData());
+
+        $this->businessProcess->addReturnedData(new ReturnedDataBundle('Test'));
+
+        self::assertTrue($this->businessProcess->isDataReturned());
+        self::assertCount(1, $this->businessProcess->getReturnedData());
+        self::assertArrayHasKey('Test', $this->businessProcess->getReturnedData());
     }
 
     public function testConstructorWithInvalidTypeThrowsException()

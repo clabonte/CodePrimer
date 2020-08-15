@@ -2,7 +2,7 @@
 
 namespace CodePrimer\Model\Data;
 
-class DataBundle
+abstract class DataBundle
 {
     /** @var string The name associated with this bundle */
     private $name;

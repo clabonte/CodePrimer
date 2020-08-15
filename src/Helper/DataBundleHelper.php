@@ -4,10 +4,15 @@ namespace CodePrimer\Helper;
 
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
+use CodePrimer\Model\Data\ContextDataBundle;
 use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\DataBundle;
 use CodePrimer\Model\Data\EventData;
 use CodePrimer\Model\Data\EventDataBundle;
+use CodePrimer\Model\Data\ExternalDataBundle;
+use CodePrimer\Model\Data\InternalDataBundle;
+use CodePrimer\Model\Data\MessageDataBundle;
+use CodePrimer\Model\Data\ReturnedDataBundle;
 use CodePrimer\Model\Field;
 use InvalidArgumentException;
 
@@ -26,19 +31,66 @@ class DataBundleHelper
     }
 
     /**
-     * Creates a DataBundle object from an existing one by copying the name, description and cloning data elements
+     * Creates a MessageDataBundle object from an existing one by copying the name, description and cloning data elements
      * into a new instance.
      */
-    public function createDataBundleFromExisting(DataBundle $existingBundle): DataBundle
+    public function createMessageDataBundleFromExisting(DataBundle $existingBundle): MessageDataBundle
     {
-        $dataBundle = new DataBundle($existingBundle->getName(), $existingBundle->getDescription());
+        $dataBundle = new MessageDataBundle($existingBundle->getName(), $existingBundle->getDescription());
 
-        foreach ($existingBundle->getData() as $list) {
-            foreach ($list as $data) {
-                $newData = new Data($data->getBusinessModel(), $data->getField(), $data->getDetails());
-                $dataBundle->add($newData);
-            }
-        }
+        $this->copyData($existingBundle, $dataBundle);
+
+        return $dataBundle;
+    }
+
+    /**
+     * Creates a ReturnedDataBundle object from an existing one by copying the name, description and cloning data elements
+     * into a new instance.
+     */
+    public function createReturnedDataBundleFromExisting(DataBundle $existingBundle): ReturnedDataBundle
+    {
+        $dataBundle = new ReturnedDataBundle($existingBundle->getName(), $existingBundle->getDescription());
+
+        $this->copyData($existingBundle, $dataBundle);
+
+        return $dataBundle;
+    }
+
+    /**
+     * Creates a InternalDataBundle object from an existing one by copying the name, description and cloning data elements
+     * into a new instance.
+     */
+    public function createInternalDataBundleFromExisting(DataBundle $existingBundle): InternalDataBundle
+    {
+        $dataBundle = new InternalDataBundle($existingBundle->getName(), $existingBundle->getDescription());
+
+        $this->copyData($existingBundle, $dataBundle);
+
+        return $dataBundle;
+    }
+
+    /**
+     * Creates a ExternalDataBundle object from an existing one by copying the name, description and cloning data elements
+     * into a new instance.
+     */
+    public function createExternalDataBundleFromExisting(DataBundle $existingBundle): ExternalDataBundle
+    {
+        $dataBundle = new ExternalDataBundle($existingBundle->getName(), $existingBundle->getDescription());
+
+        $this->copyData($existingBundle, $dataBundle);
+
+        return $dataBundle;
+    }
+
+    /**
+     * Creates a ContextDataBundle object from an existing one by copying the name, description and cloning data elements
+     * into a new instance.
+     */
+    public function createContextDataBundleFromExisting(DataBundle $existingBundle): ContextDataBundle
+    {
+        $dataBundle = new ContextDataBundle($existingBundle->getName(), $existingBundle->getDescription());
+
+        $this->copyData($existingBundle, $dataBundle);
 
         return $dataBundle;
     }
@@ -215,5 +267,15 @@ class DataBundleHelper
         }
 
         return false;
+    }
+
+    private function copyData(DataBundle $existingBundle, DataBundle $dataBundle)
+    {
+        foreach ($existingBundle->getData() as $list) {
+            foreach ($list as $data) {
+                $newData = new Data($data->getBusinessModel(), $data->getField(), $data->getDetails());
+                $dataBundle->add($newData);
+            }
+        }
     }
 }

@@ -6,7 +6,7 @@ use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Data\Data;
-use CodePrimer\Model\Data\DataBundle;
+use CodePrimer\Model\Data\MessageDataBundle;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 use CodePrimer\Tests\Helper\TestHelper;
@@ -515,7 +515,7 @@ class PhpTwigExtensionTest extends TwigExtensionTest
 
         $businessBundle = TestHelper::getSampleBusinessBundle();
 
-        $dataBundle = new DataBundle();
+        $dataBundle = new MessageDataBundle();
         $dataBundle->add(new Data($businessBundle->getBusinessModel('User'), 'created'));
         $this->twigExtension->dateTimeUsed($dataBundle);
     }

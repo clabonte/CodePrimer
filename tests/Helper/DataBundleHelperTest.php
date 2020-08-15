@@ -12,6 +12,8 @@ use CodePrimer\Model\Data\EventData;
 use CodePrimer\Model\Data\EventDataBundle;
 use CodePrimer\Model\Data\ExternalDataBundle;
 use CodePrimer\Model\Data\InternalDataBundle;
+use CodePrimer\Model\Data\MessageDataBundle;
+use CodePrimer\Model\Data\ReturnedDataBundle;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
@@ -32,6 +34,12 @@ class DataBundleHelperTest extends TestCase
     /** @var ExternalDataBundle */
     private $externalDataBundle;
 
+    /** @var ReturnedDataBundle */
+    private $returnedDataBundle;
+
+    /** @var MessageDataBundle */
+    private $messageDataBundle;
+
     /** @var BusinessBundle */
     private $businessBundle;
 
@@ -42,6 +50,8 @@ class DataBundleHelperTest extends TestCase
         $this->contextDataBundle = new ContextDataBundle('TestContextBundle', 'Test Context Bundle Description');
         $this->internalDataBundle = new InternalDataBundle('TestInternalBundle', 'Test Internal Bundle Description');
         $this->externalDataBundle = new ExternalDataBundle('TestExternalBundle', 'Test External Bundle Description');
+        $this->returnedDataBundle = new ReturnedDataBundle('TestReturnedBundle', 'Test Returned Bundle Description');
+        $this->messageDataBundle = new MessageDataBundle('TestMessageBundle', 'Test Message Bundle Description');
         $this->businessBundle = TestHelper::getSampleBusinessBundle();
         $this->helper = new DataBundleHelper($this->businessBundle);
     }
@@ -338,7 +348,7 @@ class DataBundleHelperTest extends TestCase
     public function dataBundleProvider()
     {
         return [
-            'DataBundle' => [new DataBundle('Test DataBundle', 'Test DataBundle description')],
+            'MessageDataBundle' => [new MessageDataBundle('Test MessageDataBundle', 'Test MessageDataBundle description')],
             'ContextDataBundle' => [new ContextDataBundle('Test ContextDataBundle', 'Test ContextDataBundle description')],
             'InternalDataBundle' => [new InternalDataBundle('Test InternalDataBundle', 'Test InternalDataBundle description')],
             'ExternalDataBundle' => [new ExternalDataBundle('Test ExternalDataBundle', 'Test ExternalDataBundle description')],
@@ -380,29 +390,51 @@ class DataBundleHelperTest extends TestCase
     /**
      * @dataProvider allDataBundleVariantsProvider
      */
-    public function testCreateDataBundleFromExistingShouldWork(DataBundle $existingDataBundle)
+    public function testCreateMessageDataBundleFromExistingShouldWork(DataBundle $existingDataBundle)
     {
-        $dataBundle = $this->helper->createDataBundleFromExisting($existingDataBundle);
+        $dataBundle = $this->helper->createMessageDataBundleFromExisting($existingDataBundle);
 
-        self::assertInstanceOf(DataBundle::class, $dataBundle);
-        self::assertEquals($existingDataBundle->getName(), $dataBundle->getName());
-        self::assertEquals($existingDataBundle->getDescription(), $dataBundle->getDescription());
-        self::assertCount(count($existingDataBundle->getData()), $dataBundle->getData());
-        self::assertEquals($existingDataBundle->listBusinessModelNames(), $dataBundle->listBusinessModelNames());
+        $this->assertCopiedDataBundle($existingDataBundle, $dataBundle);
+    }
 
-        // Make sure all data has been properly created
-        foreach ($existingDataBundle->getData() as $key => $existingList) {
-            self::assertArrayHasKey($key, $dataBundle->getData());
-            self::assertTrue($dataBundle->isBusinessModelPresent($key));
+    /**
+     * @dataProvider allDataBundleVariantsProvider
+     */
+    public function testCreateReturnedDataBundleFromExistingShouldWork(DataBundle $existingDataBundle)
+    {
+        $dataBundle = $this->helper->createReturnedDataBundleFromExisting($existingDataBundle);
 
-            $list = $dataBundle->listData($key);
-            self::assertCount(count($existingList), $list);
+        $this->assertCopiedDataBundle($existingDataBundle, $dataBundle);
+    }
 
-            foreach ($list as $data) {
-                self::assertEquals(Data::class, get_class($data));
-                self::assertTrue($this->isDataPresent($data, $existingList));
-            }
-        }
+    /**
+     * @dataProvider allDataBundleVariantsProvider
+     */
+    public function testCreateInternalDataBundleFromExistingShouldWork(DataBundle $existingDataBundle)
+    {
+        $dataBundle = $this->helper->createInternalDataBundleFromExisting($existingDataBundle);
+
+        $this->assertCopiedDataBundle($existingDataBundle, $dataBundle);
+    }
+
+    /**
+     * @dataProvider allDataBundleVariantsProvider
+     */
+    public function testCreateExternalDataBundleFromExistingShouldWork(DataBundle $existingDataBundle)
+    {
+        $dataBundle = $this->helper->createExternalDataBundleFromExisting($existingDataBundle);
+
+        $this->assertCopiedDataBundle($existingDataBundle, $dataBundle);
+    }
+
+    /**
+     * @dataProvider allDataBundleVariantsProvider
+     */
+    public function testCreateContextDataBundleFromExistingShouldWork(DataBundle $existingDataBundle)
+    {
+        $dataBundle = $this->helper->createContextDataBundleFromExisting($existingDataBundle);
+
+        $this->assertCopiedDataBundle($existingDataBundle, $dataBundle);
     }
 
     public function allDataBundleVariantsProvider()
@@ -411,8 +443,8 @@ class DataBundleHelperTest extends TestCase
         $user = $businessBundle->getBusinessModel('User');
 
         return [
-            'DataBundle' => [
-                (new DataBundle('Test DataBundle', 'Test DataBundle description'))
+            'MessageDataBundle' => [
+                (new MessageDataBundle('Test MessageDataBundle', 'Test MessageDataBundle description'))
                     ->add(new Data($user, $user->getField('firstName')))
                     ->add(new Data($user, $user->getField('lastName')))
                     ->add(new Data($user, $user->getField('topics'), Data::REFERENCE))
@@ -446,6 +478,13 @@ class DataBundleHelperTest extends TestCase
                     ->add(new EventData($user, $user->getField('topics'), false, Data::REFERENCE))
                     ->add(new EventData($user, $user->getField('stats'), true, Data::FULL)),
             ],
+            'ReturnedDataBundle' => [
+                (new ReturnedDataBundle('Test ReturnedDataBundle', 'Test ReturnedDataBundle description'))
+                    ->add(new EventData($user, $user->getField('firstName'), true))
+                    ->add(new EventData($user, $user->getField('lastName'), true))
+                    ->add(new EventData($user, $user->getField('topics'), false, Data::REFERENCE))
+                    ->add(new EventData($user, $user->getField('stats'), true, Data::FULL)),
+            ],
         ];
     }
 
@@ -453,6 +492,29 @@ class DataBundleHelperTest extends TestCase
     {
         self::assertEmpty($dataBundle->listBusinessModelNames());
         self::assertEmpty($dataBundle->getData());
+    }
+
+    private function assertCopiedDataBundle(DataBundle $existingDataBundle, DataBundle $dataBundle)
+    {
+        self::assertInstanceOf(DataBundle::class, $dataBundle);
+        self::assertEquals($existingDataBundle->getName(), $dataBundle->getName());
+        self::assertEquals($existingDataBundle->getDescription(), $dataBundle->getDescription());
+        self::assertCount(count($existingDataBundle->getData()), $dataBundle->getData());
+        self::assertEquals($existingDataBundle->listBusinessModelNames(), $dataBundle->listBusinessModelNames());
+
+        // Make sure all data has been properly created
+        foreach ($existingDataBundle->getData() as $key => $existingList) {
+            self::assertArrayHasKey($key, $dataBundle->getData());
+            self::assertTrue($dataBundle->isBusinessModelPresent($key));
+
+            $list = $dataBundle->listData($key);
+            self::assertCount(count($existingList), $list);
+
+            foreach ($list as $data) {
+                self::assertEquals(Data::class, get_class($data));
+                self::assertTrue($this->isDataPresent($data, $existingList));
+            }
+        }
     }
 
     /**

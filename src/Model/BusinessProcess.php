@@ -7,6 +7,7 @@ use CodePrimer\Model\Data\ContextDataBundle;
 use CodePrimer\Model\Data\DataBundle;
 use CodePrimer\Model\Data\ExternalDataBundle;
 use CodePrimer\Model\Data\InternalDataBundle;
+use CodePrimer\Model\Data\ReturnedDataBundle;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Derived\Message;
 use InvalidArgumentException;
@@ -45,11 +46,14 @@ class BusinessProcess
     /** @var array List of roles that are allowed to trigger this process. Empty = anyone */
     private $roles = [];
 
-    /** @var DataBundle[][] List of data used/required as input for this process */
+    /** @var DataBundle[][] List of data used/required as input for this process to execute */
     private $requiredData = [];
 
     /** @var DataBundle[][] List of data updates produced as an outcome of this process */
     private $producedData = [];
+
+    /** @var ReturnedDataBundle[] List of data returned as output of this process */
+    private $returnedData = [];
 
     /** @var Message[] List of messages that can be produced as an outcome of this process */
     private $messages = [];
@@ -400,6 +404,31 @@ class BusinessProcess
         }
 
         return [];
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @return ReturnedDataBundle[]
+     */
+    public function getReturnedData(): array
+    {
+        return $this->returnedData;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function addReturnedData(ReturnedDataBundle $dataBundle): BusinessProcess
+    {
+        $this->returnedData[$dataBundle->getName()] = $dataBundle;
+
+        return $this;
+    }
+
+    public function isDataReturned(): bool
+    {
+        return count($this->returnedData) > 0;
     }
 
     /**
