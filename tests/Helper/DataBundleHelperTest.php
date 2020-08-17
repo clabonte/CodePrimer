@@ -455,14 +455,16 @@ class DataBundleHelperTest extends TestCase
                     ->add(new Data($user, $user->getField('firstName')))
                     ->add(new Data($user, $user->getField('lastName')))
                     ->add(new Data($user, $user->getField('topics'), Data::REFERENCE))
-                    ->add(new Data($user, $user->getField('stats'), Data::FULL)),
+                    ->add(new Data($user, $user->getField('stats'), Data::FULL))
+                    ->setAsListStructure(),
             ],
             'InternalDataBundle' => [
                 (new InternalDataBundle('Test InternalDataBundle', 'Test InternalDataBundle description'))
                     ->add(new Data($user, $user->getField('firstName')))
                     ->add(new Data($user, $user->getField('lastName')))
                     ->add(new Data($user, $user->getField('topics'), Data::REFERENCE))
-                    ->add(new Data($user, $user->getField('stats'), Data::FULL)),
+                    ->add(new Data($user, $user->getField('stats'), Data::FULL))
+                    ->setAsSimpleStructure(),
             ],
             'ExternalDataBundle' => [
                 (new ExternalDataBundle('Test ExternalDataBundle', 'Test ExternalDataBundle description'))
@@ -480,10 +482,10 @@ class DataBundleHelperTest extends TestCase
             ],
             'ReturnedDataBundle' => [
                 (new ReturnedDataBundle('Test ReturnedDataBundle', 'Test ReturnedDataBundle description'))
-                    ->add(new EventData($user, $user->getField('firstName'), true))
-                    ->add(new EventData($user, $user->getField('lastName'), true))
-                    ->add(new EventData($user, $user->getField('topics'), false, Data::REFERENCE))
-                    ->add(new EventData($user, $user->getField('stats'), true, Data::FULL)),
+                    ->add(new Data($user, $user->getField('firstName')))
+                    ->add(new Data($user, $user->getField('lastName')))
+                    ->add(new Data($user, $user->getField('topics'), Data::REFERENCE))
+                    ->add(new Data($user, $user->getField('stats'), Data::FULL)),
             ],
         ];
     }
@@ -499,6 +501,7 @@ class DataBundleHelperTest extends TestCase
         self::assertInstanceOf(DataBundle::class, $dataBundle);
         self::assertEquals($existingDataBundle->getName(), $dataBundle->getName());
         self::assertEquals($existingDataBundle->getDescription(), $dataBundle->getDescription());
+        self::assertEquals($existingDataBundle->getStructure(), $dataBundle->getStructure());
         self::assertCount(count($existingDataBundle->getData()), $dataBundle->getData());
         self::assertEquals($existingDataBundle->listBusinessModelNames(), $dataBundle->listBusinessModelNames());
 
