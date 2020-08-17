@@ -4,7 +4,7 @@ namespace CodePrimer\Template;
 
 use CodePrimer\Twig\DoctrineOrmTwigExtension;
 use CodePrimer\Twig\JavaTwigExtension;
-use CodePrimer\Twig\LanguageTwigExtension;
+use CodePrimer\Twig\MarkdownTwigExtension;
 use CodePrimer\Twig\MySqlTwigExtension;
 use CodePrimer\Twig\PhpTwigExtension;
 
@@ -171,7 +171,7 @@ class TemplateRegistry
 
     protected function initDocumentationTemplates()
     {
-        $extensions = [new LanguageTwigExtension()];
+        $extensions = [new MarkdownTwigExtension()];
         $this->addTemplate(new Template('Overview', new Artifact(Artifact::DOCUMENTATION, 'model', 'markdown'), $extensions),
             'Generates Markdown documentation of your data model to include in your repository');
         $this->addTemplate(new Template('Overview', new Artifact(Artifact::DOCUMENTATION, 'process', 'markdown', 'index'), $extensions),

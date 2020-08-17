@@ -26,7 +26,7 @@ class DataTest extends TestCase
         $data = new Data($user, 'firstName');
         self::assertEquals('User', $data->getBusinessModel()->getName());
         self::assertEquals('firstName', $data->getField()->getName());
-        self::assertEquals(Data::BASIC, $data->getDetails());
+        self::assertEquals(Data::ATTRIBUTES, $data->getDetails());
 
         $data = new Data($user, $user->getField('firstName'), Data::FULL);
         self::assertEquals('User', $data->getBusinessModel()->getName());
@@ -58,7 +58,7 @@ class DataTest extends TestCase
     public function testConstructorWithInvalidDetailsThrowsException()
     {
         self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('Invalid details provided: unknown. Must be one of: basic, reference or full');
+        self::expectExceptionMessage('Invalid details provided: unknown. Must be one of: attributes, reference or full');
 
         new Data($this->businessBundle->getBusinessModel('User'), 'firstName', 'unknown');
     }

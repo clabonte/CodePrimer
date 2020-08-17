@@ -14,13 +14,13 @@ This process is triggered when a user wants to register with our application. Up
 Event triggered when user wants to register with the application
 ### Data
     
-| BusinessModel | Field | Mandatory | Level |
-| ------------- | ----- | --------- | ----- |
-| [User](../DataModel/Overview.md#user) | email | yes | Basic |
-| [User](../DataModel/Overview.md#user) | password | yes | Basic |
-| [User](../DataModel/Overview.md#user) | firstName | no | Basic |
-| [User](../DataModel/Overview.md#user) | lastName | no | Basic |
-| [User](../DataModel/Overview.md#user) | nickname | no | Basic |
+| BusinessModel | Field | Type | Mandatory | Level |
+| ------------- | ----- | ---- | --------- | ----- |
+| [User](../DataModel/Overview.md#user) | email | email | yes | *N/A* |
+| [User](../DataModel/Overview.md#user) | password | password | yes | *N/A* |
+| [User](../DataModel/Overview.md#user) | firstName | string | no | *N/A* |
+| [User](../DataModel/Overview.md#user) | lastName | string | no | *N/A* |
+| [User](../DataModel/Overview.md#user) | nickname | string | no | *N/A* |
 
 ## Required Data
 N/A - *This process does not require any other data to process the event*
@@ -31,18 +31,18 @@ Upon successful completion, this process will produce/update the following data:
 ### Internal Data
 User profile created
 
-| BusinessModel | Field | Level |
-| ------------- | ----- | ----- |
-| [User](../DataModel/Overview.md#user) | id | Basic |
-| [User](../DataModel/Overview.md#user) | firstName | Basic |
-| [User](../DataModel/Overview.md#user) | lastName | Basic |
-| [User](../DataModel/Overview.md#user) | nickname | Basic |
-| [User](../DataModel/Overview.md#user) | email | Basic |
-| [User](../DataModel/Overview.md#user) | password | Basic |
-| [User](../DataModel/Overview.md#user) | created | Basic |
-| [User](../DataModel/Overview.md#user) | updated | Basic |
-| [User](../DataModel/Overview.md#user) | crmId | Basic |
-| [User](../DataModel/Overview.md#user) | activationCode | Basic |
+| BusinessModel | Field | Type | Level |
+| ------------- | ----- | ---- | ----- |
+| [User](../DataModel/Overview.md#user) | id | uuid | *N/A* |
+| [User](../DataModel/Overview.md#user) | firstName | string | *N/A* |
+| [User](../DataModel/Overview.md#user) | lastName | string | *N/A* |
+| [User](../DataModel/Overview.md#user) | nickname | string | *N/A* |
+| [User](../DataModel/Overview.md#user) | email | email | *N/A* |
+| [User](../DataModel/Overview.md#user) | password | password | *N/A* |
+| [User](../DataModel/Overview.md#user) | created | datetime | *N/A* |
+| [User](../DataModel/Overview.md#user) | updated | datetime | *N/A* |
+| [User](../DataModel/Overview.md#user) | crmId | string | *N/A* |
+| [User](../DataModel/Overview.md#user) | activationCode | randomstring | *N/A* |
 
 
 ## Returned Data
@@ -54,17 +54,17 @@ user.new: Message published when a new user has been created in our application
 
 **Data**:
 
-| BusinessModel | Field | Type | Description | Level |
-| ------------- | ----- | ---- | ----------- | ------|
-| [User](../DataModel/Overview.md#user) | id | uuid | The user&#039;s unique ID in our system | Basic |
-| [User](../DataModel/Overview.md#user) | firstName | string | User first name | Basic |
-| [User](../DataModel/Overview.md#user) | lastName | string | User last name | Basic |
-| [User](../DataModel/Overview.md#user) | nickname | string | The name used to identify this user publicly on the site | Basic |
-| [User](../DataModel/Overview.md#user) | email | email | User email address | Basic |
-| [User](../DataModel/Overview.md#user) | created | datetime | The date and time at which this user was created | Basic |
-| [User](../DataModel/Overview.md#user) | updated | datetime | The date and time at which this user was updated | Basic |
-| [User](../DataModel/Overview.md#user) | crmId | string | The ID of this user in our external CRM | Basic |
-| [User](../DataModel/Overview.md#user) | activationCode | randomstring | The code required to validate the user&#039;s account | Basic |
+| Variable | Type | BusinessModel | Field | Description | Level |
+| -------- | ---- | ------------- | ----- | ----------- | ------|
+| id | uuid | [User](../DataModel/Overview.md#user) | id | The user&#039;s unique ID in our system | *N/A* |
+| firstName | string | [User](../DataModel/Overview.md#user) | firstName | User first name | *N/A* |
+| lastName | string | [User](../DataModel/Overview.md#user) | lastName | User last name | *N/A* |
+| nickname | string | [User](../DataModel/Overview.md#user) | nickname | The name used to identify this user publicly on the site | *N/A* |
+| email | email | [User](../DataModel/Overview.md#user) | email | User email address | *N/A* |
+| created | datetime | [User](../DataModel/Overview.md#user) | created | The date and time at which this user was created | *N/A* |
+| updated | datetime | [User](../DataModel/Overview.md#user) | updated | The date and time at which this user was updated | *N/A* |
+| crmId | string | [User](../DataModel/Overview.md#user) | crmId | The ID of this user in our external CRM | *N/A* |
+| activationCode | randomstring | [User](../DataModel/Overview.md#user) | activationCode | The code required to validate the user&#039;s account | *N/A* |
 
 **Example**:
 

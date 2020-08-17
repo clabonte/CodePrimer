@@ -3,10 +3,10 @@
  #  - dataBundle: The EventDataBundle object to use
  #}
 
-| BusinessModel | Field | Mandatory | Level |
-| ------------- | ----- | --------- | ----- |
+| BusinessModel | Field | Type | Mandatory | Level |
+| ------------- | ----- | ---- | --------- | ----- |
 {% for model in dataBundle.data %}
     {%~ for data in model %}
-| [{{ data.businessModel|class }}](../DataModel/Overview.md#{{ data.businessModel|class|lower }}) | {{ data.field.name }} | {{ data.mandatory|yesNo }} | {{ data.details|title }} |
+| {{ data|model }} | {{ data.field.name }} | {{ data|type }} | {{ data.mandatory|yesNo }} | {{ data|details }} |
     {%~ endfor %}
 {% endfor %}
