@@ -4,6 +4,8 @@ namespace CodePrimer\Twig;
 
 use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Model\BusinessBundle;
+use CodePrimer\Model\Data\Data;
+use CodePrimer\Model\Data\EventData;
 use CodePrimer\Model\Field;
 use Doctrine\Common\Inflector\Inflector;
 use Twig\TwigFilter;
@@ -67,12 +69,21 @@ class JavaTwigExtension extends LanguageTwigExtension
 
     /**
      * @param $context
-     * @param string|Field $field
-     * @param bool         $mandatory Whether this field is mandatory in this context
+     * @param string|Field|Data $obj
+     * @param bool              $mandatory Whether this field is mandatory in this context
      */
-    public function typeFilter(array $context, $field, bool $mandatory = false): string
+    public function typeFilter(array $context, $obj, bool $mandatory = false): string
     {
         $helper = new FieldHelper();
+
+        if ($obj instanceof Data) {
+            $field = $obj->getField();
+            if (($obj instanceof EventData) && !$mandatory) {
+                $mandatory = $obj->isMandatory();
+            }
+        } else {
+            $field = $obj;
+        }
 
         $type = 'Object';
         if ($field instanceof Field) {
@@ -114,13 +125,19 @@ class JavaTwigExtension extends LanguageTwigExtension
 
     /**
      * @param $context
-     * @param string|Field $field
+     * @param string|Field|Data $obj
      *
      * @return string
      */
-    public function listTypeFilter($context, $field)
+    public function listTypeFilter($context, $obj)
     {
         $helper = new FieldHelper();
+
+        if ($obj instanceof Data) {
+            $field = $obj->getField();
+        } else {
+            $field = $obj;
+        }
 
         $type = 'Object';
         if ($field instanceof Field) {

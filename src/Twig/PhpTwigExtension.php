@@ -6,6 +6,8 @@ use CodePrimer\Helper\EventHelper;
 use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
+use CodePrimer\Model\Data\Data;
+use CodePrimer\Model\Data\EventData;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 use InvalidArgumentException;
@@ -134,12 +136,21 @@ class PhpTwigExtension extends LanguageTwigExtension
     }
 
     /**
-     * @param string|Field $field
-     * @param bool         $mandatory Whether the field is mandatory in this context
+     * @param string|Field|Data $obj
+     * @param bool              $mandatory Whether the field is mandatory in this context
      */
-    public function typeFilter(array $context, $field, bool $mandatory = false): string
+    public function typeFilter(array $context, $obj, bool $mandatory = false): string
     {
         $helper = new FieldHelper();
+
+        if ($obj instanceof Data) {
+            $field = $obj->getField();
+            if (($obj instanceof EventData) && !$mandatory) {
+                $mandatory = $obj->isMandatory();
+            }
+        } else {
+            $field = $obj;
+        }
 
         $type = 'string';
         if ($field instanceof Field) {
@@ -182,12 +193,18 @@ class PhpTwigExtension extends LanguageTwigExtension
     }
 
     /**
-     * @param array        $context
-     * @param string|Field $field
+     * @param array             $context
+     * @param string|Field|Data $obj
      */
-    public function listTypeFilter($context, $field): string
+    public function listTypeFilter($context, $obj): string
     {
         $helper = new FieldHelper();
+
+        if ($obj instanceof Data) {
+            $field = $obj->getField();
+        } else {
+            $field = $obj;
+        }
 
         $type = 'string';
         if ($field instanceof Field) {
@@ -224,12 +241,21 @@ class PhpTwigExtension extends LanguageTwigExtension
     }
 
     /**
-     * @param string|Field $field
-     * @param bool         $mandatory Whether the field is mandatory in this context
+     * @param string|Field|Data $obj
+     * @param bool              $mandatory Whether the field is mandatory in this context
      */
-    public function hintFilter(array $context, $field, bool $mandatory = false): string
+    public function hintFilter(array $context, $obj, bool $mandatory = false): string
     {
         $helper = new FieldHelper();
+
+        if ($obj instanceof Data) {
+            $field = $obj->getField();
+            if (($obj instanceof EventData) && !$mandatory) {
+                $mandatory = $obj->isMandatory();
+            }
+        } else {
+            $field = $obj;
+        }
 
         $type = 'string';
         if ($field instanceof Field) {

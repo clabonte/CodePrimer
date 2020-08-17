@@ -184,6 +184,8 @@ class PhpTwigExtensionTest extends TwigExtensionTest
 
     public function typeDataProvider()
     {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
         return [
             'BOOL' => [new Field('Test', FieldType::BOOL, 'Test Description', true), 'bool'],
             'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN, 'Test Description', true), 'bool'],
@@ -214,6 +216,7 @@ class PhpTwigExtensionTest extends TwigExtensionTest
             ],
             'ENTITY' => [new Field('Test', 'User', 'Test Description', true), 'User'],
             'OPTIONAL ENTITY' => [new Field('Test', 'User'), '?User'],
+            'DATA - EMAIL' => [new Data($businessBundle->getBusinessModel('User'), 'email'), 'string'],
         ];
     }
 
@@ -232,6 +235,8 @@ class PhpTwigExtensionTest extends TwigExtensionTest
 
     public function listTypeDataProvider()
     {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
         return [
             'BOOL' => [
                 (new Field('Test', FieldType::BOOL, 'Test Description', true))
@@ -353,6 +358,7 @@ class PhpTwigExtensionTest extends TwigExtensionTest
                     ->setList(true),
                 'User',
             ],
+            'DATA - TOPIC' => [new Data($businessBundle->getBusinessModel('User'), 'topics'), 'Topic'],
         ];
     }
 
@@ -371,6 +377,8 @@ class PhpTwigExtensionTest extends TwigExtensionTest
 
     public function hintDataProvider()
     {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
         return [
             'BOOL' => [new Field('Test', FieldType::BOOL, 'Test Description', true), 'bool'],
             'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN, 'Test Description', true), 'bool'],
@@ -401,6 +409,7 @@ class PhpTwigExtensionTest extends TwigExtensionTest
             ],
             'ENTITY' => [new Field('Test', 'User', 'Test Description', true), 'User'],
             'OPTIONAL ENTITY' => [new Field('Test', 'User'), 'User|null'],
+            'DATA - TOPIC' => [new Data($businessBundle->getBusinessModel('User'), 'topics'), 'Topic[]|null'],
         ];
     }
 
@@ -419,6 +428,8 @@ class PhpTwigExtensionTest extends TwigExtensionTest
 
     public function parameterDataProvider()
     {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
         return [
             'BOOL' => [new Field('Test', FieldType::BOOL, 'Test Description', true), 'bool $test'],
             'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN, 'Test Description', true), 'bool $test'],
@@ -463,6 +474,8 @@ class PhpTwigExtensionTest extends TwigExtensionTest
                 ],
                 'string $param1, ?User $param2, ?int $param3',
             ],
+            'DATA - TOPIC - DEFAULT NAME' => [new Data($businessBundle->getBusinessModel('User'), 'topics'), '?array $topics'],
+            'DATA - TOPIC - CUSTOM NAME' => [(new Data($businessBundle->getBusinessModel('User'), 'topics'))->setName('custom'), '?array $custom'],
         ];
     }
 
