@@ -74,6 +74,16 @@ Upon successful completion, this process will produce/update the following data:
 N/A - *This process does not produce/update any data*
 {% endif %}
 
+## Returned Data
+{% if businessProcess.isDataReturned %}
+Upon successful completion, this process will return the following data:
+    {%~ for dataBundle in businessProcess.getReturnedContextData %}
+        {%~ include 'documentation/markdown/common/partials/_returnedDataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
+    {%~ endfor %}
+{% else %}
+N/A - *This process does not produce/update any data*
+{% endif %}
+
 ## Messages
 {% if businessProcess.isMessageProduced %}
     {%~ for message in businessProcess.messages %}

@@ -2,7 +2,7 @@
 
 namespace CodePrimer\Tests\Model\Derived;
 
-use CodePrimer\Model\Data\DataBundle;
+use CodePrimer\Model\Data\MessageDataBundle;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Derived\Message;
 use InvalidArgumentException;
@@ -38,7 +38,7 @@ class MessageTest extends TestCase
 
     public function testAddDefaultDataBundleShouldWork()
     {
-        $bundle = new DataBundle();
+        $bundle = new MessageDataBundle();
 
         $this->message->addDataBundle($bundle);
         self::assertCount(1, $this->message->getDataBundles());
@@ -47,8 +47,8 @@ class MessageTest extends TestCase
 
     public function testAddNamedDataBundleShouldWork()
     {
-        $bundle1 = new DataBundle('bundle 1', 'description 1');
-        $bundle2 = new DataBundle('bundle 2', 'description 2');
+        $bundle1 = new MessageDataBundle('bundle 1', 'description 1');
+        $bundle2 = new MessageDataBundle('bundle 2', 'description 2');
 
         $this->message->addDataBundle($bundle1);
         self::assertCount(1, $this->message->getDataBundles());
@@ -68,8 +68,8 @@ class MessageTest extends TestCase
         self::expectException(InvalidArgumentException::class);
         self::expectExceptionMessage('DataBundle already present: '.Event::DEFAULT_BUNDLE.', please use a unique name for your bundle');
 
-        $bundle = new DataBundle();
-        $bundle2 = new DataBundle();
+        $bundle = new MessageDataBundle();
+        $bundle2 = new MessageDataBundle();
 
         $this->message->addDataBundle($bundle);
         $this->message->addDataBundle($bundle2);
@@ -80,8 +80,8 @@ class MessageTest extends TestCase
         self::expectException(InvalidArgumentException::class);
         self::expectExceptionMessage('DataBundle already present: bundle 1, please use a unique name for your bundle');
 
-        $bundle1 = new DataBundle('bundle 1');
-        $bundle2 = new DataBundle('bundle 1');
+        $bundle1 = new MessageDataBundle('bundle 1');
+        $bundle2 = new MessageDataBundle('bundle 1');
 
         $this->message->addDataBundle($bundle1);
         $this->message->addDataBundle($bundle2);

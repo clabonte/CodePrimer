@@ -37,6 +37,9 @@ User information to add to the context
 
 
 
+## Returned Data
+N/A - *This process does not produce/update any data*
+
 ## Messages
 N/A - *This process does not produce any message*
 

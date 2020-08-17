@@ -258,7 +258,7 @@ class TestHelper
         $businessProcess->addProducedData($contextBundle);
 
         // 6. Publish a 'user.login' message with the same info as the one put in the context
-        $msgBundle = $dataBundleHelper->createDataBundleFromExisting($contextBundle);
+        $msgBundle = $dataBundleHelper->createMessageDataBundleFromExisting($contextBundle);
         $message = new Message('user.login');
         $message
             ->setDescription('Message published when a user has successfully authenticated with our application')
@@ -304,7 +304,7 @@ class TestHelper
         $businessProcess->addProducedData($internalBundle);
 
         // 6. Define the message(s) published by this process
-        $msgBundle = $dataBundleHelper->createDataBundleFromExisting($internalBundle);
+        $msgBundle = $dataBundleHelper->createMessageDataBundleFromExisting($internalBundle);
         $msgBundle->remove($user->getName(), 'password');
         $message = new Message('user.new');
         $message

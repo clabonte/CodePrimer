@@ -6,9 +6,9 @@ use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessProcess;
 use CodePrimer\Model\Data\ContextDataBundle;
 use CodePrimer\Model\Data\Data;
-use CodePrimer\Model\Data\DataBundle;
 use CodePrimer\Model\Data\EventDataBundle;
 use CodePrimer\Model\Data\InternalDataBundle;
+use CodePrimer\Model\Data\MessageDataBundle;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Derived\Message;
 
@@ -55,7 +55,7 @@ class BusinessProcessFactory
         $businessProcess->addProducedData($internalBundle);
 
         // 6. Define the message(s) published by this process
-        $msgBundle = $dataBundleHelper->createDataBundleFromExisting($internalBundle);
+        $msgBundle = $dataBundleHelper->createMessageDataBundleFromExisting($internalBundle);
         $msgBundle->remove($user->getName(), 'password');
         $message = new Message('user.new');
         $message
@@ -104,7 +104,7 @@ class BusinessProcessFactory
         $businessProcess->addProducedData($contextBundle);
 
         // 6. Publish a 'user.login' message with the same info as the one put in the context
-        $msgBundle = $dataBundleHelper->createDataBundleFromExisting($contextBundle);
+        $msgBundle = $dataBundleHelper->createMessageDataBundleFromExisting($contextBundle);
         $message = new Message('user.login');
         $message
             ->setDescription('Message published when a user has successfully authenticated with our application')
@@ -150,7 +150,7 @@ class BusinessProcessFactory
         // N/A
 
         // 6. Define the message(s) published by this process
-        $msgBundle = new DataBundle('', 'Details about the user who just logged out');
+        $msgBundle = new MessageDataBundle('', 'Details about the user who just logged out');
         $dataBundleHelper->addFields($msgBundle, $user, ['id', 'firstName', 'lastName', 'nickname', 'email'/*, 'role'*/]);
         $message = new Message('user.logout');
         $message
@@ -217,7 +217,7 @@ class BusinessProcessFactory
         $businessProcess->addProducedData($internalData);
 
         // 6. Publish 'article.new' message
-        $msgBundle = new DataBundle();
+        $msgBundle = new MessageDataBundle();
         $dataBundleHelper->addBusinessModelExceptFields($msgBundle, $article, ['views'], Data::FULL);
         $message = new Message('article.new');
         $message
@@ -271,7 +271,7 @@ class BusinessProcessFactory
         $businessProcess->addProducedData($internalData);
 
         // 6. Publish 'article.updated' message
-        $msgBundle = new DataBundle();
+        $msgBundle = new MessageDataBundle();
         $dataBundleHelper->addBusinessModelExceptFields($msgBundle, $article, ['views'], Data::FULL);
         $message = new Message('article.updated');
         $message

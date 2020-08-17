@@ -45,6 +45,9 @@ User profile created
 | [User](../DataModel/Overview.md#user) | activationCode | Basic |
 
 
+## Returned Data
+N/A - *This process does not produce/update any data*
+
 ## Messages
 ### Message user.new
 user.new: Message published when a new user has been created in our application
