@@ -9,11 +9,11 @@ use InvalidArgumentException;
 class Data
 {
     // Constants used to specify the level of details associated with a given, non-native field
-    /** @var string Only need a reference to the BusinessModel associated with a given field */
+    /** @var string Only include a reference to the BusinessModel associated with a given field */
     const REFERENCE = 'reference';
-    /** @var string Only need the mandatory fields of the BusinessModel associated with a given field */
-    const BASIC = 'basic';
-    /** @var string Need all the fields of the BusinessModel associated with a given field */
+    /** @var string Only include the attributes of the BusinessModel associated with a given field */
+    const ATTRIBUTES = 'attributes';
+    /** @var string Include the attributes and direct relations of the BusinessModel associated with a given field */
     const FULL = 'full';
 
     /** @var BusinessModel */
@@ -39,7 +39,7 @@ class Data
      *
      * @throws InvalidArgumentException If the details provided is not valid
      */
-    public function __construct(BusinessModel $businessModel, $field, string $details = self::BASIC)
+    public function __construct(BusinessModel $businessModel, $field, string $details = self::ATTRIBUTES)
     {
         $realField = $this->validate($businessModel, $field, $details);
 
@@ -150,12 +150,12 @@ class Data
         }
 
         switch ($details) {
-            case self::BASIC:
+            case self::ATTRIBUTES:
             case self::REFERENCE:
             case self::FULL:
                 break;
             default:
-                throw new InvalidArgumentException('Invalid details provided: '.$details.'. Must be one of: basic, reference or full');
+                throw new InvalidArgumentException('Invalid details provided: '.$details.'. Must be one of: attributes, reference or full');
         }
 
         return $field;

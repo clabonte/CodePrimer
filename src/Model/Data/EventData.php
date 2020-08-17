@@ -15,7 +15,7 @@ class EventData extends Data
      *
      * @param Field|string $field
      */
-    public function __construct(BusinessModel $businessModel, $field, bool $mandatory = true, string $details = self::BASIC)
+    public function __construct(BusinessModel $businessModel, $field, bool $mandatory = true, string $details = self::ATTRIBUTES)
     {
         parent::__construct($businessModel, $field, $details);
         $this->mandatory = $mandatory;

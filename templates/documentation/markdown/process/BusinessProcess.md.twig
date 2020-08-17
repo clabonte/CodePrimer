@@ -26,21 +26,21 @@ In order to handle the event above, this process also needs the following data:
     {%~ if businessProcess.isContextDataRequired %}
 ### Context Data
         {%~ for dataBundle in businessProcess.getRequiredContextData %}
-            {%~ include 'documentation/markdown/common/partials/_contextDataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
+            {%~ include 'documentation/markdown/common/partials/_dataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
         {%~ endfor %}
     {%~ endif %}
 
     {%~ if businessProcess.isInternalDataRequired %}
 ### Internal Data
         {%~ for dataBundle in businessProcess.getRequiredInternalData %}
-            {%~ include 'documentation/markdown/common/partials/_internalDataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
+            {%~ include 'documentation/markdown/common/partials/_dataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
         {%~ endfor %}
     {%~ endif %}
 
     {%~ if businessProcess.isExternalDataRequired %}
 ### External Data
         {%~ for dataBundle in businessProcess.getRequiredExternalData %}
-            {%~ include 'documentation/markdown/common/partials/_externalDataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
+            {%~ include 'documentation/markdown/common/partials/_dataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
         {%~ endfor %}
     {%~ endif %}
 {% else %}
@@ -53,21 +53,21 @@ Upon successful completion, this process will produce/update the following data:
     {%~ if businessProcess.isContextDataProduced %}
 ### Context Data
         {%~ for dataBundle in businessProcess.getProducedContextData %}
-            {%~ include 'documentation/markdown/common/partials/_contextDataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
+            {%~ include 'documentation/markdown/common/partials/_dataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
         {%~ endfor %}
     {%~ endif %}
 
     {%~ if businessProcess.isInternalDataProduced %}
 ### Internal Data
         {%~ for dataBundle in businessProcess.getProducedInternalData %}
-            {%~ include 'documentation/markdown/common/partials/_internalDataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
+            {%~ include 'documentation/markdown/common/partials/_dataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
         {%~ endfor %}
     {%~ endif %}
 
     {%~ if businessProcess.isExternalDataProduced %}
 ### External Data
         {%~ for dataBundle in businessProcess.getProducedExternalData %}
-            {%~ include 'documentation/markdown/common/partials/_externalDataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
+            {%~ include 'documentation/markdown/common/partials/_dataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
         {%~ endfor %}
     {%~ endif %}
 {% else %}
@@ -78,7 +78,7 @@ N/A - *This process does not produce/update any data*
 {% if businessProcess.isDataReturned %}
 Upon successful completion, this process will return the following data:
     {%~ for dataBundle in businessProcess.getReturnedContextData %}
-        {%~ include 'documentation/markdown/common/partials/_returnedDataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
+        {%~ include 'documentation/markdown/common/partials/_dataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
     {%~ endfor %}
 {% else %}
 N/A - *This process does not produce/update any data*

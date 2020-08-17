@@ -16,7 +16,11 @@ abstract class TwigExtensionTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->context = ['package' => TestHelper::getSampleBusinessBundle()];
+        $bundle = TestHelper::getSampleBusinessBundle();
+        $this->context = [
+            'package' => $bundle, // TODO DEPRECATED, should use 'bundle'
+            'bundle' => $bundle,
+        ];
     }
 
     /**
