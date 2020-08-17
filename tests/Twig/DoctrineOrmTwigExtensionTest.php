@@ -6,6 +6,7 @@ use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Constraint;
+use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Field;
 use CodePrimer\Tests\Helper\TestHelper;
 use CodePrimer\Twig\DoctrineOrmTwigExtension;
@@ -140,9 +141,9 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
      *
      * @param string[] $expected
      */
-    public function testAnnotationsFunctionForFieldShouldPass(Field $field, array $expected)
+    public function testAnnotationsFunctionForFieldShouldPass($obj, array $expected)
     {
-        $actual = $this->twigExtension->annotationsFunction($this->context, $field);
+        $actual = $this->twigExtension->annotationsFunction($this->context, $obj);
 
         self::assertCount(count($expected), $actual);
 
@@ -344,6 +345,12 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
                     '@ORM\ManyToMany(targetEntity="CodePrimer\Tests\User", inversedBy="topics")',
                 ],
             ],
+            'DATA - EMAIL' => [
+                new Data($user, 'email'),
+                [
+                    '@ORM\Column(name="email", type="string", length=255)',
+                ],
+            ],
         ];
     }
 
@@ -376,6 +383,7 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
             ],
             'Field with relation' => [$user->getField('stats'), false],
             'List wield with relation' => [$user->getField('metadata'), true],
+            'DATA - TOPIC' => [new Data($user, 'topics'), true],
         ];
     }
 
@@ -405,6 +413,7 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
             'Optional Entity' => [$user->getField('stats'), '?UserStats'],
             'OneToMany Entities' => [$user->getField('metadata'), 'Collection'],
             'ManyToMany Entities' => [$user->getField('topics'), 'Collection'],
+            'DATA - TOPIC' => [new Data($user, 'topics'), 'Collection'],
         ];
     }
 
@@ -434,6 +443,7 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
             'Optional Entity' => [$user->getField('stats'), 'UserStats|null'],
             'OneToMany Entities' => [$user->getField('metadata'), 'Collection|Metadata[]|null'],
             'ManyToMany Entities' => [$user->getField('topics'), 'Collection|Topic[]|null'],
+            'DATA - TOPIC' => [new Data($user, 'topics'), 'Collection|Topic[]|null'],
         ];
     }
 }

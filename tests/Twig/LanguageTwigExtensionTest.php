@@ -7,6 +7,7 @@ use CodePrimer\Model\ BusinessModel;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessProcess;
 use CodePrimer\Model\Constraint;
+use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\EventDataBundle;
 use CodePrimer\Model\Data\MessageDataBundle;
 use CodePrimer\Model\Derived\Event;
@@ -627,6 +628,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     public function typeDataProvider()
     {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
         return [
             'BOOL' => [new Field('Test', FieldType::BOOL, 'Test Description', true), 'bool'],
             'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN, 'Test Description', true), 'bool'],
@@ -657,6 +660,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             ],
             'ENTITY' => [new Field('Test', 'User', 'Test Description', true), 'User'],
             'OPTIONAL ENTITY' => [new Field('Test', 'User'), 'User (Optional)'],
+            'DATA - EMAIL' => [new Data($businessBundle->getBusinessModel('User'), 'email'), 'string'],
         ];
     }
 
@@ -675,6 +679,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
 
     public function listTypeDataProvider()
     {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
         return [
             'BOOL' => [
                 (new Field('Test', FieldType::BOOL, 'Test Description', true))
@@ -796,6 +802,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
                     ->setList(true),
                 'User',
             ],
+            'DATA - TOPIC' => [new Data($businessBundle->getBusinessModel('User'), 'topics'), 'Topic'],
         ];
     }
 
@@ -832,15 +839,17 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
      *
      * @param $expectedValue
      */
-    public function testScalarTest(Field $field, $expectedValue)
+    public function testScalarTest($obj, $expectedValue)
     {
-        $value = $this->twigExtension->scalarTest($field);
+        $value = $this->twigExtension->scalarTest($obj);
 
         self::assertEquals($expectedValue, $value);
     }
 
     public function scalarTestProvider()
     {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
         return [
             'BOOL' => [new Field('Test', FieldType::BOOL), true],
             'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), true],
@@ -864,6 +873,9 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             'URL' => [new Field('Test', FieldType::URL), false],
             'UUID' => [new Field('Test', FieldType::UUID), false],
             'UNKNOWN' => [new Field('Test', 'Unknown'), false],
+            'DATA - FALSE' => [new Data($businessBundle->getBusinessModel('User'), 'email'), false],
+            'DATA - TRUE' => [new Data($businessBundle->getBusinessModel('UserStats'), 'loginCount'), true],
+            'UNSUPPORTED TYPE' => ['test', false],
         ];
     }
 
@@ -872,15 +884,17 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
      *
      * @param $expectedValue
      */
-    public function testDoubleTest(Field $field, $expectedValue)
+    public function testDoubleTest($obj, $expectedValue)
     {
-        $value = $this->twigExtension->doubleTest($field);
+        $value = $this->twigExtension->doubleTest($obj);
 
         self::assertEquals($expectedValue, $value);
     }
 
     public function doubleTestProvider()
     {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
         return [
             'BOOL' => [new Field('Test', FieldType::BOOL), false],
             'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), false],
@@ -904,6 +918,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             'URL' => [new Field('Test', FieldType::URL), false],
             'UUID' => [new Field('Test', FieldType::UUID), false],
             'UNKNOWN' => [new Field('Test', 'Unknown'), false],
+            'DATA - FALSE' => [new Data($businessBundle->getBusinessModel('User'), 'email'), false],
+            'UNSUPPORTED TYPE' => ['test', false],
         ];
     }
 
@@ -912,15 +928,17 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
      *
      * @param $expectedValue
      */
-    public function testFloatTest(Field $field, $expectedValue)
+    public function testFloatTest($obj, $expectedValue)
     {
-        $value = $this->twigExtension->floatTest($field);
+        $value = $this->twigExtension->floatTest($obj);
 
         self::assertEquals($expectedValue, $value);
     }
 
     public function floatTestProvider()
     {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
         return [
             'BOOL' => [new Field('Test', FieldType::BOOL), false],
             'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), false],
@@ -944,6 +962,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             'URL' => [new Field('Test', FieldType::URL), false],
             'UUID' => [new Field('Test', FieldType::UUID), false],
             'UNKNOWN' => [new Field('Test', 'Unknown'), false],
+            'DATA - FALSE' => [new Data($businessBundle->getBusinessModel('User'), 'email'), false],
+            'UNSUPPORTED TYPE' => ['test', false],
         ];
     }
 
@@ -952,15 +972,17 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
      *
      * @param $expectedValue
      */
-    public function testPriceTest(Field $field, $expectedValue)
+    public function testPriceTest($obj, $expectedValue)
     {
-        $value = $this->twigExtension->priceTest($field);
+        $value = $this->twigExtension->priceTest($obj);
 
         self::assertEquals($expectedValue, $value);
     }
 
     public function priceTestProvider()
     {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
         return [
             'BOOL' => [new Field('Test', FieldType::BOOL), false],
             'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), false],
@@ -984,6 +1006,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             'URL' => [new Field('Test', FieldType::URL), false],
             'UUID' => [new Field('Test', FieldType::UUID), false],
             'UNKNOWN' => [new Field('Test', 'Unknown'), false],
+            'DATA - FALSE' => [new Data($businessBundle->getBusinessModel('User'), 'email'), false],
+            'UNSUPPORTED TYPE' => ['test', false],
         ];
     }
 
@@ -992,15 +1016,17 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
      *
      * @param $expectedValue
      */
-    public function testLongTest(Field $field, $expectedValue)
+    public function testLongTest($obj, $expectedValue)
     {
-        $value = $this->twigExtension->longTest($field);
+        $value = $this->twigExtension->longTest($obj);
 
         self::assertEquals($expectedValue, $value);
     }
 
     public function longTestProvider()
     {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
         return [
             'BOOL' => [new Field('Test', FieldType::BOOL), false],
             'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), false],
@@ -1024,6 +1050,9 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             'URL' => [new Field('Test', FieldType::URL), false],
             'UUID' => [new Field('Test', FieldType::UUID), false],
             'UNKNOWN' => [new Field('Test', 'Unknown'), false],
+            'DATA - FALSE' => [new Data($businessBundle->getBusinessModel('User'), 'email'), false],
+            'DATA - TRUE' => [new Data($businessBundle->getBusinessModel('UserStats'), 'loginCount'), true],
+            'UNSUPPORTED TYPE' => ['test', false],
         ];
     }
 
@@ -1032,15 +1061,17 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
      *
      * @param $expectedValue
      */
-    public function testIntegerTest(Field $field, $expectedValue)
+    public function testIntegerTest($obj, $expectedValue)
     {
-        $value = $this->twigExtension->integerTest($field);
+        $value = $this->twigExtension->integerTest($obj);
 
         self::assertEquals($expectedValue, $value);
     }
 
     public function integerTestProvider()
     {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
         return [
             'BOOL' => [new Field('Test', FieldType::BOOL), false],
             'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), false],
@@ -1064,6 +1095,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             'URL' => [new Field('Test', FieldType::URL), false],
             'UUID' => [new Field('Test', FieldType::UUID), false],
             'UNKNOWN' => [new Field('Test', 'Unknown'), false],
+            'DATA - FALSE' => [new Data($businessBundle->getBusinessModel('User'), 'email'), false],
+            'UNSUPPORTED TYPE' => ['test', false],
         ];
     }
 
@@ -1072,15 +1105,17 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
      *
      * @param $expectedValue
      */
-    public function testBooleanTest(Field $field, $expectedValue)
+    public function testBooleanTest($obj, $expectedValue)
     {
-        $value = $this->twigExtension->booleanTest($field);
+        $value = $this->twigExtension->booleanTest($obj);
 
         self::assertEquals($expectedValue, $value);
     }
 
     public function booleanTestProvider()
     {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
         return [
             'BOOL' => [new Field('Test', FieldType::BOOL), true],
             'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), true],
@@ -1104,6 +1139,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             'URL' => [new Field('Test', FieldType::URL), false],
             'UUID' => [new Field('Test', FieldType::UUID), false],
             'UNKNOWN' => [new Field('Test', 'Unknown'), false],
+            'DATA - FALSE' => [new Data($businessBundle->getBusinessModel('User'), 'email'), false],
+            'UNSUPPORTED TYPE' => ['test', false],
         ];
     }
 
@@ -1112,15 +1149,17 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
      *
      * @param $expectedValue
      */
-    public function testStringTest(Field $field, $expectedValue)
+    public function testStringTest($obj, $expectedValue)
     {
-        $value = $this->twigExtension->stringTest($field);
+        $value = $this->twigExtension->stringTest($obj);
 
         self::assertEquals($expectedValue, $value);
     }
 
     public function stringTestProvider()
     {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
         return [
             'BOOL' => [new Field('Test', FieldType::BOOL), false],
             'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), false],
@@ -1144,6 +1183,9 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             'URL' => [new Field('Test', FieldType::URL), true],
             'UUID' => [new Field('Test', FieldType::UUID), true],
             'UNKNOWN' => [new Field('Test', 'Unknown'), false],
+            'DATA - TRUE' => [new Data($businessBundle->getBusinessModel('User'), 'email'), true],
+            'DATA - FALSE' => [new Data($businessBundle->getBusinessModel('UserStats'), 'loginCount'), false],
+            'UNSUPPORTED TYPE' => ['test', false],
         ];
     }
 
@@ -1152,15 +1194,17 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
      *
      * @param $expectedValue
      */
-    public function testUuidTest(Field $field, $expectedValue)
+    public function testUuidTest($obj, $expectedValue)
     {
-        $value = $this->twigExtension->uuidTest($field);
+        $value = $this->twigExtension->uuidTest($obj);
 
         self::assertEquals($expectedValue, $value);
     }
 
     public function uuidTestProvider()
     {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
         return [
             'BOOL' => [new Field('Test', FieldType::BOOL), false],
             'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), false],
@@ -1184,6 +1228,9 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             'URL' => [new Field('Test', FieldType::URL), false],
             'UUID' => [new Field('Test', FieldType::UUID), true],
             'UNKNOWN' => [new Field('Test', 'Unknown'), false],
+            'DATA - FALSE' => [new Data($businessBundle->getBusinessModel('User'), 'email'), false],
+            'DATA - TRUE' => [new Data($businessBundle->getBusinessModel('User'), 'id'), true],
+            'UNSUPPORTED TYPE' => ['test', false],
         ];
     }
 
@@ -1192,17 +1239,19 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
      *
      * @param $expectedValue
      */
-    public function testBusinessModelTest(Field $field, $expectedValue)
+    public function testBusinessModelTest($obj, $expectedValue)
     {
         $businessBundle = TestHelper::getSampleBusinessBundle();
 
-        $value = $this->twigExtension->entityTest($field, $businessBundle);
+        $value = $this->twigExtension->entityTest($obj, $businessBundle);
 
         self::assertEquals($expectedValue, $value);
     }
 
     public function businessModelTestProvider()
     {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
         return [
             'BOOL' => [new Field('Test', FieldType::BOOL), false],
             'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), false],
@@ -1229,6 +1278,9 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             'User' => [new Field('Test', 'User'), true],
             'UserStats' => [new Field('Test', 'UserStats'), true],
             'Metadata' => [new Field('Test', 'Metadata'), true],
+            'DATA - FALSE' => [new Data($businessBundle->getBusinessModel('User'), 'email'), false],
+            'DATA - TRUE' => [new Data($businessBundle->getBusinessModel('User'), 'posts'), true],
+            'UNSUPPORTED TYPE' => ['test', false],
         ];
     }
 
@@ -1265,6 +1317,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             'RELATIONSHIP_SIDE - ManyToOne relation' => [$post->getField('author')->getRelation(), false],
             'RELATIONSHIP_SIDE - ManyToMany relation' => [$user->getField('topics')->getRelation(), false],
             'RELATIONSHIP_SIDE - ManyToMany relation 2' => [$topic->getField('authors')->getRelation(), false],
+            'DATA - FALSE' => [new Data($businessBundle->getBusinessModel('User'), 'email'), false],
+            'DATA - TRUE' => [new Data($businessBundle->getBusinessModel('User'), 'stats'), true],
         ];
     }
 
@@ -1301,6 +1355,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             'RELATIONSHIP_SIDE - ManyToOne relation' => [$post->getField('author')->getRelation(), false],
             'RELATIONSHIP_SIDE - ManyToMany relation' => [$user->getField('topics')->getRelation(), false],
             'RELATIONSHIP_SIDE - ManyToMany relation 2' => [$topic->getField('authors')->getRelation(), false],
+            'DATA - FALSE' => [new Data($businessBundle->getBusinessModel('User'), 'email'), false],
+            'DATA - TRUE' => [new Data($businessBundle->getBusinessModel('User'), 'posts'), true],
         ];
     }
 
@@ -1337,6 +1393,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             'RELATIONSHIP_SIDE - ManyToOne relation' => [$post->getField('author')->getRelation(), true],
             'RELATIONSHIP_SIDE - ManyToMany relation' => [$user->getField('topics')->getRelation(), false],
             'RELATIONSHIP_SIDE - ManyToMany relation 2' => [$topic->getField('authors')->getRelation(), false],
+            'DATA - FALSE' => [new Data($businessBundle->getBusinessModel('User'), 'email'), false],
+            'DATA - TRUE' => [new Data($businessBundle->getBusinessModel('Post'), 'author'), true],
         ];
     }
 
@@ -1373,6 +1431,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             'RELATIONSHIP_SIDE - ManyToOne relation' => [$post->getField('author')->getRelation(), false],
             'RELATIONSHIP_SIDE - ManyToMany relation' => [$user->getField('topics')->getRelation(), true],
             'RELATIONSHIP_SIDE - ManyToMany relation 2' => [$topic->getField('authors')->getRelation(), true],
+            'DATA - FALSE' => [new Data($businessBundle->getBusinessModel('User'), 'email'), false],
+            'DATA - TRUE' => [new Data($businessBundle->getBusinessModel('User'), 'topics'), true],
         ];
     }
 }

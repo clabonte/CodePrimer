@@ -9,6 +9,8 @@ use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Constraint;
+use CodePrimer\Model\Data\Data;
+use CodePrimer\Model\Data\EventData;
 use CodePrimer\Model\Database\Index;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Relationship;
@@ -78,6 +80,10 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
             if ($obj->isList() && null !== $obj->getRelation()) {
                 $result = true;
             }
+        } elseif ($obj instanceof Data) {
+            if ($obj->getField()->isList() && null !== $obj->getField()->getRelation()) {
+                $result = true;
+            }
         }
 
         return $result;
@@ -99,6 +105,8 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
             $result = $this->getBusinessModelAnnotations($obj);
         } elseif ($obj instanceof Field) {
             $result = $this->getFieldAnnotations($context, $obj);
+        } elseif ($obj instanceof Data) {
+            $result = $this->getFieldAnnotations($context, $obj->getField());
         }
 
         return $result;
@@ -306,11 +314,20 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
     }
 
     /**
-     * @param Field|string $field
-     * @param bool         $mandatory Whether this field is mandatory in the given context
+     * @param Field|Data|string $field
+     * @param bool              $mandatory Whether this field is mandatory in the given context
      */
-    public function typeFilter(array $context, $field, bool $mandatory = false): string
+    public function typeFilter(array $context, $obj, bool $mandatory = false): string
     {
+        if ($obj instanceof Data) {
+            $field = $obj->getField();
+            if (($obj instanceof EventData) && !$mandatory) {
+                $mandatory = $obj->isMandatory();
+            }
+        } else {
+            $field = $obj;
+        }
+
         if ($field->isList() && null !== $field->getRelation()) {
             return 'Collection';
         }
@@ -319,11 +336,20 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
     }
 
     /**
-     * @param Field|string $field
-     * @param bool         $mandatory Whether this field is mandatory in the given context
+     * @param Field|Data|string $obj
+     * @param bool              $mandatory Whether this field is mandatory in the given context
      */
-    public function hintFilter(array $context, $field, bool $mandatory = false): string
+    public function hintFilter(array $context, $obj, bool $mandatory = false): string
     {
+        if ($obj instanceof Data) {
+            $field = $obj->getField();
+            if (($obj instanceof EventData) && !$mandatory) {
+                $mandatory = $obj->isMandatory();
+            }
+        } else {
+            $field = $obj;
+        }
+
         $hint = parent::hintFilter($context, $field, $mandatory);
         if ($field->isList() && null !== $field->getRelation()) {
             $hint = 'Collection|'.$hint;

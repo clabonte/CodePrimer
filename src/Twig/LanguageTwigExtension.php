@@ -9,6 +9,7 @@ use CodePrimer\Model\BusinessProcess;
 use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\DataBundle;
+use CodePrimer\Model\Data\EventData;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Relationship;
@@ -97,18 +98,26 @@ class LanguageTwigExtension extends AbstractExtension
     {
         $result = false;
 
+        $field = null;
+
         if ($obj instanceof Field) {
-            if ($this->fieldHelper->isLong($obj)) {
+            $field = $obj;
+        } elseif ($obj instanceof Data) {
+            $field = $obj->getField();
+        }
+
+        if (null !== $field) {
+            if ($this->fieldHelper->isLong($field)) {
                 $result = true;
-            } elseif ($this->fieldHelper->isInteger($obj)) {
+            } elseif ($this->fieldHelper->isInteger($field)) {
                 $result = true;
-            } elseif ($this->fieldHelper->isBoolean($obj)) {
+            } elseif ($this->fieldHelper->isBoolean($field)) {
                 $result = true;
-            } elseif ($this->fieldHelper->isDouble($obj)) {
+            } elseif ($this->fieldHelper->isDouble($field)) {
                 $result = true;
-            } elseif ($this->fieldHelper->isFloat($obj)) {
+            } elseif ($this->fieldHelper->isFloat($field)) {
                 $result = true;
-            } elseif ($this->fieldHelper->isPrice($obj)) {
+            } elseif ($this->fieldHelper->isPrice($field)) {
                 $result = true;
             }
         }
@@ -129,6 +138,8 @@ class LanguageTwigExtension extends AbstractExtension
 
         if ($obj instanceof Field) {
             $result = $this->fieldHelper->isDouble($obj);
+        } elseif ($obj instanceof Data) {
+            $result = $this->fieldHelper->isDouble($obj->getField());
         }
 
         return $result;
@@ -147,6 +158,8 @@ class LanguageTwigExtension extends AbstractExtension
 
         if ($obj instanceof Field) {
             $result = $this->fieldHelper->isFloat($obj);
+        } elseif ($obj instanceof Data) {
+            $result = $this->fieldHelper->isFloat($obj->getField());
         }
 
         return $result;
@@ -165,6 +178,8 @@ class LanguageTwigExtension extends AbstractExtension
 
         if ($obj instanceof Field) {
             $result = $this->fieldHelper->isPrice($obj);
+        } elseif ($obj instanceof Data) {
+            $result = $this->fieldHelper->isPrice($obj->getField());
         }
 
         return $result;
@@ -183,6 +198,8 @@ class LanguageTwigExtension extends AbstractExtension
 
         if ($obj instanceof Field) {
             $result = $this->fieldHelper->isLong($obj);
+        } elseif ($obj instanceof Data) {
+            $result = $this->fieldHelper->isLong($obj->getField());
         }
 
         return $result;
@@ -201,6 +218,8 @@ class LanguageTwigExtension extends AbstractExtension
 
         if ($obj instanceof Field) {
             $result = $this->fieldHelper->isInteger($obj);
+        } elseif ($obj instanceof Data) {
+            $result = $this->fieldHelper->isInteger($obj->getField());
         }
 
         return $result;
@@ -219,6 +238,8 @@ class LanguageTwigExtension extends AbstractExtension
 
         if ($obj instanceof Field) {
             $result = $this->fieldHelper->isBoolean($obj);
+        } elseif ($obj instanceof Data) {
+            $result = $this->fieldHelper->isBoolean($obj->getField());
         }
 
         return $result;
@@ -237,6 +258,8 @@ class LanguageTwigExtension extends AbstractExtension
 
         if ($obj instanceof Field) {
             $result = $this->fieldHelper->isString($obj);
+        } elseif ($obj instanceof Data) {
+            $result = $this->fieldHelper->isString($obj->getField());
         }
 
         return $result;
@@ -255,6 +278,8 @@ class LanguageTwigExtension extends AbstractExtension
 
         if ($obj instanceof Field) {
             $result = $this->fieldHelper->isUuid($obj);
+        } elseif ($obj instanceof Data) {
+            $result = $this->fieldHelper->isUuid($obj->getField());
         }
 
         return $result;
@@ -273,6 +298,8 @@ class LanguageTwigExtension extends AbstractExtension
 
         if ($obj instanceof Field) {
             $result = $this->fieldHelper->isBusinessModel($obj, $businessBundle);
+        } elseif ($obj instanceof Data) {
+            $result = $this->fieldHelper->isBusinessModel($obj->getField(), $businessBundle);
         }
 
         return $result;
@@ -305,6 +332,8 @@ class LanguageTwigExtension extends AbstractExtension
             $relation = $obj->getRelation();
         } elseif ($obj instanceof RelationshipSide) {
             $relation = $obj;
+        } elseif ($obj instanceof Data) {
+            $relation = $obj->getField()->getRelation();
         }
 
         if (null !== $relation) {
@@ -341,6 +370,8 @@ class LanguageTwigExtension extends AbstractExtension
             $relation = $obj->getRelation();
         } elseif ($obj instanceof RelationshipSide) {
             $relation = $obj;
+        } elseif ($obj instanceof Data) {
+            $relation = $obj->getField()->getRelation();
         }
 
         if (null !== $relation) {
@@ -378,6 +409,8 @@ class LanguageTwigExtension extends AbstractExtension
             $relation = $obj->getRelation();
         } elseif ($obj instanceof RelationshipSide) {
             $relation = $obj;
+        } elseif ($obj instanceof Data) {
+            $relation = $obj->getField()->getRelation();
         }
 
         if (null !== $relation) {
@@ -415,6 +448,8 @@ class LanguageTwigExtension extends AbstractExtension
             $relation = $obj->getRelation();
         } elseif ($obj instanceof RelationshipSide) {
             $relation = $obj;
+        } elseif ($obj instanceof Data) {
+            $relation = $obj->getField()->getRelation();
         }
 
         if (null !== $relation) {
@@ -693,12 +728,21 @@ class LanguageTwigExtension extends AbstractExtension
     /**
      * Default language agnostic type filter. This must be overridden by subclasses to return the language's real type.
      *
-     * @param string|Field $field
-     * @param bool         $mandatory Whether this field is mandatory in this context
+     * @param string|Field|Data $obj
+     * @param bool              $mandatory Whether this field is mandatory in this context
      */
-    public function typeFilter(array $context, $field, bool $mandatory = false): string
+    public function typeFilter(array $context, $obj, bool $mandatory = false): string
     {
         $helper = new FieldHelper();
+
+        if ($obj instanceof Data) {
+            $field = $obj->getField();
+            if (($obj instanceof EventData) && !$mandatory) {
+                $mandatory = $obj->isMandatory();
+            }
+        } else {
+            $field = $obj;
+        }
 
         $type = 'string';
         if ($field instanceof Field) {
@@ -743,14 +787,20 @@ class LanguageTwigExtension extends AbstractExtension
     /**
      * Default language agnostic list type filter. This must be overridden by subclasses to return the language's real type.
      *
-     * @param array        $context
-     * @param string|Field $field
+     * @param array             $context
+     * @param string|Field|Data $field
      *
      * @return string
      */
-    public function listTypeFilter($context, $field)
+    public function listTypeFilter($context, $obj)
     {
         $helper = new FieldHelper();
+
+        if ($obj instanceof Data) {
+            $field = $obj->getField();
+        } else {
+            $field = $obj;
+        }
 
         $type = 'string';
         if ($field instanceof Field) {
@@ -787,22 +837,24 @@ class LanguageTwigExtension extends AbstractExtension
     }
 
     /**
-     * @param array|Field $field
-     * @param bool        $mandatory Whether the parameters are mandatory in this context
+     * @param array|Field|Data $obj
+     * @param bool             $mandatory Whether the parameters are mandatory in this context
      */
-    public function parameterFilter(array $context, $field, bool $mandatory = false): string
+    public function parameterFilter(array $context, $obj, bool $mandatory = false): string
     {
         $params = '';
 
-        if (is_array($field)) {
-            foreach ($field as $value) {
+        if (is_array($obj)) {
+            foreach ($obj as $value) {
                 if (!empty($params)) {
                     $params .= ', ';
                 }
                 $params .= $this->typeFilter($context, $value, $mandatory).' '.$this->variableFilter($value);
             }
-        } elseif ($field instanceof Field) {
-            $params = $this->typeFilter($context, $field, $mandatory).' '.$this->variableFilter($field);
+        } elseif ($obj instanceof Field) {
+            $params = $this->typeFilter($context, $obj, $mandatory).' '.$this->variableFilter($obj);
+        } elseif ($obj instanceof Data) {
+            $params = $this->typeFilter($context, $obj->getField(), $mandatory).' '.$this->variableFilter($obj);
         }
 
         return $params;

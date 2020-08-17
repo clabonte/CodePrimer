@@ -77,6 +77,10 @@ class Data
      */
     public function getName(): string
     {
+        if (null === $this->name) {
+            return $this->field->getName();
+        }
+
         return $this->name;
     }
 

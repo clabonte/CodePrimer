@@ -16,10 +16,10 @@ namespace CodePrimer\Tests\Event;
 class LoginRequest
 {
     /** @var string User email address */
-    protected $email;
+    protected $email = '';
 
     /** @var string User password */
-    protected $password;
+    protected $password = '';
 
     /**
      * LoginRequest default constructor

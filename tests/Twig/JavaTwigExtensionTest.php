@@ -5,8 +5,10 @@ namespace CodePrimer\Tests\Twig;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
+use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
+use CodePrimer\Tests\Helper\TestHelper;
 use CodePrimer\Twig\JavaTwigExtension;
 
 class JavaTwigExtensionTest extends TwigExtensionTest
@@ -128,6 +130,8 @@ class JavaTwigExtensionTest extends TwigExtensionTest
 
     public function typeDataProvider()
     {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
         return [
             'BOOL' => [new Field('Test', FieldType::BOOL), 'boolean'],
             'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), 'boolean'],
@@ -158,6 +162,7 @@ class JavaTwigExtensionTest extends TwigExtensionTest
             ],
             'ENTITY' => [new Field('Test', 'User', 'Test Description', true), 'User'],
             'OPTIONAL ENTITY' => [new Field('Test', 'User'), 'User'],
+            'DATA - EMAIL' => [new Data($businessBundle->getBusinessModel('User'), 'email'), 'String'],
         ];
     }
 
@@ -176,6 +181,8 @@ class JavaTwigExtensionTest extends TwigExtensionTest
 
     public function listTypeDataProvider()
     {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
         return [
             'BOOL' => [
                 (new Field('Test', FieldType::BOOL, 'Test Description', true))
@@ -297,6 +304,7 @@ class JavaTwigExtensionTest extends TwigExtensionTest
                     ->setList(true),
                 'User',
             ],
+            'DATA - TOPIC' => [new Data($businessBundle->getBusinessModel('User'), 'topics'), 'Topic'],
         ];
     }
 }

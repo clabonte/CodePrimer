@@ -18,19 +18,19 @@ namespace CodePrimer\Tests\Event;
 class SchedulePost
 {
     /** @var string The post's unique ID in our system */
-    protected $id;
+    protected $id = '';
 
-    /** @var string The time at which this post must be published */
+    /** @var DateTimeInterface The time at which this post must be published */
     protected $scheduled;
 
     /**
      * SchedulePost default constructor
      * @var string $id The post's unique ID in our system
-     * @var string $scheduled The time at which this post must be published
+     * @var DateTimeInterface $scheduled The time at which this post must be published
      */
     public function __construct(
         string $id,
-        string $scheduled
+        DateTimeInterface $scheduled
     ) {
         $this->id = $id;
         $this->scheduled = $scheduled;
@@ -58,10 +58,10 @@ class SchedulePost
 
     /**
      * @codeCoverageIgnore
-     * @param string $scheduled
+     * @param DateTimeInterface $scheduled
      * @return SchedulePost
      */
-    public function setScheduled(string $scheduled): SchedulePost
+    public function setScheduled(DateTimeInterface $scheduled): SchedulePost
     {
         $this->scheduled = $scheduled;
         return $this;
@@ -69,9 +69,9 @@ class SchedulePost
 
     /**
      * @codeCoverageIgnore
-     * @return string
+     * @return DateTimeInterface
      */
-    public function getScheduled(): string
+    public function getScheduled(): DateTimeInterface
     {
         return $this->scheduled;
     }

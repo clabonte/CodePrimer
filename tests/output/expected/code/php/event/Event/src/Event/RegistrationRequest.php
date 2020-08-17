@@ -16,18 +16,18 @@ namespace CodePrimer\Tests\Event;
 class RegistrationRequest
 {
     /** @var string User email address */
-    protected $email;
+    protected $email = '';
 
     /** @var string User password */
-    protected $password;
+    protected $password = '';
 
-    /** @var string User first name */
+    /** @var string|null User first name */
     protected $firstName = null;
 
-    /** @var string User last name */
+    /** @var string|null User last name */
     protected $lastName = null;
 
-    /** @var string The name used to identify this user publicly on the site */
+    /** @var string|null The name used to identify this user publicly on the site */
     protected $nickname = null;
 
     /**
@@ -85,10 +85,10 @@ class RegistrationRequest
 
     /**
      * @codeCoverageIgnore
-     * @param string $firstName
+     * @param string|null $firstName
      * @return RegistrationRequest
      */
-    public function setFirstName(string $firstName): RegistrationRequest
+    public function setFirstName(?string $firstName): RegistrationRequest
     {
         $this->firstName = $firstName;
         return $this;
@@ -96,19 +96,19 @@ class RegistrationRequest
 
     /**
      * @codeCoverageIgnore
-     * @return string
+     * @return string|null
      */
-    public function getFirstName(): string
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
 
     /**
      * @codeCoverageIgnore
-     * @param string $lastName
+     * @param string|null $lastName
      * @return RegistrationRequest
      */
-    public function setLastName(string $lastName): RegistrationRequest
+    public function setLastName(?string $lastName): RegistrationRequest
     {
         $this->lastName = $lastName;
         return $this;
@@ -116,19 +116,19 @@ class RegistrationRequest
 
     /**
      * @codeCoverageIgnore
-     * @return string
+     * @return string|null
      */
-    public function getLastName(): string
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
 
     /**
      * @codeCoverageIgnore
-     * @param string $nickname
+     * @param string|null $nickname
      * @return RegistrationRequest
      */
-    public function setNickname(string $nickname): RegistrationRequest
+    public function setNickname(?string $nickname): RegistrationRequest
     {
         $this->nickname = $nickname;
         return $this;
@@ -136,9 +136,9 @@ class RegistrationRequest
 
     /**
      * @codeCoverageIgnore
-     * @return string
+     * @return string|null
      */
-    public function getNickname(): string
+    public function getNickname(): ?string
     {
         return $this->nickname;
     }
