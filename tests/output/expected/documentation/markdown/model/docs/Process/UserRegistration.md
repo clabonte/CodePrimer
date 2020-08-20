@@ -13,6 +13,7 @@ This process is triggered when a user wants to register with our application. Up
 ## Registration Request Event
 Event triggered when user wants to register with the application
 ### Data
+
 **Type**: Structure
 
 | BusinessModel | Field | Type | Mandatory | Level |
@@ -31,6 +32,7 @@ Upon successful completion, this process will produce/update the following data:
 
 ### Internal Data
 User profile created
+
 **Type**: Structure
 
 | BusinessModel | Field | Type | Level |

@@ -13,6 +13,7 @@ This process is triggered when a user wants to publish a specific post at at giv
 ## Schedule Post Event
 Event triggered when user wants to schedule a post at a given time
 ### Data
+
 **Type**: Structure
 
 | BusinessModel | Field | Type | Mandatory | Level |
@@ -27,6 +28,7 @@ N/A - *This process does not require any other data to process the event*
 Upon successful completion, this process will produce/update the following data:
 ### Context Data
 User information to add to the context
+
 **Type**: Structure
 
 | BusinessModel | Field | Type | Level |
