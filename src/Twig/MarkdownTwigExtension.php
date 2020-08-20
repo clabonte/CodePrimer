@@ -30,11 +30,12 @@ class MarkdownTwigExtension extends LanguageTwigExtension
         if ($obj instanceof DataBundle) {
             $type = 'Unknown';
 
-            if($obj->isSimpleStructure()) {
+            if ($obj->isSimpleStructure()) {
                 $type = 'Structure';
             } elseif ($obj->isListStructure()) {
                 $type = 'List';
             }
+
             return $type;
         } elseif ($obj instanceof Data) {
             $field = $obj->getField();
