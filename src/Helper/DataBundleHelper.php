@@ -271,6 +271,12 @@ class DataBundleHelper
 
     private function copyData(DataBundle $existingBundle, DataBundle $dataBundle)
     {
+        if ($existingBundle->isSimpleStructure()) {
+            $dataBundle->setAsSimpleStructure();
+        } elseif ($existingBundle->isListStructure()) {
+            $dataBundle->setAsListStructure();
+        }
+
         foreach ($existingBundle->getData() as $list) {
             foreach ($list as $data) {
                 $newData = new Data($data->getBusinessModel(), $data->getField(), $data->getDetails());

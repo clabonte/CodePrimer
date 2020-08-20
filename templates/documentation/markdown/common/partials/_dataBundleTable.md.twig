@@ -9,6 +9,8 @@
 {{ dataBundle.description }}
 {% endif %}
 
+**Type**: {{ dataBundle|type }}
+
 | BusinessModel | Field | Type | Level |
 | ------------- | ----- | ---- | ----- |
 {% for model in dataBundle.data %}

@@ -4,6 +4,7 @@ namespace CodePrimer\Tests\Twig;
 
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\Data\Data;
+use CodePrimer\Model\Data\InternalDataBundle;
 use CodePrimer\Model\Field;
 use CodePrimer\Tests\Helper\TestHelper;
 use CodePrimer\Twig\MarkdownTwigExtension;
@@ -83,6 +84,8 @@ class MarkdownTwigExtensionTest extends TwigExtensionTest
             ],
             'DATA - EMAIL' => [new Data($businessBundle->getBusinessModel('User'), 'email'), 'email'],
             'DATA - ENTITY' => [new Data($businessBundle->getBusinessModel('User'), 'topics'), 'List of [Topic](../DataModel/Overview.md#topic)'],
+            'DATABUNDLE - SIMPLE' => [new InternalDataBundle('Test Bundle'), 'Structure'],
+            'DATABUNDLE - LIST' => [(new InternalDataBundle('Test Bundle'))->setAsListStructure(), 'List'],
         ];
     }
 

@@ -6,6 +6,7 @@ use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\Data\Data;
+use CodePrimer\Model\Data\DataBundle;
 use CodePrimer\Model\Data\EventData;
 use CodePrimer\Model\Field;
 use Twig\TwigFilter;
@@ -26,7 +27,17 @@ class MarkdownTwigExtension extends LanguageTwigExtension
     {
         $helper = new FieldHelper();
 
-        if ($obj instanceof Data) {
+        if ($obj instanceof DataBundle) {
+            $type = 'Unknown';
+
+            if ($obj->isSimpleStructure()) {
+                $type = 'Structure';
+            } elseif ($obj->isListStructure()) {
+                $type = 'List';
+            }
+
+            return $type;
+        } elseif ($obj instanceof Data) {
             $field = $obj->getField();
             if (($obj instanceof EventData) && !$mandatory) {
                 $mandatory = $obj->isMandatory();

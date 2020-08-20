@@ -4,6 +4,13 @@ namespace CodePrimer\Model\Data;
 
 abstract class DataBundle
 {
+    /** @var string Constant used to indicate that a data bundle represents a single data structure */
+    public const SIMPLE = 'simple';
+    /** @var string Constant used to indicate that a data bundle represents a list of structured data */
+    public const LIST = 'list';
+    /** @var string Constant used to indicate that a data bundle represents a map of structured data */
+    public const MAP = 'map';
+
     /** @var string The name associated with this bundle */
     private $name;
 
@@ -16,6 +23,9 @@ abstract class DataBundle
      * @var Data[][]
      */
     private $data = [];
+
+    /** @var string The type of structure to use */
+    private $structure = self::SIMPLE;
 
     /**
      * DataBundle constructor.
@@ -60,6 +70,62 @@ abstract class DataBundle
     public function getDescription(): string
     {
         return $this->description;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function getStructure(): string
+    {
+        return $this->structure;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @return $this
+     */
+    public function setAsSimpleStructure(): DataBundle
+    {
+        $this->structure = self::SIMPLE;
+
+        return $this;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function isSimpleStructure(): bool
+    {
+        return self::SIMPLE == $this->structure;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     *
+     * @return $this
+     */
+    public function setAsListStructure(): DataBundle
+    {
+        $this->structure = self::LIST;
+
+        return $this;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function isListStructure(): bool
+    {
+        return self::LIST == $this->structure;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function isMapStructure(): bool
+    {
+        return self::MAP == $this->structure;
     }
 
     /**
