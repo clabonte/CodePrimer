@@ -2,6 +2,13 @@
  # Variables:
  #  - dataBundle: The EventDataBundle object to use
  #}
+{% if dataBundle.name %}
+**Name**: {{ dataBundle.name }}
+{% endif %}
+{% if dataBundle.description %}
+{{ dataBundle.description }}
+{% endif %}
+**Type**: {{ dataBundle|type }}
 
 | BusinessModel | Field | Type | Mandatory | Level |
 | ------------- | ----- | ---- | --------- | ----- |

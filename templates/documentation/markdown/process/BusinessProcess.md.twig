@@ -17,7 +17,9 @@
 {% if businessProcess.event.getDataBundle() is empty %}
 *N/A*
 {% else %}
-    {% include 'documentation/markdown/common/partials/_eventDataBundleTable.md.twig' with {'dataBundle': businessProcess.event.getDataBundle()} %}
+    {%~ for dataBundle in businessProcess.event.getDataBundles() %}
+        {%~ include 'documentation/markdown/common/partials/_eventDataBundleTable.md.twig' with {'dataBundle': dataBundle} %}
+    {%~ endfor %}
 {% endif %}
 
 ## Required Data
