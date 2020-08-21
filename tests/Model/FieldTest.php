@@ -105,4 +105,70 @@ class FieldTest extends TestCase
             'UUID_IDENTIFIER' => [new Field('Test', FieldType::UUID), true],
         ];
     }
+
+    /**
+     * @dataProvider validValueProvider
+     *
+     * @param $value
+     */
+    public function testSetDefaultWithValidValueShouldWork(Field $field, $value)
+    {
+        $field->setDefault($value);
+        self::assertEquals($value, $field->getDefault());
+    }
+
+    /**
+     * @dataProvider validValueProvider
+     *
+     * @param $value
+     */
+    public function testSetExampleWithValidValueShouldWork(Field $field, $value)
+    {
+        $field->setExample($value);
+        self::assertEquals($value, $field->getExample());
+    }
+
+    public function validValueProvider()
+    {
+        return [
+            'Email' => [new Field('Test', FieldType::EMAIL), 'test@test.com'],
+            'Integer' => [new Field('Test', FieldType::INTEGER), 25],
+            'Bool' => [new Field('Test', FieldType::BOOLEAN), true],
+            'Float' => [new Field('Test', FieldType::FLOAT), 25.345],
+        ];
+    }
+
+    /**
+     * @dataProvider invalidValueProvider
+     *
+     * @param $value
+     */
+    public function testSetDefaultWithInvalidValueShouldThrowException(Field $field, $value)
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("'$value' is not a valid value for type '{$field->getType()}' as defined for field {$field->getName()}");
+        $field->setDefault($value);
+    }
+
+    /**
+     * @dataProvider invalidValueProvider
+     *
+     * @param $value
+     */
+    public function testSetExampleWithInvalidValueShouldThrowException(Field $field, $value)
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("'$value' is not a valid value for type '{$field->getType()}' as defined for field {$field->getName()}");
+        $field->setExample($value);
+    }
+
+    public function invalidValueProvider()
+    {
+        return [
+            'Email' => [new Field('Test', FieldType::EMAIL), 'test'],
+            'Integer' => [new Field('Test', FieldType::INTEGER), 'test'],
+            'Bool' => [new Field('Test', FieldType::BOOLEAN), 'test'],
+            'Float' => [new Field('Test', FieldType::FLOAT), 'test'],
+        ];
+    }
 }

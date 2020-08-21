@@ -10,9 +10,9 @@ use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\EventDataBundle;
 use CodePrimer\Model\Data\MessageDataBundle;
+use CodePrimer\Model\DataSet;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
-use CodePrimer\Model\Set;
 use CodePrimer\Model\State;
 use CodePrimer\Model\StateMachine;
 use CodePrimer\Model\Transition;
@@ -105,7 +105,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             [new Field('Field', 'int'), 'Fields'],
             [new BusinessBundle('Package', 'Name'), 'Names'],
             [new Event('Name', 'Code'), 'Names'],
-            [new Set('Name', 'Description'), 'Names'],
+            [new DataSet('Name', 'Description'), 'Names'],
             [new StateMachine('Name'), 'Names'],
             [new State('Name', 'Description'), 'Names'],
             [new Transition('Name', 'Description', new State('fromState'), new State('ToState')), 'Names'],
@@ -142,7 +142,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             [new Field('Fields', 'int'), 'Field'],
             [new BusinessBundle('Packages', 'Name'), 'Name'],
             [new Event('Names', 'Code'), 'Name'],
-            [new Set('Names', 'Description'), 'Name'],
+            [new DataSet('Names', 'Description'), 'Name'],
             [new StateMachine('Names'), 'Name'],
             [new State('Names', 'Description'), 'Name'],
             [new Transition('Names', 'Description', new State('fromState'), new State('ToState')), 'Name'],

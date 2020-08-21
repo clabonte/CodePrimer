@@ -30,8 +30,8 @@ class BusinessBundle
     /** @var Event[] */
     private $events = [];
 
-    /** @var Set[] */
-    private $sets = [];
+    /** @var DataSet[] */
+    private $dataSets = [];
 
     /**
      * Package constructor.
@@ -263,33 +263,33 @@ class BusinessBundle
     /**
      * @codeCoverageIgnore
      *
-     * @return Set[]
+     * @return DataSet[]
      */
-    public function listSets(): array
+    public function listDataSets(): array
     {
-        return $this->sets;
+        return $this->dataSets;
     }
 
-    public function getSet(string $name): ?Set
+    public function getDataSet(string $name): ?DataSet
     {
-        if (isset($this->sets[$name])) {
-            return $this->sets[$name];
+        if (isset($this->dataSets[$name])) {
+            return $this->dataSets[$name];
         }
 
         return null;
     }
 
     /**
-     * @param Set[] $sets
+     * @param DataSet[] $dataSets
      *
      * @return BusinessBundle
      */
-    public function setSets(array $sets): self
+    public function setDataSets(array $dataSets): self
     {
-        $this->sets = [];
+        $this->dataSets = [];
 
-        foreach ($sets as $set) {
-            $this->addSet($set);
+        foreach ($dataSets as $set) {
+            $this->addDataSet($set);
         }
 
         return $this;
@@ -298,9 +298,9 @@ class BusinessBundle
     /**
      * @return BusinessBundle
      */
-    public function addSet(Set $set): self
+    public function addDataSet(DataSet $dataSet): self
     {
-        $this->sets[$set->getName()] = $set;
+        $this->dataSets[$dataSet->getName()] = $dataSet;
 
         return $this;
     }
