@@ -216,21 +216,15 @@ class Field
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isIdentifier(): bool
     {
         return $this->identifier;
     }
 
-    /**
-     * @param bool $identifier
-     * @return Field
-     */
     public function setIdentifier(bool $identifier): Field
     {
         $this->identifier = $identifier;
+
         return $this;
     }
 

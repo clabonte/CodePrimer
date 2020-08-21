@@ -6,7 +6,6 @@ use CodePrimer\Helper\BusinessModelHelper;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 

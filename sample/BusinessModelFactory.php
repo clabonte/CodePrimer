@@ -291,7 +291,7 @@ class BusinessModelFactory
                     ->setList(true)
             );
 
-            // Step 3: Add internal fields
+        // Step 3: Add internal fields
         $businessModelHelper = new BusinessModelHelper();
         $businessModelHelper->generateIdentifierField($businessModel);
         $businessModelHelper->generateTimestampFields($businessModel);
@@ -352,9 +352,9 @@ class BusinessModelFactory
                     ->setList(true)
             );
 
-            // Step 3: Add internal fields
-            $businessModelHelper = new BusinessModelHelper();
-            $businessModelHelper->generateTimestampFields($businessModel);
+        // Step 3: Add internal fields
+        $businessModelHelper = new BusinessModelHelper();
+        $businessModelHelper->generateTimestampFields($businessModel);
 
         return $businessModel;
     }

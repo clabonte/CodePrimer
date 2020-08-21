@@ -169,7 +169,6 @@ class BusinessModelTest extends TestCase
 
     /**
      * @dataProvider provideWrongTypeForIdentifiers
-     * @param string $type
      */
     public function testIdentifierShouldBeIDorUUIDFieldType(string $type)
     {
@@ -178,7 +177,7 @@ class BusinessModelTest extends TestCase
         $idField = new Field('idFieldId', $type);
         $idField->setIdentifier(true);
 
-        $this->expectExceptionMessage('Invalid identifier type provided: ' . $type);
+        $this->expectExceptionMessage('Invalid identifier type provided: '.$type);
         $this->expectException(\InvalidArgumentException::class);
 
         $this->businessModel->addField($idField);

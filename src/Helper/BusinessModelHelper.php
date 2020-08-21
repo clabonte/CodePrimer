@@ -24,19 +24,18 @@ class BusinessModelHelper
      */
     public function getRepositoryClass(BusinessModel $businessModel): string
     {
-        return $this->inflector->classify($businessModel->getName()) . 'Repository';
+        return $this->inflector->classify($businessModel->getName()).'Repository';
     }
 
     public function generateIdentifierField(BusinessModel $businessModel, string $identifierType = FieldType::UUID): Field
     {
         $name = 'id';
         if (null !== $businessModel->getField($name)) {
-
-            $name = $this->inflector->camelize($businessModel->getName()) . 'Id';
+            $name = $this->inflector->camelize($businessModel->getName()).'Id';
         }
 
         if (null !== $businessModel->getField($name)) {
-            throw new RuntimeException('Cannot generate ID field for business model ' . $businessModel->getName() . ': "id" and "' . $name . '" fields are already defined. Did you forget to specify an identifier for this model?');
+            throw new RuntimeException('Cannot generate ID field for business model '.$businessModel->getName().': "id" and "'.$name.'" fields are already defined. Did you forget to specify an identifier for this model?');
         }
 
         $example = 'b34d38eb-1164-4289-98b4-65706837c4d7';
@@ -56,7 +55,7 @@ class BusinessModelHelper
     public function generateTimestampFields(BusinessModel $businessModel, bool $created = true, bool $updated = true)
     {
         if ($created) {
-            $field = new Field('created', FieldType::DATETIME, 'The date and time at which this ' . $businessModel->getName() . ' was created');
+            $field = new Field('created', FieldType::DATETIME, 'The date and time at which this '.$businessModel->getName().' was created');
             $field->setManaged(true)
                 ->setGenerated(true)
                 ->setExample('2021-08-21T15:56:59Z');
@@ -65,7 +64,7 @@ class BusinessModelHelper
         }
 
         if ($updated) {
-            $field = new Field('updated', FieldType::DATETIME, 'The date and time at which this ' . $businessModel->getName() . ' was last updated');
+            $field = new Field('updated', FieldType::DATETIME, 'The date and time at which this '.$businessModel->getName().' was last updated');
             $field->setManaged(true)
                 ->setGenerated(true)
                 ->setExample('2021-08-21T16:57:00Z');
@@ -177,7 +176,7 @@ class BusinessModelHelper
      * A field is considered 'unique' if it has a 'unique' constraint with only this single field.
      *
      * @param BusinessModel $businessModel The model to check against
-     * @param string $field The field to check for uniqueness
+     * @param string        $field         The field to check for uniqueness
      *
      * @return bool whether the field must carry unique values for a given model
      */

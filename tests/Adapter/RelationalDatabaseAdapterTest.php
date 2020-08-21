@@ -111,7 +111,7 @@ class RelationalDatabaseAdapterTest extends TestCase
             }
         }
 
-        self::assertTrue($found, 'Index ' . $index->getName() . ' not found');
+        self::assertTrue($found, 'Index '.$index->getName().' not found');
     }
 
     public function testGenerateRelationalIdentifierFields()

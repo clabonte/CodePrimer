@@ -135,17 +135,17 @@ class BusinessModel
 
     /**
      * @return BusinessModel
+     *
      * @throws \InvalidArgumentException
      */
     public function addField(Field $field): self
     {
         if ($field->isIdentifier()) {
             if (0 !== strcasecmp($field->getType(), FieldType::ID) && 0 !== strcasecmp($field->getType(), FieldType::UUID)) {
-                throw new \InvalidArgumentException('Invalid identifier type provided: ' . $field->getType() .
-                    '. Must be either FieldType::UUID or FieldType::ID');
+                throw new \InvalidArgumentException('Invalid identifier type provided: '.$field->getType().'. Must be either FieldType::UUID or FieldType::ID');
             }
 
-            if ($this->identifier !== null) {
+            if (null !== $this->identifier) {
                 $currentIdField = $this->getField($this->identifier->getName());
                 $currentIdField->setIdentifier(false);
                 $currentIdField->setManaged($this->initIdentifierManaged);

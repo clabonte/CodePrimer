@@ -48,8 +48,8 @@ class FieldTest extends TestCase
     }
 
     /**
-     * @param Field $field The field to test
-     * @param bool $expected The expected value for the field being tested
+     * @param Field $field    The field to test
+     * @param bool  $expected The expected value for the field being tested
      * @dataProvider identifierProvider
      */
     public function testIsIdentifier(Field $field, bool $expected)
