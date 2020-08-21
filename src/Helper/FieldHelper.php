@@ -8,6 +8,19 @@ use CodePrimer\Model\Field;
 class FieldHelper
 {
     /**
+     * @var string Regex to use to validate a probable E.164 phone number according to Twilio.
+     *
+     * @see https://www.twilio.com/docs/glossary/what-e164
+     */
+    const PHONE_REGEX = '/\+[1-9]\d{1,14}$/';
+    /**
+     * @var string Regex to use to validate a UUID field value
+     *
+     * @see https://stackoverflow.com/questions/12808597/php-verify-valid-uuid
+     */
+    const UUID_REGEX = '/^[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i';
+
+    /**
      * Checks if a field should contain a UUID value.
      */
     public function isUuid(Field $field): bool
@@ -246,6 +259,81 @@ class FieldHelper
             case FieldType::PRICE:
             case FieldType::RANDOM_STRING:
                 $result = true;
+                break;
+        }
+
+        return $result;
+    }
+
+    public function isValueCompatible(Field $field, $value)
+    {
+        $result = false;
+
+        switch ($field->getType()) {
+            case FieldType::UUID:
+                if (is_string($value) && preg_match(self::UUID_REGEX, $value)) {
+                    $result = true;
+                }
+                break;
+            case FieldType::STRING:
+            case FieldType::TEXT:
+            case FieldType::PASSWORD:
+            case FieldType::RANDOM_STRING:
+                if (is_string($value)) {
+                    $result = true;
+                }
+                break;
+            case FieldType::EMAIL:
+                if (false !== filter_var($value, FILTER_VALIDATE_EMAIL)) {
+                    $result = true;
+                }
+                break;
+            case FieldType::URL:
+                if (false !== filter_var($value, FILTER_VALIDATE_URL)) {
+                    $result = true;
+                }
+                break;
+            case FieldType::PHONE:
+                if (is_string($value) && preg_match(self::PHONE_REGEX, $value)) {
+                    $result = true;
+                }
+                break;
+            case FieldType::DATE:
+            case FieldType::TIME:
+            case FieldType::DATETIME:
+                if ($value instanceof \DateTimeInterface) {
+                    $result = true;
+                } elseif (is_string($value)) {
+                    try {
+                        $date = new \DateTime($value);
+                        if (null != $date) {
+                            $result = true;
+                        }
+                    } catch (\Exception $e) {
+                    }
+                }
+                break;
+            case FieldType::BOOL:
+            case FieldType::BOOLEAN:
+                if (null !== filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE)) {
+                    $result = true;
+                }
+                break;
+            case FieldType::INT:
+            case FieldType::INTEGER:
+            case FieldType::ID:
+            case FieldType::LONG:
+                if (is_int($value) || (!is_float($value) && intval($value))) {
+                    $result = true;
+                }
+                break;
+            case FieldType::FLOAT:
+            case FieldType::DOUBLE:
+            case FieldType::DECIMAL:
+            case FieldType::PRICE:
+                if (is_numeric($value)) {
+                    $result = true;
+                }
                 break;
         }
 

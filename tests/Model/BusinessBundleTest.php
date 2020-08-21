@@ -5,8 +5,8 @@ namespace CodePrimer\Tests\Model;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\BusinessProcess;
+use CodePrimer\Model\DataSet;
 use CodePrimer\Model\Derived\Event;
-use CodePrimer\Model\Set;
 use CodePrimer\Tests\Helper\TestHelper;
 use PHPUnit\Framework\TestCase;
 
@@ -312,58 +312,58 @@ class BusinessBundleTest extends TestCase
     public function testAddSet()
     {
         $this->businessBundle
-            ->addSet(new Set('TestSet1', 'description1'))
-            ->addSet(new Set('TestSet2', 'description2'))
-            ->addSet(new Set('TestSet3', 'description3'));
+            ->addDataSet(new DataSet('TestSet1', 'description1'))
+            ->addDataSet(new DataSet('TestSet2', 'description2'))
+            ->addDataSet(new DataSet('TestSet3', 'description3'));
 
-        self::assertCount(3, $this->businessBundle->listSets());
+        self::assertCount(3, $this->businessBundle->listDataSets());
 
-        $set = $this->businessBundle->getSet('TestSet1');
+        $set = $this->businessBundle->getDataSet('TestSet1');
         self::assertNotNull($set, 'TestSet1 not found');
         self::assertEquals('TestSet1', $set->getName());
         self::assertEquals('description1', $set->getDescription());
 
-        $set = $this->businessBundle->getSet('TestSet2');
+        $set = $this->businessBundle->getDataSet('TestSet2');
         self::assertNotNull($set, 'TestSet2 not found');
         self::assertEquals('TestSet2', $set->getName());
         self::assertEquals('description2', $set->getDescription());
 
-        $set = $this->businessBundle->getSet('TestSet3');
+        $set = $this->businessBundle->getDataSet('TestSet3');
         self::assertNotNull($set, 'TestSet3 not found');
         self::assertEquals('TestSet3', $set->getName());
         self::assertEquals('description3', $set->getDescription());
 
-        self::assertNull($this->businessBundle->getSet('TestSet4'));
+        self::assertNull($this->businessBundle->getDataSet('TestSet4'));
     }
 
     public function testSetSets()
     {
         $this->businessBundle
-            ->addSet(new Set('TestSet1', 'description1'))
-            ->addSet(new Set('TestSet2', 'description2'))
-            ->addSet(new Set('TestSet3', 'description3'));
+            ->addDataSet(new DataSet('TestSet1', 'description1'))
+            ->addDataSet(new DataSet('TestSet2', 'description2'))
+            ->addDataSet(new DataSet('TestSet3', 'description3'));
 
         $sets = [
-            new Set('TestSet4', 'description4'),
-            new Set('TestSet5', 'description5'),
+            new DataSet('TestSet4', 'description4'),
+            new DataSet('TestSet5', 'description5'),
         ];
 
-        $this->businessBundle->setSets($sets);
+        $this->businessBundle->setDataSets($sets);
 
-        self::assertCount(2, $this->businessBundle->listSets());
+        self::assertCount(2, $this->businessBundle->listDataSets());
 
-        $set = $this->businessBundle->getSet('TestSet4');
+        $set = $this->businessBundle->getDataSet('TestSet4');
         self::assertNotNull($set, 'TestSet4 not found');
         self::assertEquals('TestSet4', $set->getName());
         self::assertEquals('description4', $set->getDescription());
 
-        $set = $this->businessBundle->getSet('TestSet5');
+        $set = $this->businessBundle->getDataSet('TestSet5');
         self::assertNotNull($set, 'TestSet5 not found');
         self::assertEquals('TestSet5', $set->getName());
         self::assertEquals('description5', $set->getDescription());
 
-        self::assertNull($this->businessBundle->getSet('TestSet1'));
-        self::assertNull($this->businessBundle->getSet('TestSet2'));
-        self::assertNull($this->businessBundle->getSet('TestSet3'));
+        self::assertNull($this->businessBundle->getDataSet('TestSet1'));
+        self::assertNull($this->businessBundle->getDataSet('TestSet2'));
+        self::assertNull($this->businessBundle->getDataSet('TestSet3'));
     }
 }
