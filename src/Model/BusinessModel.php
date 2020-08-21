@@ -8,7 +8,7 @@
 
 namespace CodePrimer\Model;
 
-use CodePrimer\Helper\FieldHelper;
+use CodePrimer\Helper\FieldType;
 
 class BusinessModel
 {
@@ -26,6 +26,18 @@ class BusinessModel
 
     /** @var Field[] */
     private $fields = [];
+
+    /** @var Field|null */
+    private $identifier = null;
+
+    /** @var bool */
+    private $initIdentifierManaged;
+
+    /** @var bool */
+    private $initIdentifierMandatory;
+
+    /** @var bool */
+    private $initIdentifierGenerated;
 
     /** @var Constraint[] */
     private $uniqueConstraints = [];
@@ -123,9 +135,38 @@ class BusinessModel
 
     /**
      * @return BusinessModel
+     * @throws \InvalidArgumentException
      */
     public function addField(Field $field): self
     {
+        if ($field->isIdentifier()) {
+            if (0 !== strcasecmp($field->getType(), FieldType::ID) && 0 !== strcasecmp($field->getType(), FieldType::UUID)) {
+                throw new \InvalidArgumentException('Invalid identifier type provided: ' . $field->getType() .
+                    '. Must be either FieldType::UUID or FieldType::ID');
+            }
+
+            if ($this->identifier !== null) {
+                $currentIdField = $this->getField($this->identifier->getName());
+                $currentIdField->setIdentifier(false);
+                $currentIdField->setManaged($this->initIdentifierManaged);
+                $currentIdField->setMandatory($this->initIdentifierMandatory);
+                $currentIdField->setGenerated($this->initIdentifierGenerated);
+                $this->identifier = null;
+
+                $this->addField($currentIdField);
+            }
+
+            // we backup the initial setup, then override the managed and mandatory properties
+            $this->initIdentifierManaged = $field->isManaged();
+            $this->initIdentifierMandatory = $field->isMandatory();
+            $this->initIdentifierGenerated = $field->isGenerated();
+            $field->setMandatory(true);
+            $field->setManaged(true);
+            $field->setGenerated(true);
+
+            $this->identifier = $field;
+        }
+
         $this->fields[$field->getName()] = $field;
 
         return $this;
@@ -218,15 +259,7 @@ class BusinessModel
 
     public function getIdentifier(): ?Field
     {
-        $fieldHelper = new FieldHelper();
-
-        foreach ($this->fields as $field) {
-            if ($field->isManaged() && $field->isMandatory() && $fieldHelper->isIdentifier($field)) {
-                return $field;
-            }
-        }
-
-        return null;
+        return $this->identifier;
     }
 
     /**

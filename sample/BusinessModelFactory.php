@@ -12,7 +12,7 @@ use CodePrimer\Model\Field;
 class BusinessModelFactory
 {
     /** Creates the 'User' BusinessModel for our sample application.
-     *  @see https://github.com/clabonte/codeprimer/blob/sample-app/doc/sample/DataModel.md
+     * @see https://github.com/clabonte/codeprimer/blob/sample-app/doc/sample/DataModel.md
      */
     public function createUserDataModel()
     {
@@ -106,6 +106,7 @@ class BusinessModelFactory
 
     public function createArticleDataModel()
     {
+        $businessModelHelper = new BusinessModelHelper();
         $businessModel = new BusinessModel('Article', 'An article in our application');
         $businessModel->setAudited(true);
 
@@ -144,23 +145,11 @@ class BusinessModelFactory
             ->addField(
                 (new Field('views', 'ArticleView', 'List of views associated with this article'))
                     ->setList(true)
-            )
-
-            // Step 3: Add internal fields
-            ->addField(
-                (new Field('id', FieldType::UUID, "Article's unique ID in our system"))
-                    ->setMandatory(true)
-                    ->setManaged(true)
-                    ->setExample('22d5a494-ad3d-4032-9fbe-8f5eb0587396')
-            )
-            ->addField(
-                (new Field('created', FieldType::DATETIME, 'The date and time at which this article was created'))
-                    ->setManaged(true)
-            )
-            ->addField(
-                (new Field('updated', FieldType::DATETIME, 'The date and time at which this article was updated'))
-                    ->setManaged(true)
             );
+
+        // Step 3: Add internal fields
+        $businessModelHelper->generateIdentifierField($businessModel);
+        $businessModelHelper->generateTimestampFields($businessModel);
 
         return $businessModel;
     }
@@ -173,19 +162,13 @@ class BusinessModelFactory
         $businessModel
             ->addField(new Field('count', FieldType::INTEGER, 'Number of times this user viewed this article', false, 1))
 
-            // Step 2: Add business relations
-            ->addField(new Field('user', 'User', 'User who viewed the article', true))
-            ->addField(new Field('article', 'Article', 'Article associated with the view', true))
+        // Step 2: Add business relations
+        ->addField(new Field('user', 'User', 'User who viewed the article', true))
+        ->addField(new Field('article', 'Article', 'Article associated with the view', true));
 
-            // Step 3: Add internal fields
-            ->addField(
-                (new Field('created', FieldType::DATETIME, 'The date and time at which this article was viewed the first time by this user'))
-                    ->setManaged(true)
-            )
-            ->addField(
-                (new Field('updated', FieldType::DATETIME, 'The date and time at which this article was viewed the last time by this user'))
-                    ->setManaged(true)
-            );
+        // Step 3: Add internal fields
+        $businessModelHelper = new BusinessModelHelper();
+        $businessModelHelper->generateTimestampFields($businessModel);
 
         return $businessModel;
     }
@@ -306,23 +289,12 @@ class BusinessModelFactory
             ->addField(
                 (new Field('transactions', 'Transaction', 'List of transactions used to track earnings details'))
                     ->setList(true)
-            )
+            );
 
             // Step 3: Add internal fields
-            ->addField(
-                (new Field('id', FieldType::UUID, "Account's unique ID in our system"))
-                    ->setMandatory(true)
-                    ->setManaged(true)
-                    ->setExample('b34d38eb-1164-4289-98b4-65706837c4d7')
-            )
-            ->addField(
-                (new Field('created', FieldType::DATETIME, 'The date and time at which this account was created'))
-                    ->setManaged(true)
-            )
-            ->addField(
-                (new Field('updated', FieldType::DATETIME, 'The date and time at which this account was updated last'))
-                    ->setManaged(true)
-            );
+        $businessModelHelper = new BusinessModelHelper();
+        $businessModelHelper->generateIdentifierField($businessModel);
+        $businessModelHelper->generateTimestampFields($businessModel);
 
         return $businessModel;
     }
@@ -378,17 +350,11 @@ class BusinessModelFactory
             ->addField(
                 (new Field('transactions', 'Transaction', 'The list of transactions associated with this payout'))
                     ->setList(true)
-            )
+            );
 
             // Step 3: Add internal fields
-            ->addField(
-                (new Field('created', FieldType::DATETIME, 'The date and time at which this payment was issued'))
-                    ->setManaged(true)
-            )
-            ->addField(
-                (new Field('updated', FieldType::DATETIME, 'The date and time at which this payment was updated last'))
-                    ->setManaged(true)
-            );
+            $businessModelHelper = new BusinessModelHelper();
+            $businessModelHelper->generateTimestampFields($businessModel);
 
         return $businessModel;
     }

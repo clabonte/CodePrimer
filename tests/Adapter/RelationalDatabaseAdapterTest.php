@@ -111,7 +111,7 @@ class RelationalDatabaseAdapterTest extends TestCase
             }
         }
 
-        self::assertTrue($found, 'Index '.$index->getName().' not found');
+        self::assertTrue($found, 'Index ' . $index->getName() . ' not found');
     }
 
     public function testGenerateRelationalIdentifierFields()
@@ -227,6 +227,7 @@ class RelationalDatabaseAdapterTest extends TestCase
             (new Field('id', FieldType::UUID))
                 ->setManaged(true)
                 ->setMandatory(true)
+                ->setIdentifier(true)
         );
         self::assertNotNull($businessModel->getIdentifier());
 
@@ -253,6 +254,7 @@ class RelationalDatabaseAdapterTest extends TestCase
             (new Field('id', FieldType::UUID))
                 ->setManaged(true)
                 ->setMandatory(true)
+                ->setIdentifier(true)
         );
         $businessModel->addField(new Field('foreignEntity', FieldType::STRING));
         self::assertNotNull($businessModel->getIdentifier());
@@ -262,6 +264,7 @@ class RelationalDatabaseAdapterTest extends TestCase
             (new Field('id', FieldType::UUID))
                 ->setManaged(true)
                 ->setMandatory(true)
+                ->setIdentifier(true)
         );
         self::assertNotNull($foreignBusinessModel->getIdentifier());
 

@@ -128,14 +128,6 @@ class FieldHelper
     }
 
     /**
-     * Checks if a field represents an identifier (e.g. primary key in a relational database).
-     */
-    public function isIdentifier(Field $field): bool
-    {
-        return 0 === strcasecmp($field->getType(), FieldType::ID) || 0 === strcasecmp($field->getType(), FieldType::UUID);
-    }
-
-    /**
      * Checks if a field represents an auto-incremented value.
      */
     public function isAutoIncrement(Field $field): bool

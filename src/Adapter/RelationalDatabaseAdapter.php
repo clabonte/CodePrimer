@@ -57,7 +57,8 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
         $field = new Field($name, $identifierType, 'DB unique identifier field');
         $field->setMandatory(true)
             ->setManaged(true)
-            ->setGenerated(true);
+            ->setGenerated(true)
+            ->setIdentifier(true);
         $businessModel->addField($field);
     }
 

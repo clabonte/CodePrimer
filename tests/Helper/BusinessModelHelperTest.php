@@ -224,16 +224,6 @@ class BusinessModelHelperTest extends TestCase
         ];
     }
 
-    public function testGenerateIdentifierFieldWithInvalidTypeThrowsException()
-    {
-        self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('Invalid identifier type provided: unknown. Must be either FieldType::UUID or FieldType.ID');
-
-        $businessBundle = TestHelper::getSampleBusinessBundle();
-        $user = $businessBundle->getBusinessModel('User');
-        $this->businessModelHelper->generateIdentifierField($user, 'unknown');
-    }
-
     public function testGenerateIdentifierFieldWithUnavailableNameThrowsException()
     {
         self::expectException(RuntimeException::class);

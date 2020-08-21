@@ -11,16 +11,16 @@ class Field
     private $type;
 
     /** @var string */
-    private $description = '';
+    private $description;
 
     /** @var string|null */
-    private $default = null;
+    private $default;
 
     /** @var string|null */
-    private $example = null;
+    private $example;
 
     /** @var bool */
-    private $mandatory = false;
+    private $mandatory;
 
     /** @var bool */
     private $searchable = false;
@@ -34,13 +34,16 @@ class Field
     /** @var bool Whether is fields has been generated/added by CodePrimer for internal use (e.g. DB id) */
     private $generated = false;
 
+    /** @var bool Whether this field is an identifier or not for the model it is associated with */
+    private $identifier;
+
     /** @var RelationshipSide|null Whether this field is related to another entity */
     private $relation = null;
 
     /**
      * Field constructor.
      */
-    public function __construct(string $name, string $type, string $description = '', bool $mandatory = false, ?string $default = null, ?string $example = null)
+    public function __construct(string $name, string $type, string $description = '', bool $mandatory = false, ?string $default = null, ?string $example = null, bool $identifier = false)
     {
         $this->name = $name;
         $this->type = $type;
@@ -48,6 +51,7 @@ class Field
         $this->mandatory = $mandatory;
         $this->default = $default;
         $this->example = $example;
+        $this->identifier = $identifier;
     }
 
     public function getName(): string
@@ -194,6 +198,24 @@ class Field
     {
         $this->generated = $generated;
 
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isIdentifier(): bool
+    {
+        return $this->identifier;
+    }
+
+    /**
+     * @param bool $identifier
+     * @return Field
+     */
+    public function setIdentifier(bool $identifier): Field
+    {
+        $this->identifier = $identifier;
         return $this;
     }
 

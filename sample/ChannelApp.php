@@ -216,5 +216,5 @@ try {
     $app->primeMySqlArtifacts();
     $app->primeMarkdownArtifacts();
 } catch (Exception $e) {
-    echo 'Failed to prime application: '.$e->getMessage();
+    echo 'Failed to prime application: ' . $e->getMessage();
 }

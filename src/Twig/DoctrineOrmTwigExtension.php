@@ -122,7 +122,7 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
         $annotations = [];
 
         // Build the Id annotation, if needed
-        if ($this->fieldHelper->isIdentifier($field)) {
+        if ($field->isIdentifier()) {
             $annotations[] = '@ORM\Id()';
             if ($this->fieldHelper->isUuid($field)) {
                 $annotations[] = '@ORM\GeneratedValue(strategy="UUID")';
