@@ -270,12 +270,12 @@ class BusinessModelFactory
         $businessModel
             ->addField(
                 (new Field('balance', FieldType::PRICE, 'Current amount owed to the author'))
-                    ->setExample('9.90$')
+                    ->setExample('$9.90')
                     ->setSearchable(true)
             )
             ->addField(
                 (new Field('lifetime', FieldType::PRICE, 'Lifetime earnings associated with this account'))
-                    ->setExample('200$')
+                    ->setExample('$200')
                     ->setSearchable(true)
             )
 
