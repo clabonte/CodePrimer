@@ -52,6 +52,7 @@ class TestHelper
                     ->setMandatory(true)
                     ->setManaged(true)
                     ->setExample('b34d38eb-1164-4289-98b4-65706837c4d7')
+                    ->setIdentifier(true)
             )
             ->addField(
                 (new Field('firstName', FieldType::STRING, 'User first name'))
@@ -121,7 +122,7 @@ class TestHelper
                     ->addField($businessModel->getField('nickname'))
                     ->setDescription('The nickname uniquely identifies the user in the site\'s public spaces')
                     ->setErrorMessage('This nickname name is already in use. Please select another one.')
-        );
+            );
 
         $businessBundle->addBusinessModel($businessModel);
 
@@ -153,6 +154,7 @@ class TestHelper
                     ->setMandatory(true)
                     ->setManaged(true)
                     ->setExample('deadbeef-1164-4289-98b4-65706837c4d7')
+                    ->setIdentifier(true)
             )
             ->addField(new Field('title', FieldType::STRING, 'The post title', true))
             ->addField(new Field('body', FieldType::TEXT, 'The post body', true))

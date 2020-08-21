@@ -6,7 +6,6 @@ use CodePrimer\Helper\BusinessModelHelper;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 
@@ -222,16 +221,6 @@ class BusinessModelHelperTest extends TestCase
             'Topic - UUID' => [$topic, 'id', FieldType::UUID],
             'User - ID' => [$user, 'userId', FieldType::ID],
         ];
-    }
-
-    public function testGenerateIdentifierFieldWithInvalidTypeThrowsException()
-    {
-        self::expectException(InvalidArgumentException::class);
-        self::expectExceptionMessage('Invalid identifier type provided: unknown. Must be either FieldType::UUID or FieldType.ID');
-
-        $businessBundle = TestHelper::getSampleBusinessBundle();
-        $user = $businessBundle->getBusinessModel('User');
-        $this->businessModelHelper->generateIdentifierField($user, 'unknown');
     }
 
     public function testGenerateIdentifierFieldWithUnavailableNameThrowsException()

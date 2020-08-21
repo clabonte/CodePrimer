@@ -14,7 +14,7 @@ class Field
     private $type;
 
     /** @var string */
-    private $description = '';
+    private $description;
 
     /** @var mixed */
     private $default = null;
@@ -23,7 +23,7 @@ class Field
     private $example = null;
 
     /** @var bool */
-    private $mandatory = false;
+    private $mandatory;
 
     /** @var bool */
     private $searchable = false;
@@ -37,13 +37,16 @@ class Field
     /** @var bool Whether is fields has been generated/added by CodePrimer for internal use (e.g. DB id) */
     private $generated = false;
 
+    /** @var bool Whether this field is an identifier or not for the model it is associated with */
+    private $identifier;
+
     /** @var RelationshipSide|null Whether this field is related to another entity */
     private $relation = null;
 
     /**
      * Field constructor.
      */
-    public function __construct(string $name, string $type, string $description = '', bool $mandatory = false, $default = null, $example = null)
+    public function __construct(string $name, string $type, string $description = '', bool $mandatory = false, $default = null, $example = null, bool $identifier = false)
     {
         $this->name = $name;
         $this->type = $type;
@@ -51,6 +54,7 @@ class Field
         $this->mandatory = $mandatory;
         $this->setDefault($default);
         $this->setExample($example);
+        $this->identifier = $identifier;
     }
 
     public function getName(): string
@@ -208,6 +212,18 @@ class Field
     public function setGenerated(bool $generated): Field
     {
         $this->generated = $generated;
+
+        return $this;
+    }
+
+    public function isIdentifier(): bool
+    {
+        return $this->identifier;
+    }
+
+    public function setIdentifier(bool $identifier): Field
+    {
+        $this->identifier = $identifier;
 
         return $this;
     }

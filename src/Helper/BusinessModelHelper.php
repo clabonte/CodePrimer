@@ -5,29 +5,35 @@ namespace CodePrimer\Helper;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Field;
-use Doctrine\Common\Inflector\Inflector;
-use InvalidArgumentException;
+use Doctrine\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
 use RuntimeException;
 
 class BusinessModelHelper
 {
+    /** @var Inflector */
+    private $inflector;
+
+    public function __construct()
+    {
+        $this->inflector = InflectorFactory::create()->build();
+    }
+
     /**
      * Returns the name of the Repository class associated with a given entity.
      */
     public function getRepositoryClass(BusinessModel $businessModel): string
     {
-        return Inflector::classify($businessModel->getName()).'Repository';
+        return $this->inflector->classify($businessModel->getName()).'Repository';
     }
 
     public function generateIdentifierField(BusinessModel $businessModel, string $identifierType = FieldType::UUID): Field
     {
-        if (FieldType::UUID != $identifierType && FieldType::ID != $identifierType) {
-            throw new InvalidArgumentException('Invalid identifier type provided: '.$identifierType.'. Must be either FieldType::UUID or FieldType.ID');
-        }
         $name = 'id';
         if (null !== $businessModel->getField($name)) {
-            $name = Inflector::camelize($businessModel->getName()).'Id';
+            $name = $this->inflector->camelize($businessModel->getName()).'Id';
         }
+
         if (null !== $businessModel->getField($name)) {
             throw new RuntimeException('Cannot generate ID field for business model '.$businessModel->getName().': "id" and "'.$name.'" fields are already defined. Did you forget to specify an identifier for this model?');
         }
@@ -38,9 +44,7 @@ class BusinessModelHelper
         }
 
         $field = new Field($name, $identifierType, 'Business model unique identifier field');
-        $field->setMandatory(true)
-            ->setManaged(true)
-            ->setGenerated(true)
+        $field->setIdentifier(true)
             ->setExample($example);
 
         $businessModel->addField($field);

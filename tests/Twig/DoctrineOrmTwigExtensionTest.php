@@ -262,7 +262,7 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
                 ],
             ],
             'Mandatory ID field' => [
-                new Field('SampleField', FieldType::ID, 'description', true),
+                new Field('SampleField', FieldType::ID, 'description', true, null, null, true),
                 [
                     '@ORM\Id()',
                     '@ORM\GeneratedValue()',
@@ -270,7 +270,7 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
                 ],
             ],
             'Mandatory UUID field' => [
-                new Field('SampleField', FieldType::UUID, 'description', true),
+                new Field('SampleField', FieldType::UUID, 'description', true, null, null, true),
                 [
                     '@ORM\Id()',
                     '@ORM\GeneratedValue(strategy="UUID")',
