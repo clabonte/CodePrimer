@@ -726,4 +726,94 @@ class FieldHelperTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * @dataProvider isValueCompatibleProvider
+     *
+     * @param $value
+     */
+    public function testIsValueCompatible(Field $field, $value, bool $expectedResult)
+    {
+        self::assertEquals($expectedResult, $this->helper->isValueCompatible($field, $value));
+    }
+
+    public function isValueCompatibleProvider()
+    {
+        return [
+            'UUID - valid' => [new Field('Test', FieldType::UUID), '11123e3a-c02A-4E85-a397-221abac28264', true],
+            'UUID - invalid format' => [new Field('Test', FieldType::UUID), '11123e3-c02a-4e85-a397-221abac28264', false],
+            'UUID - invalid char' => [new Field('Test', FieldType::UUID), '11123z3-c02a-4e85-a397-221abac28264', false],
+            'STRING - valid' => [new Field('Test', FieldType::STRING), 'this is a test', true],
+            'STRING - invalid' => [new Field('Test', FieldType::STRING), 34, false],
+            'TEXT - valid' => [new Field('Test', FieldType::TEXT), 'this is a test', true],
+            'TEXT - invalid' => [new Field('Test', FieldType::TEXT), 34, false],
+            'PASSWORD - valid' => [new Field('Test', FieldType::PASSWORD), 'this is a test', true],
+            'PASSWORD - invalid' => [new Field('Test', FieldType::PASSWORD), 34, false],
+            'RANDOM_STRING - valid' => [new Field('Test', FieldType::RANDOM_STRING), 'this is a test', true],
+            'RANDOM_STRING - invalid' => [new Field('Test', FieldType::RANDOM_STRING), 34, false],
+            'EMAIL - valid' => [new Field('Test', FieldType::EMAIL), 'test@test.com', true],
+            'EMAIL - invalid' => [new Field('Test', FieldType::EMAIL), 'this is a test', false],
+            'EMAIL - invalid spaces' => [new Field('Test', FieldType::EMAIL), 'test @test.com', false],
+            'EMAIL - missing @' => [new Field('Test', FieldType::EMAIL), 'test.com', false],
+            'EMAIL - missing domain' => [new Field('Test', FieldType::EMAIL), 'test@test', false],
+            'EMAIL - incomplete domain' => [new Field('Test', FieldType::EMAIL), 'test@test.', false],
+            'EMAIL - missing username' => [new Field('Test', FieldType::EMAIL), '@test.com', false],
+            'URL - http' => [new Field('Test', FieldType::URL), 'http://test.com', true],
+            'URL - https' => [new Field('Test', FieldType::URL), 'https://test.com', true],
+            'URL - HTTP' => [new Field('Test', FieldType::URL), 'HTTP://www.test.com/this/is/valid.html', true],
+            'URL - invalid - string' => [new Field('Test', FieldType::URL), 'this is a test', false],
+            'URL - invalid - email' => [new Field('Test', FieldType::URL), 'test@test.com', false],
+            'URL - missing protocol' => [new Field('Test', FieldType::URL), 'test.com', false],
+            'URL - missing protocol separator' => [new Field('Test', FieldType::URL), 'http//test.com', false],
+            'URL - missing slash' => [new Field('Test', FieldType::URL), 'http:/test.com', false],
+            'PHONE - valid - USA' => [new Field('Test', FieldType::PHONE), '+15551234567', true],
+            'PHONE - valid - France' => [new Field('Test', FieldType::PHONE), '+33511223344', true],
+            'PHONE - invalid - missing +' => [new Field('Test', FieldType::PHONE), '15551234567', false],
+            'PHONE - invalid - dash char' => [new Field('Test', FieldType::PHONE), '+1-555-123-4567', false],
+            'PHONE - invalid - parenthesis' => [new Field('Test', FieldType::PHONE), '+1(555)123-4567', false],
+            'DATE - valid - string' => [new Field('Test', FieldType::DATE), '2020-12-25', true],
+            'DATE - DateTime' => [new Field('Test', FieldType::DATE), new \DateTime('2020-12-25'), true],
+            'DATE - invalid string' => [new Field('Test', FieldType::DATE), 'this is a test', false],
+            'DATE - invalid date' => [new Field('Test', FieldType::DATE), '2020-12-32', false],
+            'DATE - invalid type' => [new Field('Test', FieldType::DATE), 2020, false],
+            'TIME - valid - string' => [new Field('Test', FieldType::TIME), '23:59:59', true],
+            'TIME - DateTime' => [new Field('Test', FieldType::TIME), new \DateTime('23:59:59'), true],
+            'TIME - invalid string' => [new Field('Test', FieldType::TIME), 'this is a test', false],
+            'TIME - invalid time' => [new Field('Test', FieldType::TIME), '25:65:43', false],
+            'TIME - invalid type' => [new Field('Test', FieldType::TIME), 2020, false],
+            'DATETIME - valid - string' => [new Field('Test', FieldType::DATETIME), '2020-12-25T23:59:59Z', true],
+            'DATETIME - DateTime' => [new Field('Test', FieldType::DATETIME), new \DateTime('now'), true],
+            'DATETIME - invalid string' => [new Field('Test', FieldType::DATETIME), 'this is a test', false],
+            'DATETIME - invalid date' => [new Field('Test', FieldType::DATETIME), '2020-12-32T25:65:43Z', false],
+            'DATETIME - invalid type' => [new Field('Test', FieldType::DATETIME), 2020, false],
+            'BOOLEAN - valid - true' => [new Field('Test', FieldType::BOOLEAN), true, true],
+            'BOOLEAN - valid - 1' => [new Field('Test', FieldType::BOOLEAN), 1, true],
+            'BOOLEAN - valid - "true"' => [new Field('Test', FieldType::BOOLEAN), 'true', true],
+            'BOOLEAN - valid - "yes"' => [new Field('Test', FieldType::BOOLEAN), 'yes', true],
+            'BOOLEAN - valid - "on"' => [new Field('Test', FieldType::BOOLEAN), 'on', true],
+            'BOOLEAN - valid - false' => [new Field('Test', FieldType::BOOLEAN), false, true],
+            'BOOLEAN - valid - 0' => [new Field('Test', FieldType::BOOLEAN), 0, true],
+            'BOOLEAN - valid - "false"' => [new Field('Test', FieldType::BOOLEAN), 'false', true],
+            'BOOLEAN - valid - "no"' => [new Field('Test', FieldType::BOOLEAN), 'no', true],
+            'BOOLEAN - valid - "off"' => [new Field('Test', FieldType::BOOLEAN), 'off', true],
+            'BOOLEAN - invalid - string' => [new Field('Test', FieldType::BOOLEAN), 'unknown', false],
+            'BOOLEAN - invalid - integer' => [new Field('Test', FieldType::BOOLEAN), 2, false],
+            'BOOL - check' => [new Field('Test', FieldType::BOOL), true, true],
+            'INTEGER - valid - 0' => [new Field('Test', FieldType::INTEGER), 0, true],
+            'INTEGER - valid - min' => [new Field('Test', FieldType::INTEGER), PHP_INT_MIN, true],
+            'INTEGER - valid - max' => [new Field('Test', FieldType::INTEGER), PHP_INT_MAX, true],
+            'INTEGER - valid - string' => [new Field('Test', FieldType::INTEGER), '123', true],
+            'INTEGER - invalid - string' => [new Field('Test', FieldType::INTEGER), 'unknown', false],
+            'INTEGER - invalid - float' => [new Field('Test', FieldType::INTEGER), 123.4, false],
+            'INT - check' => [new Field('Test', FieldType::INT), 0, true],
+            'ID - check' => [new Field('Test', FieldType::ID), 0, true],
+            'LONG - check' => [new Field('Test', FieldType::LONG), 0, true],
+            'FLOAT - valid - 0' => [new Field('Test', FieldType::FLOAT), 0, true],
+            'FLOAT - valid - min' => [new Field('Test', FieldType::FLOAT), PHP_FLOAT_MIN, true],
+            'FLOAT - valid - max' => [new Field('Test', FieldType::FLOAT), PHP_FLOAT_MAX, true],
+            'FLOAT - valid - int' => [new Field('Test', FieldType::FLOAT), 123, true],
+            'FLOAT - valid - string' => [new Field('Test', FieldType::FLOAT), '123.4', true],
+            'FLOAT - invalid - string' => [new Field('Test', FieldType::FLOAT), 'unknown', false],
+        ];
+    }
 }

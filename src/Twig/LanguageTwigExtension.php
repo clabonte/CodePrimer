@@ -10,11 +10,11 @@ use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\DataBundle;
 use CodePrimer\Model\Data\EventData;
+use CodePrimer\Model\DataSet;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Relationship;
 use CodePrimer\Model\RelationshipSide;
-use CodePrimer\Model\Set;
 use CodePrimer\Model\State;
 use CodePrimer\Model\StateMachine;
 use CodePrimer\Model\Transition;
@@ -918,7 +918,7 @@ class LanguageTwigExtension extends AbstractExtension
             $name = $obj->getName();
         } elseif ($obj instanceof Event) {
             $name = $obj->getName();
-        } elseif ($obj instanceof Set) {
+        } elseif ($obj instanceof DataSet) {
             $name = $obj->getName();
         } elseif ($obj instanceof State) {
             $name = $obj->getName();
