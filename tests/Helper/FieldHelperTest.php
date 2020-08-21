@@ -814,6 +814,21 @@ class FieldHelperTest extends TestCase
             'FLOAT - valid - int' => [new Field('Test', FieldType::FLOAT), 123, true],
             'FLOAT - valid - string' => [new Field('Test', FieldType::FLOAT), '123.4', true],
             'FLOAT - invalid - string' => [new Field('Test', FieldType::FLOAT), 'unknown', false],
+            'DOUBLE - check' => [new Field('Test', FieldType::DOUBLE), 0.124, true],
+            'DECIMAL - check' => [new Field('Test', FieldType::DECIMAL), 0.124, true],
+            'PRICE - 0' => [new Field('Test', FieldType::PRICE), 0, true],
+            'PRICE - integer' => [new Field('Test', FieldType::PRICE), 100, true],
+            'PRICE - decimal' => [new Field('Test', FieldType::PRICE), 100.23, true],
+            'PRICE - negative' => [new Field('Test', FieldType::PRICE), -100.23, true],
+            'PRICE - $' => [new Field('Test', FieldType::PRICE), '$1,000,100.34', true],
+            'PRICE - €' => [new Field('Test', FieldType::PRICE), '€1,000,100.34', true],
+            'PRICE - £' => [new Field('Test', FieldType::PRICE), '£1,000,100.34', true],
+            'PRICE - USD' => [new Field('Test', FieldType::PRICE), 'USD1,000,100.34', true],
+            'PRICE - CAD' => [new Field('Test', FieldType::PRICE), 'CAD1,000,100.34', true],
+            'PRICE - EUR' => [new Field('Test', FieldType::PRICE), 'EUR1,000,100.34', true],
+            'PRICE - invalid - no currency' => [new Field('Test', FieldType::PRICE), '1,000,100.34', false],
+            'PRICE - invalid - space after $' => [new Field('Test', FieldType::PRICE), '$ 1,000,100.34', false],
+            'PRICE - invalid - wrong $ location' => [new Field('Test', FieldType::PRICE), '1,000,100.34$', false],
         ];
     }
 }

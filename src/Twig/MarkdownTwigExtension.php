@@ -49,7 +49,7 @@ class MarkdownTwigExtension extends LanguageTwigExtension
         $type = $field->getType();
         if (!$helper->isNativeType($field)) {
             /** @var BusinessBundle $businessBundle */
-            $businessBundle = $context['package'];
+            $businessBundle = $context['bundle'];
             $model = $businessBundle->getBusinessModel($field->getType());
             if (null !== $model) {
                 $class = $this->classFilter($model->getName());
