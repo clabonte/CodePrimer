@@ -335,9 +335,16 @@ class FieldHelper
             case FieldType::FLOAT:
             case FieldType::DOUBLE:
             case FieldType::DECIMAL:
+                if (is_numeric($value)) {
+                    $result = true;
+                }
+                break;
             case FieldType::PRICE:
                 if (is_numeric($value)) {
                     $result = true;
+                } else {
+                    $priceHelper = new PriceHelper();
+                    $result = $priceHelper->isValidPrice($value);
                 }
                 break;
         }
