@@ -165,110 +165,110 @@ class DoctrineOrmTwigExtensionTest extends TwigExtensionTest
         $topic = $businessBundle->getBusinessModel('Topic');
 
         return [
-//            'Optional String field' => [
-//                new Field('SampleField', FieldType::STRING, 'description'),
-//                [
-//                    '@ORM\Column(name="sample_field", type="string", length=255, nullable=true)',
-//                ],
-//            ],
-//            'Mandatory String field' => [
-//                new Field('SampleField', FieldType::STRING, 'description', true),
-//                [
-//                    '@ORM\Column(name="sample_field", type="string", length=255)',
-//                ],
-//            ],
-//            'Mandatory Email field' => [
-//                new Field('SampleField', FieldType::EMAIL, 'description', true),
-//                [
-//                    '@ORM\Column(name="sample_field", type="string", length=255)',
-//                ],
-//            ],
-//            'Mandatory URL field' => [
-//                new Field('SampleField', FieldType::URL, 'description', true),
-//                [
-//                    '@ORM\Column(name="sample_field", type="string", length=255)',
-//                ],
-//            ],
-//            'Mandatory Text field' => [
-//                new Field('SampleField', FieldType::TEXT, 'description', true),
-//                [
-//                    '@ORM\Column(name="sample_field", type="text")',
-//                ],
-//            ],
-//            'Mandatory Phone field' => [
-//                new Field('SampleField', FieldType::PHONE, 'description', true),
-//                [
-//                    '@ORM\Column(name="sample_field", type="string", length=15)',
-//                ],
-//            ],
-//            'Mandatory Price field' => [
-//                new Field('SampleField', FieldType::PRICE, 'description', true),
-//                [
-//                    '@ORM\Column(name="sample_field", type="decimal", precision=9, scale=2)',
-//                ],
-//            ],
-//            'Mandatory Decimal field' => [
-//                new Field('SampleField', FieldType::DECIMAL, 'description', true),
-//                [
-//                    '@ORM\Column(name="sample_field", type="decimal")',
-//                ],
-//            ],
-//            'Mandatory Double field' => [
-//                new Field('SampleField', FieldType::DOUBLE, 'description', true),
-//                [
-//                    '@ORM\Column(name="sample_field", type="float")',
-//                ],
-//            ],
-//            'Mandatory Float field' => [
-//                new Field('SampleField', FieldType::FLOAT, 'description', true),
-//                [
-//                    '@ORM\Column(name="sample_field", type="float")',
-//                ],
-//            ],
-//            'Mandatory Long field' => [
-//                new Field('SampleField', FieldType::LONG, 'description', true),
-//                [
-//                    '@ORM\Column(name="sample_field", type="bigint")',
-//                ],
-//            ],
-//            'Mandatory Integer field' => [
-//                new Field('SampleField', FieldType::INTEGER, 'description', true),
-//                [
-//                    '@ORM\Column(name="sample_field", type="integer")',
-//                ],
-//            ],
-//            'Mandatory DateTime field' => [
-//                new Field('SampleField', FieldType::DATETIME, 'description', true),
-//                [
-//                    '@ORM\Column(name="sample_field", type="datetime")',
-//                ],
-//            ],
-//            'Mandatory Time field' => [
-//                new Field('SampleField', FieldType::TIME, 'description', true),
-//                [
-//                    '@ORM\Column(name="sample_field", type="time")',
-//                ],
-//            ],
-//            'Mandatory Date field' => [
-//                new Field('SampleField', FieldType::DATE, 'description', true),
-//                [
-//                    '@ORM\Column(name="sample_field", type="date")',
-//                ],
-//            ],
-//            'Mandatory Boolean field' => [
-//                new Field('SampleField', FieldType::BOOLEAN, 'description', true),
-//                [
-//                    '@ORM\Column(name="sample_field", type="boolean")',
-//                ],
-//            ],
-//            'Mandatory ID field' => [
-//                new Field('SampleField', FieldType::ID, 'description', true),
-//                [
-//                    '@ORM\Id()',
-//                    '@ORM\GeneratedValue()',
-//                    '@ORM\Column(name="sample_field", type="bigint")',
-//                ],
-//            ],
+            'Optional String field' => [
+                new Field('SampleField', FieldType::STRING, 'description'),
+                [
+                    '@ORM\Column(name="sample_field", type="string", length=255, nullable=true)',
+                ],
+            ],
+            'Mandatory String field' => [
+                new Field('SampleField', FieldType::STRING, 'description', true),
+                [
+                    '@ORM\Column(name="sample_field", type="string", length=255)',
+                ],
+            ],
+            'Mandatory Email field' => [
+                new Field('SampleField', FieldType::EMAIL, 'description', true),
+                [
+                    '@ORM\Column(name="sample_field", type="string", length=255)',
+                ],
+            ],
+            'Mandatory URL field' => [
+                new Field('SampleField', FieldType::URL, 'description', true),
+                [
+                    '@ORM\Column(name="sample_field", type="string", length=255)',
+                ],
+            ],
+            'Mandatory Text field' => [
+                new Field('SampleField', FieldType::TEXT, 'description', true),
+                [
+                    '@ORM\Column(name="sample_field", type="text")',
+                ],
+            ],
+            'Mandatory Phone field' => [
+                new Field('SampleField', FieldType::PHONE, 'description', true),
+                [
+                    '@ORM\Column(name="sample_field", type="string", length=15)',
+                ],
+            ],
+            'Mandatory Price field' => [
+                new Field('SampleField', FieldType::PRICE, 'description', true),
+                [
+                    '@ORM\Column(name="sample_field", type="decimal", precision=9, scale=2)',
+                ],
+            ],
+            'Mandatory Decimal field' => [
+                new Field('SampleField', FieldType::DECIMAL, 'description', true),
+                [
+                    '@ORM\Column(name="sample_field", type="decimal")',
+                ],
+            ],
+            'Mandatory Double field' => [
+                new Field('SampleField', FieldType::DOUBLE, 'description', true),
+                [
+                    '@ORM\Column(name="sample_field", type="float")',
+                ],
+            ],
+            'Mandatory Float field' => [
+                new Field('SampleField', FieldType::FLOAT, 'description', true),
+                [
+                    '@ORM\Column(name="sample_field", type="float")',
+                ],
+            ],
+            'Mandatory Long field' => [
+                new Field('SampleField', FieldType::LONG, 'description', true),
+                [
+                    '@ORM\Column(name="sample_field", type="bigint")',
+                ],
+            ],
+            'Mandatory Integer field' => [
+                new Field('SampleField', FieldType::INTEGER, 'description', true),
+                [
+                    '@ORM\Column(name="sample_field", type="integer")',
+                ],
+            ],
+            'Mandatory DateTime field' => [
+                new Field('SampleField', FieldType::DATETIME, 'description', true),
+                [
+                    '@ORM\Column(name="sample_field", type="datetime")',
+                ],
+            ],
+            'Mandatory Time field' => [
+                new Field('SampleField', FieldType::TIME, 'description', true),
+                [
+                    '@ORM\Column(name="sample_field", type="time")',
+                ],
+            ],
+            'Mandatory Date field' => [
+                new Field('SampleField', FieldType::DATE, 'description', true),
+                [
+                    '@ORM\Column(name="sample_field", type="date")',
+                ],
+            ],
+            'Mandatory Boolean field' => [
+                new Field('SampleField', FieldType::BOOLEAN, 'description', true),
+                [
+                    '@ORM\Column(name="sample_field", type="boolean")',
+                ],
+            ],
+            'Mandatory ID field' => [
+                new Field('SampleField', FieldType::ID, 'description', true),
+                [
+                    '@ORM\Id()',
+                    '@ORM\GeneratedValue()',
+                    '@ORM\Column(name="sample_field", type="bigint")',
+                ],
+            ],
             'Mandatory UUID field' => [
                 new Field('SampleField', FieldType::UUID, 'description', true, null, null, true),
                 [
