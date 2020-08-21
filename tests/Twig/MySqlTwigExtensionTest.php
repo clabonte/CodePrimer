@@ -148,8 +148,8 @@ class MySqlTwigExtensionTest extends TwigExtensionTest
             'EMAIL' => [new Field('Test', FieldType::EMAIL, 'Test Description', true), "NOT NULL COMMENT 'Test Description' COLLATE ascii_general_ci"],
             'PHONE' => [
                 (new Field('test', FieldType::PHONE, 'Test Description', false))
-                    ->setDefault('555-555-5555'),
-                "NULL DEFAULT '555-555-5555' COMMENT 'Test Description' COLLATE ascii_general_ci",
+                    ->setDefault('+15555555555'),
+                "NULL DEFAULT '+15555555555' COMMENT 'Test Description' COLLATE ascii_general_ci",
             ],
             'STRING' => [
                 (new Field('test', FieldType::STRING, 'Test Description', true))

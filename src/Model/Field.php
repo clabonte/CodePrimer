@@ -2,6 +2,9 @@
 
 namespace CodePrimer\Model;
 
+use CodePrimer\Helper\FieldHelper;
+use InvalidArgumentException;
+
 class Field
 {
     /** @var string */
@@ -13,10 +16,10 @@ class Field
     /** @var string */
     private $description = '';
 
-    /** @var string|null */
+    /** @var mixed */
     private $default = null;
 
-    /** @var string|null */
+    /** @var mixed */
     private $example = null;
 
     /** @var bool */
@@ -40,14 +43,14 @@ class Field
     /**
      * Field constructor.
      */
-    public function __construct(string $name, string $type, string $description = '', bool $mandatory = false, ?string $default = null, ?string $example = null)
+    public function __construct(string $name, string $type, string $description = '', bool $mandatory = false, $default = null, $example = null)
     {
         $this->name = $name;
         $this->type = $type;
         $this->description = $description;
         $this->mandatory = $mandatory;
-        $this->default = $default;
-        $this->example = $example;
+        $this->setDefault($default);
+        $this->setExample($example);
     }
 
     public function getName(): string
@@ -95,7 +98,7 @@ class Field
         return $this;
     }
 
-    public function getDefault(): ?string
+    public function getDefault()
     {
         return $this->default;
     }
@@ -103,14 +106,20 @@ class Field
     /**
      * @return Field
      */
-    public function setDefault(?string $default): self
+    public function setDefault($default): self
     {
+        if (!empty($default)) {
+            $helper = new FieldHelper();
+            if (!$helper->isValidTypeValue($this->type, $default)) {
+                throw new InvalidArgumentException("'$default' is not a valid value for type '{$this->type}' as defined for field {$this->name}");
+            }
+        }
         $this->default = $default;
 
         return $this;
     }
 
-    public function getExample(): ?string
+    public function getExample()
     {
         return $this->example;
     }
@@ -118,8 +127,14 @@ class Field
     /**
      * @return Field
      */
-    public function setExample(?string $example): self
+    public function setExample($example): self
     {
+        if (!empty($example)) {
+            $helper = new FieldHelper();
+            if (!$helper->isValidTypeValue($this->type, $example)) {
+                throw new InvalidArgumentException("'$example' is not a valid value for type '{$this->type}' as defined for field {$this->name}");
+            }
+        }
         $this->example = $example;
 
         return $this;
