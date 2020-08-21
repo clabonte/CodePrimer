@@ -267,9 +267,14 @@ class FieldHelper
 
     public function isValueCompatible(Field $field, $value)
     {
+        return $this->isValidTypeValue($field->getType(), $value);
+    }
+
+    public function isValidTypeValue(string $type, $value)
+    {
         $result = false;
 
-        switch ($field->getType()) {
+        switch ($type) {
             case FieldType::UUID:
                 if (is_string($value) && preg_match(self::UUID_REGEX, $value)) {
                     $result = true;
