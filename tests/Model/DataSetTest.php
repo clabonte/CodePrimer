@@ -80,6 +80,23 @@ class DataSetTest extends TestCase
         ];
     }
 
+    public function testAddTwoIdentifiersShouldThrowException()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('There is already an identifier field defined for DataSet Test DataSet: id. A DataSet cannot have more than 1 identifier field');
+
+        self::assertNull($this->dataSet->getIdentifier());
+        $field = new Field('id', FieldType::STRING, 'ID');
+        $field->setIdentifier(true);
+
+        $this->dataSet->addField($field);
+        self::assertEquals($field, $this->dataSet->getIdentifier());
+
+        $field = new Field('otherId', FieldType::STRING, 'ID');
+        $field->setIdentifier(true);
+        $this->dataSet->addField($field);
+    }
+
     public function testSetFieldsShouldWork()
     {
         $name = 'Test';
@@ -134,7 +151,8 @@ class DataSetTest extends TestCase
         self::assertCount(1, $this->dataSet->getElements());
 
         // Make sure the element added matches the expected one
-        $actual = $this->dataSet->getElements()[0];
+        $idFieldName = $this->dataSet->getIdentifier()->getName();
+        $actual = $this->dataSet->getElements()[$element->getValue($idFieldName)];
         $values = $element->getValues();
         foreach ($values as $name => $value) {
             self::assertEquals($value, $actual->getValue($name));
@@ -146,7 +164,7 @@ class DataSetTest extends TestCase
         return [
             'Test 1' => [
                 [
-                    new Field('id', FieldType::ID),
+                    (new Field('id', FieldType::ID))->setIdentifier(true),
                     new Field('name', FieldType::STRING),
                     new Field('email', FieldType::EMAIL),
                     new Field('url', FieldType::URL),
@@ -165,9 +183,9 @@ class DataSetTest extends TestCase
      *
      * @param Field[] $fields
      */
-    public function testAddInvalidElementShouldThrowException(array $fields, DataSetElement $element, string $expectedMessage)
+    public function testAddInvalidElementShouldThrowException(array $fields, DataSetElement $element, string $expectedMessage, string $expectedException = \InvalidArgumentException::class)
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException($expectedException);
         $this->expectExceptionMessage($expectedMessage);
         $this->dataSet->setFields($fields);
         $this->dataSet->addElement($element);
@@ -176,9 +194,22 @@ class DataSetTest extends TestCase
     public function invalidElementProvider()
     {
         return [
+            'Missing Identifier Value' => [
+                [
+                    (new Field('id', FieldType::ID))->setIdentifier(true),
+                    new Field('name', FieldType::STRING),
+                    new Field('email', FieldType::EMAIL),
+                    new Field('url', FieldType::URL),
+                ],
+                (new DataSetElement())
+                    ->addValue('url', 'http://test.com')
+                    ->addValue('name', 'Test')
+                    ->addValue('email', 'test@test.com'),
+                "Invalid element for DataSet Test DataSet. It is missing a value for Identifier 'id' field.",
+            ],
             'Missing 1 Field' => [
                 [
-                    new Field('id', FieldType::ID),
+                    (new Field('id', FieldType::ID))->setIdentifier(true),
                     new Field('name', FieldType::STRING),
                     new Field('email', FieldType::EMAIL),
                     new Field('url', FieldType::URL),
@@ -191,7 +222,7 @@ class DataSetTest extends TestCase
             ],
             'Missing Mulitple Fields' => [
                 [
-                    new Field('id', FieldType::ID),
+                    (new Field('id', FieldType::ID))->setIdentifier(true),
                     new Field('name', FieldType::STRING),
                     new Field('email', FieldType::EMAIL),
                     new Field('url', FieldType::URL),
@@ -203,7 +234,7 @@ class DataSetTest extends TestCase
             ],
             'Extra Field' => [
                 [
-                    new Field('id', FieldType::ID),
+                    (new Field('id', FieldType::ID))->setIdentifier(true),
                     new Field('name', FieldType::STRING),
                     new Field('email', FieldType::EMAIL),
                     new Field('url', FieldType::URL),
@@ -218,7 +249,7 @@ class DataSetTest extends TestCase
             ],
             'Extra Fields' => [
                 [
-                    new Field('id', FieldType::ID),
+                    (new Field('id', FieldType::ID))->setIdentifier(true),
                     new Field('name', FieldType::STRING),
                     new Field('email', FieldType::EMAIL),
                     new Field('url', FieldType::URL),
@@ -234,7 +265,7 @@ class DataSetTest extends TestCase
             ],
             'Missing and Extra Fields' => [
                 [
-                    new Field('id', FieldType::ID),
+                    (new Field('id', FieldType::ID))->setIdentifier(true),
                     new Field('name', FieldType::STRING),
                     new Field('email', FieldType::EMAIL),
                     new Field('url', FieldType::URL),
@@ -248,7 +279,7 @@ class DataSetTest extends TestCase
             ],
             'Invalid Values' => [
                 [
-                    new Field('id', FieldType::ID),
+                    (new Field('id', FieldType::ID))->setIdentifier(true),
                     new Field('name', FieldType::STRING),
                     new Field('email', FieldType::EMAIL),
                     new Field('url', FieldType::URL),
@@ -260,13 +291,28 @@ class DataSetTest extends TestCase
                     ->addValue('url', 'unknown value'),
                 'Invalid element for DataSet Test DataSet. The following values are not compatible with their associated field: email (http://test.com is not a valid email),url (unknown value is not a valid url)',
             ],
+            'Missing Identifier Field' => [
+                [
+                    new Field('id', FieldType::ID),
+                    new Field('name', FieldType::STRING),
+                    new Field('email', FieldType::EMAIL),
+                    new Field('url', FieldType::URL),
+                ],
+                (new DataSetElement())
+                    ->addValue('id', 1)
+                    ->addValue('name', 'Test')
+                    ->addValue('email', 'test@test.com')
+                    ->addValue('url', 'http://test.com'),
+                'You must define an Identifier field for DataSet Test DataSet before adding elements to it.',
+                \LogicException::class,
+            ],
         ];
     }
 
     public function testSetElementsShouldWork()
     {
         $this->dataSet->setFields([
-            new Field('id', FieldType::ID),
+            (new Field('id', FieldType::ID))->setIdentifier(true),
             new Field('name', FieldType::STRING),
             new Field('email', FieldType::EMAIL),
             new Field('url', FieldType::URL),
@@ -283,7 +329,8 @@ class DataSetTest extends TestCase
 
         $this->dataSet->setElements([$element1]);
         self::assertCount(1, $this->dataSet->getElements());
-        $actual = $this->dataSet->getElements()[0];
+        $idFieldName = $this->dataSet->getIdentifier()->getName();
+        $actual = $this->dataSet->getElements()[$element1->getValue($idFieldName)];
         self::assertNotNull($actual);
         $values = $element1->getValues();
         foreach ($values as $name => $value) {
@@ -301,14 +348,14 @@ class DataSetTest extends TestCase
         $this->dataSet->setElements([$element1, $element2]);
         self::assertCount(2, $this->dataSet->getElements());
 
-        $actual = $this->dataSet->getElements()[0];
+        $actual = $this->dataSet->getElements()[$element1->getValue($idFieldName)];
         self::assertNotNull($actual);
         $values = $element1->getValues();
         foreach ($values as $name => $value) {
             self::assertEquals($value, $actual->getValue($name));
         }
 
-        $actual = $this->dataSet->getElements()[1];
+        $actual = $this->dataSet->getElements()[$element2->getValue($idFieldName)];
         self::assertNotNull($actual);
         $values = $element2->getValues();
         foreach ($values as $name => $value) {
@@ -325,11 +372,45 @@ class DataSetTest extends TestCase
 
         $this->dataSet->setElements([$element3]);
         self::assertCount(1, $this->dataSet->getElements());
-        $actual = $this->dataSet->getElements()[0];
+        $actual = $this->dataSet->getElements()[$element3->getValue($idFieldName)];
         self::assertNotNull($actual);
         $values = $element3->getValues();
         foreach ($values as $name => $value) {
             self::assertEquals($value, $actual->getValue($name));
         }
+    }
+
+    public function testAddSameElementTwiceThrowsException()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage("Element '1' has already been added to this DataSet. Make sure to assign a unique 'id' value to each element of your DataSet.");
+
+        $this->dataSet->setFields([
+            (new Field('id', FieldType::ID))->setIdentifier(true),
+            new Field('name', FieldType::STRING),
+            new Field('email', FieldType::EMAIL),
+            new Field('url', FieldType::URL),
+        ]);
+
+        $element1 = new DataSetElement([
+            'id' => 1,
+            'name' => 'Element 1',
+            'email' => 'element1@test.com',
+            'url' => 'http://element1.test.com',
+        ]);
+
+        self::assertEmpty($this->dataSet->getElements());
+
+        $this->dataSet->addElement($element1);
+        self::assertCount(1, $this->dataSet->getElements());
+
+        $element2 = new DataSetElement([
+            'id' => 1,
+            'name' => 'Element 2',
+            'email' => 'element2@test.com',
+            'url' => 'http://element2.test.com',
+        ]);
+
+        $this->dataSet->addElement($element2);
     }
 }

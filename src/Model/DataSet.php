@@ -10,6 +10,7 @@ namespace CodePrimer\Model;
 
 use CodePrimer\Helper\FieldHelper;
 use InvalidArgumentException;
+use LogicException;
 
 class DataSet
 {
@@ -21,6 +22,9 @@ class DataSet
 
     /** @var Field[] */
     private $fields = [];
+
+    /** @var Field|null */
+    private $identifier = null;
 
     /** @var DataSetElement[] */
     private $elements = [];
@@ -98,6 +102,12 @@ class DataSet
         } elseif ($field->isList()) {
             throw new InvalidArgumentException($field->getName().' has an unsupported field type: DataSet does not support list fields.');
         }
+        if ($field->isIdentifier()) {
+            if (null !== $this->identifier) {
+                throw new InvalidArgumentException('There is already an identifier field defined for DataSet '.$this->name.': '.$this->identifier->getName().'. A DataSet cannot have more than 1 identifier field');
+            }
+            $this->identifier = $field;
+        }
         $this->fields[$field->getName()] = $field;
 
         return $this;
@@ -113,6 +123,14 @@ class DataSet
         }
 
         return null;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function getIdentifier(): ?Field
+    {
+        return $this->identifier;
     }
 
     /**
@@ -140,6 +158,18 @@ class DataSet
 
     public function addElement(DataSetElement $element): DataSet
     {
+        // Make sure we have an ID field defined for this dataset
+        if (null === $this->identifier) {
+            throw new LogicException('You must define an Identifier field for DataSet '.$this->name.' before adding elements to it.');
+        }
+        // Make sure this element has a unique value for its Identifier field
+        $elementId = $element->getValue($this->identifier->getName());
+        if (null === $elementId) {
+            throw new InvalidArgumentException("Invalid element for DataSet {$this->name}. It is missing a value for Identifier '{$this->identifier->getName()}' field.");
+        } elseif (isset($this->elements[$elementId])) {
+            throw new InvalidArgumentException("Element '$elementId' has already been added to this DataSet. Make sure to assign a unique '{$this->identifier->getName()}' value to each element of your DataSet.");
+        }
+
         // Make sure the element has all the right fields
         $values = $element->getValues();
 
@@ -174,7 +204,7 @@ class DataSet
             $msg .= implode(',', $invalidValues);
             throw new InvalidArgumentException($msg);
         }
-        $this->elements[] = $element;
+        $this->elements[$elementId] = $element;
 
         return $this;
     }
