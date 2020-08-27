@@ -5,12 +5,12 @@ namespace CodePrimer\Builder;
 use CodePrimer\Helper\BusinessModelHelper;
 use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Model\BusinessBundle;
-use CodePrimer\Model\DataSet;
+use CodePrimer\Model\Dataset;
 use CodePrimer\Renderer\TemplateRenderer;
 use CodePrimer\Template\Template;
 use CodePrimer\Twig\LanguageTwigExtension;
 
-class DataSetBuilder implements ArtifactBuilder
+class DatasetBuilder implements ArtifactBuilder
 {
     /**
      * @return string[]
@@ -20,8 +20,8 @@ class DataSetBuilder implements ArtifactBuilder
     public function build(BusinessBundle $businessBundle, Template $template, TemplateRenderer $renderer): array
     {
         $files = [];
-        foreach ($businessBundle->getDataSets() as $dataSet) {
-            $files[] = $this->buildDataSet($businessBundle, $dataSet, $template, $renderer);
+        foreach ($businessBundle->getDatasets() as $dataset) {
+            $files[] = $this->buildDataset($businessBundle, $dataset, $template, $renderer);
         }
 
         return $files;
@@ -30,19 +30,19 @@ class DataSetBuilder implements ArtifactBuilder
     /**
      * @throws \Exception
      */
-    protected function buildDataSet(BusinessBundle $businessBundle, DataSet $dataSet, Template $template, TemplateRenderer $renderer): string
+    protected function buildDataset(BusinessBundle $businessBundle, Dataset $dataset, Template $template, TemplateRenderer $renderer): string
     {
         $context = [
             'bundle' => $businessBundle,
             'subpackage' => 'Dataset',
-            'model' => $dataSet,
-            'dataSet' => $dataSet,
+            'model' => $dataset,
+            'dataSet' => $dataset,
             'businessModelHelper' => new BusinessModelHelper(),
             'fieldHelper' => new FieldHelper(),
         ];
 
         $languageExtension = new LanguageTwigExtension();
-        $filename = $languageExtension->classFilter($dataSet->getName());
+        $filename = $languageExtension->classFilter($dataset->getName());
 
         return $renderer->renderToFile($filename, $businessBundle, $template, $context);
     }

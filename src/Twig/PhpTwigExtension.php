@@ -9,7 +9,7 @@ use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\EventData;
-use CodePrimer\Model\DataSet;
+use CodePrimer\Model\Dataset;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 use InvalidArgumentException;
@@ -54,7 +54,7 @@ class PhpTwigExtension extends LanguageTwigExtension
 
         $fieldHelper = new FieldHelper();
 
-        if ($obj instanceof BusinessModel || $obj instanceof DataSet) {
+        if ($obj instanceof BusinessModel || $obj instanceof Dataset) {
             foreach ($obj->getFields() as $field) {
                 if ($fieldHelper->isDateTime($field) || $fieldHelper->isDate($field) || $fieldHelper->isTime($field)) {
                     $result = true;

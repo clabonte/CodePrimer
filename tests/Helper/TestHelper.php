@@ -13,8 +13,8 @@ use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Data\ContextDataBundle;
 use CodePrimer\Model\Data\EventDataBundle;
 use CodePrimer\Model\Data\InternalDataBundle;
-use CodePrimer\Model\DataSet;
-use CodePrimer\Model\DataSetElement;
+use CodePrimer\Model\Dataset;
+use CodePrimer\Model\DatasetElement;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Derived\Message;
 use CodePrimer\Model\Field;
@@ -44,42 +44,42 @@ class TestHelper
         return $businessBundle;
     }
 
-    public static function addSampleDataSets(BusinessBundle $businessBundle)
+    public static function addSampleDatasets(BusinessBundle $businessBundle)
     {
         // Define a user status
-        $dataSet = new DataSet('UserStatus', 'List of statuses that can be associated with a User');
-        $dataSet->setFields([
+        $dataset = new Dataset('UserStatus', 'List of statuses that can be associated with a User');
+        $dataset->setFields([
             (new Field('name', FieldType::STRING))->setIdentifier(true),
             new Field('description', FieldType::STRING),
             new Field('loginAllowed', FieldType::BOOLEAN),
         ]);
 
-        $dataSet->addElement(new DataSetElement([
+        $dataset->addElement(new DatasetElement([
             'name' => 'registered',
             'description' => 'User is registered but has not confirmed his email address yet',
             'loginAllowed' => true,
         ]));
-        $dataSet->addElement(new DataSetElement([
+        $dataset->addElement(new DatasetElement([
             'name' => 'active',
             'description' => 'User is fully registered and allowed to user our application',
             'loginAllowed' => true,
         ]));
-        $dataSet->addElement(new DataSetElement([
+        $dataset->addElement(new DatasetElement([
             'name' => 'canceled',
             'description' => 'User has canceled his subscription with our application',
             'loginAllowed' => false,
         ]));
-        $dataSet->addElement(new DataSetElement([
+        $dataset->addElement(new DatasetElement([
             'name' => 'locked',
             'description' => 'User has been locked due to too many failed login attempts',
             'loginAllowed' => false,
         ]));
 
-        $businessBundle->addDataSet($dataSet);
+        $businessBundle->addDataset($dataset);
 
         // Define a plan
-        $dataSet = new DataSet('Plan', 'List of plans that can be purchased in our application along with their access');
-        $dataSet->setFields([
+        $dataset = new Dataset('Plan', 'List of plans that can be purchased in our application along with their access');
+        $dataset->setFields([
             (new Field('id', FieldType::ID, 'Unique ID to use for this plan'))->setIdentifier(true),
             new Field('name', FieldType::STRING, 'The name associated with this plan, as presented to users and prospects'),
             new Field('description', FieldType::STRING, 'A description of the plan, as presented to users and prospects'),
@@ -92,7 +92,7 @@ class TestHelper
             new Field('adminAccess', FieldType::BOOLEAN, 'Whether this plan provides access to admin functionality'),
         ]);
 
-        $dataSet->addElement(new DataSetElement([
+        $dataset->addElement(new DatasetElement([
             'id' => 1,
             'name' => 'Admin',
             'description' => 'Internal plan used to manage the application',
@@ -105,7 +105,7 @@ class TestHelper
             'adminAccess' => true,
         ]));
 
-        $dataSet->addElement(new DataSetElement([
+        $dataset->addElement(new DatasetElement([
             'id' => 2,
             'name' => 'Free',
             'description' => 'Free plan giving access to basic functionality to registered users',
@@ -118,7 +118,7 @@ class TestHelper
             'adminAccess' => false,
         ]));
 
-        $dataSet->addElement(new DataSetElement([
+        $dataset->addElement(new DatasetElement([
             'id' => 3,
             'name' => 'Premium',
             'description' => 'Premium plan giving access to premium functionality to registered users',
@@ -131,7 +131,7 @@ class TestHelper
             'adminAccess' => false,
         ]));
 
-        $dataSet->addElement(new DataSetElement([
+        $dataset->addElement(new DatasetElement([
             'id' => 4,
             'name' => 'Author',
             'description' => 'Premium plan giving access to premium and editing functionality to registered users',
@@ -144,12 +144,12 @@ class TestHelper
             'adminAccess' => false,
         ]));
 
-        $businessBundle->addDataSet($dataSet);
+        $businessBundle->addDataset($dataset);
     }
 
     public static function addSampleBusinessModels(BusinessBundle $businessBundle)
     {
-        self::addSampleDataSets($businessBundle);
+        self::addSampleDatasets($businessBundle);
 
         $businessModel = new  BusinessModel('User', 'This entity represents a user');
         $businessModel

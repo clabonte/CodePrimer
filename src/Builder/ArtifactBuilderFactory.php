@@ -20,7 +20,7 @@ class ArtifactBuilderFactory
         $this->builders['entity'] = EntityBuilder::class;
         $this->builders['event'] = EventBuilder::class;
         $this->builders['model'] = BusinessModelBuilder::class;
-        $this->builders['dataset'] = DataSetBuilder::class;
+        $this->builders['dataset'] = DatasetBuilder::class;
         $this->builders['repository'] = RepositoryBuilder::class;
         $this->builders['migration'] = MigrationBuilder::class;
         $this->builders['revertmigration'] = MigrationBuilder::class;

@@ -12,7 +12,7 @@ use CodePrimer\Helper\FieldHelper;
 use InvalidArgumentException;
 use LogicException;
 
-class DataSet
+class Dataset
 {
     /** @var string */
     private $name;
@@ -26,7 +26,7 @@ class DataSet
     /** @var Field|null */
     private $identifier = null;
 
-    /** @var DataSetElement[] */
+    /** @var DatasetElement[] */
     private $elements = [];
 
     /**
@@ -83,7 +83,7 @@ class DataSet
     /**
      * @param Field[] $fields
      */
-    public function setFields(array $fields): DataSet
+    public function setFields(array $fields): Dataset
     {
         $this->fields = [];
         foreach ($fields as $field) {
@@ -93,7 +93,7 @@ class DataSet
         return $this;
     }
 
-    public function addField(Field $field): DataSet
+    public function addField(Field $field): Dataset
     {
         // Make sure this is a valid type. DataSet only supports native types (at this time)
         $helper = new FieldHelper();
@@ -138,7 +138,7 @@ class DataSet
     /**
      * @codeCoverageIgnore
      *
-     * @return DataSetElement[]
+     * @return DatasetElement[]
      */
     public function getElements(): array
     {
@@ -146,9 +146,9 @@ class DataSet
     }
 
     /**
-     * @param DataSetElement[] $elements
+     * @param DatasetElement[] $elements
      */
-    public function setElements(array $elements): DataSet
+    public function setElements(array $elements): Dataset
     {
         $this->elements = [];
         foreach ($elements as $element) {
@@ -158,7 +158,7 @@ class DataSet
         return $this;
     }
 
-    public function addElement(DataSetElement $element): DataSet
+    public function addElement(DatasetElement $element): Dataset
     {
         // Make sure we have an ID field defined for this dataset
         if (null === $this->identifier) {

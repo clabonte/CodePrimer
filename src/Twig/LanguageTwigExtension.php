@@ -10,8 +10,8 @@ use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\DataBundle;
 use CodePrimer\Model\Data\EventData;
-use CodePrimer\Model\DataSet;
-use CodePrimer\Model\DataSetElement;
+use CodePrimer\Model\Dataset;
+use CodePrimer\Model\DatasetElement;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Relationship;
@@ -903,7 +903,7 @@ class LanguageTwigExtension extends AbstractExtension
      */
     public function elementGetterFilter($obj)
     {
-        if ($obj instanceof DataSet) {
+        if ($obj instanceof Dataset) {
             return 'by'.$this->classFilter($obj->getIdentifier());
         }
 
@@ -937,9 +937,9 @@ class LanguageTwigExtension extends AbstractExtension
             $name = $obj->getName();
         } elseif ($obj instanceof Event) {
             $name = $obj->getName();
-        } elseif ($obj instanceof DataSet) {
+        } elseif ($obj instanceof Dataset) {
             $name = $obj->getName();
-        } elseif ($obj instanceof DataSetElement) {
+        } elseif ($obj instanceof DatasetElement) {
             $name = $obj->getUniqueName();
         } elseif ($obj instanceof State) {
             $name = $obj->getName();

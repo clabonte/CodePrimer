@@ -7,8 +7,8 @@ use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\MessageDataBundle;
-use CodePrimer\Model\DataSet;
-use CodePrimer\Model\DataSetElement;
+use CodePrimer\Model\Dataset;
+use CodePrimer\Model\DatasetElement;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 use CodePrimer\Tests\Helper\TestHelper;
@@ -522,14 +522,14 @@ class PhpTwigExtensionTest extends TwigExtensionTest
                 true,
             ],
             'Dataset without timestamp' => [
-                $businessBundle->getDataSet('UserStatus'),
+                $businessBundle->getDataset('UserStatus'),
                 false,
             ],
             'Dataset with timestamp' => [
-                (new DataSet('Test Dataset'))
+                (new Dataset('Test Dataset'))
                     ->addField((new Field('name', FieldType::STRING))->setIdentifier(true))
                     ->addField(new Field('start', FieldType::DATE))
-                    ->addElement(new DataSetElement(['name' => 'element1', 'start' => '2000-01-01'])),
+                    ->addElement(new DatasetElement(['name' => 'element1', 'start' => '2000-01-01'])),
                 true,
             ],
         ];

@@ -11,9 +11,9 @@ namespace CodePrimer\Model;
 use CodePrimer\Helper\FieldType;
 use InvalidArgumentException;
 
-class DataSetElement
+class DatasetElement
 {
-    /** @var DataSet */
+    /** @var Dataset */
     private $dataset;
 
     /** @var array */
@@ -27,7 +27,7 @@ class DataSetElement
     /**
      * @codeCoverageIgnore
      */
-    public function getDataset(): ?DataSet
+    public function getDataset(): ?Dataset
     {
         return $this->dataset;
     }
@@ -35,7 +35,7 @@ class DataSetElement
     /**
      * @codeCoverageIgnore
      */
-    public function setDataset(DataSet $dataset): DataSetElement
+    public function setDataset(Dataset $dataset): DatasetElement
     {
         $this->dataset = $dataset;
 
@@ -92,7 +92,7 @@ class DataSetElement
     /**
      * @param $value
      */
-    public function addValue(string $name, $value): DataSetElement
+    public function addValue(string $name, $value): DatasetElement
     {
         $this->values[$name] = $value;
 

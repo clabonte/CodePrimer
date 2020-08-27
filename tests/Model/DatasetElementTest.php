@@ -3,17 +3,17 @@
 namespace CodePrimer\Tests\Model;
 
 use CodePrimer\Helper\FieldType;
-use CodePrimer\Model\DataSet;
-use CodePrimer\Model\DataSetElement;
+use CodePrimer\Model\Dataset;
+use CodePrimer\Model\DatasetElement;
 use CodePrimer\Model\Field;
 use CodePrimer\Tests\Helper\TestHelper;
 use PHPUnit\Framework\TestCase;
 
-class DataSetElementTest extends TestCase
+class DatasetElementTest extends TestCase
 {
     public function testConstructorWithEmptyArrayShouldWork()
     {
-        $element = new DataSetElement();
+        $element = new DatasetElement();
         self::assertEmpty($element->getValues());
 
         self::assertNull($element->getValue('url'));
@@ -23,7 +23,7 @@ class DataSetElementTest extends TestCase
 
     public function testConstructorWithAssociativeArrayShouldWork()
     {
-        $element = new DataSetElement(['url' => 'http://element1.test.com']);
+        $element = new DatasetElement(['url' => 'http://element1.test.com']);
         self::assertCount(1, $element->getValues());
 
         self::assertEquals('http://element1.test.com', $element->getValue('url'));
@@ -36,7 +36,7 @@ class DataSetElementTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage("Invalid array type passed. Must be an associative array of type 'name' (string) => 'value' (mixed)");
-        new DataSetElement($values);
+        new DatasetElement($values);
     }
 
     /**
@@ -46,7 +46,7 @@ class DataSetElementTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage("Invalid array type passed. Must be an associative array of type 'name' (string) => 'value' (mixed)");
-        $element = new DataSetElement();
+        $element = new DatasetElement();
         $element->setValues($values);
     }
 
@@ -62,7 +62,7 @@ class DataSetElementTest extends TestCase
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('You must assign a Dataset to an element before retrieving its identifier value');
-        $element = new DataSetElement(['url' => 'http://element1.test.com']);
+        $element = new DatasetElement(['url' => 'http://element1.test.com']);
         $element->getIdentifierValue();
     }
 
@@ -70,14 +70,14 @@ class DataSetElementTest extends TestCase
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('You must assign a Dataset to an element before retrieving its unique name');
-        $element = new DataSetElement(['url' => 'http://element1.test.com']);
+        $element = new DatasetElement(['url' => 'http://element1.test.com']);
         $element->getUniqueName();
     }
 
     /**
      * @dataProvider uniqueNameProvider
      */
-    public function testGetUniqueNameShouldPass(DataSetElement $element, string $expectedName)
+    public function testGetUniqueNameShouldPass(DatasetElement $element, string $expectedName)
     {
         $value = $element->getUniqueName();
         self::assertEquals($expectedName, $value);
@@ -86,39 +86,39 @@ class DataSetElementTest extends TestCase
     public function uniqueNameProvider()
     {
         $bundle = TestHelper::getSampleBusinessBundle();
-        $plan = $bundle->getDataSet('Plan');
-        $userStatus = $bundle->getDataSet('UserStatus');
+        $plan = $bundle->getDataset('Plan');
+        $userStatus = $bundle->getDataset('UserStatus');
 
-        $noNameSet = new DataSet('Test', 'Test');
+        $noNameSet = new Dataset('Test', 'Test');
         $noNameSet->setFields([
             (new Field('id', FieldType::INTEGER))->setIdentifier(true),
             new Field('description', FieldType::STRING),
         ]);
 
-        $noNameSet->addElement(new DataSetElement([
+        $noNameSet->addElement(new DatasetElement([
             'id' => 123,
             'description' => 'User is registered but has not confirmed his email address yet',
         ]));
-        $noNameSet->addElement(new DataSetElement([
+        $noNameSet->addElement(new DatasetElement([
             'id' => 124,
             'description' => 'User is fully registered and allowed to user our application',
         ]));
 
-        $duplicateNameSet = new DataSet('Test', 'Test');
+        $duplicateNameSet = new Dataset('Test', 'Test');
         $duplicateNameSet->setFields([
             (new Field('id', FieldType::INTEGER))->setIdentifier(true),
             new Field('name', FieldType::STRING),
         ]);
 
-        $duplicateNameSet->addElement(new DataSetElement([
+        $duplicateNameSet->addElement(new DatasetElement([
             'id' => 123,
             'name' => 'Name 1',
         ]));
-        $duplicateNameSet->addElement(new DataSetElement([
+        $duplicateNameSet->addElement(new DatasetElement([
             'id' => 124,
             'name' => 'Name 2',
         ]));
-        $duplicateNameSet->addElement(new DataSetElement([
+        $duplicateNameSet->addElement(new DatasetElement([
             'id' => 125,
             'name' => 'Name 2',
         ]));

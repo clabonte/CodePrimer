@@ -22,7 +22,7 @@ class PhpDatasetTemplatesTest extends TemplateTestCase
         $this->initEntities();
         $languageExtension = new LanguageTwigExtension();
 
-        $dataSets = $this->businessBundle->getDataSets();
+        $dataSets = $this->businessBundle->getDatasets();
         self::assertCount(2, $dataSets);
 
         $artifact = new Artifact(Artifact::CODE, 'dataset', 'php');
