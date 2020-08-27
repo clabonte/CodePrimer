@@ -2,8 +2,10 @@
  # This template outputs a default constructor in a PHP class
  # Variables:
  # - mandatoryFields: List of mandatory fields to include in the constructor. If not set, model.mandatoryFields will be used
+ # - constructorModifier: The modifier to use for the constructor, 'public' if it is not specified.
  #}
 {% set mandatoryFields = mandatoryFields ?? model.mandatoryFields %}
+{% set constructorModifier = constructorModifier ?? 'public' %}
 {% if not mandatoryFields is empty %}
     /**
      * {{ model|class }} default constructor
@@ -11,7 +13,7 @@
      * @var {{ field|hint }} {{ field|variable }} {{ field.description|raw }}
     {%~ endfor %}
      */
-    public function __construct(
+    {{ constructorModifier }} function __construct(
     {%~ for field in mandatoryFields %}
         {%~ if loop.last %}
         {{ field|type }} {{ field|variable }}

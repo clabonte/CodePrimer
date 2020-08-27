@@ -8,16 +8,66 @@
 
 namespace CodePrimer\Model;
 
+use CodePrimer\Helper\FieldType;
 use InvalidArgumentException;
 
 class DataSetElement
 {
+    /** @var DataSet */
+    private $dataset;
+
     /** @var array */
     private $values;
 
     public function __construct(array $values = [])
     {
         $this->setValues($values);
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function getDataset(): ?DataSet
+    {
+        return $this->dataset;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function setDataset(DataSet $dataset): DataSetElement
+    {
+        $this->dataset = $dataset;
+
+        return $this;
+    }
+
+    /**
+     * @return string the value assigned to the Dataset's identifier field for this element
+     */
+    public function getIdentifierValue(): string
+    {
+        if (null !== $this->dataset) {
+            return $this->getValue($this->dataset->getIdentifier()->getName());
+        }
+        throw new \LogicException('You must assign a Dataset to an element before retrieving its identifier value');
+    }
+
+    public function getUniqueName(): string
+    {
+        if (null !== $this->dataset) {
+            // If the Dataset identifier is of type String, use it as the unique name
+            if (FieldType::STRING == $this->dataset->getIdentifier()->getType()) {
+                return $this->getValue($this->dataset->getIdentifier()->getName());
+            }
+            // Otherwise, if the dataset has a 'name' field with unique values, use it...
+            if (null !== $this->dataset->getField('name') && $this->dataset->isUniqueField('name')) {
+                return $this->getValue('name');
+            }
+            // Otherwise, create a unique name based on the dataset name and the identifier's value
+            return $this->dataset->getName().'_'.$this->getValue($this->dataset->getIdentifier()->getName());
+        }
+        throw new \LogicException('You must assign a Dataset to an element before retrieving its unique name');
     }
 
     public function setValues(array $values): void

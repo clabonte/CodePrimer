@@ -7,6 +7,8 @@ use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\MessageDataBundle;
+use CodePrimer\Model\DataSet;
+use CodePrimer\Model\DataSetElement;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 use CodePrimer\Tests\Helper\TestHelper;
@@ -49,6 +51,7 @@ class PhpTwigExtensionTest extends TwigExtensionTest
         $this->assertTwigFilter('type', $filters);
         $this->assertTwigFilter('listType', $filters);
         $this->assertTwigFilter('parameter', $filters);
+        $this->assertTwigFilter('value', $filters);
     }
 
     public function testGetTestsShouldPass()
@@ -518,6 +521,17 @@ class PhpTwigExtensionTest extends TwigExtensionTest
                 $businessBundle->getEvent('Schedule Post'),
                 true,
             ],
+            'Dataset without timestamp' => [
+                $businessBundle->getDataSet('UserStatus'),
+                false,
+            ],
+            'Dataset with timestamp' => [
+                (new DataSet('Test Dataset'))
+                    ->addField((new Field('name', FieldType::STRING))->setIdentifier(true))
+                    ->addField(new Field('start', FieldType::DATE))
+                    ->addElement(new DataSetElement(['name' => 'element1', 'start' => '2000-01-01'])),
+                true,
+            ],
         ];
     }
 
@@ -531,5 +545,103 @@ class PhpTwigExtensionTest extends TwigExtensionTest
         $dataBundle = new MessageDataBundle();
         $dataBundle->add(new Data($businessBundle->getBusinessModel('User'), 'created'));
         $this->twigExtension->dateTimeUsed($dataBundle);
+    }
+
+    /**
+     * @dataProvider valueFilterProvider
+     *
+     * @param $obj
+     * @param $value
+     * @param $expectedValue
+     */
+    public function testValueFilterShouldPass($obj, $value, $expectedValue)
+    {
+        $actual = $this->twigExtension->valueFilter($this->context, $obj, $value);
+
+        self::assertEquals($expectedValue, $actual);
+    }
+
+    public function valueFilterProvider()
+    {
+        $bundle = TestHelper::getSampleBusinessBundle();
+
+        return [
+           'UUID' => [new Field('Test', FieldType::UUID), '11123e3a-c02A-4E85-a397-221abac28264', "'11123e3a-c02A-4E85-a397-221abac28264'"],
+           'STRING' => [new Field('Test', FieldType::STRING), 'this is a test', "'this is a test'"],
+           'STRING with quote' => [new Field('Test', FieldType::STRING), "this is a test with a ' (single quote)", '"this is a test with a \' (single quote)"'],
+           'TEXT' => [new Field('Test', FieldType::TEXT), 'this is a test', "'this is a test'"],
+           'PASSWORD' => [new Field('Test', FieldType::PASSWORD), 'this is a test', "'this is a test'"],
+           'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING), 'this is a test', "'this is a test'"],
+           'EMAIL' => [new Field('Test', FieldType::EMAIL), 'test@test.com', "'test@test.com'"],
+           'URL' => [new Field('Test', FieldType::URL), 'http://test.com', "'http://test.com'"],
+           'PHONE' => [new Field('Test', FieldType::PHONE), '+15551234567', "'+15551234567'"],
+           'DATE - string' => [new Field('Test', FieldType::DATE), '2020-12-25', "new \DateTimeImmutable('2020-12-25')"],
+           'DATE - DateTime' => [new Field('Test', FieldType::DATE), new \DateTime('2020-12-25'), "new \DateTimeImmutable('2020-12-25')"],
+           'TIME - string' => [new Field('Test', FieldType::TIME), '23:59:59', "new \DateTimeImmutable('23:59:59')"],
+           'TIME - DateTime' => [new Field('Test', FieldType::TIME), new \DateTime('23:59:59'), "new \DateTimeImmutable('23:59:59')"],
+           'DATETIME - string' => [new Field('Test', FieldType::DATETIME), '2020-12-25T23:59:59Z', "new \DateTimeImmutable('2020-12-25T23:59:59Z')"],
+           'DATETIME - DateTime' => [new Field('Test', FieldType::DATETIME), new \DateTime('2020-12-25T23:59:59Z'), "new \DateTimeImmutable('2020-12-25 23:59:59')"],
+           'BOOLEAN - true' => [new Field('Test', FieldType::BOOLEAN), true, 'true'],
+           'BOOLEAN - false' => [new Field('Test', FieldType::BOOLEAN), 'no', 'false'],
+           'INTEGER - number' => [new Field('Test', FieldType::INTEGER), 123, 123],
+           'INTEGER - string' => [new Field('Test', FieldType::INTEGER), '123', 123],
+           'ID - number' => [new Field('Test', FieldType::ID), 123, 123],
+           'ID - string' => [new Field('Test', FieldType::ID), '123', 123],
+           'LONG - number' => [new Field('Test', FieldType::LONG), 123, 123],
+           'LONG - string' => [new Field('Test', FieldType::LONG), '123', 123],
+           'FLOAT - number' => [new Field('Test', FieldType::FLOAT), 123.4, 123.4],
+           'FLOAT - int' => [new Field('Test', FieldType::FLOAT), 123, 123],
+           'FLOAT - string' => [new Field('Test', FieldType::FLOAT), '123.4', 123.4],
+           'DOUBLE - number' => [new Field('Test', FieldType::DOUBLE), 123.4, 123.4],
+           'DOUBLE - int' => [new Field('Test', FieldType::DOUBLE), 123, 123],
+           'DOUBLE - string' => [new Field('Test', FieldType::DOUBLE), '123.4', 123.4],
+           'PRICE - 0' => [new Field('Test', FieldType::PRICE), 0, 0],
+           'PRICE - integer' => [new Field('Test', FieldType::PRICE), 100, 100],
+           'PRICE - decimal' => [new Field('Test', FieldType::PRICE), 100.23, 100.23],
+           'PRICE - negative' => [new Field('Test', FieldType::PRICE), -100.23, -100.23],
+           'PRICE - $' => [new Field('Test', FieldType::PRICE), '$1,000,100.34', 1000100.34],
+           'LIST - String' => [(new Field('Test', FieldType::STRING))->setList(true), 'This is a string', "['This is a string']"],
+           'LIST - Integer' => [(new Field('Test', FieldType::INTEGER))->setList(true), 123, '[123]'],
+           'Data - UUID' => [new Data($bundle->getBusinessModel('User'), 'email'), 'test@test.com', "'test@test.com'"],
+       ];
+    }
+
+    /**
+     * @dataProvider invalidValueProvider
+     *
+     * @param $obj
+     * @param $value
+     * @param $expectedMessage
+     */
+    public function testValueFilterWithUnsupportedTypeThrowsException($obj, $value, $expectedMessage)
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage($expectedMessage);
+
+        $this->twigExtension->valueFilter($this->context, $obj, $value);
+    }
+
+    public function invalidValueProvider()
+    {
+        $bundle = TestHelper::getSampleBusinessBundle();
+        $user = $bundle->getBusinessModel('User');
+
+        return [
+            'BusinessModel Field Type' => [
+                $user->getField('stats'),
+                'value',
+                'Cannot render a value for Business Model: UserStats',
+            ],
+            'Unknown Field Type' => [
+                new Field('Test', 'Unknown'),
+                'value',
+                'Cannot render a value for field type: Unknown',
+            ],
+            'Unsupported Type' => [
+                $user,
+                'value',
+                'Cannot render a value for class: CodePrimer\Model\BusinessModel',
+            ],
+        ];
     }
 }

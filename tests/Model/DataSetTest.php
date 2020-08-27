@@ -6,6 +6,7 @@ use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\DataSet;
 use CodePrimer\Model\DataSetElement;
 use CodePrimer\Model\Field;
+use CodePrimer\Tests\Helper\TestHelper;
 use PHPUnit\Framework\TestCase;
 
 class DataSetTest extends TestCase
@@ -153,9 +154,11 @@ class DataSetTest extends TestCase
         // Make sure the element added matches the expected one
         $idFieldName = $this->dataSet->getIdentifier()->getName();
         $actual = $this->dataSet->getElements()[$element->getValue($idFieldName)];
+        self::assertEquals($element->getValue($idFieldName), $element->getIdentifierValue());
         $values = $element->getValues();
         foreach ($values as $name => $value) {
             self::assertEquals($value, $actual->getValue($name));
+            self::assertEquals($this->dataSet, $element->getDataset());
         }
     }
 
@@ -412,5 +415,26 @@ class DataSetTest extends TestCase
         ]);
 
         $this->dataSet->addElement($element2);
+    }
+
+    /**
+     * @dataProvider isUniqueFieldProvider
+     */
+    public function testIsUniqueFieldShouldPass(DataSet $dataset, string $fieldName, bool $expectedValue)
+    {
+        $value = $dataset->isUniqueField($fieldName);
+        self::assertEquals($expectedValue, $value);
+    }
+
+    public function isUniqueFieldProvider()
+    {
+        $bundle = TestHelper::getSampleBusinessBundle();
+        $plan = $bundle->getDataSet('Plan');
+
+        return [
+            'Unknown Field' => [$plan, 'unknownField', false],
+            'Unique Field' => [$plan, 'name', true],
+            'Non Unique Field' => [$plan, 'active', false],
+        ];
     }
 }

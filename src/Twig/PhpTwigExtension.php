@@ -4,10 +4,12 @@ namespace CodePrimer\Twig;
 
 use CodePrimer\Helper\EventHelper;
 use CodePrimer\Helper\FieldHelper;
+use CodePrimer\Helper\PriceHelper;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\EventData;
+use CodePrimer\Model\DataSet;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 use InvalidArgumentException;
@@ -27,6 +29,7 @@ class PhpTwigExtension extends LanguageTwigExtension
 
         $filters[] = new TwigFilter('hint', [$this, 'hintFilter'], ['is_safe' => ['html'], 'needs_context' => true]);
         $filters[] = new TwigFilter('namespace', [$this, 'namespaceFilter'], ['is_safe' => ['html'], 'needs_context' => true]);
+        $filters[] = new TwigFilter('value', [$this, 'valueFilter'], ['is_safe' => ['html'], 'needs_context' => true]);
 
         return $filters;
     }
@@ -51,7 +54,7 @@ class PhpTwigExtension extends LanguageTwigExtension
 
         $fieldHelper = new FieldHelper();
 
-        if ($obj instanceof BusinessModel) {
+        if ($obj instanceof BusinessModel || $obj instanceof DataSet) {
             foreach ($obj->getFields() as $field) {
                 if ($fieldHelper->isDateTime($field) || $fieldHelper->isDate($field) || $fieldHelper->isTime($field)) {
                     $result = true;
@@ -297,5 +300,87 @@ class PhpTwigExtension extends LanguageTwigExtension
         }
 
         return $type;
+    }
+
+    /**
+     * Format a value in its PHP representation based on the Field this value is associated with.
+     *
+     * @param Field|Data $obj   The object associated with the value
+     * @param mixed      $value The value to format
+     */
+    public function valueFilter(array $context, $obj, $value): string
+    {
+        $helper = new FieldHelper();
+
+        if ($obj instanceof Data) {
+            $field = $obj->getField();
+        } else {
+            $field = $obj;
+        }
+
+        if ($field instanceof Field) {
+            if ($helper->isBoolean($field)) {
+                $bool = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+                if ($bool) {
+                    $result = 'true';
+                } else {
+                    $result = 'false';
+                }
+            } elseif ($helper->isDate($field)) {
+                if ($value instanceof \DateTimeInterface) {
+                    $result = "new \DateTimeImmutable('{$value->format('Y-m-d')}')";
+                } else {
+                    $result = "new \DateTimeImmutable('$value')";
+                }
+            } elseif ($helper->isTime($field)) {
+                if ($value instanceof \DateTimeInterface) {
+                    $result = "new \DateTimeImmutable('{$value->format('H:i:s')}')";
+                } else {
+                    $result = "new \DateTimeImmutable('$value')";
+                }
+            } elseif ($helper->isDateTime($field)) {
+                if ($value instanceof \DateTimeInterface) {
+                    $result = "new \DateTimeImmutable('{$value->format('Y-m-d H:i:s')}')";
+                } else {
+                    $result = "new \DateTimeImmutable('$value')";
+                }
+            } elseif ($helper->isInteger($field)) {
+                $result = $value;
+            } elseif ($helper->isLong($field)) {
+                $result = $value;
+            } elseif ($helper->isFloat($field)) {
+                $result = $value;
+            } elseif ($helper->isPrice($field)) {
+                if (is_numeric($value)) {
+                    $result = $value;
+                } else {
+                    $priceHelper = new PriceHelper();
+                    $result = $priceHelper->asFloat($value);
+                }
+            } elseif ($helper->isDouble($field)) {
+                $result = $value;
+            } elseif ($helper->isString($field)) {
+                if (false !== strpos($value, "'")) {
+                    $result = '"'.$value.'"';
+                } else {
+                    $result = "'".$value."'";
+                }
+            } else {
+                /** @var BusinessBundle $businessBundle */
+                $businessBundle = $context['package'];
+                if ($helper->isBusinessModel($field, $businessBundle)) {
+                    throw new InvalidArgumentException('Cannot render a value for Business Model: '.$field->getType());
+                }
+                throw new InvalidArgumentException('Cannot render a value for field type: '.$field->getType());
+            }
+
+            if ($field->isList()) {
+                $result = '['.$result.']';
+            }
+        } else {
+            throw new InvalidArgumentException('Cannot render a value for class: '.get_class($field));
+        }
+
+        return $result;
     }
 }

@@ -265,7 +265,7 @@ class BusinessBundle
      *
      * @return DataSet[]
      */
-    public function listDataSets(): array
+    public function getDataSets(): array
     {
         return $this->dataSets;
     }

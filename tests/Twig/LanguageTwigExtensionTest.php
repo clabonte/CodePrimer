@@ -34,7 +34,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     {
         $filters = $this->twigExtension->getFilters();
 
-        self::assertCount(20, $filters);
+        self::assertCount(21, $filters);
 
         $this->assertTwigFilter('plural', $filters);
         $this->assertTwigFilter('singular', $filters);
@@ -56,6 +56,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
         $this->assertTwigFilter('removeMethod', $filters);
         $this->assertTwigFilter('containsMethod', $filters);
         $this->assertTwigFilter('yesNo', $filters);
+        $this->assertTwigFilter('elementGetter', $filters);
     }
 
     public function testGetTestsShouldPass()
@@ -831,6 +832,30 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             '1' => [1, 'yes'],
             '2' => [2, 'yes'],
             'unknown' => ['unknown', 'N/A'],
+        ];
+    }
+
+    /**
+     * @dataProvider elementGetterDataProvider
+     *
+     * @param mixed  $obj           Object to filter
+     * @param string $expectedValue expected filtered value
+     */
+    public function testElementGetterFilterShouldPass($obj, $expectedValue)
+    {
+        $value = $this->twigExtension->elementGetterFilter($obj);
+
+        self::assertEquals($expectedValue, $value);
+    }
+
+    public function elementGetterDataProvider()
+    {
+        $bundle = TestHelper::getSampleBusinessBundle();
+
+        return [
+            'String' => ['Tables', 'byTables'],
+            'DataSet - Plan' => [$bundle->getDataSet('Plan'), 'byId'],
+            'DataSet - UserStatus' => [$bundle->getDataSet('UserStatus'), 'byName'],
         ];
     }
 

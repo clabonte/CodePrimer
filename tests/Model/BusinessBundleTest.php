@@ -316,7 +316,7 @@ class BusinessBundleTest extends TestCase
             ->addDataSet(new DataSet('TestSet2', 'description2'))
             ->addDataSet(new DataSet('TestSet3', 'description3'));
 
-        self::assertCount(3, $this->businessBundle->listDataSets());
+        self::assertCount(3, $this->businessBundle->getDataSets());
 
         $set = $this->businessBundle->getDataSet('TestSet1');
         self::assertNotNull($set, 'TestSet1 not found');
@@ -350,7 +350,7 @@ class BusinessBundleTest extends TestCase
 
         $this->businessBundle->setDataSets($sets);
 
-        self::assertCount(2, $this->businessBundle->listDataSets());
+        self::assertCount(2, $this->businessBundle->getDataSets());
 
         $set = $this->businessBundle->getDataSet('TestSet4');
         self::assertNotNull($set, 'TestSet4 not found');

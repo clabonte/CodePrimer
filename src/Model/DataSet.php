@@ -108,6 +108,8 @@ class DataSet
             }
             $this->identifier = $field;
         }
+        // Each field in a Dataset must be mandatory
+        $field->setMandatory(true);
         $this->fields[$field->getName()] = $field;
 
         return $this;
@@ -204,8 +206,30 @@ class DataSet
             $msg .= implode(',', $invalidValues);
             throw new InvalidArgumentException($msg);
         }
+        $element->setDataset($this);
         $this->elements[$elementId] = $element;
 
         return $this;
+    }
+
+    /**
+     * Checks if a field contains a list of unique values across all the elements associated with a dataset.
+     */
+    public function isUniqueField(string $name): bool
+    {
+        if (!isset($this->fields[$name])) {
+            return false;
+        }
+
+        $values = [];
+        foreach ($this->elements as $element) {
+            $value = $element->getValue($name);
+            if (in_array($value, $values)) {
+                return false;
+            }
+            $values[] = $value;
+        }
+
+        return true;
     }
 }

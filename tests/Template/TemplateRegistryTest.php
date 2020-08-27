@@ -37,7 +37,7 @@ class TemplateRegistryTest extends TestCase
     public function testListTemplatesByCategoryShouldPass()
     {
         $templates = $this->registry->listTemplates(Artifact::CODE);
-        self::assertCount(10, $templates);
+        self::assertCount(11, $templates);
 
         $templates = $this->registry->listTemplates(Artifact::CONFIGURATION);
         self::assertEmpty($templates);
@@ -70,6 +70,7 @@ class TemplateRegistryTest extends TestCase
             'Code Repository' => [Artifact::CODE, 'Repository', 1],
             'Code Migration' => [Artifact::CODE, 'Migration', 4],
             'Code Event' => [Artifact::CODE, 'event', 1],
+            'Code DataSet' => [Artifact::CODE, 'DataSet', 1],
             'Project Symfony' => [Artifact::PROJECT, 'Symfony', 1],
             'Documentation Model' => [Artifact::DOCUMENTATION, 'Model', 1],
             'Documentation Process' => [Artifact::DOCUMENTATION, 'Process', 2],
@@ -92,6 +93,7 @@ class TemplateRegistryTest extends TestCase
             'Code entity - PHP' => [Artifact::CODE, 'entity', 'php', 2],
             'Code Entity - PHP' => [Artifact::CODE, 'Entity', 'PHP', 2],
             'Code event - PHP' => [Artifact::CODE, 'event', 'PHP', 1],
+            'Code DataSet - PHP' => [Artifact::CODE, 'dataset', 'PHP', 1],
             'Code Entity - Java' => [Artifact::CODE, 'Entity', 'Java', 1],
             'Code Migration - MySQL' => [Artifact::CODE, 'Migration', 'MySQL', 3],
             'Project Symfony - sh' => [Artifact::PROJECT, 'Symfony', 'sh', 1],
@@ -133,6 +135,7 @@ class TemplateRegistryTest extends TestCase
             'DoctrineOrmEntity' => [new Artifact(Artifact::CODE, 'entity', 'php', 'doctrineOrm')],
             'PlainEntity' => [new Artifact(Artifact::CODE, 'entity', 'php')],
             'Event' => [new Artifact(Artifact::CODE, 'event', 'php')],
+            'DataSet' => [new Artifact(Artifact::CODE, 'dataset', 'php')],
             'Symfony' => [new Artifact(Artifact::PROJECT, 'symfony', 'sh', 'setup')],
             'MySQL Migration' => [new Artifact(Artifact::CODE, 'migration', 'mysql', 'createDatabase')],
         ];
