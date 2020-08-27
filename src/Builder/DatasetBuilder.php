@@ -36,7 +36,7 @@ class DatasetBuilder implements ArtifactBuilder
             'bundle' => $businessBundle,
             'subpackage' => 'Dataset',
             'model' => $dataset,
-            'dataSet' => $dataset,
+            'dataset' => $dataset,
             'businessModelHelper' => new BusinessModelHelper(),
             'fieldHelper' => new FieldHelper(),
         ];
