@@ -87,7 +87,7 @@ class JavaTwigExtensionTest extends TwigExtensionTest
      */
     public function testPackageFilterShouldPass($obj, $expectedValue)
     {
-        $value = $this->twigExtension->packageFilter($obj);
+        $value = $this->twigExtension->packageFilter($this->context, $obj);
 
         self::assertEquals($expectedValue, $value);
     }

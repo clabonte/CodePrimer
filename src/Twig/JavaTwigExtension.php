@@ -21,7 +21,7 @@ class JavaTwigExtension extends LanguageTwigExtension
     {
         $filters = parent::getFilters();
 
-        $filters[] = new TwigFilter('package', [$this, 'packageFilter'], ['is_safe' => ['html']]);
+        $filters[] = new TwigFilter('package', [$this, 'packageFilter'], ['is_safe' => ['html'], 'needs_context' => true]);
 
         return $filters;
     }
@@ -47,10 +47,8 @@ class JavaTwigExtension extends LanguageTwigExtension
      * Filters a string to transform it to a package equivalent. Converts 'Com\Folder\A' or 'Com/Folder/A' to 'com.folder.a'.
      *
      * @param string|BusinessBundle $obj
-     *
-     * @return string
      */
-    public function packageFilter($obj)
+    public function packageFilter($context, $obj, string $subpackage = null): string
     {
         $str = '';
 
@@ -58,6 +56,14 @@ class JavaTwigExtension extends LanguageTwigExtension
             $str = $obj->getNamespace();
         } elseif (is_string($obj)) {
             $str = $obj;
+        }
+
+        if (null !== $subpackage) {
+            if (!empty($subpackage)) {
+                $str .= '.'.$subpackage;
+            }
+        } elseif (!empty($context['subpackage'])) {
+            $str .= '.'.$context['subpackage'];
         }
 
         if (!empty($str)) {

@@ -3,6 +3,7 @@
 namespace CodePrimer\Twig;
 
 use CodePrimer\Helper\FieldType;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\Database\Index;
 use CodePrimer\Model\Field;
 use RuntimeException;
@@ -109,6 +110,8 @@ class MySqlTwigExtension extends SqlTwigExtension
     public function typeFilter(array $context, $field, bool $mandatory = false): string
     {
         $helper = $this->fieldHelper;
+        /** @var BusinessBundle $businessBundle */
+        $businessBundle = $context['bundle'];
 
         $type = '';
         if ($field instanceof Field) {
@@ -157,6 +160,9 @@ class MySqlTwigExtension extends SqlTwigExtension
             } elseif ((null !== $field->getRelation()) && $this->databaseAdapter->isValidForeignKey($field->getRelation())) {
                 $primaryKey = $field->getRelation()->getRemoteSide()->getBusinessModel()->getIdentifier();
                 $type = $this->typeFilter($context, $primaryKey, $mandatory);
+            } elseif ($helper->isDataset($field, $businessBundle)) {
+                $dataset = $businessBundle->getDataset($field->getType());
+                $type = $this->typeFilter($context, $dataset->getIdentifier(), $mandatory);
             } else {
                 throw new RuntimeException("Support for type {$field->getType()} is not implemented yet for MySQL");
             }

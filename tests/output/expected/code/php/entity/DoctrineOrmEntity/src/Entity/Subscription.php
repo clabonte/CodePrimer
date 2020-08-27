@@ -8,6 +8,7 @@
 
 namespace CodePrimer\Tests\Entity;
 
+use CodePrimer\Tests\Dataset\Plan;
 use \DateTime;
 use \DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
@@ -28,10 +29,9 @@ class Subscription
     protected $user;
 
     /**
-     * @var string The plan subscribed by this user in our billing system
-     * @ORM\Column(name="plan", type="string", length=255)
+     * @var Plan The plan subscribed by this user in our billing system
      */
-    protected $plan = '';
+    protected $plan;
 
     /**
      * @var DateTimeInterface The date at which the subscription must be renewed
@@ -62,13 +62,13 @@ class Subscription
     /**
      * Subscription default constructor
      * @var User $user The user to which this subscription belongs
-     * @var string $plan The plan subscribed by this user in our billing system
+     * @var Plan $plan The plan subscribed by this user in our billing system
      * @var DateTimeInterface $renewal The date at which the subscription must be renewed
      * @var string $id DB unique identifier field
      */
     public function __construct(
         User $user,
-        string $plan,
+        Plan $plan,
         DateTimeInterface $renewal,
         string $id
     ) {
@@ -100,10 +100,10 @@ class Subscription
 
     /**
      * @codeCoverageIgnore
-     * @param string $plan
+     * @param Plan $plan
      * @return Subscription
      */
-    public function setPlan(string $plan): Subscription
+    public function setPlan(Plan $plan): Subscription
     {
         $this->plan = $plan;
         return $this;
@@ -111,9 +111,9 @@ class Subscription
 
     /**
      * @codeCoverageIgnore
-     * @return string
+     * @return Plan
      */
-    public function getPlan(): string
+    public function getPlan(): Plan
     {
         return $this->plan;
     }

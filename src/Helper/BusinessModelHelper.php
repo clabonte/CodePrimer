@@ -194,4 +194,19 @@ class BusinessModelHelper
 
         return $result;
     }
+
+    public function listDatasetFields(BusinessModel $businessModel, BusinessBundle $bundle): array
+    {
+        $fields = [];
+
+        $fieldHelper = new FieldHelper();
+
+        foreach ($businessModel->getFields() as $field) {
+            if ($fieldHelper->isDataset($field, $bundle)) {
+                $fields[] = $field;
+            }
+        }
+
+        return $fields;
+    }
 }

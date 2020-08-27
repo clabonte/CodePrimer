@@ -311,6 +311,7 @@ class RelationalDatabaseAdapterTest extends TestCase
                     $user->getField('activationCode'),
                     $user->getField('stats'),
                     $user->getField('subscription'),
+                    $user->getField('status'),
                 ],
             ],
         ];
@@ -353,6 +354,7 @@ class RelationalDatabaseAdapterTest extends TestCase
                     $user->getField('activationCode'),
                     $user->getField('stats'),
                     $user->getField('subscription'),
+                    $user->getField('status'),
                 ],
             ],
             'User without id' => [
@@ -368,6 +370,7 @@ class RelationalDatabaseAdapterTest extends TestCase
                     $user->getField('activationCode'),
                     $user->getField('stats'),
                     $user->getField('subscription'),
+                    $user->getField('status'),
                 ],
             ],
             'Metadata generated field' => [

@@ -4,7 +4,7 @@
 {# Override the includes block to include the Doctrine classes #}
 {% block includes %}
 use {{ package|namespace('Entity') }}\{{ entity|class }};
-    {%~ for linkedBusinessModel in entityHelper.getLinkedBusinessModels(entity) %}
+    {%~ for linkedBusinessModel in businessModelHelper.getLinkedBusinessModels(entity) %}
 use {{ package|namespace('Entity') }}\{{ linkedBusinessModel|class }};
     {%~ endfor %}
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;

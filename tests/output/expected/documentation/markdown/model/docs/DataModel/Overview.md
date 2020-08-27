@@ -21,6 +21,7 @@ This entity represents a user
 | **email** | email | User email address | yes | *N/A* |  | yes | yes |
 | **password** | password | User password | yes | *N/A* |  | no | no |
 | **crmId** | string | The ID of this user in our external CRM | no | *Empty* | 2c3b1c3e-b29c-4564-80c4-e4b95cfbfc81 | no | no |
+| **status** | UserStatus | Current status of the user | no | *Empty* |  | no | no |
 
 ### Business Relations
 
@@ -132,7 +133,7 @@ The subscription bought by a user to user our services
 
 | Name | Type | Description | Mandatory | Default | Example | Searchable | Unique |
 | ---- | ---- | ----------- | --------- | ------- | ------- | ---------- | ------ |
-| **plan** | string | The plan subscribed by this user in our billing system | yes | *N/A* |  | no | no |
+| **plan** | Plan | The plan subscribed by this user in our billing system | yes | *N/A* |  | no | no |
 | **renewal** | date | The date at which the subscription must be renewed | yes | *N/A* |  | no | no |
 
 ### Business Relations

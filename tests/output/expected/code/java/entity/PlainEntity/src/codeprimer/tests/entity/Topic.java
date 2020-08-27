@@ -5,12 +5,12 @@
  * file that was distributed with this source code.
  */
 
-package codeprimer.tests;
+package codeprimer.tests.entity;
 
 /**
  * Class Topic
  * A topic regroups a set of posts made by various authors
- * @package codeprimer.tests
+ * @package codeprimer.tests.entity
  */
 public class Topic
 {

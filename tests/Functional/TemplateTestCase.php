@@ -40,7 +40,7 @@ class TemplateTestCase extends TestCase
         $this->renderer = new TemplateRenderer($loader, self::ACTUAL_DIR);
 
         // Cleanup the 'actual' folder
-        $this->cleanupDirectory(self::ACTUAL_DIR);
+        //$this->cleanupDirectory(self::ACTUAL_DIR);
     }
 
     protected function initEntities()

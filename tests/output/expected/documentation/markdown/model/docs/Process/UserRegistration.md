@@ -47,6 +47,7 @@ User profile created
 | [User](../DataModel/Overview.md#user) | updated | datetime | *N/A* |
 | [User](../DataModel/Overview.md#user) | crmId | string | *N/A* |
 | [User](../DataModel/Overview.md#user) | activationCode | randomstring | *N/A* |
+| [User](../DataModel/Overview.md#user) | status | UserStatus | *N/A* |
 
 
 ## Returned Data
@@ -69,6 +70,7 @@ user.new: Message published when a new user has been created in our application
 | updated | datetime | [User](../DataModel/Overview.md#user) | updated | The date and time at which this user was updated | *N/A* |
 | crmId | string | [User](../DataModel/Overview.md#user) | crmId | The ID of this user in our external CRM | *N/A* |
 | activationCode | randomstring | [User](../DataModel/Overview.md#user) | activationCode | The code required to validate the user&#039;s account | *N/A* |
+| status | UserStatus | [User](../DataModel/Overview.md#user) | status | Current status of the user | *N/A* |
 
 **Example**:
 

@@ -183,14 +183,26 @@ class BusinessModelHelperTest extends TestCase
         $user->addField(new Field('bizAttribute', 'NotAModel'));
 
         $fields = $this->businessModelHelper->listBusinessAttributeFields($user, $businessBundle);
-        self::assertCount(7, $fields);
+        self::assertCount(8, $fields);
         self::assertContains($user->getField('firstName'), $fields);
         self::assertContains($user->getField('lastName'), $fields);
         self::assertContains($user->getField('nickname'), $fields);
         self::assertContains($user->getField('email'), $fields);
         self::assertContains($user->getField('password'), $fields);
         self::assertContains($user->getField('crmId'), $fields);
+        self::assertContains($user->getField('status'), $fields);
         self::assertContains($user->getField('bizAttribute'), $fields);
+    }
+
+    public function testListDatasetFieldsShouldPass()
+    {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+        $user = $businessBundle->getBusinessModel('User');
+        $user->addField(new Field('bizAttribute', 'NotAModelNotDataSet'));
+
+        $fields = $this->businessModelHelper->listDatasetFields($user, $businessBundle);
+        self::assertCount(1, $fields);
+        self::assertContains($user->getField('status'), $fields);
     }
 
     /**

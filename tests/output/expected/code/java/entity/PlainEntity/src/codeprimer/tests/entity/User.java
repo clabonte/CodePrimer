@@ -5,12 +5,14 @@
  * file that was distributed with this source code.
  */
 
-package codeprimer.tests;
+package codeprimer.tests.entity;
+
+import codeprimer.tests.dataset.UserStatus;
 
 /**
  * Class User
  * This entity represents a user
- * @package codeprimer.tests
+ * @package codeprimer.tests.entity
  */
 public class User
 {
@@ -58,6 +60,9 @@ public class User
 
     /** List of topics this user to allowed to create posts for */
     private List<Topic> topics = null;
+
+    /** Current status of the user */
+    private UserStatus status = null;
 
     /**
      * User default constructor
@@ -313,6 +318,22 @@ public class User
      */
     public List<Topic> getTopics() {
         return this.topic;
+    }
+
+    /**
+     * @param status
+     * @return User
+     */
+    public User setStatus(UserStatus status) {
+        this.status = status;
+        return this;
+    }
+
+    /**
+     * @return UserStatus
+     */
+    public UserStatus getStatus() {
+        return this.status;
     }
 
 }
