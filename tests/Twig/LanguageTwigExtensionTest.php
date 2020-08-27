@@ -10,7 +10,7 @@ use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\EventDataBundle;
 use CodePrimer\Model\Data\MessageDataBundle;
-use CodePrimer\Model\DataSet;
+use CodePrimer\Model\Dataset;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\State;
@@ -34,7 +34,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     {
         $filters = $this->twigExtension->getFilters();
 
-        self::assertCount(20, $filters);
+        self::assertCount(21, $filters);
 
         $this->assertTwigFilter('plural', $filters);
         $this->assertTwigFilter('singular', $filters);
@@ -56,6 +56,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
         $this->assertTwigFilter('removeMethod', $filters);
         $this->assertTwigFilter('containsMethod', $filters);
         $this->assertTwigFilter('yesNo', $filters);
+        $this->assertTwigFilter('elementGetter', $filters);
     }
 
     public function testGetTestsShouldPass()
@@ -105,7 +106,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             [new Field('Field', 'int'), 'Fields'],
             [new BusinessBundle('Package', 'Name'), 'Names'],
             [new Event('Name', 'Code'), 'Names'],
-            [new DataSet('Name', 'Description'), 'Names'],
+            [new Dataset('Name', 'Description'), 'Names'],
             [new StateMachine('Name'), 'Names'],
             [new State('Name', 'Description'), 'Names'],
             [new Transition('Name', 'Description', new State('fromState'), new State('ToState')), 'Names'],
@@ -142,7 +143,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             [new Field('Fields', 'int'), 'Field'],
             [new BusinessBundle('Packages', 'Name'), 'Name'],
             [new Event('Names', 'Code'), 'Name'],
-            [new DataSet('Names', 'Description'), 'Name'],
+            [new Dataset('Names', 'Description'), 'Name'],
             [new StateMachine('Names'), 'Name'],
             [new State('Names', 'Description'), 'Name'],
             [new Transition('Names', 'Description', new State('fromState'), new State('ToState')), 'Name'],
@@ -831,6 +832,30 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             '1' => [1, 'yes'],
             '2' => [2, 'yes'],
             'unknown' => ['unknown', 'N/A'],
+        ];
+    }
+
+    /**
+     * @dataProvider elementGetterDataProvider
+     *
+     * @param mixed  $obj           Object to filter
+     * @param string $expectedValue expected filtered value
+     */
+    public function testElementGetterFilterShouldPass($obj, $expectedValue)
+    {
+        $value = $this->twigExtension->elementGetterFilter($obj);
+
+        self::assertEquals($expectedValue, $value);
+    }
+
+    public function elementGetterDataProvider()
+    {
+        $bundle = TestHelper::getSampleBusinessBundle();
+
+        return [
+            'String' => ['Tables', 'byTables'],
+            'DataSet - Plan' => [$bundle->getDataset('Plan'), 'byId'],
+            'DataSet - UserStatus' => [$bundle->getDataset('UserStatus'), 'byName'],
         ];
     }
 

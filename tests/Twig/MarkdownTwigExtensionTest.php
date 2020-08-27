@@ -24,7 +24,7 @@ class MarkdownTwigExtensionTest extends TwigExtensionTest
     {
         $filters = $this->twigExtension->getFilters();
 
-        self::assertCount(22, $filters);
+        self::assertCount(23, $filters);
 
         $this->assertTwigFilter('details', $filters);
         $this->assertTwigFilter('model', $filters);

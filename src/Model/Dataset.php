@@ -10,8 +10,9 @@ namespace CodePrimer\Model;
 
 use CodePrimer\Helper\FieldHelper;
 use InvalidArgumentException;
+use LogicException;
 
-class DataSet
+class Dataset
 {
     /** @var string */
     private $name;
@@ -22,7 +23,10 @@ class DataSet
     /** @var Field[] */
     private $fields = [];
 
-    /** @var DataSetElement[] */
+    /** @var Field|null */
+    private $identifier = null;
+
+    /** @var DatasetElement[] */
     private $elements = [];
 
     /**
@@ -79,7 +83,7 @@ class DataSet
     /**
      * @param Field[] $fields
      */
-    public function setFields(array $fields): DataSet
+    public function setFields(array $fields): Dataset
     {
         $this->fields = [];
         foreach ($fields as $field) {
@@ -89,7 +93,7 @@ class DataSet
         return $this;
     }
 
-    public function addField(Field $field): DataSet
+    public function addField(Field $field): Dataset
     {
         // Make sure this is a valid type. DataSet only supports native types (at this time)
         $helper = new FieldHelper();
@@ -98,6 +102,14 @@ class DataSet
         } elseif ($field->isList()) {
             throw new InvalidArgumentException($field->getName().' has an unsupported field type: DataSet does not support list fields.');
         }
+        if ($field->isIdentifier()) {
+            if (null !== $this->identifier) {
+                throw new InvalidArgumentException('There is already an identifier field defined for DataSet '.$this->name.': '.$this->identifier->getName().'. A DataSet cannot have more than 1 identifier field');
+            }
+            $this->identifier = $field;
+        }
+        // Each field in a Dataset must be mandatory
+        $field->setMandatory(true);
         $this->fields[$field->getName()] = $field;
 
         return $this;
@@ -117,8 +129,16 @@ class DataSet
 
     /**
      * @codeCoverageIgnore
+     */
+    public function getIdentifier(): ?Field
+    {
+        return $this->identifier;
+    }
+
+    /**
+     * @codeCoverageIgnore
      *
-     * @return DataSetElement[]
+     * @return DatasetElement[]
      */
     public function getElements(): array
     {
@@ -126,9 +146,9 @@ class DataSet
     }
 
     /**
-     * @param DataSetElement[] $elements
+     * @param DatasetElement[] $elements
      */
-    public function setElements(array $elements): DataSet
+    public function setElements(array $elements): Dataset
     {
         $this->elements = [];
         foreach ($elements as $element) {
@@ -138,8 +158,20 @@ class DataSet
         return $this;
     }
 
-    public function addElement(DataSetElement $element): DataSet
+    public function addElement(DatasetElement $element): Dataset
     {
+        // Make sure we have an ID field defined for this dataset
+        if (null === $this->identifier) {
+            throw new LogicException('You must define an Identifier field for DataSet '.$this->name.' before adding elements to it.');
+        }
+        // Make sure this element has a unique value for its Identifier field
+        $elementId = $element->getValue($this->identifier->getName());
+        if (null === $elementId) {
+            throw new InvalidArgumentException("Invalid element for DataSet {$this->name}. It is missing a value for Identifier '{$this->identifier->getName()}' field.");
+        } elseif (isset($this->elements[$elementId])) {
+            throw new InvalidArgumentException("Element '$elementId' has already been added to this DataSet. Make sure to assign a unique '{$this->identifier->getName()}' value to each element of your DataSet.");
+        }
+
         // Make sure the element has all the right fields
         $values = $element->getValues();
 
@@ -174,8 +206,30 @@ class DataSet
             $msg .= implode(',', $invalidValues);
             throw new InvalidArgumentException($msg);
         }
-        $this->elements[] = $element;
+        $element->setDataset($this);
+        $this->elements[$elementId] = $element;
 
         return $this;
+    }
+
+    /**
+     * Checks if a field contains a list of unique values across all the elements associated with a dataset.
+     */
+    public function isUniqueField(string $name): bool
+    {
+        if (!isset($this->fields[$name])) {
+            return false;
+        }
+
+        $values = [];
+        foreach ($this->elements as $element) {
+            $value = $element->getValue($name);
+            if (in_array($value, $values)) {
+                return false;
+            }
+            $values[] = $value;
+        }
+
+        return true;
     }
 }

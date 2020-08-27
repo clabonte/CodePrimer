@@ -10,7 +10,8 @@ use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\DataBundle;
 use CodePrimer\Model\Data\EventData;
-use CodePrimer\Model\DataSet;
+use CodePrimer\Model\Dataset;
+use CodePrimer\Model\DatasetElement;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Relationship;
@@ -64,6 +65,7 @@ class LanguageTwigExtension extends AbstractExtension
             new TwigFilter('removeMethod', [$this, 'removeMethodFilter'], ['is_safe' => ['html']]),
             new TwigFilter('containsMethod', [$this, 'containsMethodFilter'], ['is_safe' => ['html']]),
             new TwigFilter('yesNo', [$this, 'yesNoFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('elementGetter', [$this, 'elementGetterFilter'], ['is_safe' => ['html']]),
         ];
     }
 
@@ -650,6 +652,9 @@ class LanguageTwigExtension extends AbstractExtension
         $name = $this->getName($obj);
         if (is_string($name) && !empty($name)) {
             $prefix = 'get';
+            if ($this->booleanTest($obj)) {
+                $prefix = 'is';
+            }
 
             return $prefix.$this->classFilter($name).'()';
         }
@@ -892,6 +897,20 @@ class LanguageTwigExtension extends AbstractExtension
     }
 
     /**
+     * @param mixed $obj
+     *
+     * @return string
+     */
+    public function elementGetterFilter($obj)
+    {
+        if ($obj instanceof Dataset) {
+            return 'by'.$this->classFilter($obj->getIdentifier());
+        }
+
+        return 'by'.$this->classFilter($obj);
+    }
+
+    /**
      * Extracts the name of an object.
      *
      * @param mixed $obj
@@ -918,8 +937,10 @@ class LanguageTwigExtension extends AbstractExtension
             $name = $obj->getName();
         } elseif ($obj instanceof Event) {
             $name = $obj->getName();
-        } elseif ($obj instanceof DataSet) {
+        } elseif ($obj instanceof Dataset) {
             $name = $obj->getName();
+        } elseif ($obj instanceof DatasetElement) {
+            $name = $obj->getUniqueName();
         } elseif ($obj instanceof State) {
             $name = $obj->getName();
         } elseif ($obj instanceof StateMachine) {

@@ -1,0 +1,70 @@
+{# This template generates a class used to define a dataset and its various elements
+ #}
+{% extends "code/php/common/class.php.twig" %}
+{% set setters = false %}
+{% set identifier = dataset.identifier %}
+
+{# Override the includes block to include the DateTime class if needed #}
+{% block includes %}
+    {%~ if model is dateTimeUsed %}
+use \DateTimeInterface;
+    {%~ endif %}
+use \InvalidArgumentException;
+
+{% endblock %}
+
+{% block constants %}
+    {%~ for element in dataset.elements %}
+    /** @var {{ identifier|hint }} {{ element.getValue('description') }} */
+    const {{ element|constant }} = {{ identifier|value(element.identifierValue) }};
+    {%~ endfor %}
+
+{% endblock %}
+
+{% block fields %}
+    /** @var {{ model|class }}[] List of elements that are part of this Dataset */
+    static private $elements = [];
+
+{{ parent() }}
+{% endblock %}
+
+{% block constructor %}
+    {%~ include 'code/php/common/partials/_constructor.php.twig' with {'mandatoryFields': model.fields, 'constructorModifier': 'private'} %}
+{% endblock %}
+
+{% block body %}
+    /**
+     * Retrieves a {{ dataset.name }} by its identifier.
+     * @param {{ identifier|hint }} {{ identifier|variable }} One of the constants defined in this class
+     * @return {{ model|class }}
+     * @throws InvalidArgumentException If the {{ identifier|variable }} does not map to a valid element in this dataset.
+     */
+    public static function {{ dataset|elementGetter }}({{ identifier|type }} {{ identifier|variable }}): {{ model|class }}
+    {
+        if (empty(self::$elements)) {
+            self::initElements();
+        }
+
+        if (!isset(self::$elements[{{ identifier|variable }}])) {
+            throw new InvalidArgumentException("Unknown element '{{ identifier|variable }}' specified. Must be one of the constants defined in {{ model|class }}");
+        }
+        return self::$elements[{{ identifier|variable }}];
+    }
+
+    private static function initElements()
+    {
+    {%~ for element in dataset.elements %}
+        self::$elements[{{ identifier|value(element.identifierValue) }}] = new {{ model|class }}(
+        {%~ for name, value in element.values %}
+            {%~ set field = dataset.getField(name)  %}
+            {%~ if loop.last %}
+                {{ field|value(value) }}
+            {%~ else  %}
+                {{ field|value(value) }},
+            {%~ endif %}
+        {%~ endfor %}
+        );
+
+    {%~ endfor %}
+    }
+{% endblock %}

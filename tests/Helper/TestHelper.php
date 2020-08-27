@@ -13,6 +13,8 @@ use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Data\ContextDataBundle;
 use CodePrimer\Model\Data\EventDataBundle;
 use CodePrimer\Model\Data\InternalDataBundle;
+use CodePrimer\Model\Dataset;
+use CodePrimer\Model\DatasetElement;
 use CodePrimer\Model\Derived\Event;
 use CodePrimer\Model\Derived\Message;
 use CodePrimer\Model\Field;
@@ -42,8 +44,113 @@ class TestHelper
         return $businessBundle;
     }
 
+    public static function addSampleDatasets(BusinessBundle $businessBundle)
+    {
+        // Define a user status
+        $dataset = new Dataset('UserStatus', 'List of statuses that can be associated with a User');
+        $dataset->setFields([
+            (new Field('name', FieldType::STRING))->setIdentifier(true),
+            new Field('description', FieldType::STRING),
+            new Field('loginAllowed', FieldType::BOOLEAN),
+        ]);
+
+        $dataset->addElement(new DatasetElement([
+            'name' => 'registered',
+            'description' => 'User is registered but has not confirmed his email address yet',
+            'loginAllowed' => true,
+        ]));
+        $dataset->addElement(new DatasetElement([
+            'name' => 'active',
+            'description' => 'User is fully registered and allowed to user our application',
+            'loginAllowed' => true,
+        ]));
+        $dataset->addElement(new DatasetElement([
+            'name' => 'canceled',
+            'description' => 'User has canceled his subscription with our application',
+            'loginAllowed' => false,
+        ]));
+        $dataset->addElement(new DatasetElement([
+            'name' => 'locked',
+            'description' => 'User has been locked due to too many failed login attempts',
+            'loginAllowed' => false,
+        ]));
+
+        $businessBundle->addDataset($dataset);
+
+        // Define a plan
+        $dataset = new Dataset('Plan', 'List of plans that can be purchased in our application along with their access');
+        $dataset->setFields([
+            (new Field('id', FieldType::ID, 'Unique ID to use for this plan'))->setIdentifier(true),
+            new Field('name', FieldType::STRING, 'The name associated with this plan, as presented to users and prospects'),
+            new Field('description', FieldType::STRING, 'A description of the plan, as presented to users and prospects'),
+            new Field('internal', FieldType::BOOLEAN, 'Whether this plan can only be used internally or available for purchase'),
+            new Field('active', FieldType::BOOLEAN, 'Whether this plan can still be used for new/upgraded accounts'),
+            new Field('monthlyPrice', FieldType::PRICE, 'The selling price for a contract renewable on a monthly basis'),
+            new Field('annualPrice', FieldType::PRICE, 'The selling price for a contract renewable on a yearly basis'),
+            new Field('premiumAccess', FieldType::BOOLEAN, 'Whether this plan provides access to premium content'),
+            new Field('editingAccess', FieldType::BOOLEAN, 'Whether this plan provides access to editing content'),
+            new Field('adminAccess', FieldType::BOOLEAN, 'Whether this plan provides access to admin functionality'),
+        ]);
+
+        $dataset->addElement(new DatasetElement([
+            'id' => 1,
+            'name' => 'Admin',
+            'description' => 'Internal plan used to manage the application',
+            'internal' => true,
+            'active' => true,
+            'monthlyPrice' => 0,
+            'annualPrice' => 0,
+            'premiumAccess' => true,
+            'editingAccess' => true,
+            'adminAccess' => true,
+        ]));
+
+        $dataset->addElement(new DatasetElement([
+            'id' => 2,
+            'name' => 'Free',
+            'description' => 'Free plan giving access to basic functionality to registered users',
+            'internal' => false,
+            'active' => true,
+            'monthlyPrice' => 0,
+            'annualPrice' => 0,
+            'premiumAccess' => false,
+            'editingAccess' => false,
+            'adminAccess' => false,
+        ]));
+
+        $dataset->addElement(new DatasetElement([
+            'id' => 3,
+            'name' => 'Premium',
+            'description' => 'Premium plan giving access to premium functionality to registered users',
+            'internal' => false,
+            'active' => true,
+            'monthlyPrice' => '$5',
+            'annualPrice' => '$50',
+            'premiumAccess' => true,
+            'editingAccess' => false,
+            'adminAccess' => false,
+        ]));
+
+        $dataset->addElement(new DatasetElement([
+            'id' => 4,
+            'name' => 'Author',
+            'description' => 'Premium plan giving access to premium and editing functionality to registered users',
+            'internal' => false,
+            'active' => true,
+            'monthlyPrice' => '$10',
+            'annualPrice' => '$100',
+            'premiumAccess' => true,
+            'editingAccess' => true,
+            'adminAccess' => false,
+        ]));
+
+        $businessBundle->addDataset($dataset);
+    }
+
     public static function addSampleBusinessModels(BusinessBundle $businessBundle)
     {
+        self::addSampleDatasets($businessBundle);
+
         $businessModel = new  BusinessModel('User', 'This entity represents a user');
         $businessModel
             ->setAudited(true)

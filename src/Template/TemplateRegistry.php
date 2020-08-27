@@ -131,6 +131,10 @@ class TemplateRegistry
         $this->addTemplate(new Template('Event', new Artifact(Artifact::CODE, 'event', 'php'), $phpExtensions),
             'Generate plain PHP Event classes');
 
+        // PHP DataSet
+        $this->addTemplate(new Template('Dataset', new Artifact(Artifact::CODE, 'dataset', 'php'), $phpExtensions),
+            'Generate plain PHP Dataset classes');
+
         // PHP Entity
         $this->addTemplate(new Template('PlainEntity', new Artifact(Artifact::CODE, 'entity', 'php'), $phpExtensions),
             'Generate plain PHP Entity classes', 'alpha');

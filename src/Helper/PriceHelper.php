@@ -17,6 +17,13 @@ class PriceHelper
     {
         $currency = '';
 
+        return false !== $this->numberFormatter->parseCurrency($value, $currency);
+    }
+
+    public function asFloat(string $value): float
+    {
+        $currency = '';
+
         return $this->numberFormatter->parseCurrency($value, $currency);
     }
 }
