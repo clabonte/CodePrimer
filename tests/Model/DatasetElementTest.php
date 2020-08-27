@@ -61,8 +61,20 @@ class DatasetElementTest extends TestCase
     public function testGetIdentifierValueWithoutDatasetThrowsException()
     {
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('You must assign a Dataset to an element before retrieving its identifier value');
+        $this->expectExceptionMessage('You must assign a Dataset (with an identifier) to an element before retrieving its identifier value');
         $element = new DatasetElement(['url' => 'http://element1.test.com']);
+        $element->getIdentifierValue();
+    }
+
+    public function testGetIdentifierValueWithoutDatasetIdentifierThrowsException()
+    {
+        $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage('You must assign a Dataset (with an identifier) to an element before retrieving its identifier value');
+
+        $dataset = new Dataset('Test');
+        $dataset->addField(new Field('url', FieldType::URL));
+        $element = new DatasetElement(['url' => 'http://element1.test.com']);
+        $element->setDataset($dataset);
         $element->getIdentifierValue();
     }
 

@@ -43,14 +43,14 @@ class DatasetElement
     }
 
     /**
-     * @return string the value assigned to the Dataset's identifier field for this element
+     * @return mixed the value assigned to the Dataset's identifier field for this element
      */
-    public function getIdentifierValue(): string
+    public function getIdentifierValue()
     {
-        if (null !== $this->dataset) {
+        if ((null !== $this->dataset) && (null !== $this->dataset->getIdentifier())) {
             return $this->getValue($this->dataset->getIdentifier()->getName());
         }
-        throw new \LogicException('You must assign a Dataset to an element before retrieving its identifier value');
+        throw new \LogicException('You must assign a Dataset (with an identifier) to an element before retrieving its identifier value');
     }
 
     public function getUniqueName(): string
