@@ -602,7 +602,7 @@ class PhpTwigExtensionTest extends TwigExtensionTest
            'PRICE - $' => [new Field('Test', FieldType::PRICE), '$1,000,100.34', 1000100.34],
            'LIST - String' => [(new Field('Test', FieldType::STRING))->setList(true), 'This is a string', "['This is a string']"],
            'LIST - Integer' => [(new Field('Test', FieldType::INTEGER))->setList(true), 123, '[123]'],
-           'Data - UUID' => [new Data($bundle->getBusinessModel('User'), 'email'), 'test@test.com', "'test@test.com'"],
+           'Data - Email' => [new Data($bundle->getBusinessModel('User'), 'email'), 'test@test.com', "'test@test.com'"],
        ];
     }
 

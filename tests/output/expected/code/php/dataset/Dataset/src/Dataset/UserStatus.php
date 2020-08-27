@@ -8,7 +8,7 @@
 
 namespace CodePrimer\Tests\Dataset;
 
-    use \InvalidArgumentException;
+use \InvalidArgumentException;
 
 /**
  * Class UserStatus

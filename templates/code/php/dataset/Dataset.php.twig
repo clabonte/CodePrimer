@@ -7,9 +7,9 @@
 {# Override the includes block to include the DateTime class if needed #}
 {% block includes %}
     {%~ if model is dateTimeUsed %}
-    use \DateTimeInterface;
+use \DateTimeInterface;
     {%~ endif %}
-    use \InvalidArgumentException;
+use \InvalidArgumentException;
 
 {% endblock %}
 
