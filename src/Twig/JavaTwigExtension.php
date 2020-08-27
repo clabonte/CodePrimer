@@ -112,6 +112,8 @@ class JavaTwigExtension extends LanguageTwigExtension
                 $businessBundle = $context['package'];
                 if ($helper->isBusinessModel($field, $businessBundle)) {
                     $type = $field->getType();
+                } elseif ($helper->isDataset($field, $businessBundle)) {
+                    $type = $field->getType();
                 }
             }
         }
@@ -165,6 +167,8 @@ class JavaTwigExtension extends LanguageTwigExtension
                 /** @var BusinessBundle $businessBundle */
                 $businessBundle = $context['package'];
                 if ($helper->isBusinessModel($field, $businessBundle)) {
+                    $type = $field->getType();
+                } elseif ($helper->isDataset($field, $businessBundle)) {
                     $type = $field->getType();
                 }
             }

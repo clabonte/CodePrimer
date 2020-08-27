@@ -184,6 +184,8 @@ class PhpTwigExtension extends LanguageTwigExtension
                 $businessBundle = $context['package'];
                 if ($helper->isBusinessModel($field, $businessBundle)) {
                     $type = $field->getType();
+                } elseif ($helper->isDataset($field, $businessBundle)) {
+                    $type = $field->getType();
                 }
             }
 
@@ -236,6 +238,8 @@ class PhpTwigExtension extends LanguageTwigExtension
                 $businessBundle = $context['package'];
                 if ($helper->isBusinessModel($field, $businessBundle)) {
                     $type = $field->getType();
+                } elseif ($helper->isDataset($field, $businessBundle)) {
+                    $type = $field->getType();
                 }
             }
         }
@@ -286,6 +290,8 @@ class PhpTwigExtension extends LanguageTwigExtension
                 /** @var BusinessBundle $businessBundle */
                 $businessBundle = $context['package'];
                 if ($helper->isBusinessModel($field, $businessBundle)) {
+                    $type = $field->getType();
+                } elseif ($helper->isDataset($field, $businessBundle)) {
                     $type = $field->getType();
                 }
             }
@@ -370,8 +376,16 @@ class PhpTwigExtension extends LanguageTwigExtension
                 $businessBundle = $context['package'];
                 if ($helper->isBusinessModel($field, $businessBundle)) {
                     throw new InvalidArgumentException('Cannot render a value for Business Model: '.$field->getType());
+                } elseif ($helper->isDataset($field, $businessBundle)) {
+                    $dataset = $businessBundle->getDataset($field->getType());
+                    $element = $dataset->getElement($value);
+                    if (null === $element) {
+                        throw new InvalidArgumentException("Cannot find element $value in Dataset {$dataset->getName()}");
+                    }
+                    $result = $this->classFilter($dataset).'::'.$this->constantFilter($element);
+                } else {
+                    throw new InvalidArgumentException('Cannot render a value for field type: '.$field->getType());
                 }
-                throw new InvalidArgumentException('Cannot render a value for field type: '.$field->getType());
             }
 
             if ($field->isList()) {

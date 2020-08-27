@@ -80,7 +80,8 @@ class LanguageTwigExtension extends AbstractExtension
             new TwigTest('integer', [$this, 'integerTest']),
             new TwigTest('boolean', [$this, 'booleanTest']),
             new TwigTest('string', [$this, 'stringTest']),
-            new TwigTest('entity', [$this, 'entityTest']),
+            new TwigTest('businessModel', [$this, 'businessModelTest']),
+            new TwigTest('dataset', [$this, 'datasetTest']),
             new TwigTest('uuid', [$this, 'uuidTest']),
             new TwigTest('oneToOne', [$this, 'oneToOneTest']),
             new TwigTest('oneToMany', [$this, 'oneToManyTest']),
@@ -294,7 +295,7 @@ class LanguageTwigExtension extends AbstractExtension
      *
      * @return bool
      */
-    public function entityTest($obj, BusinessBundle $businessBundle)
+    public function businessModelTest($obj, BusinessBundle $businessBundle)
     {
         $result = false;
 
@@ -302,6 +303,26 @@ class LanguageTwigExtension extends AbstractExtension
             $result = $this->fieldHelper->isBusinessModel($obj, $businessBundle);
         } elseif ($obj instanceof Data) {
             $result = $this->fieldHelper->isBusinessModel($obj->getField(), $businessBundle);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Test if a field is a Dataset.
+     *
+     * @param mixed $obj The object to test
+     *
+     * @return bool
+     */
+    public function datasetTest($obj, BusinessBundle $businessBundle)
+    {
+        $result = false;
+
+        if ($obj instanceof Field) {
+            $result = $this->fieldHelper->isDataset($obj, $businessBundle);
+        } elseif ($obj instanceof Data) {
+            $result = $this->fieldHelper->isDataset($obj->getField(), $businessBundle);
         }
 
         return $result;
@@ -778,6 +799,8 @@ class LanguageTwigExtension extends AbstractExtension
                 $businessBundle = $context['package'];
                 if ($helper->isBusinessModel($field, $businessBundle)) {
                     $type = $field->getType();
+                } elseif ($helper->isDataset($field, $businessBundle)) {
+                    $type = $field->getType();
                 }
             }
 
@@ -833,6 +856,8 @@ class LanguageTwigExtension extends AbstractExtension
                 /** @var BusinessBundle $businessBundle */
                 $businessBundle = $context['package'];
                 if ($helper->isBusinessModel($field, $businessBundle)) {
+                    $type = $field->getType();
+                } elseif ($helper->isDataset($field, $businessBundle)) {
                     $type = $field->getType();
                 }
             }

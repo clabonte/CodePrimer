@@ -63,7 +63,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     {
         $tests = $this->twigExtension->getTests();
 
-        self::assertCount(14, $tests);
+        self::assertCount(15, $tests);
 
         $this->assertTwigTest('scalar', $tests);
         $this->assertTwigTest('double', $tests);
@@ -74,7 +74,8 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
         $this->assertTwigTest('boolean', $tests);
         $this->assertTwigTest('string', $tests);
         $this->assertTwigTest('uuid', $tests);
-        $this->assertTwigTest('entity', $tests);
+        $this->assertTwigTest('businessModel', $tests);
+        $this->assertTwigTest('dataset', $tests);
         $this->assertTwigTest('oneToOne', $tests);
         $this->assertTwigTest('oneToMany', $tests);
         $this->assertTwigTest('manyToOne', $tests);
@@ -1268,7 +1269,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     {
         $businessBundle = TestHelper::getSampleBusinessBundle();
 
-        $value = $this->twigExtension->entityTest($obj, $businessBundle);
+        $value = $this->twigExtension->businessModelTest($obj, $businessBundle);
 
         self::assertEquals($expectedValue, $value);
     }
@@ -1305,6 +1306,57 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             'Metadata' => [new Field('Test', 'Metadata'), true],
             'DATA - FALSE' => [new Data($businessBundle->getBusinessModel('User'), 'email'), false],
             'DATA - TRUE' => [new Data($businessBundle->getBusinessModel('User'), 'posts'), true],
+            'UNSUPPORTED TYPE' => ['test', false],
+        ];
+    }
+
+    /**
+     * @dataProvider datasetTestProvider
+     *
+     * @param $expectedValue
+     */
+    public function testDatasetTest($obj, $expectedValue)
+    {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
+        $value = $this->twigExtension->datasetTest($obj, $businessBundle);
+
+        self::assertEquals($expectedValue, $value);
+    }
+
+    public function datasetTestProvider()
+    {
+        $businessBundle = TestHelper::getSampleBusinessBundle();
+
+        return [
+            'BOOL' => [new Field('Test', FieldType::BOOL), false],
+            'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), false],
+            'DATE' => [new Field('Test', FieldType::DATE), false],
+            'DATETIME' => [new Field('Test', FieldType::DATETIME), false],
+            'DECIMAL' => [new Field('Test', FieldType::DECIMAL), false],
+            'DOUBLE' => [new Field('Test', FieldType::DOUBLE), false],
+            'EMAIL' => [new Field('Test', FieldType::EMAIL), false],
+            'FLOAT' => [new Field('Test', FieldType::FLOAT), false],
+            'ID' => [new Field('Test', FieldType::ID), false],
+            'INT' => [new Field('Test', FieldType::INT), false],
+            'INTEGER' => [new Field('Test', FieldType::INTEGER), false],
+            'LONG' => [new Field('Test', FieldType::LONG), false],
+            'PASSWORD' => [new Field('Test', FieldType::PASSWORD), false],
+            'PHONE' => [new Field('Test', FieldType::PHONE), false],
+            'PRICE' => [new Field('Test', FieldType::PRICE), false],
+            'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING), false],
+            'STRING' => [new Field('Test', FieldType::STRING), false],
+            'TEXT' => [new Field('Test', FieldType::TEXT), false],
+            'TIME' => [new Field('Test', FieldType::TIME), false],
+            'URL' => [new Field('Test', FieldType::URL), false],
+            'UUID' => [new Field('Test', FieldType::UUID), false],
+            'UNKNOWN' => [new Field('Test', 'Unknown'), false],
+            'BusinessModel - User' => [new Field('Test', 'User'), false],
+            'BusinessModel - UserStats' => [new Field('Test', 'UserStats'), false],
+            'BusinessModel - Metadata' => [new Field('Test', 'Metadata'), false],
+            'BusinessModel - DATA - TRUE' => [new Data($businessBundle->getBusinessModel('User'), 'posts'), false],
+            'Dataset - UserStatus' => [new Field('Test', 'UserStatus'), true],
+            'Dataset - Plan' => [new Field('Test', 'Plan'), true],
             'UNSUPPORTED TYPE' => ['test', false],
         ];
     }
