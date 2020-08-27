@@ -12,12 +12,12 @@ use CodePrimer\Twig\LanguageTwigExtension;
  */
 class PhpDatasetTemplatesTest extends TemplateTestCase
 {
-    const DATASET_EXPECTED_DIR = self::EXPECTED_DIR.'/code/php/dataset/DataSet/';
+    const DATASET_EXPECTED_DIR = self::EXPECTED_DIR.'/code/php/dataset/Dataset/';
 
     /**
      * @throws \Exception
      */
-    public function testDataSetTemplate()
+    public function testDatasetTemplate()
     {
         $this->initEntities();
         $languageExtension = new LanguageTwigExtension();
