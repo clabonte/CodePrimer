@@ -1,0 +1,32 @@
+{# This template generates documentation of an application Dataset using Markdown to include in a repository #}
+# {{ bundle.name }} Dataset
+The following datasets are available to use in your application Data Model
+
+## Table of Contents
+{% for dataset in bundle.datasets %}
+- [{{ dataset|class}}](#{{ dataset|class|lower }})
+{% endfor %}
+
+{# Create the list of tables for each dataset #}
+{% for dataset in bundle.datasets %}
+## `{{ dataset|class }}`
+{{ dataset.description }}
+
+### Structure
+
+| Field | Type | Description | Identifier | Unique Values |
+| ----- | ---- | ----------- | ---------- | ------------- |
+{% for field in dataset.fields %}
+| **{{ field.name }}** | {{ field.type }} | {{ field.description }} | {{ field.identifier|yesNo }} | {{ dataset.isUniqueField(field.name)|yesNo }} |
+{% endfor %}
+
+### Elements
+
+{{ dataset|header }}
+{% for element in dataset.elements %}
+{{ element|row }}
+{% endfor %}
+
+---
+<br/><br/>
+{% endfor %}

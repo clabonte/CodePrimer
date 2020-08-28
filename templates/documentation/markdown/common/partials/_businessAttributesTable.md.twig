@@ -4,5 +4,5 @@
 | Name | Type | Description | Mandatory | Default | Example | Searchable | Unique |
 | ---- | ---- | ----------- | --------- | ------- | ------- | ---------- | ------ |
 {% for field in businessModelHelper.listBusinessAttributeFields(businessModel, bundle) %}
-| **{{ field.name }}** | {{ field.type }} | {{ field.description }} | {{ field.mandatory|yesNo }} | *{{ field.mandatory ? 'N/A' : field.default ?? 'Empty' }}* | {{ field.example }} | {{ field.searchable|yesNo }} | {{ businessModelHelper.isUniqueField(businessModel, field.name)|yesNo }} |
+| **{{ field.name }}** | {{ field|type }} | {{ field.description }} | {{ field.mandatory|yesNo }} | *{{ field.mandatory ? 'N/A' : field.default ?? 'Empty' }}* | {{ field.example }} | {{ field.searchable|yesNo }} | {{ businessModelHelper.isUniqueField(businessModel, field.name)|yesNo }} |
 {% endfor %}

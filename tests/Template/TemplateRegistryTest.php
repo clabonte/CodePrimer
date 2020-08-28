@@ -43,7 +43,7 @@ class TemplateRegistryTest extends TestCase
         self::assertEmpty($templates);
 
         $templates = $this->registry->listTemplates(Artifact::DOCUMENTATION);
-        self::assertCount(3, $templates);
+        self::assertCount(4, $templates);
 
         $templates = $this->registry->listTemplates(Artifact::PROJECT);
         self::assertCount(1, $templates);
@@ -74,6 +74,7 @@ class TemplateRegistryTest extends TestCase
             'Project Symfony' => [Artifact::PROJECT, 'Symfony', 1],
             'Documentation Model' => [Artifact::DOCUMENTATION, 'Model', 1],
             'Documentation Process' => [Artifact::DOCUMENTATION, 'Process', 2],
+            'Documentation Dataset' => [Artifact::DOCUMENTATION, 'Dataset', 1],
         ];
     }
 
@@ -99,6 +100,7 @@ class TemplateRegistryTest extends TestCase
             'Project Symfony - sh' => [Artifact::PROJECT, 'Symfony', 'sh', 1],
             'Documentation Model - markdown' => [Artifact::DOCUMENTATION, 'Model', 'markdown', 1],
             'Documentation Process - markdown' => [Artifact::DOCUMENTATION, 'Process', 'markdown', 2],
+            'Documentation Dataset - markdown' => [Artifact::DOCUMENTATION, 'Dataset', 'markdown', 1],
         ];
     }
 

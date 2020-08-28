@@ -30,6 +30,7 @@ class ArtifactBuilderFactory
         $this->builders[Artifact::DOCUMENTATION] = [
             'model' => BundleDocumentationBuilder::class,
             'process' => BundleDocumentationBuilder::class,
+            'dataset' => BundleDocumentationBuilder::class,
         ];
     }
 

@@ -18,8 +18,8 @@ Event triggered when user wants to schedule a post at a given time
 
 | BusinessModel | Field | Type | Mandatory | Level |
 | ------------- | ----- | ---- | --------- | ----- |
-| [Post](../DataModel/Overview.md#post) | id | uuid | yes | *N/A* |
-| [Post](../DataModel/Overview.md#post) | scheduled | datetime | yes | *N/A* |
+| [`Post`](../DataModel/Overview.md#post) | id | uuid | yes | *N/A* |
+| [`Post`](../DataModel/Overview.md#post) | scheduled | datetime | yes | *N/A* |
 
 ## Required Data
 N/A - *This process does not require any other data to process the event*
@@ -33,11 +33,11 @@ User information to add to the context
 
 | BusinessModel | Field | Type | Level |
 | ------------- | ----- | ---- | ----- |
-| [User](../DataModel/Overview.md#user) | id | uuid | *N/A* |
-| [User](../DataModel/Overview.md#user) | firstName | string | *N/A* |
-| [User](../DataModel/Overview.md#user) | lastName | string | *N/A* |
-| [User](../DataModel/Overview.md#user) | nickname | string | *N/A* |
-| [User](../DataModel/Overview.md#user) | email | email | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | id | uuid | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | firstName | string | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | lastName | string | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | nickname | string | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | email | email | *N/A* |
 
 
 

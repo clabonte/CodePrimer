@@ -49,9 +49,9 @@ class TestHelper
         // Define a user status
         $dataset = new Dataset('UserStatus', 'List of statuses that can be associated with a User');
         $dataset->setFields([
-            (new Field('name', FieldType::STRING))->setIdentifier(true),
-            new Field('description', FieldType::STRING),
-            new Field('loginAllowed', FieldType::BOOLEAN),
+            (new Field('name', FieldType::STRING, 'The name of the status'))->setIdentifier(true),
+            new Field('description', FieldType::STRING, 'A description of what this status means'),
+            new Field('loginAllowed', FieldType::BOOLEAN, 'Whether this status allows the user to log on our application'),
         ]);
 
         $dataset->addElement(new DatasetElement([
