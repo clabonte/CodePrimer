@@ -10,6 +10,7 @@ use CodePrimer\Template\TemplateRegistry;
 use Twig\Loader\FilesystemLoader;
 
 require '../vendor/autoload.php';
+require 'DatasetFactory.php';
 require 'BusinessModelFactory.php';
 require 'BusinessProcessFactory.php';
 
@@ -57,12 +58,17 @@ class ChannelApp
         $artifact = new Artifact(Artifact::PROJECT, 'Symfony', 'sh', 'setup');
         $this->primeArtifact($artifact);
 
-        // 2. Prime 'Business Model' source code
+        // 2. Prime 'Dataset' source code
+        $this->templateRenderer->setBaseFolder(self::PROJECT_OUTPUT_PATH);
+        $artifact = new Artifact(Artifact::CODE, 'dataset', 'php');
+        $this->primeArtifact($artifact);
+
+        // 3. Prime 'Business Model' source code
         $this->templateRenderer->setBaseFolder(self::PROJECT_OUTPUT_PATH);
         $artifact = new Artifact(Artifact::CODE, 'model', 'php');
         $this->primeArtifact($artifact);
 
-        // 3. Prime 'Event' source code
+        // 4. Prime 'Event' source code
         $this->templateRenderer->setBaseFolder(self::PROJECT_OUTPUT_PATH);
         $artifact = new Artifact(Artifact::CODE, 'event', 'php');
         $this->primeArtifact($artifact);
@@ -89,17 +95,22 @@ class ChannelApp
      */
     public function primeMarkdownArtifacts()
     {
-        // 1. Prime 'Data Model' documentation in Markdown
+        // 1. Prime 'Dataset' documentation in Markdown
+        $this->templateRenderer->setBaseFolder(self::PROJECT_OUTPUT_PATH);
+        $artifact = new Artifact(Artifact::DOCUMENTATION, 'dataset', 'markdown');
+        $this->primeArtifact($artifact);
+
+        // 2. Prime 'Data Model' documentation in Markdown
         $this->templateRenderer->setBaseFolder(self::PROJECT_OUTPUT_PATH);
         $artifact = new Artifact(Artifact::DOCUMENTATION, 'model', 'markdown');
         $this->primeArtifact($artifact);
 
-        // 2. Prime 'Processing Model' overview documentation in Markdown
+        // 3. Prime 'Processing Model' overview documentation in Markdown
         $this->templateRenderer->setBaseFolder(self::PROJECT_OUTPUT_PATH);
         $artifact = new Artifact(Artifact::DOCUMENTATION, 'process', 'markdown', 'index');
         $this->primeArtifact($artifact);
 
-        // 3. Prime 'Processing Model' detailed documentation in Markdown
+        // 4. Prime 'Processing Model' detailed documentation in Markdown
         $this->templateRenderer->setBaseFolder(self::PROJECT_OUTPUT_PATH);
         $artifact = new Artifact(Artifact::DOCUMENTATION, 'process', 'markdown', 'details');
         $this->primeArtifact($artifact);
@@ -141,14 +152,17 @@ class ChannelApp
         // Step 1 - Create the Business Bundle that will contain your model
         $this->businessBundle = $this->createBusinessBundle();
 
-        // Step 2 - Add your Business Data Model to your Bundle
+        // Step 2 - Add your Datasets to your Bundle
+        $this->initDatasets($this->businessBundle);
+
+        // Step 3 - Add your Business Data Model to your Bundle
         $this->initBusinessDataModel($this->businessBundle);
 
         // Prepare the relationships for a relational database
         $adapter = new RelationalDatabaseAdapter();
         $adapter->generateRelationalFields($this->businessBundle);
 
-        // Step 3 - Add your Business Process Model to your Bundle
+        // Step 4 - Add your Business Process Model to your Bundle
         $this->initBusinessProcessingModel($this->businessBundle);
     }
 
@@ -165,6 +179,15 @@ class ChannelApp
         return $bundle;
     }
 
+    private function initDatasets(BusinessBundle $bundle)
+    {
+        $factory = new DatasetFactory();
+
+        $bundle->addDataset($factory->createUserRole());
+        $bundle->addDataset($factory->createUserStatus());
+        $bundle->addDataset($factory->createArticleStatus());
+    }
+
     /**
      * Creates the application's Business Data Model for a given 'Business Bundle'.
      *
@@ -173,7 +196,7 @@ class ChannelApp
     private function initBusinessDataModel(BusinessBundle $bundle)
     {
         // Create the BusinessModel objects defining the application's data model
-        $modelFactory = new BusinessModelFactory();
+        $modelFactory = new BusinessModelFactory($bundle);
 
         $bundle->addBusinessModel($modelFactory->createUserDataModel());
         $bundle->addBusinessModel($modelFactory->createArticleDataModel());

@@ -13,11 +13,13 @@ This process is triggered when a user wants to login with our application. Upon 
 ## Login Request Event
 Event triggered when user wants to login with the application
 ### Data
-    
-| BusinessModel | Field | Mandatory | Level |
-| ------------- | ----- | --------- | ----- |
-| [User](../DataModel/Overview.md#user) | email | yes | Basic |
-| [User](../DataModel/Overview.md#user) | password | yes | Basic |
+
+**Type**: Structure
+
+| BusinessModel | Field | Type | Mandatory | Level |
+| ------------- | ----- | ---- | --------- | ----- |
+| [`User`](../DataModel/Overview.md#user) | email | email | yes | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | password | password | yes | *N/A* |
 
 ## Required Data
 N/A - *This process does not require any other data to process the event*
@@ -27,15 +29,20 @@ Upon successful completion, this process will produce/update the following data:
 ### Context Data
 User information to add to the context
 
-| BusinessModel | Field | Level |
-| ------------- | ----- | ----- |
-| [User](../DataModel/Overview.md#user) | id | Basic |
-| [User](../DataModel/Overview.md#user) | firstName | Basic |
-| [User](../DataModel/Overview.md#user) | lastName | Basic |
-| [User](../DataModel/Overview.md#user) | nickname | Basic |
-| [User](../DataModel/Overview.md#user) | email | Basic |
+**Type**: Structure
+
+| BusinessModel | Field | Type | Level |
+| ------------- | ----- | ---- | ----- |
+| [`User`](../DataModel/Overview.md#user) | id | uuid | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | firstName | string | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | lastName | string | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | nickname | string | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | email | email | *N/A* |
 
 
+
+## Returned Data
+N/A - *This process does not produce/update any data*
 
 ## Messages
 ### Message user.login
@@ -43,13 +50,13 @@ user.login: Message published when a user has successfully authenticated with ou
 
 **Data**:
 
-| BusinessModel | Field | Type | Description | Level |
-| ------------- | ----- | ---- | ----------- | ------|
-| [User](../DataModel/Overview.md#user) | id | uuid | User&#039;s unique ID in our system | Basic |
-| [User](../DataModel/Overview.md#user) | firstName | string | User first name | Basic |
-| [User](../DataModel/Overview.md#user) | lastName | string | User last name | Basic |
-| [User](../DataModel/Overview.md#user) | nickname | string | The name used to identify this user publicly in the application | Basic |
-| [User](../DataModel/Overview.md#user) | email | email | User email address | Basic |
+| Variable | Type | BusinessModel | Field | Description | Level |
+| -------- | ---- | ------------- | ----- | ----------- | ------|
+| id | uuid | [`User`](../DataModel/Overview.md#user) | id | Business model unique identifier field | *N/A* |
+| firstName | string | [`User`](../DataModel/Overview.md#user) | firstName | User first name | *N/A* |
+| lastName | string | [`User`](../DataModel/Overview.md#user) | lastName | User last name | *N/A* |
+| nickname | string | [`User`](../DataModel/Overview.md#user) | nickname | The name used to identify this user publicly in the application | *N/A* |
+| email | email | [`User`](../DataModel/Overview.md#user) | email | User email address | *N/A* |
 
 **Example**:
 

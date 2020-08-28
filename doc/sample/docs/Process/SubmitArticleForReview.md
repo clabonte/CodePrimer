@@ -13,19 +13,23 @@ This process is triggered when an author has finished editing an article and is 
 ## Submit Article Event
 Event triggered when an article is submitted for review
 ### Data
-    
-| BusinessModel | Field | Mandatory | Level |
-| ------------- | ----- | --------- | ----- |
-| [Article](../DataModel/Overview.md#article) | id | yes | Basic |
+
+**Type**: Structure
+
+| BusinessModel | Field | Type | Mandatory | Level |
+| ------------- | ----- | ---- | --------- | ----- |
+| [`Article`](../DataModel/Overview.md#article) | id | uuid | yes | *N/A* |
 
 ## Required Data
 In order to handle the event above, this process also needs the following data:
 ### Context Data
 Retrieve the user id from the context to ensure he is the article&#039;s author
 
-| BusinessModel | Field | Level |
-| ------------- | ----- | ----- |
-| [User](../DataModel/Overview.md#user) | id | Basic |
+**Type**: Structure
+
+| BusinessModel | Field | Type | Level |
+| ------------- | ----- | ---- | ----- |
+| [`User`](../DataModel/Overview.md#user) | id | uuid | *N/A* |
 
 
 
@@ -35,10 +39,15 @@ Upon successful completion, this process will produce/update the following data:
 ### Internal Data
 Update the article status
 
-| BusinessModel | Field | Level |
-| ------------- | ----- | ----- |
-| [Article](../DataModel/Overview.md#article) | status | Basic |
+**Type**: Structure
 
+| BusinessModel | Field | Type | Level |
+| ------------- | ----- | ---- | ----- |
+| [`Article`](../DataModel/Overview.md#article) | status | [`ArticleStatus`](../Dataset/Overview.md#articlestatus) | Reference |
+
+
+## Returned Data
+N/A - *This process does not produce/update any data*
 
 ## Messages
 N/A - *This process does not produce any message*

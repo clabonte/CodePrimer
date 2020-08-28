@@ -2,6 +2,7 @@
 
 use CodePrimer\Helper\BusinessModelHelper;
 use CodePrimer\Helper\FieldType;
+use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Field;
@@ -11,10 +12,21 @@ use CodePrimer\Model\Field;
  */
 class BusinessModelFactory
 {
+    /** @var BusinessBundle */
+    private $businessBundle;
+
+    /**
+     * BusinessModelFactory constructor.
+     */
+    public function __construct(BusinessBundle $businessBundle)
+    {
+        $this->businessBundle = $businessBundle;
+    }
+
     /** Creates the 'User' BusinessModel for our sample application.
      * @see https://github.com/clabonte/codeprimer/blob/sample-app/doc/sample/DataModel.md
      */
-    public function createUserDataModel()
+    public function createUserDataModel(): BusinessModel
     {
         $businessModelHelper = new BusinessModelHelper();
 
@@ -48,21 +60,19 @@ class BusinessModelFactory
                 (new Field('password', FieldType::PASSWORD, 'User password to access our application'))
                     ->setMandatory(true)
             )
-            // TODO Replace by a DataSet once this feature is available
             ->addField(
-                (new Field('role', FieldType::STRING, 'User role in the application'))
-                    ->setExample('member')
+                (new Field('role', 'UserRole', 'User role in the application'))
+                    ->setExample('member', $this->businessBundle)
                     ->setMandatory(true)
-                    ->setDefault('member')
+                    ->setDefault('member', $this->businessBundle)
                     ->setSearchable(true)
                     ->setManaged(true)
             )
-            // TODO Replace by a DataSet once this feature is available
             ->addField(
-                (new Field('status', FieldType::STRING, 'User status'))
-                    ->setExample('active')
+                (new Field('status', 'UserStatus', 'User status'))
+                    ->setExample('active', $this->businessBundle)
                     ->setMandatory(true)
-                    ->setDefault('active')
+                    ->setDefault('active', $this->businessBundle)
                     ->setSearchable(true)
                     ->setManaged(true)
             )
@@ -126,12 +136,11 @@ class BusinessModelFactory
                 (new Field('body', FieldType::TEXT, 'The article main body'))
                     ->setSearchable(true)
             )
-            // TODO Replace by a DataSet once this feature is available
             ->addField(
-                (new Field('status', FieldType::STRING, 'The article status'))
-                    ->setExample('draft')
+                (new Field('status', 'ArticleStatus', 'The article status'))
+                    ->setExample('draft', $this->businessBundle)
                     ->setMandatory(true)
-                    ->setDefault('draft')
+                    ->setDefault('draft', $this->businessBundle)
                     ->setSearchable(true)
             )
 
