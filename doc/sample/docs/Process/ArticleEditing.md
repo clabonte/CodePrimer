@@ -13,23 +13,27 @@ This process is triggered when an author wants to modify one of his existing art
 ## Update Article Event
 Event triggered when an existing article is updated by its author
 ### Data
-    
-| BusinessModel | Field | Mandatory | Level |
-| ------------- | ----- | --------- | ----- |
-| [Article](../DataModel/Overview.md#article) | topic | no | Reference |
-| [Article](../DataModel/Overview.md#article) | title | no | Basic |
-| [Article](../DataModel/Overview.md#article) | body | no | Basic |
-| [Article](../DataModel/Overview.md#article) | description | no | Basic |
-| [Article](../DataModel/Overview.md#article) | labels | no | Full |
+
+**Type**: Structure
+
+| BusinessModel | Field | Type | Mandatory | Level |
+| ------------- | ----- | ---- | --------- | ----- |
+| [`Article`](../DataModel/Overview.md#article) | topic | [`Topic`](../DataModel/Overview.md#topic) | no | Reference |
+| [`Article`](../DataModel/Overview.md#article) | title | string | no | *N/A* |
+| [`Article`](../DataModel/Overview.md#article) | body | text | no | *N/A* |
+| [`Article`](../DataModel/Overview.md#article) | description | text | no | *N/A* |
+| [`Article`](../DataModel/Overview.md#article) | labels | List of [`Label`](../DataModel/Overview.md#label) | no | Full |
 
 ## Required Data
 In order to handle the event above, this process also needs the following data:
 ### Context Data
 Retrieve the user id from the context to ensure he is the article&#039;s author
 
-| BusinessModel | Field | Level |
-| ------------- | ----- | ----- |
-| [User](../DataModel/Overview.md#user) | id | Basic |
+**Type**: Structure
+
+| BusinessModel | Field | Type | Level |
+| ------------- | ----- | ---- | ----- |
+| [`User`](../DataModel/Overview.md#user) | id | uuid | *N/A* |
 
 
 
@@ -39,20 +43,25 @@ Upon successful completion, this process will produce/update the following data:
 ### Internal Data
 Update the article internally
 
-| BusinessModel | Field | Level |
-| ------------- | ----- | ----- |
-| [Article](../DataModel/Overview.md#article) | title | Basic |
-| [Article](../DataModel/Overview.md#article) | description | Basic |
-| [Article](../DataModel/Overview.md#article) | body | Basic |
-| [Article](../DataModel/Overview.md#article) | status | Basic |
-| [Article](../DataModel/Overview.md#article) | author | Reference |
-| [Article](../DataModel/Overview.md#article) | topic | Reference |
-| [Article](../DataModel/Overview.md#article) | labels | Reference |
-| [Article](../DataModel/Overview.md#article) | views | Reference |
-| [Article](../DataModel/Overview.md#article) | id | Basic |
-| [Article](../DataModel/Overview.md#article) | created | Basic |
-| [Article](../DataModel/Overview.md#article) | updated | Basic |
+**Type**: Structure
 
+| BusinessModel | Field | Type | Level |
+| ------------- | ----- | ---- | ----- |
+| [`Article`](../DataModel/Overview.md#article) | title | string | *N/A* |
+| [`Article`](../DataModel/Overview.md#article) | description | text | *N/A* |
+| [`Article`](../DataModel/Overview.md#article) | body | text | *N/A* |
+| [`Article`](../DataModel/Overview.md#article) | status | [`ArticleStatus`](../Dataset/Overview.md#articlestatus) | Reference |
+| [`Article`](../DataModel/Overview.md#article) | author | [`User`](../DataModel/Overview.md#user) | Reference |
+| [`Article`](../DataModel/Overview.md#article) | topic | [`Topic`](../DataModel/Overview.md#topic) | Reference |
+| [`Article`](../DataModel/Overview.md#article) | labels | List of [`Label`](../DataModel/Overview.md#label) | Reference |
+| [`Article`](../DataModel/Overview.md#article) | views | List of [`ArticleView`](../DataModel/Overview.md#articleview) | Reference |
+| [`Article`](../DataModel/Overview.md#article) | id | uuid | *N/A* |
+| [`Article`](../DataModel/Overview.md#article) | created | datetime | *N/A* |
+| [`Article`](../DataModel/Overview.md#article) | updated | datetime | *N/A* |
+
+
+## Returned Data
+N/A - *This process does not produce/update any data*
 
 ## Messages
 ### Message article.updated
@@ -60,18 +69,18 @@ article.updated: Message published when an existing article has been updated by 
 
 **Data**:
 
-| BusinessModel | Field | Type | Description | Level |
-| ------------- | ----- | ---- | ----------- | ------|
-| [Article](../DataModel/Overview.md#article) | title | string | Article title | Basic |
-| [Article](../DataModel/Overview.md#article) | description | text | Article description | Basic |
-| [Article](../DataModel/Overview.md#article) | body | text | The article main body | Basic |
-| [Article](../DataModel/Overview.md#article) | status | string | The article status | Basic |
-| [Article](../DataModel/Overview.md#article) | author | [User](../DataModel/Overview.md#user) | User who created the article | Full |
-| [Article](../DataModel/Overview.md#article) | topic | [Topic](../DataModel/Overview.md#topic) | Topic to which this article belongs | Full |
-| [Article](../DataModel/Overview.md#article) | labels | List of [Label](../DataModel/Overview.md#label) | List of labels associated with this article by the author | Full |
-| [Article](../DataModel/Overview.md#article) | id | uuid | Article&#039;s unique ID in our system | Basic |
-| [Article](../DataModel/Overview.md#article) | created | datetime | The date and time at which this article was created | Basic |
-| [Article](../DataModel/Overview.md#article) | updated | datetime | The date and time at which this article was updated | Basic |
+| Variable | Type | BusinessModel | Field | Description | Level |
+| -------- | ---- | ------------- | ----- | ----------- | ------|
+| title | string | [`Article`](../DataModel/Overview.md#article) | title | Article title | *N/A* |
+| description | text | [`Article`](../DataModel/Overview.md#article) | description | Article description | *N/A* |
+| body | text | [`Article`](../DataModel/Overview.md#article) | body | The article main body | *N/A* |
+| status | [`ArticleStatus`](../Dataset/Overview.md#articlestatus) | [`Article`](../DataModel/Overview.md#article) | status | The article status | Full |
+| author | [`User`](../DataModel/Overview.md#user) | [`Article`](../DataModel/Overview.md#article) | author | User who created the article | Full |
+| topic | [`Topic`](../DataModel/Overview.md#topic) | [`Article`](../DataModel/Overview.md#article) | topic | Topic to which this article belongs | Full |
+| labels | List of [`Label`](../DataModel/Overview.md#label) | [`Article`](../DataModel/Overview.md#article) | labels | List of labels associated with this article by the author | Full |
+| id | uuid | [`Article`](../DataModel/Overview.md#article) | id | Business model unique identifier field | *N/A* |
+| created | datetime | [`Article`](../DataModel/Overview.md#article) | created | The date and time at which this Article was created | *N/A* |
+| updated | datetime | [`Article`](../DataModel/Overview.md#article) | updated | The date and time at which this Article was last updated | *N/A* |
 
 **Example**:
 

@@ -13,14 +13,16 @@ This process is triggered when a user wants to register with our application. Up
 ## Registration Request Event
 Event triggered when user wants to register with the application
 ### Data
-    
-| BusinessModel | Field | Mandatory | Level |
-| ------------- | ----- | --------- | ----- |
-| [User](../DataModel/Overview.md#user) | email | yes | Basic |
-| [User](../DataModel/Overview.md#user) | password | yes | Basic |
-| [User](../DataModel/Overview.md#user) | firstName | no | Basic |
-| [User](../DataModel/Overview.md#user) | lastName | no | Basic |
-| [User](../DataModel/Overview.md#user) | nickname | no | Basic |
+
+**Type**: Structure
+
+| BusinessModel | Field | Type | Mandatory | Level |
+| ------------- | ----- | ---- | --------- | ----- |
+| [`User`](../DataModel/Overview.md#user) | email | email | yes | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | password | password | yes | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | firstName | string | no | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | lastName | string | no | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | nickname | string | no | *N/A* |
 
 ## Required Data
 N/A - *This process does not require any other data to process the event*
@@ -31,19 +33,24 @@ Upon successful completion, this process will produce/update the following data:
 ### Internal Data
 User profile created
 
-| BusinessModel | Field | Level |
-| ------------- | ----- | ----- |
-| [User](../DataModel/Overview.md#user) | firstName | Basic |
-| [User](../DataModel/Overview.md#user) | lastName | Basic |
-| [User](../DataModel/Overview.md#user) | nickname | Basic |
-| [User](../DataModel/Overview.md#user) | email | Basic |
-| [User](../DataModel/Overview.md#user) | password | Basic |
-| [User](../DataModel/Overview.md#user) | role | Basic |
-| [User](../DataModel/Overview.md#user) | status | Basic |
-| [User](../DataModel/Overview.md#user) | id | Basic |
-| [User](../DataModel/Overview.md#user) | created | Basic |
-| [User](../DataModel/Overview.md#user) | updated | Basic |
+**Type**: Structure
 
+| BusinessModel | Field | Type | Level |
+| ------------- | ----- | ---- | ----- |
+| [`User`](../DataModel/Overview.md#user) | firstName | string | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | lastName | string | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | nickname | string | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | email | email | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | password | password | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | role | [`UserRole`](../Dataset/Overview.md#userrole) | Reference |
+| [`User`](../DataModel/Overview.md#user) | status | [`UserStatus`](../Dataset/Overview.md#userstatus) | Reference |
+| [`User`](../DataModel/Overview.md#user) | id | uuid | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | created | datetime | *N/A* |
+| [`User`](../DataModel/Overview.md#user) | updated | datetime | *N/A* |
+
+
+## Returned Data
+N/A - *This process does not produce/update any data*
 
 ## Messages
 ### Message user.new
@@ -51,17 +58,17 @@ user.new: Message published when a new user has been created in our application
 
 **Data**:
 
-| BusinessModel | Field | Type | Description | Level |
-| ------------- | ----- | ---- | ----------- | ------|
-| [User](../DataModel/Overview.md#user) | firstName | string | User first name | Basic |
-| [User](../DataModel/Overview.md#user) | lastName | string | User last name | Basic |
-| [User](../DataModel/Overview.md#user) | nickname | string | The name used to identify this user publicly in the application | Basic |
-| [User](../DataModel/Overview.md#user) | email | email | User email address | Basic |
-| [User](../DataModel/Overview.md#user) | role | string | User role in the application | Basic |
-| [User](../DataModel/Overview.md#user) | status | string | User status | Basic |
-| [User](../DataModel/Overview.md#user) | id | uuid | User&#039;s unique ID in our system | Basic |
-| [User](../DataModel/Overview.md#user) | created | datetime | The date and time at which this user was created | Basic |
-| [User](../DataModel/Overview.md#user) | updated | datetime | The date and time at which this user was updated | Basic |
+| Variable | Type | BusinessModel | Field | Description | Level |
+| -------- | ---- | ------------- | ----- | ----------- | ------|
+| firstName | string | [`User`](../DataModel/Overview.md#user) | firstName | User first name | *N/A* |
+| lastName | string | [`User`](../DataModel/Overview.md#user) | lastName | User last name | *N/A* |
+| nickname | string | [`User`](../DataModel/Overview.md#user) | nickname | The name used to identify this user publicly in the application | *N/A* |
+| email | email | [`User`](../DataModel/Overview.md#user) | email | User email address | *N/A* |
+| role | [`UserRole`](../Dataset/Overview.md#userrole) | [`User`](../DataModel/Overview.md#user) | role | User role in the application | Reference |
+| status | [`UserStatus`](../Dataset/Overview.md#userstatus) | [`User`](../DataModel/Overview.md#user) | status | User status | Reference |
+| id | uuid | [`User`](../DataModel/Overview.md#user) | id | Business model unique identifier field | *N/A* |
+| created | datetime | [`User`](../DataModel/Overview.md#user) | created | The date and time at which this User was created | *N/A* |
+| updated | datetime | [`User`](../DataModel/Overview.md#user) | updated | The date and time at which this User was last updated | *N/A* |
 
 **Example**:
 

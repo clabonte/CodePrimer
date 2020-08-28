@@ -20,13 +20,18 @@ In order to handle the event above, this process also needs the following data:
 ### Context Data
 Information from the context about the user to logout
 
-| BusinessModel | Field | Level |
-| ------------- | ----- | ----- |
-| [User](../DataModel/Overview.md#user) | id | Basic |
+**Type**: Structure
+
+| BusinessModel | Field | Type | Level |
+| ------------- | ----- | ---- | ----- |
+| [`User`](../DataModel/Overview.md#user) | id | uuid | *N/A* |
 
 
 
 ## Produced Data
+N/A - *This process does not produce/update any data*
+
+## Returned Data
 N/A - *This process does not produce/update any data*
 
 ## Messages
@@ -35,13 +40,13 @@ user.logout: Message published when a user has successfully logged out from our 
 
 **Data**:
 
-| BusinessModel | Field | Type | Description | Level |
-| ------------- | ----- | ---- | ----------- | ------|
-| [User](../DataModel/Overview.md#user) | id | uuid | User&#039;s unique ID in our system | Basic |
-| [User](../DataModel/Overview.md#user) | firstName | string | User first name | Basic |
-| [User](../DataModel/Overview.md#user) | lastName | string | User last name | Basic |
-| [User](../DataModel/Overview.md#user) | nickname | string | The name used to identify this user publicly in the application | Basic |
-| [User](../DataModel/Overview.md#user) | email | email | User email address | Basic |
+| Variable | Type | BusinessModel | Field | Description | Level |
+| -------- | ---- | ------------- | ----- | ----------- | ------|
+| id | uuid | [`User`](../DataModel/Overview.md#user) | id | Business model unique identifier field | *N/A* |
+| firstName | string | [`User`](../DataModel/Overview.md#user) | firstName | User first name | *N/A* |
+| lastName | string | [`User`](../DataModel/Overview.md#user) | lastName | User last name | *N/A* |
+| nickname | string | [`User`](../DataModel/Overview.md#user) | nickname | The name used to identify this user publicly in the application | *N/A* |
+| email | email | [`User`](../DataModel/Overview.md#user) | email | User email address | *N/A* |
 
 **Example**:
 

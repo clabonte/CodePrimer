@@ -272,12 +272,12 @@ class FieldHelper
         return $result;
     }
 
-    public function isValueCompatible(Field $field, $value)
+    public function isValueCompatible(Field $field, $value, BusinessBundle $bundle = null)
     {
-        return $this->isValidTypeValue($field->getType(), $value);
+        return $this->isValidTypeValue($field->getType(), $value, $bundle);
     }
 
-    public function isValidTypeValue(string $type, $value)
+    public function isValidTypeValue(string $type, $value, BusinessBundle $bundle = null)
     {
         $result = false;
 
@@ -354,6 +354,14 @@ class FieldHelper
                     $result = $priceHelper->isValidPrice($value);
                 }
                 break;
+            default:
+                if (null !== $bundle) {
+                    $dataset = $bundle->getDataset($type);
+                    if (null !== $dataset) {
+                        $element = $dataset->getElement($value);
+                        $result = null !== $element;
+                    }
+                }
         }
 
         return $result;

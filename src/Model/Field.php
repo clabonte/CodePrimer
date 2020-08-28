@@ -110,11 +110,11 @@ class Field
     /**
      * @return Field
      */
-    public function setDefault($default): self
+    public function setDefault($default, BusinessBundle $bundle = null): self
     {
         if (!empty($default)) {
             $helper = new FieldHelper();
-            if (!$helper->isValidTypeValue($this->type, $default)) {
+            if (!$helper->isValidTypeValue($this->type, $default, $bundle)) {
                 throw new InvalidArgumentException("'$default' is not a valid value for type '{$this->type}' as defined for field {$this->name}");
             }
         }
@@ -131,11 +131,11 @@ class Field
     /**
      * @return Field
      */
-    public function setExample($example): self
+    public function setExample($example, BusinessBundle $bundle = null): self
     {
         if (!empty($example)) {
             $helper = new FieldHelper();
-            if (!$helper->isValidTypeValue($this->type, $example)) {
+            if (!$helper->isValidTypeValue($this->type, $example, $bundle)) {
                 throw new InvalidArgumentException("'$example' is not a valid value for type '{$this->type}' as defined for field {$this->name}");
             }
         }

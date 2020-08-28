@@ -749,7 +749,7 @@ class FieldHelperTest extends TestCase
      */
     public function testIsValueCompatible(Field $field, $value, bool $expectedResult)
     {
-        self::assertEquals($expectedResult, $this->helper->isValueCompatible($field, $value));
+        self::assertEquals($expectedResult, $this->helper->isValueCompatible($field, $value, TestHelper::getSampleBusinessBundle()));
     }
 
     public function isValueCompatibleProvider()
@@ -844,6 +844,8 @@ class FieldHelperTest extends TestCase
             'PRICE - invalid - no currency' => [new Field('Test', FieldType::PRICE), '1,000,100.34', false],
             'PRICE - invalid - space after $' => [new Field('Test', FieldType::PRICE), '$ 1,000,100.34', false],
             'PRICE - invalid - wrong $ location' => [new Field('Test', FieldType::PRICE), '1,000,100.34$', false],
+            'Dataset - valid' => [new Field('Test', 'UserStatus'), 'active', true],
+            'Dataset - invalid' => [new Field('Test', 'UserStatus'), 'unknown', false],
         ];
     }
 }
