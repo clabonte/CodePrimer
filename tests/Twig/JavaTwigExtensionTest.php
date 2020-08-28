@@ -304,6 +304,11 @@ class JavaTwigExtensionTest extends TwigExtensionTest
                     ->setList(true),
                 'User',
             ],
+            'DATASET' => [
+                (new Field('Test', 'Plan', 'Test Description', true))
+                    ->setList(true),
+                'Plan',
+            ],
             'DATA - TOPIC' => [new Data($businessBundle->getBusinessModel('User'), 'topics'), 'Topic'],
         ];
     }

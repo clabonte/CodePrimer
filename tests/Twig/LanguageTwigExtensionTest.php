@@ -663,6 +663,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             'ENTITY' => [new Field('Test', 'User', 'Test Description', true), 'User'],
             'OPTIONAL ENTITY' => [new Field('Test', 'User'), 'User (Optional)'],
             'DATA - EMAIL' => [new Data($businessBundle->getBusinessModel('User'), 'email'), 'string'],
+            'DATASET' => [new Field('Test', 'UserStatus', 'Test Description', true), 'UserStatus'],
         ];
     }
 
@@ -803,6 +804,11 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
                 (new Field('Test', 'User', 'Test Description', true))
                     ->setList(true),
                 'User',
+            ],
+            'DATASET' => [
+                (new Field('Test', 'Plan', 'Test Description', true))
+                    ->setList(true),
+                'Plan',
             ],
             'DATA - TOPIC' => [new Data($businessBundle->getBusinessModel('User'), 'topics'), 'Topic'],
         ];
