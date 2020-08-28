@@ -7,6 +7,7 @@ use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\Database\Index;
+use CodePrimer\Model\Dataset;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Relationship;
 use CodePrimer\Model\RelationshipSide;
@@ -123,7 +124,7 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
      *
      * @return Index[]
      */
-    public function getIndexes(BusinessModel $businessModel): array
+    public function getBusinessModelIndexes(BusinessModel $businessModel): array
     {
         $indexes = [];
 
@@ -161,6 +162,25 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
         $fields = [];
 
         foreach ($businessModel->getFields() as $field) {
+            if (!$field->isList()) {
+                $fields[] = $field;
+            }
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Retrieves the list of fields from an entity that must be stored in a relational database table associated with
+     * this dataset.
+     *
+     * @return Field[]
+     */
+    public function getDatasetDatabaseFields(Dataset $dataset): array
+    {
+        $fields = [];
+
+        foreach ($dataset->getFields() as $field) {
             if (!$field->isList()) {
                 $fields[] = $field;
             }

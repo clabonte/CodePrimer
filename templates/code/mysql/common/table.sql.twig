@@ -1,5 +1,5 @@
 {% set indexList = indexes(entity) %}
--- Creates a table to hold {{ entity.name }} entities
+-- Creates a table to hold {{ entity.name }} entries
 CREATE TABLE IF NOT EXISTS `{{ entity|table }}` (
 {% for field in databaseFields(entity) %}
     {%~ if not loop.last or entity.identifier or indexList %}

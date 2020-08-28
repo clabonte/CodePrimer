@@ -1,0 +1,10 @@
+{# Template: _drop_dataset_foreign_key.sql.twig
+ # This template defines the SQL sentence to drop an existing foreign key between 2 tables
+ # Input:
+ #   - entity - A BusinessModel object
+ #   - field - A Field object
+ #}
+{% set dataset = package.getDataset(field.type) %}
+{% set remoteField = dataset.identifier %}
+-- Drops the foreign key between {{ entity.name }} and {{ dataset.name }}
+ALTER TABLE {{ entity|table }} DROP FOREIGN KEY {{ entity|foreignKey(field, dataset) }};

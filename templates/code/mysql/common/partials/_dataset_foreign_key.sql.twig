@@ -1,0 +1,12 @@
+{# Template: _foreign_key.sql.twig
+ # This template defines the SQL sentence to create a foreign key between 2 tables
+ # Input: relation - A RelationshipSide object
+ #}
+{% set dataset = package.getDataset(field.type) %}
+{% set remoteField = dataset.identifier %}
+-- Creates a foreign key to link {{ entity.name }} with {{ dataset.name }}
+{% if field.mandatory %}
+ALTER TABLE {{ entity|table }} ADD CONSTRAINT {{ entity|foreignKey(field, dataset) }} FOREIGN KEY ({{ field|column }}) REFERENCES {{ dataset|table }} ({{ remoteField|column }}) ON DELETE RESTRICT ON UPDATE CASCADE;
+{% else %}
+ALTER TABLE {{ entity|table }} ADD CONSTRAINT {{ entity|foreignKey(field, dataset) }} FOREIGN KEY ({{ field|column }}) REFERENCES {{ dataset|table }} ({{ remoteField|column }}) ON DELETE SET NULL ON UPDATE CASCADE;
+{% endif %}

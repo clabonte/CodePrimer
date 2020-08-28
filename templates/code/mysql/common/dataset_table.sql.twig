@@ -1,0 +1,13 @@
+{% include 'code/mysql/common/table.sql.twig' with {'entity': dataset} %}
+
+-- Insert the {{ dataset.name }} elements
+INSERT IGNORE INTO `{{ dataset|table }}`
+  ({{ databaseFields(dataset)|column }})
+VALUES
+{% for element in dataset.elements %}
+    {%~ if not loop.last %}
+  ({{ element|value }}),
+    {%~ else %}
+  ({{ element|value }});
+    {%~ endif %}
+{% endfor %}

@@ -32,7 +32,7 @@ class RelationalDatabaseAdapterTest extends TestCase
      */
     public function testGetIndexes(BusinessModel $businessModel, array $expected)
     {
-        $actual = $this->adapter->getIndexes($businessModel);
+        $actual = $this->adapter->getBusinessModelIndexes($businessModel);
 
         self::assertCount(count($expected), $actual);
         foreach ($expected as $index) {

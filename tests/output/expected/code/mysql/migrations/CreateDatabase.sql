@@ -5,7 +5,49 @@ CREATE DATABASE IF NOT EXISTS code_primer_tests_functional_test
 
 USE code_primer_tests_functional_test;
 
--- Creates a table to hold User entities
+-- Creates a table to hold UserStatus entries
+CREATE TABLE IF NOT EXISTS `user_statuses` (
+  `name` VARCHAR(255) NOT NULL COMMENT 'The name of the status',
+  `description` VARCHAR(255) NOT NULL COMMENT 'A description of what this status means',
+  `login_allowed` TINYINT(1) NOT NULL COMMENT 'Whether this status allows the user to log on our application',
+  PRIMARY KEY (`name`)
+) ENGINE InnoDB DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Insert the UserStatus elements
+INSERT IGNORE INTO `user_statuses`
+  (`name`, `description`, `login_allowed`)
+VALUES
+  ('registered', 'User is registered but has not confirmed his email address yet', TRUE),
+  ('active', 'User is fully registered and allowed to user our application', TRUE),
+  ('canceled', 'User has canceled his subscription with our application', FALSE),
+  ('locked', 'User has been locked due to too many failed login attempts', FALSE);
+
+-- Creates a table to hold Plan entries
+CREATE TABLE IF NOT EXISTS `plans` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'Unique ID to use for this plan',
+  `name` VARCHAR(255) NOT NULL COMMENT 'The name associated with this plan, as presented to users and prospects',
+  `description` VARCHAR(255) NOT NULL COMMENT 'A description of the plan, as presented to users and prospects',
+  `internal` TINYINT(1) NOT NULL COMMENT 'Whether this plan can only be used internally or available for purchase',
+  `active` TINYINT(1) NOT NULL COMMENT 'Whether this plan can still be used for new/upgraded accounts',
+  `monthly_price` DECIMAL(12,2) NOT NULL COMMENT 'The selling price for a contract renewable on a monthly basis',
+  `annual_price` DECIMAL(12,2) NOT NULL COMMENT 'The selling price for a contract renewable on a yearly basis',
+  `premium_access` TINYINT(1) NOT NULL COMMENT 'Whether this plan provides access to premium content',
+  `editing_access` TINYINT(1) NOT NULL COMMENT 'Whether this plan provides access to editing content',
+  `admin_access` TINYINT(1) NOT NULL COMMENT 'Whether this plan provides access to admin functionality',
+  PRIMARY KEY (`id`)
+) ENGINE InnoDB DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- Insert the Plan elements
+INSERT IGNORE INTO `plans`
+  (`id`, `name`, `description`, `internal`, `active`, `monthly_price`, `annual_price`, `premium_access`, `editing_access`, `admin_access`)
+VALUES
+  (1, 'Admin', 'Internal plan used to manage the application', TRUE, TRUE, 0, 0, TRUE, TRUE, TRUE),
+  (2, 'Free', 'Free plan giving access to basic functionality to registered users', FALSE, TRUE, 0, 0, FALSE, FALSE, FALSE),
+  (3, 'Premium', 'Premium plan giving access to premium functionality to registered users', FALSE, TRUE, 5, 50, TRUE, FALSE, FALSE),
+  (4, 'Author', 'Premium plan giving access to premium and editing functionality to registered users', FALSE, TRUE, 10, 100, TRUE, TRUE, FALSE);
+
+
+-- Creates a table to hold User entries
 CREATE TABLE IF NOT EXISTS `users` (
   `id` CHAR(36) NOT NULL COMMENT 'The user''s unique ID in our system' COLLATE ascii_general_ci,
   `first_name` VARCHAR(255) NULL DEFAULT NULL COMMENT 'User first name',
@@ -52,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `users_logs` (
 
 
 
--- Creates a table to hold UserStats entities
+-- Creates a table to hold UserStats entries
 CREATE TABLE IF NOT EXISTS `user_stats` (
   `first_login` DATETIME NULL DEFAULT NULL COMMENT 'First time the user logged in the system',
   `last_login` DATETIME NULL DEFAULT NULL COMMENT 'Last time the user logged in the system',
@@ -62,7 +104,7 @@ CREATE TABLE IF NOT EXISTS `user_stats` (
 ) ENGINE InnoDB DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
--- Creates a table to hold Metadata entities
+-- Creates a table to hold Metadata entries
 CREATE TABLE IF NOT EXISTS `metadata` (
   `name` VARCHAR(255) NOT NULL COMMENT 'The name to uniquely identify this metadata',
   `value` LONGTEXT NOT NULL COMMENT 'The value associated with this metadata',
@@ -73,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `metadata` (
 ) ENGINE InnoDB DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
--- Creates a table to hold Post entities
+-- Creates a table to hold Post entries
 CREATE TABLE IF NOT EXISTS `posts` (
   `id` CHAR(36) NOT NULL COMMENT 'The post''s unique ID in our system' COLLATE ascii_general_ci,
   `title` VARCHAR(255) NOT NULL COMMENT 'The post title',
@@ -89,7 +131,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
 ) ENGINE InnoDB DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
--- Creates a table to hold Topic entities
+-- Creates a table to hold Topic entries
 CREATE TABLE IF NOT EXISTS `topics` (
   `title` VARCHAR(255) NOT NULL COMMENT 'The topic title',
   `description` LONGTEXT NULL DEFAULT NULL COMMENT 'The topic description',
@@ -100,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `topics` (
 ) ENGINE InnoDB DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 
--- Creates a table to hold Subscription entities
+-- Creates a table to hold Subscription entries
 CREATE TABLE IF NOT EXISTS `subscriptions` (
   `user_id` CHAR(36) NOT NULL COMMENT 'The user to which this subscription belongs' COLLATE ascii_general_ci,
   `plan` BIGINT NOT NULL COMMENT 'The plan subscribed by this user in our billing system',
@@ -122,6 +164,9 @@ CREATE TABLE IF NOT EXISTS `users_topics` (
   PRIMARY KEY (`user_id`, `topic_id`)
 ) ENGINE InnoDB;
 
+-- Creates a foreign key to link User with UserStatus
+ALTER TABLE users ADD CONSTRAINT fk_users_user_statuses_status FOREIGN KEY (status) REFERENCES user_statuses (name) ON DELETE SET NULL ON UPDATE CASCADE;
+
 -- Creates a foreign key to link User with UserStats
 ALTER TABLE users ADD CONSTRAINT fk_users_user_stats_stats_id FOREIGN KEY (stats_id) REFERENCES user_stats (id) ON DELETE SET NULL ON UPDATE CASCADE;
 
@@ -136,6 +181,9 @@ ALTER TABLE posts ADD CONSTRAINT fk_posts_users_author_id FOREIGN KEY (author_id
 
 -- Creates a foreign key to link Post with Topic
 ALTER TABLE posts ADD CONSTRAINT fk_posts_topics_topic_id FOREIGN KEY (topic_id) REFERENCES topics (id) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- Creates a foreign key to link Subscription with Plan
+ALTER TABLE subscriptions ADD CONSTRAINT fk_subscriptions_plans_plan FOREIGN KEY (plan) REFERENCES plans (id) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- Creates a foreign key to link Subscription with User
 ALTER TABLE subscriptions ADD CONSTRAINT fk_subscriptions_users_user_id FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE RESTRICT ON UPDATE CASCADE;

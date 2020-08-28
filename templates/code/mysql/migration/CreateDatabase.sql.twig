@@ -15,6 +15,12 @@ CREATE DATABASE IF NOT EXISTS {{ package|database }}
 
 USE {{ package|database }};
 
+{# Create the list of tables for each dataset #}
+{% for dataset in package.datasets %}
+    {%~ include 'code/mysql/common/dataset_table.sql.twig' %}
+
+{% endfor %}
+
 {# Create the list of tables for each business models #}
 {% for entity in package.businessModels %}
     {%~ include 'code/mysql/common/table.sql.twig' %}
@@ -37,6 +43,10 @@ USE {{ package|database }};
 
 {# Create the foreign keys #}
 {% for entity in package.businessModels %}
+    {%~ for field in businessModelHelper.listDatasetFields(entity, package) %}
+        {%~ include 'code/mysql/common/partials/_dataset_foreign_key.sql.twig' %}
+
+    {%~ endfor %}
     {%~ for relation in entity.relations %}
         {%~ if relation is foreignKey %}
             {%~ include 'code/mysql/common/partials/_foreign_key.sql.twig' %}
