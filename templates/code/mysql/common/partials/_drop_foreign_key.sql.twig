@@ -3,5 +3,6 @@
  # Input: relation - A RelationshipSide object
  #}
 {% set entity = relation.businessModel %}
+{% set remoteEntity = relation.remoteSide.businessModel %}
 -- Drops the foreign key between {{ entity.name }} and {{ remoteEntity.name }}
 ALTER TABLE {{ entity|table }} DROP FOREIGN KEY {{ relation|foreignKey }};

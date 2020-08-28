@@ -4,6 +4,7 @@ namespace CodePrimer\Adapter;
 
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
+use CodePrimer\Model\Dataset;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Relationship;
 use CodePrimer\Model\RelationshipSide;
@@ -31,10 +32,12 @@ class DatabaseAdapter
     /**
      * Extracts the name of an  business model and transforms it to its table name equivalent.
      * Converts 'tableName', 'table-name' and 'table name' to 'table_names'.
+     *
+     * @param $model BusinessModel|Dataset
      */
-    public function getTableName(BusinessModel $businessModel): string
+    public function getTableName($model): string
     {
-        $name = str_replace(['-', ' ', '.'], '_', Inflector::pluralize($businessModel->getName()));
+        $name = str_replace(['-', ' ', '.'], '_', Inflector::pluralize($model->getName()));
         $name = Inflector::tableize($name);
         $name = str_replace('__', '_', $name);
 

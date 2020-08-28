@@ -41,7 +41,7 @@ class MigrationBuilder implements ArtifactBuilder
             'package' => $businessBundle,
             'bundle' => $businessBundle,
             'packageHelper' => new BusinessBundleHelper(),
-            'entityHelper' => new BusinessModelHelper(),
+            'businessModelHelper' => new BusinessModelHelper(),
             'fieldHelper' => new FieldHelper(),
         ];
 
@@ -66,7 +66,7 @@ class MigrationBuilder implements ArtifactBuilder
             'subpackage' => 'Migration',
             'model' => $filename,
             'packageHelper' => new BusinessBundleHelper(),
-            'entityHelper' => new BusinessModelHelper(),
+            'businessModelHelper' => new BusinessModelHelper(),
             'fieldHelper' => new FieldHelper(),
         ];
 

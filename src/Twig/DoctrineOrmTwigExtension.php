@@ -267,7 +267,7 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
             $table .= '}';
         }
         // Add indexes
-        $indexes = $this->databaseAdapter->getIndexes($businessModel);
+        $indexes = $this->databaseAdapter->getBusinessModelIndexes($businessModel);
         if (!empty($indexes)) {
             $table .= ', indexes={';
             $count = 0;
