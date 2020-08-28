@@ -215,7 +215,8 @@ class TestHelper
             ->addField(
                 (new Field('topics', 'Topic', 'List of topics this user to allowed to create posts for'))
                     ->setList(true)
-            );
+            )
+            ->addField(new Field('status', 'UserStatus', 'Current status of the user'));
 
         $businessModel
             ->addUniqueConstraint(
@@ -305,7 +306,7 @@ class TestHelper
         $businessModel = new BusinessModel('Subscription', 'The subscription bought by a user to user our services');
         $businessModel
             ->addField(new Field('user', 'User', 'The user to which this subscription belongs', true))
-            ->addField(new Field('plan', FieldType::STRING, 'The plan subscribed by this user in our billing system', true))
+            ->addField(new Field('plan', 'Plan', 'The plan subscribed by this user in our billing system', true))
             ->addField(new Field('renewal', FieldType::DATE, 'The date at which the subscription must be renewed', true))
             ->addField(
                 (new Field('created', FieldType::DATETIME, 'Time at which the post was created'))

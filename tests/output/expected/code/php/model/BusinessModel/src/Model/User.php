@@ -8,6 +8,7 @@
 
 namespace CodePrimer\Tests\Model;
 
+use CodePrimer\Tests\Dataset\UserStatus;
 use \DateTimeInterface;
 
 /**
@@ -61,6 +62,9 @@ class User
 
     /** @var Topic[]|null List of topics this user to allowed to create posts for */
     protected $topics = null;
+
+    /** @var UserStatus|null Current status of the user */
+    protected $status = null;
 
     /**
      * User default constructor
@@ -376,6 +380,26 @@ class User
     public function getTopics(): ?array
     {
         return $this->topics;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @param UserStatus|null $status
+     * @return User
+     */
+    public function setStatus(?UserStatus $status): User
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * @return UserStatus|null
+     */
+    public function getStatus(): ?UserStatus
+    {
+        return $this->status;
     }
 
 

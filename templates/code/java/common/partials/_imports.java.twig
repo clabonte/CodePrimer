@@ -1,0 +1,8 @@
+{% set fields = businessModelHelper.listDatasetFields(model, bundle) %}
+{% set included = not fields is empty %}
+{% for field in fields %}
+import {{ bundle|package('dataset') }}.{{ field.type|class }};
+{% endfor %}
+{% if included %}
+
+{% endif %}

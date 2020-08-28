@@ -26,6 +26,7 @@ class ProjectScriptBuilder implements ArtifactBuilder
         $context = [
             'project' => $project,
             'package' => $businessBundle,
+            'bundle' => $businessBundle,
         ];
 
         $file = $renderer->renderToFile($filename, $businessBundle, $template, $context);

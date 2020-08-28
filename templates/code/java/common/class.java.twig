@@ -12,6 +12,9 @@
 {% set fluent = fluent ?? true %}
 {% set constructor = constructor ?? true %}
 {% set class_scope = class_scope ?? 'public' %}
+{# Backward compatible fix until migration from Entity to BusinessModel and Package to BusinessBundle is complete in all templates #}
+{% set model = model ?? entity %}
+{% set bundle = bundle ?? package %}
 {# Block: file_comments
  # Provide the file comments, which typically specify the license associated with the source code
  # and its author.
@@ -36,6 +39,7 @@ package {{ package|package }};
  # Empty by default
  #}
 {% block imports %}
+    {%~ include 'code/java/common/partials/_imports.java.twig' %}
 {% endblock %}
 
 {#- Block: class_comments

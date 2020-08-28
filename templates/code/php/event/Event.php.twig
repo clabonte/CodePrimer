@@ -1,14 +1,6 @@
 {% extends "code/php/common/class.php.twig" %}
 {% set dataList = eventHelper.getNamedData(event) %}
 
-{# Override the includes block to include the DateTime class if needed #}
-{% block includes %}
-    {%~ if model is dateTimeUsed %}
-    use \DateTimeInterface;
-
-    {%~ endif %}
-{% endblock %}
-
 {# Override the fields block to deal with data elements #}
 {% block fields %}
     {%~ for data in dataList %}

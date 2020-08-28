@@ -23,7 +23,7 @@ use Twig\TwigTest;
 class SqlTwigExtension extends LanguageTwigExtension
 {
     /** @var BusinessModelHelper */
-    protected $entityHelper;
+    protected $businessModelHelper;
 
     /** @var FieldHelper */
     protected $fieldHelper;
@@ -34,7 +34,7 @@ class SqlTwigExtension extends LanguageTwigExtension
     public function __construct()
     {
         parent::__construct();
-        $this->entityHelper = new BusinessModelHelper();
+        $this->businessModelHelper = new BusinessModelHelper();
         $this->fieldHelper = new FieldHelper();
         $this->databaseAdapter = new RelationalDatabaseAdapter();
     }

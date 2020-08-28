@@ -39,6 +39,7 @@ class MigrationBuilder implements ArtifactBuilder
     {
         $context = [
             'package' => $businessBundle,
+            'bundle' => $businessBundle,
             'packageHelper' => new BusinessBundleHelper(),
             'entityHelper' => new BusinessModelHelper(),
             'fieldHelper' => new FieldHelper(),

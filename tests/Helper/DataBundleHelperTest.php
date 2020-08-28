@@ -67,7 +67,7 @@ class DataBundleHelperTest extends TestCase
         self::assertCount(1, $this->eventDataBundle->listBusinessModelNames());
         self::assertTrue($this->eventDataBundle->isBusinessModelPresent('User'));
         $list = $this->eventDataBundle->listData('User');
-        self::assertCount(11, $list);
+        self::assertCount(12, $list);
 
         // Validate that each data has been properly created
         foreach ($list as $data) {
@@ -81,7 +81,7 @@ class DataBundleHelperTest extends TestCase
         self::assertCount(1, $this->eventDataBundle->listBusinessModelNames());
         self::assertTrue($this->eventDataBundle->isBusinessModelPresent('User'));
         $list = $this->eventDataBundle->listData('User');
-        self::assertCount(11, $list);
+        self::assertCount(12, $list);
 
         // Validate that each data has been properly created
         $fieldHelper = new FieldHelper();
@@ -114,7 +114,7 @@ class DataBundleHelperTest extends TestCase
         self::assertCount(1, $this->eventDataBundle->listBusinessModelNames());
         self::assertTrue($this->eventDataBundle->isBusinessModelPresent('User'));
         $list = $this->eventDataBundle->listData('User');
-        self::assertCount(6, $list);
+        self::assertCount(7, $list);
 
         $fieldHelper = new FieldHelper();
         // Validate that each data has been properly created
@@ -136,7 +136,7 @@ class DataBundleHelperTest extends TestCase
         self::assertCount(1, $this->eventDataBundle->listBusinessModelNames());
         self::assertTrue($this->eventDataBundle->isBusinessModelPresent('User'));
         $list = $this->eventDataBundle->listData('User');
-        self::assertCount(15, $list);
+        self::assertCount(16, $list);
 
         // Validate that each data has been properly created
         foreach ($list as $data) {
@@ -180,7 +180,7 @@ class DataBundleHelperTest extends TestCase
         self::assertCount(1, $this->eventDataBundle->listBusinessModelNames());
         self::assertTrue($this->eventDataBundle->isBusinessModelPresent('User'));
         $list = $this->eventDataBundle->listData('User');
-        self::assertCount(9, $list);
+        self::assertCount(10, $list);
 
         self::assertArrayNotHasKey('crmId', $list);
         self::assertArrayNotHasKey('stats', $list);
@@ -195,7 +195,7 @@ class DataBundleHelperTest extends TestCase
         self::assertCount(1, $this->internalDataBundle->listBusinessModelNames());
         self::assertTrue($this->internalDataBundle->isBusinessModelPresent('User'));
         $list = $this->internalDataBundle->listData('User');
-        self::assertCount(13, $list);
+        self::assertCount(14, $list);
 
         self::assertArrayNotHasKey('crmId', $list);
         self::assertArrayNotHasKey('stats', $list);
@@ -210,7 +210,7 @@ class DataBundleHelperTest extends TestCase
         self::assertCount(1, $this->eventDataBundle->listBusinessModelNames());
         self::assertTrue($this->eventDataBundle->isBusinessModelPresent('User'));
         $list = $this->eventDataBundle->listData('User');
-        self::assertCount(15, $list);
+        self::assertCount(16, $list);
 
         // Validate that each data has been properly created
         foreach ($list as $data) {
@@ -236,7 +236,7 @@ class DataBundleHelperTest extends TestCase
         self::assertCount(1, $this->eventDataBundle->listBusinessModelNames());
         self::assertTrue($this->eventDataBundle->isBusinessModelPresent('User'));
         $list = $this->eventDataBundle->listData('User');
-        self::assertCount(15, $list);
+        self::assertCount(16, $list);
 
         // Validate that each data has been properly created
         foreach ($list as $data) {
@@ -267,7 +267,7 @@ class DataBundleHelperTest extends TestCase
         self::assertCount(1, $dataBundle->listBusinessModelNames());
         self::assertTrue($dataBundle->isBusinessModelPresent('User'));
         $list = $dataBundle->listData('User');
-        self::assertCount(15, $list);
+        self::assertCount(16, $list);
 
         // Validate that each data has been properly created
         foreach ($list as $data) {
@@ -280,7 +280,7 @@ class DataBundleHelperTest extends TestCase
         self::assertCount(1, $dataBundle->listBusinessModelNames());
         self::assertTrue($dataBundle->isBusinessModelPresent('User'));
         $list = $dataBundle->listData('User');
-        self::assertCount(15, $list);
+        self::assertCount(16, $list);
 
         // Validate that each data has been properly created
         $fieldHelper = new FieldHelper();
@@ -308,7 +308,7 @@ class DataBundleHelperTest extends TestCase
         self::assertCount(1, $dataBundle->listBusinessModelNames());
         self::assertTrue($dataBundle->isBusinessModelPresent('User'));
         $list = $dataBundle->listData('User');
-        self::assertCount(6, $list);
+        self::assertCount(7, $list);
 
         $fieldHelper = new FieldHelper();
         // Validate that each data has been properly created
@@ -334,7 +334,7 @@ class DataBundleHelperTest extends TestCase
         self::assertCount(1, $dataBundle->listBusinessModelNames());
         self::assertTrue($dataBundle->isBusinessModelPresent('User'));
         $list = $dataBundle->listData('User');
-        self::assertCount(10, $list);
+        self::assertCount(11, $list);
 
         $fieldHelper = new FieldHelper();
         // Validate that each data has been properly created
@@ -371,7 +371,7 @@ class DataBundleHelperTest extends TestCase
         self::assertCount(1, $this->internalDataBundle->listBusinessModelNames());
         self::assertTrue($this->internalDataBundle->isBusinessModelPresent('User'));
         $list = $this->internalDataBundle->listData('User');
-        self::assertCount(15, $list);
+        self::assertCount(16, $list);
 
         // Validate that each data has been properly created
         foreach ($list as $data) {

@@ -5,12 +5,14 @@
  * file that was distributed with this source code.
  */
 
-package codeprimer.tests;
+package codeprimer.tests.entity;
+
+import codeprimer.tests.dataset.Plan;
 
 /**
  * Class Subscription
  * The subscription bought by a user to user our services
- * @package codeprimer.tests
+ * @package codeprimer.tests.entity
  */
 public class Subscription
 {
@@ -18,7 +20,7 @@ public class Subscription
     private User user;
 
     /** The plan subscribed by this user in our billing system */
-    private String plan = "";
+    private Plan plan;
 
     /** The date at which the subscription must be renewed */
     private Date renewal;
@@ -37,7 +39,7 @@ public class Subscription
      */
     public Subscription (
         User user,
-        String plan,
+        Plan plan,
         Date renewal
     ) {
         this.user = user;
@@ -65,15 +67,15 @@ public class Subscription
      * @param plan
      * @return Subscription
      */
-    public Subscription setPlan(String plan) {
+    public Subscription setPlan(Plan plan) {
         this.plan = plan;
         return this;
     }
 
     /**
-     * @return String
+     * @return Plan
      */
-    public String getPlan() {
+    public Plan getPlan() {
         return this.plan;
     }
 

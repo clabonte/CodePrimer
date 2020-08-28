@@ -1,0 +1,12 @@
+{% set fields = businessModelHelper.listDatasetFields(model, bundle) %}
+{% set included = not fields is empty %}
+{% for field in fields %}
+use {{ bundle|namespace('Dataset') }}\{{ field.type|class }};
+{% endfor %}
+{% if model is dateTimeUsed %}
+{% set included = true %}
+use \DateTimeInterface;
+{% endif %}
+{% if included %}
+
+{% endif %}

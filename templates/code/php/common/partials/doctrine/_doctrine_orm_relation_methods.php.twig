@@ -16,8 +16,8 @@
         return $this->createQueryBuilder('u')
             ->andWhere('u.{{ relation.field|camel|singular }} = :{{ relation.field|camel|singular }}')
             ->setParameter('{{ relation.field|camel|singular }}', {{ relation.field|variable|singular }})
-        {%~ if entityHelper.getCreatedTimestampField(entity)  %}
-            ->orderBy('u.{{ entityHelper.getCreatedTimestampField(entity)|camel }}', $mostRecentFirst ? 'DESC' : 'ASC')
+        {%~ if businessModelHelper.getCreatedTimestampField(entity)  %}
+            ->orderBy('u.{{ businessModelHelper.getCreatedTimestampField(entity)|camel }}', $mostRecentFirst ? 'DESC' : 'ASC')
         {%~ elseif entity.identifier and fieldHelper.isAutoIncrement(entity.identifier) %}
             ->orderBy('u.{{ entity.identifier|camel }}', $mostRecentFirst ? 'DESC' : 'ASC')
         {%~ endif  %}

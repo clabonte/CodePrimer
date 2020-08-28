@@ -145,6 +145,15 @@ class Dataset
         return $this->elements;
     }
 
+    public function getElement($elementId): ?DatasetElement
+    {
+        if (isset($this->elements[$elementId])) {
+            return $this->elements[$elementId];
+        }
+
+        return null;
+    }
+
     /**
      * @param DatasetElement[] $elements
      */

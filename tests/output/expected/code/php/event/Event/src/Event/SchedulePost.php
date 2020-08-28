@@ -8,7 +8,7 @@
 
 namespace CodePrimer\Tests\Event;
 
-    use \DateTimeInterface;
+use \DateTimeInterface;
 
 /**
  * Class SchedulePost

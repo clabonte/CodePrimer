@@ -147,13 +147,16 @@ class DatasetTest extends TestCase
     {
         $this->dataset->setFields($fields);
         self::assertEmpty($this->dataset->getElements());
+        $idFieldName = $this->dataset->getIdentifier()->getName();
+
+        self::assertNull($this->dataset->getElement($element->getValue($idFieldName)));
 
         $this->dataset->addElement($element);
         self::assertCount(1, $this->dataset->getElements());
 
         // Make sure the element added matches the expected one
-        $idFieldName = $this->dataset->getIdentifier()->getName();
-        $actual = $this->dataset->getElements()[$element->getValue($idFieldName)];
+        $actual = $this->dataset->getElement($element->getValue($idFieldName));
+        self::assertEquals($element, $actual);
         self::assertEquals($element->getValue($idFieldName), $element->getIdentifierValue());
         $values = $element->getValues();
         foreach ($values as $name => $value) {

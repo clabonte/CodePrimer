@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `activation_code` VARCHAR(255) NULL DEFAULT NULL COMMENT 'The code required to validate the user''s account',
   `stats_id` CHAR(36) NULL DEFAULT NULL COMMENT 'User login statistics' COLLATE ascii_general_ci,
   `subscription_id` CHAR(36) NULL DEFAULT NULL COMMENT 'The plan to which the user is subscribed' COLLATE ascii_general_ci,
+  `status` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Current status of the user',
   INDEX first_name_idx (first_name(20)) COMMENT 'To optimize search queries',
   INDEX last_name_idx (last_name(20)) COMMENT 'To optimize search queries',
   INDEX nickname_idx (nickname(20)) COMMENT 'To optimize search queries',
@@ -43,6 +44,7 @@ CREATE TABLE IF NOT EXISTS `users_logs` (
   `activation_code` VARCHAR(255) NULL DEFAULT NULL COMMENT 'The code required to validate the user''s account',
   `stats_id` CHAR(36) NULL DEFAULT NULL COMMENT 'User login statistics' COLLATE ascii_general_ci,
   `subscription_id` CHAR(36) NULL DEFAULT NULL COMMENT 'The plan to which the user is subscribed' COLLATE ascii_general_ci,
+  `status` VARCHAR(255) NULL DEFAULT NULL COMMENT 'Current status of the user',
   `created` DATETIME NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'The date and time at which this audit log was created',
   INDEX id_idx (`id`),
   PRIMARY KEY (`audit_id`)
@@ -101,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `topics` (
 -- Creates a table to hold Subscription entities
 CREATE TABLE IF NOT EXISTS `subscriptions` (
   `user_id` CHAR(36) NOT NULL COMMENT 'The user to which this subscription belongs' COLLATE ascii_general_ci,
-  `plan` VARCHAR(255) NOT NULL COMMENT 'The plan subscribed by this user in our billing system',
+  `plan` BIGINT NOT NULL COMMENT 'The plan subscribed by this user in our billing system',
   `renewal` DATE NOT NULL COMMENT 'The date at which the subscription must be renewed',
   `created` DATETIME NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Time at which the post was created',
   `updated` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last time at which the post was updated',
@@ -158,8 +160,8 @@ DROP TRIGGER IF EXISTS `audit_users_AFTER_INSERT`//
 
 CREATE TRIGGER `audit_users_AFTER_INSERT` AFTER INSERT ON `users`
 FOR EACH ROW BEGIN
-  INSERT INTO users_logs(`audit_id`, `audit_operation`, `id`, `first_name`, `last_name`, `nickname`, `email`, `password`, `crm_id`, `activation_code`, `stats_id`, `subscription_id`, created)
-    VALUES (UUID(), 'i', NEW.`id`, NEW.`first_name`, NEW.`last_name`, NEW.`nickname`, NEW.`email`, NEW.`password`, NEW.`crm_id`, NEW.`activation_code`, NEW.`stats_id`, NEW.`subscription_id`, NOW());
+  INSERT INTO users_logs(`audit_id`, `audit_operation`, `id`, `first_name`, `last_name`, `nickname`, `email`, `password`, `crm_id`, `activation_code`, `stats_id`, `subscription_id`, `status`, created)
+    VALUES (UUID(), 'i', NEW.`id`, NEW.`first_name`, NEW.`last_name`, NEW.`nickname`, NEW.`email`, NEW.`password`, NEW.`crm_id`, NEW.`activation_code`, NEW.`stats_id`, NEW.`subscription_id`, NEW.`status`, NOW());
 END//
 
 DROP TRIGGER IF EXISTS `audit_users_AFTER_UPDATE`//
@@ -174,10 +176,11 @@ FOR EACH ROW BEGIN
     OR NEW.`crm_id` <> OLD.`crm_id`
     OR NEW.`activation_code` <> OLD.`activation_code`
     OR NEW.`stats_id` <> OLD.`stats_id`
-    OR NEW.`subscription_id` <> OLD.`subscription_id`)
+    OR NEW.`subscription_id` <> OLD.`subscription_id`
+    OR NEW.`status` <> OLD.`status`)
   THEN
-    INSERT INTO users_logs(`audit_id`, `audit_operation`, `id`, `first_name`, `last_name`, `nickname`, `email`, `password`, `crm_id`, `activation_code`, `stats_id`, `subscription_id`, created)
-        VALUES (UUID(), 'u', NEW.`id`, NEW.`first_name`, NEW.`last_name`, NEW.`nickname`, NEW.`email`, NEW.`password`, NEW.`crm_id`, NEW.`activation_code`, NEW.`stats_id`, NEW.`subscription_id`, NOW());
+    INSERT INTO users_logs(`audit_id`, `audit_operation`, `id`, `first_name`, `last_name`, `nickname`, `email`, `password`, `crm_id`, `activation_code`, `stats_id`, `subscription_id`, `status`, created)
+        VALUES (UUID(), 'u', NEW.`id`, NEW.`first_name`, NEW.`last_name`, NEW.`nickname`, NEW.`email`, NEW.`password`, NEW.`crm_id`, NEW.`activation_code`, NEW.`stats_id`, NEW.`subscription_id`, NEW.`status`, NOW());
   END IF;
 END//
 
@@ -185,8 +188,8 @@ DROP TRIGGER IF EXISTS `audit_users_AFTER_DELETE`//
 
 CREATE TRIGGER `audit_users_AFTER_DELETE` AFTER DELETE ON `users`
 FOR EACH ROW BEGIN
-  INSERT INTO users_logs(`audit_id`, `audit_operation`, `id`, `first_name`, `last_name`, `nickname`, `email`, `password`, `crm_id`, `activation_code`, `stats_id`, `subscription_id`, created)
-    VALUES (UUID(), 'd', OLD.`id`, OLD.`first_name`, OLD.`last_name`, OLD.`nickname`, OLD.`email`, OLD.`password`, OLD.`crm_id`, OLD.`activation_code`, OLD.`stats_id`, OLD.`subscription_id`, NOW());
+  INSERT INTO users_logs(`audit_id`, `audit_operation`, `id`, `first_name`, `last_name`, `nickname`, `email`, `password`, `crm_id`, `activation_code`, `stats_id`, `subscription_id`, `status`, created)
+    VALUES (UUID(), 'd', OLD.`id`, OLD.`first_name`, OLD.`last_name`, OLD.`nickname`, OLD.`email`, OLD.`password`, OLD.`crm_id`, OLD.`activation_code`, OLD.`stats_id`, OLD.`subscription_id`, OLD.`status`, NOW());
 END//
 
 -- Create the trigger to set the UUID primary key automatically

@@ -39,7 +39,7 @@ class RepositoryBuilder implements ArtifactBuilder
             'subpackage' => 'Repository',
             'model' => $model,
             'entity' => $businessModel,
-            'entityHelper' => $businessModelHelper,
+            'businessModelHelper' => $businessModelHelper,
             'fieldHelper' => new FieldHelper(),
         ];
 

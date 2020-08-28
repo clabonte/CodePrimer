@@ -5,12 +5,12 @@
  * file that was distributed with this source code.
  */
 
-package codeprimer.tests;
+package codeprimer.tests.entity;
 
 /**
  * Class Post
  * Post created by the user
- * @package codeprimer.tests
+ * @package codeprimer.tests.entity
  */
 public class Post
 {

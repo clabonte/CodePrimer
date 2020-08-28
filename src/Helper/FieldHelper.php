@@ -149,7 +149,7 @@ class FieldHelper
     }
 
     /**
-     * Checks if a field represents a known BusinessModel in a given package.
+     * Checks if a field represents a known BusinessModel in a given bundle.
      */
     public function isBusinessModel(Field $field, BusinessBundle $businessBundle): bool
     {
@@ -157,6 +157,21 @@ class FieldHelper
 
         $businessModel = $businessBundle->getBusinessModel($field->getType());
         if (isset($businessModel)) {
+            $result = true;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Checks if a field represents a known Dataset in a given bundle.
+     */
+    public function isDataset(Field $field, BusinessBundle $businessBundle): bool
+    {
+        $result = false;
+
+        $dataset = $businessBundle->getDataset($field->getType());
+        if (isset($dataset)) {
             $result = true;
         }
 

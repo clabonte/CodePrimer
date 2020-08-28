@@ -428,6 +428,7 @@ class SqlTwigExtensionTest extends TwigExtensionTest
                     $user->getField('activationCode'),
                     $user->getField('stats'),
                     $user->getField('subscription'),
+                    $user->getField('status'),
                 ],
             ],
         ];
@@ -516,6 +517,7 @@ class SqlTwigExtensionTest extends TwigExtensionTest
                     $user->getField('activationCode'),
                     $user->getField('stats'),
                     $user->getField('subscription'),
+                    $user->getField('status'),
                 ],
             ],
             'User without id' => [
@@ -531,6 +533,7 @@ class SqlTwigExtensionTest extends TwigExtensionTest
                     $user->getField('activationCode'),
                     $user->getField('stats'),
                     $user->getField('subscription'),
+                    $user->getField('status'),
                 ],
             ],
             'Metadata generated field' => [

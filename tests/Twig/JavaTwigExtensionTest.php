@@ -87,7 +87,7 @@ class JavaTwigExtensionTest extends TwigExtensionTest
      */
     public function testPackageFilterShouldPass($obj, $expectedValue)
     {
-        $value = $this->twigExtension->packageFilter($obj);
+        $value = $this->twigExtension->packageFilter($this->context, $obj);
 
         self::assertEquals($expectedValue, $value);
     }
@@ -303,6 +303,11 @@ class JavaTwigExtensionTest extends TwigExtensionTest
                 (new Field('Test', 'User', 'Test Description', true))
                     ->setList(true),
                 'User',
+            ],
+            'DATASET' => [
+                (new Field('Test', 'Plan', 'Test Description', true))
+                    ->setList(true),
+                'Plan',
             ],
             'DATA - TOPIC' => [new Data($businessBundle->getBusinessModel('User'), 'topics'), 'Topic'],
         ];

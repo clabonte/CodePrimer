@@ -6,6 +6,7 @@ use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
+use CodePrimer\Model\Dataset;
 use CodePrimer\Model\Field;
 use PHPUnit\Framework\TestCase;
 
@@ -502,19 +503,21 @@ class FieldHelperTest extends TestCase
     /**
      * @param Field $field    The field to test
      * @param bool  $expected The expected value for the field being tested
-     * @dataProvider entityProvider
+     * @dataProvider businessModelProvider
      */
     public function testIsBusinessModel(Field $field, bool $expected)
     {
         $businessBundle = new BusinessBundle('namespace', 'name');
         $businessBundle
             ->addBusinessModel(new BusinessModel('TestData1', 'description1'))
-            ->addBusinessModel(new BusinessModel('TestData4', 'description4'));
+            ->addBusinessModel(new BusinessModel('TestData4', 'description4'))
+            ->addDataset(new Dataset('TestData2', 'description2'))
+            ->addDataset(new Dataset('TestData3', 'description3'));
 
         self::assertEquals($expected, $this->helper->isBusinessModel($field, $businessBundle));
     }
 
-    public function entityProvider()
+    public function businessModelProvider()
     {
         return [
             'BOOL' => [new Field('Test', FieldType::BOOL), false],
@@ -543,6 +546,55 @@ class FieldHelperTest extends TestCase
             'TestData2' => [new Field('Test', 'TestData2'), false],
             'TestData3' => [new Field('Test', 'TestData3'), false],
             'TestData4' => [new Field('Test', 'TestData4'), true],
+        ];
+    }
+
+    /**
+     * @param Field $field    The field to test
+     * @param bool  $expected The expected value for the field being tested
+     * @dataProvider datasetProvider
+     */
+    public function testIsDataset(Field $field, bool $expected)
+    {
+        $businessBundle = new BusinessBundle('namespace', 'name');
+        $businessBundle
+            ->addBusinessModel(new BusinessModel('TestData1', 'description1'))
+            ->addBusinessModel(new BusinessModel('TestData4', 'description4'))
+            ->addDataset(new Dataset('TestData2', 'description2'))
+            ->addDataset(new Dataset('TestData3', 'description3'));
+
+        self::assertEquals($expected, $this->helper->isDataset($field, $businessBundle));
+    }
+
+    public function datasetProvider()
+    {
+        return [
+            'BOOL' => [new Field('Test', FieldType::BOOL), false],
+            'BOOLEAN' => [new Field('Test', FieldType::BOOLEAN), false],
+            'DATE' => [new Field('Test', FieldType::DATE), false],
+            'DATETIME' => [new Field('Test', FieldType::DATETIME), false],
+            'DECIMAL' => [new Field('Test', FieldType::DECIMAL), false],
+            'DOUBLE' => [new Field('Test', FieldType::DOUBLE), false],
+            'EMAIL' => [new Field('Test', FieldType::EMAIL), false],
+            'FLOAT' => [new Field('Test', FieldType::FLOAT), false],
+            'ID' => [new Field('Test', FieldType::ID), false],
+            'INT' => [new Field('Test', FieldType::INT), false],
+            'INTEGER' => [new Field('Test', FieldType::INTEGER), false],
+            'LONG' => [new Field('Test', FieldType::LONG), false],
+            'PASSWORD' => [new Field('Test', FieldType::PASSWORD), false],
+            'PHONE' => [new Field('Test', FieldType::PHONE), false],
+            'PRICE' => [new Field('Test', FieldType::PRICE), false],
+            'RANDOM_STRING' => [new Field('Test', FieldType::RANDOM_STRING), false],
+            'STRING' => [new Field('Test', FieldType::STRING), false],
+            'TEXT' => [new Field('Test', FieldType::TEXT), false],
+            'TIME' => [new Field('Test', FieldType::TIME), false],
+            'URL' => [new Field('Test', FieldType::URL), false],
+            'UUID' => [new Field('Test', FieldType::UUID), false],
+            'UNKNOWN' => [new Field('Test', 'Unknown'), false],
+            'TestData1' => [new Field('Test', 'TestData1'), false],
+            'TestData2' => [new Field('Test', 'TestData2'), true],
+            'TestData3' => [new Field('Test', 'TestData3'), true],
+            'TestData4' => [new Field('Test', 'TestData4'), false],
         ];
     }
 

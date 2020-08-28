@@ -36,7 +36,7 @@ class EntityBuilder implements ArtifactBuilder
             'subpackage' => 'Entity',
             'model' => $businessModel,
             'entity' => $businessModel,
-            'entityHelper' => new BusinessModelHelper(),
+            'businessModelHelper' => new BusinessModelHelper(),
             'fieldHelper' => new FieldHelper(),
         ];
 
