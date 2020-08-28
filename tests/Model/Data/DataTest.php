@@ -26,17 +26,17 @@ class DataTest extends TestCase
         $data = new Data($user, 'firstName');
         self::assertEquals('User', $data->getBusinessModel()->getName());
         self::assertEquals('firstName', $data->getField()->getName());
-        self::assertEquals(Data::ATTRIBUTES, $data->getDetails());
+        self::assertEquals(Data::REFERENCE, $data->getDetails());
 
         $data = new Data($user, $user->getField('firstName'), Data::FULL);
         self::assertEquals('User', $data->getBusinessModel()->getName());
         self::assertEquals('firstName', $data->getField()->getName());
         self::assertEquals(Data::FULL, $data->getDetails());
 
-        $data = new Data($user, 'firstName', Data::REFERENCE);
+        $data = new Data($user, 'firstName', Data::ATTRIBUTES);
         self::assertEquals('User', $data->getBusinessModel()->getName());
         self::assertEquals('firstName', $data->getField()->getName());
-        self::assertEquals(Data::REFERENCE, $data->getDetails());
+        self::assertEquals(Data::ATTRIBUTES, $data->getDetails());
     }
 
     public function testConstructorWithInvalidFieldThrowsException()

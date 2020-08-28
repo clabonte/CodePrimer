@@ -27,7 +27,7 @@ class InputDataTest extends TestCase
         $data = new EventData($user, 'firstName');
         self::assertEquals('User', $data->getBusinessModel()->getName());
         self::assertEquals('firstName', $data->getField()->getName());
-        self::assertEquals(Data::ATTRIBUTES, $data->getDetails());
+        self::assertEquals(Data::REFERENCE, $data->getDetails());
         self::assertTrue($data->isMandatory());
 
         $data = new EventData($user, $user->getField('firstName'), false, Data::FULL);
@@ -36,10 +36,10 @@ class InputDataTest extends TestCase
         self::assertEquals(Data::FULL, $data->getDetails());
         self::assertFalse($data->isMandatory());
 
-        $data = new EventData($user, 'firstName', true, Data::REFERENCE);
+        $data = new EventData($user, 'firstName', true, Data::ATTRIBUTES);
         self::assertEquals('User', $data->getBusinessModel()->getName());
         self::assertEquals('firstName', $data->getField()->getName());
-        self::assertEquals(Data::REFERENCE, $data->getDetails());
+        self::assertEquals(Data::ATTRIBUTES, $data->getDetails());
         self::assertTrue($data->isMandatory());
     }
 

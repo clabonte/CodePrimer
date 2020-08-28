@@ -9,9 +9,9 @@ use InvalidArgumentException;
 class Data
 {
     // Constants used to specify the level of details associated with a given, non-native field
-    /** @var string Only include a reference to the BusinessModel associated with a given field */
+    /** @var string Only include a reference to the BusinessModel or Dataset associated with a given field */
     const REFERENCE = 'reference';
-    /** @var string Only include the attributes of the BusinessModel associated with a given field */
+    /** @var string Only include the attributes of the BusinessModel or Dataset associated with a given field */
     const ATTRIBUTES = 'attributes';
     /** @var string Include the attributes and direct relations of the BusinessModel associated with a given field */
     const FULL = 'full';
@@ -35,11 +35,11 @@ class Data
      * Data constructor.
      *
      * @param Field|string $field
-     * @param string       $details The level of details to associate with a non-native field (e.g. BusinessModel)
+     * @param string       $details The level of details to associate with a non-native field (e.g. BusinessModel or Dataset)
      *
      * @throws InvalidArgumentException If the details provided is not valid
      */
-    public function __construct(BusinessModel $businessModel, $field, string $details = self::ATTRIBUTES)
+    public function __construct(BusinessModel $businessModel, $field, string $details = self::REFERENCE)
     {
         $realField = $this->validate($businessModel, $field, $details);
 

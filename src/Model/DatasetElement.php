@@ -99,7 +99,7 @@ class DatasetElement
         return $this;
     }
 
-    public function getValue(string $name): ?string
+    public function getValue(string $name)
     {
         if (isset($this->values[$name])) {
             return $this->values[$name];

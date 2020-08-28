@@ -4,5 +4,5 @@
 | Name | Type | Description | Relationship |
 | ---- | ---- | ----------- | ------------ |
 {% for relation in businessModel.relations %}
-| **{{ relation.field.name }}** | {{ relation.field.list ? 'List of' }}[`{{ relation.field.type }}`](#{{ relation.field.type|lower }}) | {{ relation.field.description }}  | {{ relation.relationship.type }} *({{ relation.bidirectional ? 'bidirectional' : 'unidirectional' }} - {{ relation.side }})* |
+| **{{ relation.field.name }}** | {{ relation.field|type }} | {{ relation.field.description }}  | {{ relation.relationship.type }} *({{ relation.bidirectional ? 'bidirectional' : 'unidirectional' }} - {{ relation.side }})* |
 {% endfor %}

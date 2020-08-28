@@ -22,6 +22,9 @@ class DataBundleHelperTest extends TestCase
     /** @var DataBundleHelper */
     private $helper;
 
+    /** @var FieldHelper */
+    private $fieldHelper;
+
     /** @var EventDataBundle */
     private $eventDataBundle;
 
@@ -54,6 +57,7 @@ class DataBundleHelperTest extends TestCase
         $this->messageDataBundle = new MessageDataBundle('TestMessageBundle', 'Test Message Bundle Description');
         $this->businessBundle = TestHelper::getSampleBusinessBundle();
         $this->helper = new DataBundleHelper($this->businessBundle);
+        $this->fieldHelper = new FieldHelper();
     }
 
     public function testAddBusinessModelOnEventDataBundleShouldOnlyAddUnmanagedFields()
@@ -71,9 +75,7 @@ class DataBundleHelperTest extends TestCase
 
         // Validate that each data has been properly created
         foreach ($list as $data) {
-            self::assertInstanceOf(EventData::class, $data);
-            self::assertEquals(Data::ATTRIBUTES, $data->getDetails());
-            self::assertEquals($data->getField()->isMandatory(), $data->isMandatory());
+            $this->assertData(EventData::class, $data, $data->getField()->isMandatory());
         }
 
         // Adding the same model with different attributes overrides the existing data
@@ -84,15 +86,8 @@ class DataBundleHelperTest extends TestCase
         self::assertCount(12, $list);
 
         // Validate that each data has been properly created
-        $fieldHelper = new FieldHelper();
         foreach ($list as $data) {
-            self::assertInstanceOf(EventData::class, $data);
-            if ($fieldHelper->isNativeType($data->getField())) {
-                self::assertEquals(Data::ATTRIBUTES, $data->getDetails());
-            } else {
-                self::assertEquals(Data::REFERENCE, $data->getDetails());
-            }
-            self::assertEquals($data->getField()->isMandatory(), $data->isMandatory());
+            $this->assertData(EventData::class, $data, $data->getField()->isMandatory());
         }
     }
 
@@ -116,13 +111,10 @@ class DataBundleHelperTest extends TestCase
         $list = $this->eventDataBundle->listData('User');
         self::assertCount(7, $list);
 
-        $fieldHelper = new FieldHelper();
         // Validate that each data has been properly created
         foreach ($list as $data) {
-            self::assertInstanceOf(EventData::class, $data);
-            self::assertEquals(Data::ATTRIBUTES, $data->getDetails());
-            self::assertEquals($data->getField()->isMandatory(), $data->isMandatory());
-            self::assertFalse($fieldHelper->isBusinessModel($data->getField(), $this->businessBundle));
+            $this->assertData(EventData::class, $data, $data->getField()->isMandatory());
+            self::assertFalse($this->fieldHelper->isBusinessModel($data->getField(), $this->businessBundle));
             self::assertFalse($data->getField()->isManaged());
         }
     }
@@ -140,9 +132,7 @@ class DataBundleHelperTest extends TestCase
 
         // Validate that each data has been properly created
         foreach ($list as $data) {
-            self::assertInstanceOf(EventData::class, $data);
-            self::assertEquals(Data::ATTRIBUTES, $data->getDetails());
-            self::assertTrue($data->isMandatory());
+            $this->assertData(EventData::class, $data, true);
         }
     }
 
@@ -214,9 +204,7 @@ class DataBundleHelperTest extends TestCase
 
         // Validate that each data has been properly created
         foreach ($list as $data) {
-            self::assertInstanceOf(EventData::class, $data);
-            self::assertEquals(Data::ATTRIBUTES, $data->getDetails());
-            self::assertEquals($data->getField()->isMandatory(), $data->isMandatory());
+            $this->assertData(EventData::class, $data, $data->getField()->isMandatory());
         }
     }
 
@@ -240,9 +228,7 @@ class DataBundleHelperTest extends TestCase
 
         // Validate that each data has been properly created
         foreach ($list as $data) {
-            self::assertInstanceOf(EventData::class, $data);
-            self::assertEquals(Data::ATTRIBUTES, $data->getDetails());
-            self::assertFalse($data->isMandatory());
+            $this->assertData(EventData::class, $data, false);
         }
     }
 
@@ -271,8 +257,7 @@ class DataBundleHelperTest extends TestCase
 
         // Validate that each data has been properly created
         foreach ($list as $data) {
-            self::assertInstanceOf(Data::class, $data);
-            self::assertEquals(Data::ATTRIBUTES, $data->getDetails());
+            $this->assertData(Data::class, $data);
         }
 
         // Adding the same model with different attributes overrides the existing data
@@ -283,14 +268,8 @@ class DataBundleHelperTest extends TestCase
         self::assertCount(16, $list);
 
         // Validate that each data has been properly created
-        $fieldHelper = new FieldHelper();
         foreach ($list as $data) {
-            self::assertInstanceOf(Data::class, $data);
-            if ($fieldHelper->isNativeType($data->getField())) {
-                self::assertEquals(Data::ATTRIBUTES, $data->getDetails());
-            } else {
-                self::assertEquals(Data::REFERENCE, $data->getDetails());
-            }
+            $this->assertData(Data::class, $data);
         }
     }
 
@@ -310,12 +289,11 @@ class DataBundleHelperTest extends TestCase
         $list = $dataBundle->listData('User');
         self::assertCount(7, $list);
 
-        $fieldHelper = new FieldHelper();
         // Validate that each data has been properly created
         foreach ($list as $data) {
+            $this->assertData(Data::class, $data);
             self::assertEquals(Data::class, get_class($data));
-            self::assertEquals(Data::ATTRIBUTES, $data->getDetails());
-            self::assertFalse($fieldHelper->isBusinessModel($data->getField(), $this->businessBundle));
+            self::assertFalse($this->fieldHelper->isBusinessModel($data->getField(), $this->businessBundle));
             self::assertFalse($data->getField()->isManaged());
         }
     }
@@ -336,12 +314,11 @@ class DataBundleHelperTest extends TestCase
         $list = $dataBundle->listData('User');
         self::assertCount(11, $list);
 
-        $fieldHelper = new FieldHelper();
         // Validate that each data has been properly created
         foreach ($list as $data) {
+            $this->assertData(Data::class, $data);
             self::assertEquals(Data::class, get_class($data));
-            self::assertEquals(Data::ATTRIBUTES, $data->getDetails());
-            self::assertFalse($fieldHelper->isBusinessModel($data->getField(), $this->businessBundle));
+            self::assertFalse($this->fieldHelper->isBusinessModel($data->getField(), $this->businessBundle));
         }
     }
 
@@ -375,8 +352,7 @@ class DataBundleHelperTest extends TestCase
 
         // Validate that each data has been properly created
         foreach ($list as $data) {
-            self::assertInstanceOf(Data::class, $data);
-            self::assertEquals(Data::ATTRIBUTES, $data->getDetails());
+            $this->assertData(Data::class, $data);
         }
     }
 
@@ -532,5 +508,18 @@ class DataBundleHelperTest extends TestCase
         }
 
         return false;
+    }
+
+    private function assertData(string $class, Data $data, bool $mandatory = null)
+    {
+        self::assertInstanceOf($class, $data);
+        if ($this->fieldHelper->isNativeType($data->getField())) {
+            self::assertEquals(Data::ATTRIBUTES, $data->getDetails());
+        } else {
+            self::assertEquals(Data::REFERENCE, $data->getDetails());
+        }
+        if ($data instanceof EventData) {
+            self::assertEquals($mandatory, $data->isMandatory());
+        }
     }
 }

@@ -100,7 +100,7 @@ class DataBundleHelper
      *
      * @param Field[]|string[] $fields
      */
-    public function addFieldsAsMandatory(EventDataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $fieldDetails = Data::ATTRIBUTES)
+    public function addFieldsAsMandatory(EventDataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $fieldDetails = Data::REFERENCE)
     {
         foreach ($fields as $field) {
             $data = new EventData($businessModel, $field, true, $this->mapDetails($businessModel, $field, $fieldDetails));
@@ -113,7 +113,7 @@ class DataBundleHelper
      *
      * @param Field[]|string[] $fields
      */
-    public function addFieldsAsOptional(EventDataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $fieldDetails = Data::ATTRIBUTES)
+    public function addFieldsAsOptional(EventDataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $fieldDetails = Data::REFERENCE)
     {
         foreach ($fields as $field) {
             $data = new EventData($businessModel, $field, false, $this->mapDetails($businessModel, $field, $fieldDetails));
@@ -126,7 +126,7 @@ class DataBundleHelper
      *  - EventDataBundle: Adds only the unmanaged fields of a BusinessModel as input data based on the model's mandatory/optional field definition.
      *  - Others: Adds all the fields (including managed ones) of a BusinessModel.
      */
-    public function addBusinessModel(DataBundle $dataBundle, BusinessModel $businessModel, string $fieldDetails = Data::ATTRIBUTES)
+    public function addBusinessModel(DataBundle $dataBundle, BusinessModel $businessModel, string $fieldDetails = Data::REFERENCE)
     {
         if ($dataBundle instanceof EventDataBundle) {
             $this->addBusinessModelAsEventData($dataBundle, $businessModel, $fieldDetails);
@@ -152,7 +152,7 @@ class DataBundleHelper
         foreach ($businessModel->getFields() as $field) {
             if (!$this->fieldHelper->isBusinessModel($field, $this->businessBundle)) {
                 if ($includeManagedAttributes || !$field->isManaged()) {
-                    $data = new Data($businessModel, $field);
+                    $data = new Data($businessModel, $field, $this->mapDetails($businessModel, $field, Data::REFERENCE));
                     $dataBundle->add($data);
                 }
             }
@@ -166,7 +166,7 @@ class DataBundleHelper
      *
      * @param Field[]|string[] $excludeFields
      */
-    public function addBusinessModelExceptFields(DataBundle $dataBundle, BusinessModel $businessModel, array $excludeFields, string $fieldDetails = Data::ATTRIBUTES)
+    public function addBusinessModelExceptFields(DataBundle $dataBundle, BusinessModel $businessModel, array $excludeFields, string $fieldDetails = Data::REFERENCE)
     {
         if ($dataBundle instanceof EventDataBundle) {
             $this->addBusinessModelExceptFieldsAsEventData($dataBundle, $businessModel, $excludeFields, $fieldDetails);
@@ -186,7 +186,7 @@ class DataBundleHelper
      *
      * @param Field[]|string[] $fields
      */
-    public function addFields(DataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $fieldDetails = Data::ATTRIBUTES)
+    public function addFields(DataBundle $dataBundle, BusinessModel $businessModel, array $fields, string $fieldDetails = Data::REFERENCE)
     {
         foreach ($fields as $field) {
             $data = new Data($businessModel, $field, $this->mapDetails($businessModel, $field, $fieldDetails));
@@ -197,7 +197,7 @@ class DataBundleHelper
     /**
      * Adds all the unmanaged fields of a BusinessModel as input data to a bundle following the model's mandatory/optional field definition.
      */
-    private function addBusinessModelAsEventData(EventDataBundle $dataBundle, BusinessModel $businessModel, string $fieldDetails = Data::ATTRIBUTES)
+    private function addBusinessModelAsEventData(EventDataBundle $dataBundle, BusinessModel $businessModel, string $fieldDetails = Data::REFERENCE)
     {
         foreach ($businessModel->getFields() as $field) {
             if (!$field->isManaged()) {
@@ -211,7 +211,7 @@ class DataBundleHelper
     {
         foreach ($businessModel->getFields() as $field) {
             if (!$field->isManaged() && !$this->fieldHelper->isBusinessModel($field, $this->businessBundle)) {
-                $data = new EventData($businessModel, $field, $field->isMandatory());
+                $data = new EventData($businessModel, $field, $field->isMandatory(), $this->mapDetails($businessModel, $field, Data::REFERENCE));
                 $dataBundle->add($data);
             }
         }
@@ -220,7 +220,7 @@ class DataBundleHelper
     /**
      * Adds all the unmanaged fields of a BusinessModel as input data to a bundle following the model's mandatory/optional field definition.
      */
-    private function addBusinessModelExceptFieldsAsEventData(EventDataBundle $dataBundle, BusinessModel $businessModel, array $excludeFields, string $fieldDetails = Data::ATTRIBUTES)
+    private function addBusinessModelExceptFieldsAsEventData(EventDataBundle $dataBundle, BusinessModel $businessModel, array $excludeFields, string $fieldDetails = Data::REFERENCE)
     {
         foreach ($businessModel->getFields() as $field) {
             if (!$field->isManaged() && !$this->isFieldInList($field, $excludeFields)) {

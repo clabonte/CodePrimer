@@ -8,6 +8,8 @@ use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\DataBundle;
 use CodePrimer\Model\Data\EventData;
+use CodePrimer\Model\Dataset;
+use CodePrimer\Model\DatasetElement;
 use CodePrimer\Model\Field;
 use Twig\TwigFilter;
 
@@ -19,6 +21,8 @@ class MarkdownTwigExtension extends LanguageTwigExtension
 
         $filters[] = new TwigFilter('details', [$this, 'detailsFilter'], ['is_safe' => ['html'], 'needs_context' => true]);
         $filters[] = new TwigFilter('model', [$this, 'modelFilter'], ['is_safe' => ['html'], 'needs_context' => true]);
+        $filters[] = new TwigFilter('header', [$this, 'headerFilter'], ['is_safe' => ['html']]);
+        $filters[] = new TwigFilter('row', [$this, 'rowFilter'], ['is_safe' => ['html']]);
 
         return $filters;
     }
@@ -50,10 +54,14 @@ class MarkdownTwigExtension extends LanguageTwigExtension
         if (!$helper->isNativeType($field)) {
             /** @var BusinessBundle $businessBundle */
             $businessBundle = $context['bundle'];
-            $model = $businessBundle->getBusinessModel($field->getType());
-            if (null !== $model) {
+            if ($helper->isBusinessModel($field, $businessBundle)) {
+                $model = $businessBundle->getBusinessModel($field->getType());
                 $class = $this->classFilter($model->getName());
-                $type = '['.$class.'](../DataModel/Overview.md#'.strtolower($class).')';
+                $type = '[`'.$class.'`](../DataModel/Overview.md#'.strtolower($class).')';
+            } elseif ($helper->isDataset($field, $businessBundle)) {
+                $dataset = $businessBundle->getDataset($field->getType());
+                $class = $this->classFilter($dataset->getName());
+                $type = '[`'.$class.'`](../Dataset/Overview.md#'.strtolower($class).')';
             }
         } else {
             switch ($field->getType()) {
@@ -82,8 +90,9 @@ class MarkdownTwigExtension extends LanguageTwigExtension
             if (!$helper->isNativeType($field)) {
                 /** @var BusinessBundle $businessBundle */
                 $businessBundle = $context['bundle'];
-                $model = $businessBundle->getBusinessModel($field->getType());
-                if (null !== $model) {
+                if ($helper->isBusinessModel($field, $businessBundle)) {
+                    $result = $this->classFilter($obj->getDetails());
+                } elseif ($helper->isDataset($field, $businessBundle)) {
                     $result = $this->classFilter($obj->getDetails());
                 }
             }
@@ -112,9 +121,64 @@ class MarkdownTwigExtension extends LanguageTwigExtension
             }
         }
         if (null !== $class) {
-            $result = '['.$class.'](../DataModel/Overview.md#'.strtolower($class).')';
+            $result = '[`'.$class.'`](../DataModel/Overview.md#'.strtolower($class).')';
         }
 
         return $result;
+    }
+
+    public function headerFilter($obj): string
+    {
+        $header1 = '';
+        $header2 = '';
+        if ($obj instanceof Dataset) {
+            $name = $obj->getIdentifier()->getName();
+            $header1 = '| '.$name.' ';
+            $chars = strlen($name);
+            // Markdown needs at least 3 '-' for each column to render a table
+            if ($chars < 3) {
+                $header1 .= ' ';
+                $chars = 3;
+            }
+            $header2 = '| '.str_repeat('-', $chars).' ';
+            foreach ($obj->getFields() as $field) {
+                if (!$field->isIdentifier()) {
+                    $name = $field->getName();
+                    $header1 .= '| '.$name.' ';
+                    $header2 .= '| '.str_repeat('-', strlen($name)).' ';
+                }
+            }
+        }
+        if (!empty($header1)) {
+            $header1 .= '|';
+            $header2 .= '|';
+        }
+
+        return $header1.PHP_EOL.$header2;
+    }
+
+    public function rowFilter($obj): string
+    {
+        $fieldHelper = new FieldHelper();
+
+        $row = '';
+        if ($obj instanceof DatasetElement) {
+            $value = $obj->getIdentifierValue();
+            $row = '| **'.$value.'** ';
+            foreach ($obj->getDataset()->getFields() as $field) {
+                if (!$field->isIdentifier()) {
+                    $value = $obj->getValue($field->getName());
+                    if ($fieldHelper->isBoolean($field)) {
+                        $value = $this->yesNoFilter($value);
+                    }
+                    $row .= '| '.$value.' ';
+                }
+            }
+        }
+        if (!empty($row)) {
+            $row .= '|';
+        }
+
+        return $row;
     }
 }

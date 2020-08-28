@@ -105,8 +105,8 @@ class EventHelperTest extends TestCase
 
         $list = $helper->getMandatoryData($event);
         self::assertCount(2, $list);
-        $this->assertDataPresent(new Data($user, 'email'), $list);
-        $this->assertDataPresent(new Data($user, 'password'), $list);
+        $this->assertDataPresent(new Data($user, 'email', Data::ATTRIBUTES), $list);
+        $this->assertDataPresent(new Data($user, 'password', Data::ATTRIBUTES), $list);
     }
 
     /**

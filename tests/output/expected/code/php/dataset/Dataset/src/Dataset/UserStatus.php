@@ -29,21 +29,21 @@ class UserStatus
     /** @var UserStatus[] List of elements that are part of this Dataset */
     static private $elements = [];
 
-    /** @var string  */
+    /** @var string The name of the status */
     protected $name = '';
 
-    /** @var string  */
+    /** @var string A description of what this status means */
     protected $description = '';
 
-    /** @var bool  */
+    /** @var bool Whether this status allows the user to log on our application */
     protected $loginAllowed;
 
 
     /**
      * UserStatus default constructor
-     * @var string $name 
-     * @var string $description 
-     * @var bool $loginAllowed 
+     * @var string $name The name of the status
+     * @var string $description A description of what this status means
+     * @var bool $loginAllowed Whether this status allows the user to log on our application
      */
     private function __construct(
         string $name,

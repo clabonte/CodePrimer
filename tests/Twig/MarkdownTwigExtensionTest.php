@@ -24,10 +24,12 @@ class MarkdownTwigExtensionTest extends TwigExtensionTest
     {
         $filters = $this->twigExtension->getFilters();
 
-        self::assertCount(23, $filters);
+        self::assertCount(25, $filters);
 
         $this->assertTwigFilter('details', $filters);
         $this->assertTwigFilter('model', $filters);
+        $this->assertTwigFilter('header', $filters);
+        $this->assertTwigFilter('row', $filters);
     }
 
     /**
@@ -75,17 +77,23 @@ class MarkdownTwigExtensionTest extends TwigExtensionTest
                     ->setList(true),
                 'List of boolean',
             ],
-            'ENTITY' => [new Field('Test', 'User', 'Test Description', true), '[User](../DataModel/Overview.md#user)'],
-            'OPTIONAL ENTITY' => [new Field('Test', 'User'), '[User](../DataModel/Overview.md#user)'],
+            'ENTITY' => [new Field('Test', 'User', 'Test Description', true), '[`User`](../DataModel/Overview.md#user)'],
+            'OPTIONAL ENTITY' => [new Field('Test', 'User'), '[`User`](../DataModel/Overview.md#user)'],
             'ENTITY LIST' => [
                 (new Field('Test', 'User', 'Test Description', true))
                     ->setList(true),
-                'List of [User](../DataModel/Overview.md#user)',
+                'List of [`User`](../DataModel/Overview.md#user)',
             ],
             'DATA - EMAIL' => [new Data($businessBundle->getBusinessModel('User'), 'email'), 'email'],
-            'DATA - ENTITY' => [new Data($businessBundle->getBusinessModel('User'), 'topics'), 'List of [Topic](../DataModel/Overview.md#topic)'],
+            'DATA - ENTITY' => [new Data($businessBundle->getBusinessModel('User'), 'topics'), 'List of [`Topic`](../DataModel/Overview.md#topic)'],
             'DATABUNDLE - SIMPLE' => [new InternalDataBundle('Test Bundle'), 'Structure'],
             'DATABUNDLE - LIST' => [(new InternalDataBundle('Test Bundle'))->setAsListStructure(), 'List'],
+            'DATASET' => [new Field('Test', 'UserStatus', 'Test Description', true), '[`UserStatus`](../Dataset/Overview.md#userstatus)'],
+            'DATASET LIST' => [
+                (new Field('Test', 'UserStatus', 'Test Description', true))
+                    ->setList(true),
+                'List of [`UserStatus`](../Dataset/Overview.md#userstatus)',
+            ],
         ];
     }
 
@@ -109,9 +117,12 @@ class MarkdownTwigExtensionTest extends TwigExtensionTest
         return [
             'FIELD' => [new Field('Test', FieldType::BOOL, 'Test Description', true), '*N/A*'],
             'DATA - EMAIL' => [new Data($businessBundle->getBusinessModel('User'), 'email'), '*N/A*'],
-            'DATA - ATTRIBUTES ENTITY' => [new Data($businessBundle->getBusinessModel('User'), 'topics'), 'Attributes'],
-            'DATA - REFERENCE ENTITY' => [new Data($businessBundle->getBusinessModel('User'), 'topics', Data::REFERENCE), 'Reference'],
+            'DATA - ATTRIBUTES ENTITY' => [new Data($businessBundle->getBusinessModel('User'), 'topics', Data::ATTRIBUTES), 'Attributes'],
+            'DATA - REFERENCE ENTITY' => [new Data($businessBundle->getBusinessModel('User'), 'topics'), 'Reference'],
             'DATA - FULL ENTITY' => [new Data($businessBundle->getBusinessModel('User'), 'topics', Data::FULL), 'Full'],
+            'DATA - ATTRIBUTES DATASET' => [new Data($businessBundle->getBusinessModel('User'), 'status', Data::ATTRIBUTES), 'Attributes'],
+            'DATA - REFERENCE DATASET' => [new Data($businessBundle->getBusinessModel('User'), 'status'), 'Reference'],
+            'DATA - FULL DATASET' => [new Data($businessBundle->getBusinessModel('User'), 'status', Data::FULL), 'Full'],
         ];
     }
 
@@ -134,11 +145,12 @@ class MarkdownTwigExtensionTest extends TwigExtensionTest
 
         return [
             'FIELD - Native' => [new Field('Test', FieldType::BOOL, 'Test Description', true), '*N/A*'],
-            'FIELD - Model' => [new Field('Test', 'UserStats', 'Test Description', true), '[UserStats](../DataModel/Overview.md#userstats)'],
-            'DATA - EMAIL' => [new Data($businessBundle->getBusinessModel('User'), 'email'), '[User](../DataModel/Overview.md#user)'],
-            'DATA - ATTRIBUTES ENTITY' => [new Data($businessBundle->getBusinessModel('User'), 'topics'), '[User](../DataModel/Overview.md#user)'],
-            'DATA - REFERENCE ENTITY' => [new Data($businessBundle->getBusinessModel('User'), 'topics', Data::REFERENCE), '[User](../DataModel/Overview.md#user)'],
-            'DATA - FULL ENTITY' => [new Data($businessBundle->getBusinessModel('User'), 'topics', Data::FULL), '[User](../DataModel/Overview.md#user)'],
+            'FIELD - Dataset' => [new Field('Test', 'UserStatus', 'Test Description', true), '*N/A*'],
+            'FIELD - Model' => [new Field('Test', 'UserStats', 'Test Description', true), '[`UserStats`](../DataModel/Overview.md#userstats)'],
+            'DATA - EMAIL' => [new Data($businessBundle->getBusinessModel('User'), 'email'), '[`User`](../DataModel/Overview.md#user)'],
+            'DATA - ATTRIBUTES ENTITY' => [new Data($businessBundle->getBusinessModel('User'), 'topics'), '[`User`](../DataModel/Overview.md#user)'],
+            'DATA - REFERENCE ENTITY' => [new Data($businessBundle->getBusinessModel('User'), 'topics', Data::REFERENCE), '[`User`](../DataModel/Overview.md#user)'],
+            'DATA - FULL ENTITY' => [new Data($businessBundle->getBusinessModel('User'), 'topics', Data::FULL), '[`User`](../DataModel/Overview.md#user)'],
         ];
     }
 }

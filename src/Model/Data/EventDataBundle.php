@@ -20,7 +20,7 @@ class EventDataBundle extends DataBundle
     public function add(Data $data): DataBundle
     {
         if (!$data instanceof EventData) {
-            $inputData = new EventData($data->getBusinessModel(), $data->getField(), $data->getField()->isMandatory());
+            $inputData = new EventData($data->getBusinessModel(), $data->getField(), $data->getField()->isMandatory(), $data->getDetails());
 
             return parent::add($inputData);
         }

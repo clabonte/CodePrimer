@@ -21,17 +21,17 @@ This entity represents a user
 | **email** | email | User email address | yes | *N/A* |  | yes | yes |
 | **password** | password | User password | yes | *N/A* |  | no | no |
 | **crmId** | string | The ID of this user in our external CRM | no | *Empty* | 2c3b1c3e-b29c-4564-80c4-e4b95cfbfc81 | no | no |
-| **status** | UserStatus | Current status of the user | no | *Empty* |  | no | no |
+| **status** | [`UserStatus`](../Dataset/Overview.md#userstatus) | Current status of the user | no | *Empty* |  | no | no |
 
 ### Business Relations
 
 | Name | Type | Description | Relationship |
 | ---- | ---- | ----------- | ------------ |
-| **stats** | [`UserStats`](#userstats) | User login statistics  | OneToOne *(unidirectional - left)* |
-| **subscription** | [`Subscription`](#subscription) | The plan to which the user is subscribed  | OneToOne *(bidirectional - left)* |
-| **metadata** | List of[`Metadata`](#metadata) | Extra information about the user  | OneToMany *(unidirectional - left)* |
-| **posts** | List of[`Post`](#post) | Blog posts created by this user  | OneToMany *(bidirectional - left)* |
-| **topics** | List of[`Topic`](#topic) | List of topics this user to allowed to create posts for  | ManyToMany *(bidirectional - left)* |
+| **stats** | [`UserStats`](../DataModel/Overview.md#userstats) | User login statistics  | OneToOne *(unidirectional - left)* |
+| **subscription** | [`Subscription`](../DataModel/Overview.md#subscription) | The plan to which the user is subscribed  | OneToOne *(bidirectional - left)* |
+| **metadata** | List of [`Metadata`](../DataModel/Overview.md#metadata) | Extra information about the user  | OneToMany *(unidirectional - left)* |
+| **posts** | List of [`Post`](../DataModel/Overview.md#post) | Blog posts created by this user  | OneToMany *(bidirectional - left)* |
+| **topics** | List of [`Topic`](../DataModel/Overview.md#topic) | List of topics this user to allowed to create posts for  | ManyToMany *(bidirectional - left)* |
 
 ### Managed Fields
 The following fields are automatically managed by the backend and cannot be modified by the user.
@@ -85,8 +85,8 @@ Post created by the user
 
 | Name | Type | Description | Relationship |
 | ---- | ---- | ----------- | ------------ |
-| **author** | [`User`](#user) | The user who created this post  | OneToMany *(bidirectional - right)* |
-| **topic** | [`Topic`](#topic) | The topic to which this post belongs  | OneToMany *(bidirectional - right)* |
+| **author** | [`User`](../DataModel/Overview.md#user) | The user who created this post  | OneToMany *(bidirectional - right)* |
+| **topic** | [`Topic`](../DataModel/Overview.md#topic) | The topic to which this post belongs  | OneToMany *(bidirectional - right)* |
 
 ### Managed Fields
 The following fields are automatically managed by the backend and cannot be modified by the user.
@@ -113,8 +113,8 @@ A topic regroups a set of posts made by various authors
 
 | Name | Type | Description | Relationship |
 | ---- | ---- | ----------- | ------------ |
-| **authors** | List of[`User`](#user) | List of authors who are allowed to post on this topic  | ManyToMany *(bidirectional - right)* |
-| **posts** | List of[`Post`](#post) | List of posts published on this topic  | OneToMany *(bidirectional - left)* |
+| **authors** | List of [`User`](../DataModel/Overview.md#user) | List of authors who are allowed to post on this topic  | ManyToMany *(bidirectional - right)* |
+| **posts** | List of [`Post`](../DataModel/Overview.md#post) | List of posts published on this topic  | OneToMany *(bidirectional - left)* |
 
 ### Managed Fields
 The following fields are automatically managed by the backend and cannot be modified by the user.
@@ -133,14 +133,14 @@ The subscription bought by a user to user our services
 
 | Name | Type | Description | Mandatory | Default | Example | Searchable | Unique |
 | ---- | ---- | ----------- | --------- | ------- | ------- | ---------- | ------ |
-| **plan** | Plan | The plan subscribed by this user in our billing system | yes | *N/A* |  | no | no |
+| **plan** | [`Plan`](../Dataset/Overview.md#plan) | The plan subscribed by this user in our billing system | yes | *N/A* |  | no | no |
 | **renewal** | date | The date at which the subscription must be renewed | yes | *N/A* |  | no | no |
 
 ### Business Relations
 
 | Name | Type | Description | Relationship |
 | ---- | ---- | ----------- | ------------ |
-| **user** | [`User`](#user) | The user to which this subscription belongs  | OneToOne *(bidirectional - right)* |
+| **user** | [`User`](../DataModel/Overview.md#user) | The user to which this subscription belongs  | OneToOne *(bidirectional - right)* |
 
 ### Managed Fields
 The following fields are automatically managed by the backend and cannot be modified by the user.

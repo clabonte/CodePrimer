@@ -176,6 +176,8 @@ class TemplateRegistry
     protected function initDocumentationTemplates()
     {
         $extensions = [new MarkdownTwigExtension()];
+        $this->addTemplate(new Template('Overview', new Artifact(Artifact::DOCUMENTATION, 'dataset', 'markdown'), $extensions),
+            'Generates Markdown documentation of your datasets to include in your repository');
         $this->addTemplate(new Template('Overview', new Artifact(Artifact::DOCUMENTATION, 'model', 'markdown'), $extensions),
             'Generates Markdown documentation of your data model to include in your repository');
         $this->addTemplate(new Template('Overview', new Artifact(Artifact::DOCUMENTATION, 'process', 'markdown', 'index'), $extensions),
