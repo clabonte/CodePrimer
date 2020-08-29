@@ -151,7 +151,11 @@ class TemplateRegistry
 
         // Prepare PHP project templates
         $this->addTemplate(new Template('setup', new Artifact(Artifact::PROJECT, 'symfony', 'sh', 'setup')),
-            'Generate setup.sh script to quick create a PHP project using the Symfony Flex framework with the right libraries', 'beta');
+            'Generate setup.sh script to quickly create a PHP project using the Symfony Flex framework with the right libraries', 'beta');
+
+        // Prepare PHP project templates
+        $this->addTemplate(new Template('composer', new Artifact(Artifact::PROJECT, 'php', 'json', 'composer'), $phpExtensions),
+            'Generate a composer.json file with the minimum set of libraries to start a plain PHP project', 'beta');
     }
 
     protected function initJavaTemplates()

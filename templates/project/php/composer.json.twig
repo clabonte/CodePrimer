@@ -1,0 +1,38 @@
+{
+    "name": "{{ bundle.name }}",
+    "type": "application",
+    "description": "{{ bundle.description }}",
+    "prefer-stable": true,
+    "require": {
+        "php": "^7.3.9",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "ext-intl": "*",
+        "ext-json": "*",
+        "clabonte/codeprimer": "^0.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.3",
+        "ext-xdebug": "^2.9"
+    },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "{{ bundle|namespace|replace({'\\': '\\\\'}) }}\\": ["src/", "gen-src/"]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "{{ bundle|namespace|replace({'\\': '\\\\'}) }}\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "format-code": "php-cs-fixer fix",
+        "phpunit": "vendor/bin/phpunit -c phpunit.xml.dist -d memory_limit=256M"
+    }
+}

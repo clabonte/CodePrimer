@@ -32,6 +32,9 @@
         },
         "sort-packages": true
     },
+    "bin": [
+        "bin/prime"
+    ],
     "autoload": {
         "psr-4": {
             "CodePrimer\\": "src/"
@@ -45,7 +48,7 @@
     "scripts": {
         "format-code": "php-cs-fixer fix",
         "phpunit": "vendor/bin/phpunit -c phpunit.xml.dist -d memory_limit=256M",
-        "sample-app": "cd sample; php ChannelApp.php; cd ..",
+        "sample-app": "prime",
         "update-doc": "cd app; php prime.php; cd .."
     }
 }

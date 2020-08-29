@@ -17,10 +17,28 @@ use CodePrimer\Model\Derived\Message;
  */
 class BusinessProcessFactory
 {
-    public function createRegisterProcess(BusinessBundle $businessBundle): BusinessProcess
+    // ROLE CONSTANTS
+    const REGULAR_MEMBER = 'member';
+    const PREMIUM_MEMBER = 'premium';
+    const AUTHOR = 'author';
+    const ADMIN = 'admin';
+
+
+    /** @var BusinessBundle */
+    private $businessBundle;
+
+    /**
+     * BusinessProcessFactory constructor.
+     */
+    public function __construct(BusinessBundle $businessBundle)
     {
-        $dataBundleHelper = new DataBundleHelper($businessBundle);
-        $user = $businessBundle->getBusinessModel('User');
+        $this->businessBundle = $businessBundle;
+    }
+
+    public function createRegisterProcess(): BusinessProcess
+    {
+        $dataBundleHelper = new DataBundleHelper($this->businessBundle);
+        $user = $this->businessBundle->getBusinessModel('User');
 
         // 1. Define the input data required for this process
         $eventBundle = new EventDataBundle();
@@ -67,10 +85,10 @@ class BusinessProcessFactory
         return $businessProcess;
     }
 
-    public function createLoginProcess(BusinessBundle $businessBundle): BusinessProcess
+    public function createLoginProcess(): BusinessProcess
     {
-        $dataBundleHelper = new DataBundleHelper($businessBundle);
-        $user = $businessBundle->getBusinessModel('User');
+        $dataBundleHelper = new DataBundleHelper($this->businessBundle);
+        $user = $this->businessBundle->getBusinessModel('User');
 
         // 1. Define the input data required for this process
         $eventBundle = new EventDataBundle();
@@ -115,10 +133,10 @@ class BusinessProcessFactory
         return $businessProcess;
     }
 
-    public function createLogoutProcess(BusinessBundle $businessBundle): BusinessProcess
+    public function createLogoutProcess(): BusinessProcess
     {
-        $dataBundleHelper = new DataBundleHelper($businessBundle);
-        $user = $businessBundle->getBusinessModel('User');
+        $dataBundleHelper = new DataBundleHelper($this->businessBundle);
+        $user = $this->businessBundle->getBusinessModel('User');
 
         // 1. Define the input data required for this process
         // N/A
@@ -162,11 +180,11 @@ class BusinessProcessFactory
         return $businessProcess;
     }
 
-    public function createNewArticleProcess(BusinessBundle $businessBundle): BusinessProcess
+    public function createNewArticleProcess(): BusinessProcess
     {
-        $dataBundleHelper = new DataBundleHelper($businessBundle);
-        $article = $businessBundle->getBusinessModel('Article');
-        $user = $businessBundle->getBusinessModel('User');
+        $dataBundleHelper = new DataBundleHelper($this->businessBundle);
+        $article = $this->businessBundle->getBusinessModel('Article');
+        $user = $this->businessBundle->getBusinessModel('User');
 
         // 1. Define the input data required for this process
         //    - Mandatory:
@@ -202,7 +220,7 @@ class BusinessProcessFactory
             ->setCategory('Articles')
             ->setType(ProcessType::CREATE)
             ->setExternalAccess(true)
-            ->addRole(ChannelApp::AUTHOR);
+            ->addRole(self::AUTHOR);
 
         // 4. Define the bundle of data required by this process
         $contextData = new ContextDataBundle();
@@ -228,11 +246,11 @@ class BusinessProcessFactory
         return $businessProcess;
     }
 
-    public function createUpdateArticleProcess(BusinessBundle $businessBundle): BusinessProcess
+    public function createUpdateArticleProcess(): BusinessProcess
     {
-        $dataBundleHelper = new DataBundleHelper($businessBundle);
-        $article = $businessBundle->getBusinessModel('Article');
-        $user = $businessBundle->getBusinessModel('User');
+        $dataBundleHelper = new DataBundleHelper($this->businessBundle);
+        $article = $this->businessBundle->getBusinessModel('Article');
+        $user = $this->businessBundle->getBusinessModel('User');
 
         // 1. Define the input data required for this process
         $eventBundle = new EventDataBundle();
@@ -256,7 +274,7 @@ class BusinessProcessFactory
             ->setCategory('Articles')
             ->setType(ProcessType::UPDATE)
             ->setExternalAccess(true)
-            ->addRole(ChannelApp::AUTHOR);
+            ->addRole(self::AUTHOR);
 
         // 4. Define the bundle of data required by this process
         $contextData = new ContextDataBundle();
@@ -282,11 +300,11 @@ class BusinessProcessFactory
         return $businessProcess;
     }
 
-    public function createSubmitArticleProcess(BusinessBundle $businessBundle): BusinessProcess
+    public function createSubmitArticleProcess(): BusinessProcess
     {
-        $dataBundleHelper = new DataBundleHelper($businessBundle);
-        $article = $businessBundle->getBusinessModel('Article');
-        $user = $businessBundle->getBusinessModel('User');
+        $dataBundleHelper = new DataBundleHelper($this->businessBundle);
+        $article = $this->businessBundle->getBusinessModel('Article');
+        $user = $this->businessBundle->getBusinessModel('User');
 
         // 1. Define the input data required for this process
         $eventBundle = new EventDataBundle();
@@ -309,7 +327,7 @@ class BusinessProcessFactory
             ->setCategory('Articles')
             ->setType(ProcessType::STATUS_UPDATE)
             ->setExternalAccess(true)
-            ->addRole(ChannelApp::AUTHOR);
+            ->addRole(self::AUTHOR);
 
         // 4. Define the bundle of data required by this process
         $contextData = new ContextDataBundle();

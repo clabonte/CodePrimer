@@ -26,6 +26,7 @@ class ArtifactBuilderFactory
         $this->builders['revertmigration'] = MigrationBuilder::class;
         $this->builders[Artifact::PROJECT] = [
             'symfony' => ProjectScriptBuilder::class,
+            'php' => ProjectScriptBuilder::class,
         ];
         $this->builders[Artifact::DOCUMENTATION] = [
             'model' => BundleDocumentationBuilder::class,

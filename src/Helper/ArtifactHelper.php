@@ -79,6 +79,9 @@ class ArtifactHelper
             case 'markdown':
                 $extension = '.md';
                 break;
+            case 'json':
+                $extension = '.json';
+                break;
         }
 
         return $extension;
