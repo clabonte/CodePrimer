@@ -1,6 +1,7 @@
 <?php
 
 use CodePrimer\Model\BusinessBundle;
+
 require 'DatasetFactory.php';
 require 'BusinessModelFactory.php';
 require 'BusinessProcessFactory.php';
@@ -11,38 +12,38 @@ function prepareBundle()
     $bundle = new BusinessBundle('io.codeprimer.sample', 'Channel');
     $bundle->setDescription('This sample application is used to show how model a business application using CodePrimer');
 
-    // Step 2 - Add your Datasets to your Bundle
+    // Step 2 - Add your Datasets to your Bundle by calling all the 'create' methods without parameters defined in the factory
     $datasetFactory = new DatasetFactory();
 
-    $bundle->addDataset($datasetFactory->createUserRole());
-    $bundle->addDataset($datasetFactory->createUserStatus());
-    $bundle->addDataset($datasetFactory->createArticleStatus());
+    $factory = new ReflectionClass($datasetFactory);
+    $methods = $factory->getMethods(ReflectionMethod::IS_PUBLIC);
+    foreach ($methods as $method) {
+        if ((0 === strpos($method->getName(), 'create')) && (0 == $method->getNumberOfParameters())) {
+            $bundle->addDataset($method->invoke($datasetFactory));
+        }
+    }
 
-    // Step 3 - Add your Business Data Model to your Bundle
+    // Step 3 - Add your Business Data Model to your Bundle by calling all the 'create' methods without parameters defined in the factory
     $modelFactory = new BusinessModelFactory($bundle);
 
-    $bundle->addBusinessModel($modelFactory->createUserDataModel());
-    $bundle->addBusinessModel($modelFactory->createArticleDataModel());
-    $bundle->addBusinessModel($modelFactory->createArticleViewDataModel());
-    $bundle->addBusinessModel($modelFactory->createTopicDataModel());
-    $bundle->addBusinessModel($modelFactory->createLabelDataModel());
-    $bundle->addBusinessModel($modelFactory->createSuggestedLabelDataModel());
-    $bundle->addBusinessModel($modelFactory->createAccountDataModel());
-    $bundle->addBusinessModel($modelFactory->createInterestDataModel());
-    $bundle->addBusinessModel($modelFactory->createTransactionDataModel());
-    $bundle->addBusinessModel($modelFactory->createPayoutDataModel());
+    $factory = new ReflectionClass($modelFactory);
+    $methods = $factory->getMethods(ReflectionMethod::IS_PUBLIC);
+    foreach ($methods as $method) {
+        if ((0 === strpos($method->getName(), 'create')) && (0 == $method->getNumberOfParameters())) {
+            $bundle->addBusinessModel($method->invoke($modelFactory));
+        }
+    }
 
-
-    // Step 4 - Add your Business Process Model to your Bundle
+    // Step 4 - Add your Business Process Model to your Bundle by calling all the 'create' methods without parameters defined in the factory
     $processFactory = new BusinessProcessFactory($bundle);
 
-    $bundle->addBusinessProcess($processFactory->createLoginProcess());
-    $bundle->addBusinessProcess($processFactory->createLogoutProcess());
-    $bundle->addBusinessProcess($processFactory->createRegisterProcess());
-
-    $bundle->addBusinessProcess($processFactory->createNewArticleProcess());
-    $bundle->addBusinessProcess($processFactory->createUpdateArticleProcess());
-    $bundle->addBusinessProcess($processFactory->createSubmitArticleProcess());
+    $factory = new ReflectionClass($processFactory);
+    $methods = $factory->getMethods(ReflectionMethod::IS_PUBLIC);
+    foreach ($methods as $method) {
+        if ((0 === strpos($method->getName(), 'create')) && (0 == $method->getNumberOfParameters())) {
+            $bundle->addBusinessProcess($method->invoke($processFactory));
+        }
+    }
 
     return $bundle;
 }

@@ -41,11 +41,11 @@ class PhpRepositoryTemplatesTest extends TemplateTestCase
         $builder->build($this->businessBundle, $template, $this->renderer);
 
         // Make sure the right files have been generated
-        $this->assertGeneratedFile('src/Repository/UserRepository.php', self::DOCTRINE_ORM_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/Repository/UserStatsRepository.php', self::DOCTRINE_ORM_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/Repository/MetadataRepository.php', self::DOCTRINE_ORM_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/Repository/PostRepository.php', self::DOCTRINE_ORM_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/Repository/TopicRepository.php', self::DOCTRINE_ORM_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/Repository/SubscriptionRepository.php', self::DOCTRINE_ORM_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Repository/UserRepository.php', self::DOCTRINE_ORM_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Repository/UserStatsRepository.php', self::DOCTRINE_ORM_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Repository/MetadataRepository.php', self::DOCTRINE_ORM_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Repository/PostRepository.php', self::DOCTRINE_ORM_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Repository/TopicRepository.php', self::DOCTRINE_ORM_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Repository/SubscriptionRepository.php', self::DOCTRINE_ORM_EXPECTED_DIR);
     }
 }

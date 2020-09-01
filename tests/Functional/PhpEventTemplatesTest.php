@@ -41,7 +41,7 @@ class PhpEventTemplatesTest extends TemplateTestCase
         // Make sure the right files have been generated
         foreach ($events as $event) {
             $class = $languageExtension->classFilter($event);
-            $this->assertGeneratedFile("src/Event/$class.php", self::EVENT_EXPECTED_DIR);
+            $this->assertGeneratedFile("gen-src/Event/$class.php", self::EVENT_EXPECTED_DIR);
         }
     }
 }

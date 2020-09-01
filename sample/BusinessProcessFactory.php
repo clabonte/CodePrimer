@@ -23,7 +23,6 @@ class BusinessProcessFactory
     const AUTHOR = 'author';
     const ADMIN = 'admin';
 
-
     /** @var BusinessBundle */
     private $businessBundle;
 

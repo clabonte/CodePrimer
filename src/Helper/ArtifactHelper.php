@@ -18,7 +18,7 @@ class ArtifactHelper
 
         switch ($artifact->getCategory()) {
             case Artifact::CODE:
-                $dir = 'src';
+                $dir = 'gen-src';
                 break;
             case Artifact::TESTS:
                 $dir = 'tests';

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace CodePrimer\Command;
 
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
@@ -10,14 +9,13 @@ use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Renderer\TemplateRenderer;
 use CodePrimer\Template\Artifact;
 use CodePrimer\Template\TemplateRegistry;
-use Twig\Loader\FilesystemLoader;
-
 use Exception;
 use Throwable;
+use Twig\Loader\FilesystemLoader;
 
 /**
- * 'prime' command line script
- * @package CodePrimer\Command
+ * 'prime' command line script.
+ *
  * @codeCoverageIgnore
  */
 class Prime
@@ -53,16 +51,13 @@ class Prime
                 if ($exit) {
                     exit(0);
                 }
+
                 return 0;
             }
 
-            return (new static)->run($argv, $exit);
+            return (new static())->run($argv, $exit);
         } catch (Throwable $t) {
-            throw new Exception(
-                $t->getMessage(),
-                (int) $t->getCode(),
-                $t
-            );
+            throw new Exception($t->getMessage(), (int) $t->getCode(), $t);
         }
     }
 
@@ -137,7 +132,6 @@ class Prime
         if ($this->configuration->isPrimeMarkdown()) {
             $this->primeMarkdownArtifacts();
         }
-
     }
 
     protected function finalizeBundle()
@@ -214,5 +208,4 @@ class Prime
         // Build the artifacts
         $builder->build($this->businessBundle, $template, $this->templateRenderer);
     }
-
 }
