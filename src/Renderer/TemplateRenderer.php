@@ -60,7 +60,6 @@ class TemplateRenderer
 
     /**
      * @codeCoverageIgnore
-     * @return bool
      */
     public function isOverwriteFiles(): bool
     {
@@ -69,12 +68,11 @@ class TemplateRenderer
 
     /**
      * @codeCoverageIgnore
-     * @param bool $overwriteFiles
-     * @return TemplateRenderer
      */
     public function setOverwriteFiles(bool $overwriteFiles): TemplateRenderer
     {
         $this->overwriteFiles = $overwriteFiles;
+
         return $this;
     }
 

@@ -9,6 +9,8 @@ use Doctrine\Inflector\InflectorFactory;
 
 class ConfigurationFileBuilder implements ArtifactBuilder
 {
+    const CODEPRIMER = 'codeprimer';
+    const GITHUB = 'github';
     const PHP_CS_FIXER = 'php cs fixer';
     const GITIGNORE = 'gitignore';
 
@@ -21,6 +23,13 @@ class ConfigurationFileBuilder implements ArtifactBuilder
             $filename = '.php_cs';
         } elseif (self::GITIGNORE == $variant) {
             $filename = '.gitignore';
+        }
+
+        $type = strtolower($artifact->getType());
+        if (self::CODEPRIMER == $type) {
+            $filename = 'codeprimer/'.$filename;
+        } elseif (self::GITHUB == $type) {
+            $filename = '.github/workflows/'.$filename;
         }
 
         $project = [];

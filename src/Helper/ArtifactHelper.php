@@ -64,8 +64,10 @@ class ArtifactHelper
         $extension = '.txt';
 
         if (Artifact::CONFIGURATION == $artifact->getCategory()) {
-            if (strtolower($artifact->getType()) == 'codeprimer') {
+            if ('codeprimer' == strtolower($artifact->getType())) {
                 $extension = '.php';
+            } elseif ('github' == strtolower($artifact->getType())) {
+                $extension = '.yml';
             } else {
                 switch (strtolower($artifact->getVariant())) {
                     case 'composer':

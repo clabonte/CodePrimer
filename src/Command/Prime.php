@@ -129,8 +129,14 @@ class Prime
         $artifact = new Artifact(Artifact::CONFIGURATION, 'git', 'php', 'gitignore');
         $this->primeArtifact($artifact, false);
 
-        // 5. Prepare the CodePrimer configuration files
-        $this->templateRenderer->setBaseFolder($this->configuration->getCodePrimerConfigurationPath());
+        // 5. Prepare the GitHub CI configuration files
+        $artifact = new Artifact(Artifact::CONFIGURATION, 'github', 'php', 'validate-master');
+        $this->primeArtifact($artifact, false);
+
+        $artifact = new Artifact(Artifact::CONFIGURATION, 'github', 'php', 'validate-pr');
+        $this->primeArtifact($artifact, false);
+
+        // 6. Prepare the CodePrimer configuration files
         $artifact = new Artifact(Artifact::CONFIGURATION, 'codeprimer', 'php', 'bundle');
         $this->primeArtifact($artifact, false);
 
@@ -142,7 +148,6 @@ class Prime
 
         $artifact = new Artifact(Artifact::CONFIGURATION, 'codeprimer', 'php', 'DatasetFactory');
         $this->primeArtifact($artifact, false);
-
     }
 
     private function primeArtifacts()
@@ -221,8 +226,8 @@ class Prime
     }
 
     /**
-     * @param Artifact $artifact Artifact to generate
-     * @param bool $overwrite Whether we should overwrite the file if it exists
+     * @param Artifact $artifact  Artifact to generate
+     * @param bool     $overwrite Whether we should overwrite the file if it exists
      *
      * @throws Exception
      */

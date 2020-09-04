@@ -177,6 +177,12 @@ class TemplateRegistry
 
         $this->addTemplate(new Template('DatasetFactory', new Artifact(Artifact::CONFIGURATION, 'codeprimer', 'php', 'DatasetFactory'), $phpExtensions),
             'Generate the codeprimer/DatasetFactory.php to allow you to define your CodePrimer Dataset objects', 'beta');
+
+        $this->addTemplate(new Template('validate-master', new Artifact(Artifact::CONFIGURATION, 'github', 'php', 'validate-master'), $phpExtensions),
+            'Generate the .github/workflows/validate-master.yml to enforce CI checks on code pushed to master branch', 'beta');
+
+        $this->addTemplate(new Template('validate-pr', new Artifact(Artifact::CONFIGURATION, 'github', 'php', 'validate-pr'), $phpExtensions),
+            'Generate the .github/workflows/validate-pr.yml to enforce CI checks on Pull Requests opened against the master branch', 'beta');
     }
 
     protected function initJavaTemplates()
