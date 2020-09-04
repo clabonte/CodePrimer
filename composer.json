@@ -24,6 +24,7 @@
     },
     "require-dev": {
         "ext-xdebug": "^2.7.2",
+        "friendsofphp/php-cs-fixer": "^2.16",
         "phpunit/phpunit": "^8"
     },
     "config": {
@@ -46,7 +47,7 @@
         }
     },
     "scripts": {
-        "format-code": "php-cs-fixer fix",
+        "format-code": "vendor/bin/php-cs-fixer fix",
         "phpunit": "vendor/bin/phpunit -c phpunit.xml.dist -d memory_limit=256M",
         "sample-app": "prime",
         "update-doc": "cd app; php prime.php; cd .."

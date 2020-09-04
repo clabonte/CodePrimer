@@ -17,22 +17,19 @@ class ArtifactBuilderFactory
     {
         $this->builders = [];
 
-        $this->builders['entity'] = EntityBuilder::class;
-        $this->builders['event'] = EventBuilder::class;
-        $this->builders['model'] = BusinessModelBuilder::class;
-        $this->builders['dataset'] = DatasetBuilder::class;
-        $this->builders['repository'] = RepositoryBuilder::class;
-        $this->builders['migration'] = MigrationBuilder::class;
-        $this->builders['revertmigration'] = MigrationBuilder::class;
-        $this->builders[Artifact::PROJECT] = [
-            'symfony' => ProjectScriptBuilder::class,
-            'php' => ProjectScriptBuilder::class,
+        $this->builders[Artifact::CODE] = [
+            'entity' => EntityBuilder::class,
+            'event' => EventBuilder::class,
+            'model' => BusinessModelBuilder::class,
+            'dataset' => DatasetBuilder::class,
+            'repository' => RepositoryBuilder::class,
+            'migration' => MigrationBuilder::class,
+            'revertmigration' => MigrationBuilder::class,
         ];
-        $this->builders[Artifact::DOCUMENTATION] = [
-            'model' => BundleDocumentationBuilder::class,
-            'process' => BundleDocumentationBuilder::class,
-            'dataset' => BundleDocumentationBuilder::class,
-        ];
+
+        $this->builders[Artifact::PROJECT] = ProjectScriptBuilder::class;
+        $this->builders[Artifact::DOCUMENTATION] = BundleDocumentationBuilder::class;
+        $this->builders[Artifact::CONFIGURATION] = ConfigurationFileBuilder::class;
     }
 
     /**
@@ -51,12 +48,12 @@ class ArtifactBuilderFactory
             return new $builder();
         }
 
-        if (!empty($this->builders[$type])) {
-            $builder = $this->builders[$type];
+        if (!empty($this->builders[$category])) {
+            $builder = $this->builders[$category];
 
             return new $builder();
         }
 
-        throw new RuntimeException("No builder available for type $type");
+        throw new RuntimeException("No builder available for category $category and type $type");
     }
 }

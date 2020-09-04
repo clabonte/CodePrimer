@@ -60,6 +60,11 @@ class Configuration
         return $this;
     }
 
+    public function getCodePrimerConfigurationPath(): string
+    {
+        return $this->projectPath.'codeprimer/';
+    }
+
     /**
      * @codeCoverageIgnore
      */

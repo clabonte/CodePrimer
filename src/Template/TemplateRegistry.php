@@ -153,9 +153,30 @@ class TemplateRegistry
         $this->addTemplate(new Template('setup', new Artifact(Artifact::PROJECT, 'symfony', 'sh', 'setup')),
             'Generate setup.sh script to quickly create a PHP project using the Symfony Flex framework with the right libraries', 'beta');
 
-        // Prepare PHP project templates
-        $this->addTemplate(new Template('composer', new Artifact(Artifact::PROJECT, 'php', 'json', 'composer'), $phpExtensions),
+        // Prepare PHP configuration templates
+        $this->addTemplate(new Template('composer', new Artifact(Artifact::CONFIGURATION, 'dependency manager', 'php', 'composer'), $phpExtensions),
             'Generate a composer.json file with the minimum set of libraries to start a plain PHP project', 'beta');
+
+        $this->addTemplate(new Template('.php_cs', new Artifact(Artifact::CONFIGURATION, 'coding standards', 'php', 'PHP CS Fixer'), $phpExtensions),
+            'Generate a .php_cs.dist file with the default coding standards configuration', 'beta');
+
+        $this->addTemplate(new Template('phpunit', new Artifact(Artifact::CONFIGURATION, 'tests', 'php', 'phpunit'), $phpExtensions),
+            'Generate a phpunit.xml.dist file with the default configuration for unit tests', 'beta');
+
+        $this->addTemplate(new Template('.gitignore', new Artifact(Artifact::CONFIGURATION, 'git', 'php', 'gitignore'), $phpExtensions),
+            'Generate a phpunit.xml.dist file with the default configuration for unit tests', 'beta');
+
+        $this->addTemplate(new Template('bundle', new Artifact(Artifact::CONFIGURATION, 'codeprimer', 'php', 'bundle'), $phpExtensions),
+            'Generate the codeprimer/bundle.php configuration file used by CodePrimer', 'beta');
+
+        $this->addTemplate(new Template('BusinessModelFactory', new Artifact(Artifact::CONFIGURATION, 'codeprimer', 'php', 'BusinessModelFactory'), $phpExtensions),
+            'Generate the codeprimer/BusinessModelFactory.php to allow you to define your CodePrimer BusinessModel objects', 'beta');
+
+        $this->addTemplate(new Template('BusinessProcessFactory', new Artifact(Artifact::CONFIGURATION, 'codeprimer', 'php', 'BusinessProcessFactory'), $phpExtensions),
+            'Generate the codeprimer/BusinessProcessFactory.php to allow you to define your CodePrimer BusinessProcess objects', 'beta');
+
+        $this->addTemplate(new Template('DatasetFactory', new Artifact(Artifact::CONFIGURATION, 'codeprimer', 'php', 'DatasetFactory'), $phpExtensions),
+            'Generate the codeprimer/DatasetFactory.php to allow you to define your CodePrimer Dataset objects', 'beta');
     }
 
     protected function initJavaTemplates()

@@ -111,10 +111,38 @@ class Prime
 
     private function primeNewPhpProject()
     {
-        // 1. Prepare the composer.json file to use
         $this->templateRenderer->setBaseFolder($this->configuration->getProjectPath());
-        $artifact = new Artifact(Artifact::PROJECT, 'PHP', 'json', 'composer');
-        $this->primeArtifact($artifact);
+
+        // 1. Prepare the composer.json file to use if it does not already exists
+        $artifact = new Artifact(Artifact::CONFIGURATION, 'dependency manager', 'php', 'composer');
+        $this->primeArtifact($artifact, false);
+
+        // 2. Prepare the .php_cs.dist file to use if it does not already exists
+        $artifact = new Artifact(Artifact::CONFIGURATION, 'coding standards', 'php', 'PHP CS Fixer');
+        $this->primeArtifact($artifact, false);
+
+        // 3. Prepare the phpunit.xml.dist file to use if it does not already exists
+        $artifact = new Artifact(Artifact::CONFIGURATION, 'tests', 'php', 'phpunit');
+        $this->primeArtifact($artifact, false);
+
+        // 4. Prepare the .gitgnore file to use if it does not already exists
+        $artifact = new Artifact(Artifact::CONFIGURATION, 'git', 'php', 'gitignore');
+        $this->primeArtifact($artifact, false);
+
+        // 5. Prepare the CodePrimer configuration files
+        $this->templateRenderer->setBaseFolder($this->configuration->getCodePrimerConfigurationPath());
+        $artifact = new Artifact(Artifact::CONFIGURATION, 'codeprimer', 'php', 'bundle');
+        $this->primeArtifact($artifact, false);
+
+        $artifact = new Artifact(Artifact::CONFIGURATION, 'codeprimer', 'php', 'BusinessModelFactory');
+        $this->primeArtifact($artifact, false);
+
+        $artifact = new Artifact(Artifact::CONFIGURATION, 'codeprimer', 'php', 'BusinessProcessFactory');
+        $this->primeArtifact($artifact, false);
+
+        $artifact = new Artifact(Artifact::CONFIGURATION, 'codeprimer', 'php', 'DatasetFactory');
+        $this->primeArtifact($artifact, false);
+
     }
 
     private function primeArtifacts()
@@ -194,10 +222,11 @@ class Prime
 
     /**
      * @param Artifact $artifact Artifact to generate
+     * @param bool $overwrite Whether we should overwrite the file if it exists
      *
      * @throws Exception
      */
-    protected function primeArtifact(Artifact $artifact)
+    protected function primeArtifact(Artifact $artifact, bool $overwrite = true)
     {
         // Extract the template to use for this artifact
         $template = $this->templateRegistry->getTemplateForArtifact($artifact);
@@ -206,6 +235,7 @@ class Prime
         $builder = $this->builderFactory->createBuilder($artifact);
 
         // Build the artifacts
+        $this->templateRenderer->setOverwriteFiles($overwrite);
         $builder->build($this->businessBundle, $template, $this->templateRenderer);
     }
 }
