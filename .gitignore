@@ -3,6 +3,7 @@
 .idea/
 /logs/
 /sample/output/
+/output/
 /.phpunit.result.cache
 .php_cs
 .php_cs.cache

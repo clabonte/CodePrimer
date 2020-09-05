@@ -8,6 +8,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+use CodePrimer\Command\InitProject;
+use CodePrimer\Command\Prime;
+use Symfony\Component\Console\Application;
+
 if (version_compare('7.3.0', PHP_VERSION, '>')) {
     fwrite(
         STDERR,
@@ -49,4 +54,8 @@ if (!defined('CODEPRIMER_COMPOSER_INSTALL')) {
 
 require CODEPRIMER_COMPOSER_INSTALL;
 
-\CodePrimer\Command\Prime::main();
+$application = new Application('CodePrimer', '0.1.1');
+$application->add(new Prime());
+$application->add(new InitProject());
+
+$application->run();

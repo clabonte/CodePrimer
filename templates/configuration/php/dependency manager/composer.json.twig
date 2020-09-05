@@ -29,11 +29,12 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "{{ bundle|namespace|replace({'\\': '\\\\'}) }}\\Tests\\": "tests/"
+            "{{ bundle|namespace|replace({'\\': '\\\\'}) }}\\Tests\\": ["tests/", "gen-tests"]
         }
     },
     "scripts": {
         "format-code": "vendor/bin/php-cs-fixer fix",
-        "phpunit": "vendor/bin/phpunit -c phpunit.xml.dist -d memory_limit=256M"
+        "phpunit": "vendor/bin/phpunit -c phpunit.xml.dist -d memory_limit=256M",
+        "prime": "vendor/bin/codeprimer prime"
     }
 }

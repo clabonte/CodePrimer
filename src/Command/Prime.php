@@ -10,6 +10,12 @@ use CodePrimer\Renderer\TemplateRenderer;
 use CodePrimer\Template\Artifact;
 use CodePrimer\Template\TemplateRegistry;
 use Exception;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Yaml\Yaml;
 use Throwable;
 use Twig\Loader\FilesystemLoader;
 
@@ -18,153 +24,96 @@ use Twig\Loader\FilesystemLoader;
  *
  * @codeCoverageIgnore
  */
-class Prime
+class Prime extends CodePrimerCommand
 {
-    // PATH CONSTANTS
-    const BASE_PATH = __DIR__.'/../../';
+    const OPTION_CONFIGURATION = 'configuration';
+    const OPTION_DESTINATION = 'destination';
+    const DEFAULT_CONFIGURATION_FILE = './codeprimer/codeprimer.yaml';
 
-    /** @var Configuration */
+    protected static $defaultName = 'prime';
+
+    /** @var ProjectConfiguration */
     protected $configuration;
 
-    /** @var TemplateRegistry */
-    private $templateRegistry;
-
-    /** @var ArtifactBuilderFactory */
-    private $builderFactory;
-
-    /** @var TemplateRenderer */
-    private $templateRenderer;
+    /** @var string */
+    protected $destination;
 
     /** @var BusinessBundle */
-    private $businessBundle;
+    protected $businessBundle;
 
-    /**
-     * @throws Exception
-     */
-    public static function main(bool $exit = true): int
+    protected function getBusinessBundle(): BusinessBundle
     {
-        $argv = $_SERVER['argv'];
-
-        try {
-            if (in_array('-h', $argv) || in_array('--help', $argv)) {
-                self::printHelp();
-                if ($exit) {
-                    exit(0);
-                }
-
-                return 0;
-            }
-
-            return (new static())->run($argv, $exit);
-        } catch (Throwable $t) {
-            throw new Exception($t->getMessage(), (int) $t->getCode(), $t);
-        }
+        return $this->businessBundle;
     }
 
-    public static function printHelp()
+    protected function configure()
     {
-        echo 'prime [--init]';
+        $help = <<<'EOF'
+The <info>codeprimer %command.name%</info> command primes (i.e. generates) a list of artifacts based on a YAML configuration file.
+  Unless a configuration file is specified, it will use the default one located at <info>./codeprimer/codeprimer.yaml</info> 
+  If you have no configuration file yet, you may generate one by running the <info>codeprimer init</info> command 
+EOF;
+        $this
+            ->setDescription('Primes artifacts for your project based on the configuration file specified.')
+            ->addOption(
+                self::OPTION_CONFIGURATION,
+                ['c'],
+                InputOption::VALUE_REQUIRED,
+                'The configuration file to use',
+                self::DEFAULT_CONFIGURATION_FILE
+            )
+            ->addOption(
+                self::OPTION_DESTINATION,
+                ['d'],
+                InputOption::VALUE_REQUIRED,
+                'The directory where artifacts will be generated',
+                '.'
+            )
+            ->setHelp($help);
     }
 
-    /**
-     * @throws Exception
-     */
-    public function run(array $argv, bool $exit = true): int
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->configuration = new Configuration($argv);
+        $this->prepareStyles($output);
 
-        $this->initCodePrimer();
-
-        require $this->configuration->getBundleFile();
-        $this->businessBundle = prepareBundle();
-
-        if ($this->configuration->isInitProject()) {
-            $this->primeNewProject();
-        } else {
-            $this->primeArtifacts();
+        if (!$this->parseArguments($input, $output)) {
+            return self::FAILURE;
         }
 
-        if ($exit) {
-            exit(0);
+        if (!$this->validateConfiguration($output)) {
+            return self::FAILURE;
         }
 
-        return 0;
-    }
+        $this->templateRenderer->setBaseFolder($this->destination);
 
-    /**
-     * Initializes the CodePrimer components used to generate artifacts.
-     */
-    private function initCodePrimer()
-    {
-        $this->templateRegistry = new TemplateRegistry();
-        $this->builderFactory = new ArtifactBuilderFactory();
-        $loader = new FilesystemLoader('templates', self::BASE_PATH);
-        $this->templateRenderer = new TemplateRenderer($loader, $this->configuration->getProjectPath());
-    }
+        require $this->configuration->getPath();
 
-    private function primeNewProject()
-    {
-        if ($this->configuration->isPrimePhp()) {
-            $this->primeNewPhpProject();
-        }
-    }
+        $configBundle = $this->configuration->getBusinessBundle();
+        $this->businessBundle = prepareBundle($configBundle->getNamespace(), $configBundle->getName(), $configBundle->getDescription());
 
-    private function primeNewPhpProject()
-    {
-        $this->templateRenderer->setBaseFolder($this->configuration->getProjectPath());
-
-        // 1. Prepare the composer.json file to use if it does not already exists
-        $artifact = new Artifact(Artifact::CONFIGURATION, 'dependency manager', 'php', 'composer');
-        $this->primeArtifact($artifact, false);
-
-        // 2. Prepare the .php_cs.dist file to use if it does not already exists
-        $artifact = new Artifact(Artifact::CONFIGURATION, 'coding standards', 'php', 'PHP CS Fixer');
-        $this->primeArtifact($artifact, false);
-
-        // 3. Prepare the phpunit.xml.dist file to use if it does not already exists
-        $artifact = new Artifact(Artifact::CONFIGURATION, 'tests', 'php', 'phpunit');
-        $this->primeArtifact($artifact, false);
-
-        // 4. Prepare the .gitgnore file to use if it does not already exists
-        $artifact = new Artifact(Artifact::CONFIGURATION, 'git', 'php', 'gitignore');
-        $this->primeArtifact($artifact, false);
-
-        // 5. Prepare the GitHub CI configuration files
-        $artifact = new Artifact(Artifact::CONFIGURATION, 'github', 'php', 'validate-master');
-        $this->primeArtifact($artifact, false);
-
-        $artifact = new Artifact(Artifact::CONFIGURATION, 'github', 'php', 'validate-pr');
-        $this->primeArtifact($artifact, false);
-
-        // 6. Prepare the CodePrimer configuration files
-        $artifact = new Artifact(Artifact::CONFIGURATION, 'codeprimer', 'php', 'bundle');
-        $this->primeArtifact($artifact, false);
-
-        $artifact = new Artifact(Artifact::CONFIGURATION, 'codeprimer', 'php', 'BusinessModelFactory');
-        $this->primeArtifact($artifact, false);
-
-        $artifact = new Artifact(Artifact::CONFIGURATION, 'codeprimer', 'php', 'BusinessProcessFactory');
-        $this->primeArtifact($artifact, false);
-
-        $artifact = new Artifact(Artifact::CONFIGURATION, 'codeprimer', 'php', 'DatasetFactory');
-        $this->primeArtifact($artifact, false);
-    }
-
-    private function primeArtifacts()
-    {
         $this->finalizeBundle();
 
-        if ($this->configuration->isPrimePhp()) {
-            $this->primePhpArtifacts();
+        try {
+            $this->primeArtifacts(Artifact::DOCUMENTATION, $output);
+            $this->primeArtifacts(Artifact::CONFIGURATION, $output);
+            $this->primeArtifacts(Artifact::CODE, $output);
+            $this->primeArtifacts(Artifact::TESTS, $output);
+        } catch (Throwable $t) {
+            $output->writeln("<error>Failed to prime artifacts: {$t->getMessage()}</error>");
+            return self::FAILURE;
         }
 
-        if ($this->configuration->isPrimeMySql()) {
-            $this->primeMySqlArtifacts();
+        return self::SUCCESS;
+    }
+
+    private function primeArtifacts(string $category, OutputInterface $output)
+    {
+        $artifacts = $this->configuration->getArtifacts($category);
+        foreach ($artifacts as $artifact) {
+            $output->writeln("Priming artifact(s) - category: <info>{$artifact->getCategory()}</info>, format: <info>{$artifact->getFormat()}</info>, type: <info>{$artifact->getType()}</info>, variant: <info>{$artifact->getVariant()}</info>");
+            $this->primeArtifact($artifact);
         }
 
-        if ($this->configuration->isPrimeMarkdown()) {
-            $this->primeMarkdownArtifacts();
-        }
     }
 
     protected function finalizeBundle()
@@ -173,74 +122,105 @@ class Prime
         $bundleHelper = new BusinessBundleHelper();
         $bundleHelper->buildRelationships($this->businessBundle);
 
-        if ($this->configuration->isPrimeMySql()) {
+        if ($this->configuration->isRelationalDatabaseConfigured()) {
             // Prepare the relationships for a relational database
             $adapter = new RelationalDatabaseAdapter();
             $adapter->generateRelationalFields($this->businessBundle);
         }
     }
 
-    protected function primePhpArtifacts()
+    private function parseArguments(InputInterface $input, OutputInterface $output): bool
     {
-        // 1. Prime 'Dataset' source code
-        $artifact = new Artifact(Artifact::CODE, 'dataset', 'php');
-        $this->primeArtifact($artifact);
+        // Make sure the configuration file exists and is readable
+        $filename = $input->getOption(self::OPTION_CONFIGURATION);
+        if (!file_exists($filename)) {
+            $output->writeln("<error>Cannot find configuration file <file>$filename</file></error>");
+            if (self::DEFAULT_CONFIGURATION_FILE == $filename) {
+                $output->writeln("<question>Did you forget to run the <info>codeprimer init</info> command ?</question>");
+            }
+            return false;
+        }
 
-        // 2. Prime 'Business Model' source code
-        $artifact = new Artifact(Artifact::CODE, 'model', 'php');
-        $this->primeArtifact($artifact);
+        if (!is_readable($filename)) {
+            $output->writeln("<error>Configuration file <file>$filename</file> is not readable. Please update its permissions and try again.</error>");
+            return false;
+        }
 
-        // 3. Prime 'Event' source code
-        $artifact = new Artifact(Artifact::CODE, 'event', 'php');
-        $this->primeArtifact($artifact);
+        // Check if the output folder is present and writable
+        $destination = $input->getOption(self::OPTION_DESTINATION);
+        if (!is_dir($destination)) {
+            if (file_exists($destination)) {
+                $output->writeln("<error>Destination <file>$destination</file> must be a directory.</error>");
+                return false;
+            } else {
+                $question = new ConfirmationQuestion("The destination directory <file>$destination</file> does not exist. Do you want to create it? [Yes/No] [Yes]", true);
+                $helper = $this->getHelper('question');
+                if ($helper->ask($input, $output, $question)) {
+                    mkdir($destination, 0755, true);
+                }
+            }
+        } elseif (!is_writable($destination)) {
+            $output->writeln("<error>Destination directory <file>$destination</file> is not writable. Please update its permissions and try again.</error>");
+            return false;
+        }
+
+        $this->destination = $destination;
+        $output->writeln("Loading configuration from file <file>$filename</file>");
+        try {
+            $this->configuration = new ProjectConfiguration();
+            $this->configuration->load($filename);
+        } catch (Throwable $t) {
+            $output->writeln("<error>Failed to load configuration file: {$t->getMessage()}</error>");
+            return false;
+        }
+
+        return true;
     }
 
-    protected function primeMySqlArtifacts()
+    private function validateConfiguration(OutputInterface $output): bool
     {
-        // 1. Prime the MySQL 'Create DB' script to create the initial database
-        $artifact = new Artifact(Artifact::CODE, 'Migration', 'mysql', 'CreateDatabase');
-        $this->primeArtifact($artifact);
+        // Check if the bundle definition is valid
+        $bundleDefinitionFile = $this->configuration->getPath();
+        if (!file_exists($bundleDefinitionFile)) {
+            $output->writeln("<error>Cannot find bundle definition file <file>$bundleDefinitionFile</file></error>");
+            return false;
+        }
 
-        // 2. Prime the MySQL 'Revert DB' scripts to revert the initial database setup
-        $artifact = new Artifact(Artifact::CODE, 'Migration', 'mysql', 'RevertDatabase');
-        $this->primeArtifact($artifact);
-    }
+        if (!is_readable($bundleDefinitionFile)) {
+            $output->writeln("<error>Bundle definition file <file>$bundleDefinitionFile</file> is not readable. Please update its permissions and try again.</error>");
+            return false;
+        }
 
-    protected function primeMarkdownArtifacts()
-    {
-        // 1. Prime 'Dataset' documentation in Markdown
-        $artifact = new Artifact(Artifact::DOCUMENTATION, 'dataset', 'markdown');
-        $this->primeArtifact($artifact);
+        // Make sure all artifacts requested exists
+        $unknownTemplates = [];
+        $unknownBuilders = [];
+        foreach ($this->configuration->getAllArtifacts() as $artifact) {
+            // Check if we have a template available for this artifact...
+            $template = $this->templateRegistry->getTemplateForArtifact($artifact);
+            if (null === $template) {
+                $unknownTemplates[] = $artifact;
+            } else {
+                // Check if we have a builder available for this artifact...
+                $builder = $this->builderFactory->createBuilder($artifact);
+                if (null === $builder) {
+                    $unknownBuilders[] = $artifact;
+                }
+            }
+        }
 
-        // 2. Prime 'Data Model' documentation in Markdown
-        $artifact = new Artifact(Artifact::DOCUMENTATION, 'model', 'markdown');
-        $this->primeArtifact($artifact);
-
-        // 3. Prime 'Processing Model' overview documentation in Markdown
-        $artifact = new Artifact(Artifact::DOCUMENTATION, 'process', 'markdown', 'index');
-        $this->primeArtifact($artifact);
-
-        // 4. Prime 'Processing Model' detailed documentation in Markdown
-        $artifact = new Artifact(Artifact::DOCUMENTATION, 'process', 'markdown', 'details');
-        $this->primeArtifact($artifact);
-    }
-
-    /**
-     * @param Artifact $artifact  Artifact to generate
-     * @param bool     $overwrite Whether we should overwrite the file if it exists
-     *
-     * @throws Exception
-     */
-    protected function primeArtifact(Artifact $artifact, bool $overwrite = true)
-    {
-        // Extract the template to use for this artifact
-        $template = $this->templateRegistry->getTemplateForArtifact($artifact);
-
-        // Extract the builder to use for this artifact
-        $builder = $this->builderFactory->createBuilder($artifact);
-
-        // Build the artifacts
-        $this->templateRenderer->setOverwriteFiles($overwrite);
-        $builder->build($this->businessBundle, $template, $this->templateRenderer);
+        $result = true;
+        if (!empty($unknownTemplates)) {
+            foreach ($unknownTemplates as $artifact) {
+                $output->writeln("<error>No template available for artifact - category: <info>{$artifact->getCategory()}</info>, format: <info>{$artifact->getFormat()}</info>, type: <info>{$artifact->getType()}</info>, variant: <info>{$artifact->getVariant()}</info></error>");
+            }
+            $result = false;
+        }
+        if (!empty($unknownBuilders)) {
+            foreach ($unknownBuilders as $artifact) {
+                $output->writeln("<error>No builder available for artifact - category: <info>{$artifact->getCategory()}</info>, format: <info>{$artifact->getFormat()}</info>, type: <info>{$artifact->getType()}</info>, variant: <info>{$artifact->getVariant()}</info></error>");
+            }
+            $result = false;
+        }
+        return $result;
     }
 }

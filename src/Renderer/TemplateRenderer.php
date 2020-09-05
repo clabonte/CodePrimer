@@ -154,7 +154,7 @@ class TemplateRenderer
             // Make sure the folder requested exist. If not, create it
             $dir = dirname($file);
             if (!file_exists($dir)) {
-                mkdir($dir, 0777, true);
+                mkdir($dir, 0755, true);
             }
 
             $content = $this->renderTemplate($template, $context);
