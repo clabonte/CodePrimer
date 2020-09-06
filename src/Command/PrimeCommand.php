@@ -6,7 +6,6 @@ use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Helper\BusinessBundleHelper;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Template\Artifact;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,10 +14,8 @@ use Throwable;
 
 /**
  * 'prime' command line script.
- *
- * @codeCoverageIgnore
  */
-class Prime extends CodePrimerCommand
+class PrimeCommand extends CodePrimerCommand
 {
     const OPTION_CONFIGURATION = 'configuration';
     const OPTION_DESTINATION = 'destination';

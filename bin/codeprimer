@@ -9,8 +9,8 @@
  * file that was distributed with this source code.
  */
 
-use CodePrimer\Command\InitProject;
-use CodePrimer\Command\Prime;
+use CodePrimer\Command\InitCommand;
+use CodePrimer\Command\PrimeCommand;
 use Symfony\Component\Console\Application;
 
 if (version_compare('7.3.0', PHP_VERSION, '>')) {
@@ -55,7 +55,7 @@ if (!defined('CODEPRIMER_COMPOSER_INSTALL')) {
 require CODEPRIMER_COMPOSER_INSTALL;
 
 $application = new Application('CodePrimer', '0.1.1');
-$application->add(new Prime());
-$application->add(new InitProject());
+$application->add(new PrimeCommand());
+$application->add(new InitCommand());
 
 $application->run();

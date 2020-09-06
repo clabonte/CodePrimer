@@ -10,7 +10,7 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
-class InitProject extends CodePrimerCommand
+class InitCommand extends CodePrimerCommand
 {
     const PROJECT_PHP = 'PHP';
 

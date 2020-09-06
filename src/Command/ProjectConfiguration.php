@@ -8,8 +8,6 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class ProjectConfiguration.
- *
- * @codeCoverageIgnore
  */
 class ProjectConfiguration
 {
@@ -164,9 +162,11 @@ class ProjectConfiguration
     {
         $result = false;
 
-        $artifacts = array_change_key_case($this->configuration['artifacts'][Artifact::CODE]);
-        if (isset($artifacts['mysql'])) {
-            $result = true;
+        if (isset($this->configuration['artifacts'][Artifact::CODE])) {
+            $artifacts = array_change_key_case($this->configuration['artifacts'][Artifact::CODE]);
+            if (isset($artifacts['mysql'])) {
+                $result = true;
+            }
         }
 
         return $result;
