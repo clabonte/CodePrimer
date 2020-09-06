@@ -6,11 +6,11 @@ require 'DatasetFactory.php';
 require 'BusinessModelFactory.php';
 require 'BusinessProcessFactory.php';
 
-function prepareBundle()
+function prepareBundle(string $namespace = 'io.codeprimer.sample', string $name = 'Channel', string $description = 'This sample application is used to show how model a business application using CodePrimer')
 {
     // Step 1 - Create your BusinessBundle
-    $bundle = new BusinessBundle('io.codeprimer.sample', 'Channel');
-    $bundle->setDescription('This sample application is used to show how model a business application using CodePrimer');
+    $bundle = new BusinessBundle($namespace, $name);
+    $bundle->setDescription($description);
 
     // Step 2 - Add your Datasets to your Bundle by calling all the 'create' methods without parameters defined in the factory
     $datasetFactory = new DatasetFactory();

@@ -162,6 +162,10 @@ EOF;
             return false;
         }
 
+        if (strpos($destination, '/', -1) === FALSE) {
+            $destination .= '/';
+        }
+
         $this->destination = $destination;
         $output->writeln("Loading configuration from file <file>$filename</file>");
         try {

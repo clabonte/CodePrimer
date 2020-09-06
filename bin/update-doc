@@ -1,10 +1,11 @@
+#!/usr/bin/env php
 <?php
 
 use CodePrimer\Template\TemplateRegistry;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
-require '../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 /**
  * Temporary class used to maintain documentation until I finalize a proper approach to do so and provide a real CLI

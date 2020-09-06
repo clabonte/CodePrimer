@@ -1,0 +1,20 @@
+bundle:
+    path: sample/bundle.php
+    name: Channel
+    namespace: io.codeprimer.sample
+    description: This sample application is used to show how model a business application using CodePrimer
+artifacts:
+    code:
+        php:
+            - dataset
+            - model
+            - event
+        mysql:
+            - { Migration: CreateDatabase }
+            - { Migration: RevertDatabase }
+    documentation:
+        markdown:
+            - dataset
+            - model
+            - { process: index }
+            - { process: details }

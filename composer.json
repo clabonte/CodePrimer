@@ -51,7 +51,7 @@
     "scripts": {
         "format-code": "vendor/bin/php-cs-fixer fix",
         "phpunit": "vendor/bin/phpunit -c phpunit.xml.dist -d memory_limit=256M",
-        "sample-app": "prime",
-        "update-doc": "cd app; php prime.php; cd .."
+        "sample-app": "bin/codeprimer prime -d sample/output -c sample/codeprimer.yaml",
+        "update-doc": "bin/update-doc"
     }
 }
