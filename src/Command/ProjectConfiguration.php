@@ -42,8 +42,10 @@ class ProjectConfiguration
         return $this;
     }
 
-    public function getBusinessBundle(): BusinessBundle {
+    public function getBusinessBundle(): BusinessBundle
+    {
         $bundle = $this->configuration['bundle'];
+
         return new BusinessBundle($bundle['namespace'], $bundle['name'], $bundle['description']);
     }
 
@@ -71,7 +73,6 @@ class ProjectConfiguration
     }
 
     /**
-     * @param string $category
      * @return Artifact[]
      */
     public function getArtifacts(string $category): array
@@ -132,6 +133,7 @@ class ProjectConfiguration
                 }
             }
         }
+
         return $results;
     }
 

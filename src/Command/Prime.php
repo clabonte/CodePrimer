@@ -3,21 +3,15 @@
 namespace CodePrimer\Command;
 
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
-use CodePrimer\Builder\ArtifactBuilderFactory;
 use CodePrimer\Helper\BusinessBundleHelper;
 use CodePrimer\Model\BusinessBundle;
-use CodePrimer\Renderer\TemplateRenderer;
 use CodePrimer\Template\Artifact;
-use CodePrimer\Template\TemplateRegistry;
-use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Yaml\Yaml;
 use Throwable;
-use Twig\Loader\FilesystemLoader;
 
 /**
  * 'prime' command line script.
@@ -100,6 +94,7 @@ EOF;
             $this->primeArtifacts(Artifact::TESTS, $output);
         } catch (Throwable $t) {
             $output->writeln("<error>Failed to prime artifacts: {$t->getMessage()}</error>");
+
             return self::FAILURE;
         }
 
@@ -113,7 +108,6 @@ EOF;
             $output->writeln("Priming artifact(s) - category: <info>{$artifact->getCategory()}</info>, format: <info>{$artifact->getFormat()}</info>, type: <info>{$artifact->getType()}</info>, variant: <info>{$artifact->getVariant()}</info>");
             $this->primeArtifact($artifact);
         }
-
     }
 
     protected function finalizeBundle()
@@ -136,13 +130,15 @@ EOF;
         if (!file_exists($filename)) {
             $output->writeln("<error>Cannot find configuration file <file>$filename</file></error>");
             if (self::DEFAULT_CONFIGURATION_FILE == $filename) {
-                $output->writeln("<question>Did you forget to run the <info>codeprimer init</info> command ?</question>");
+                $output->writeln('<question>Did you forget to run the <info>codeprimer init</info> command ?</question>');
             }
+
             return false;
         }
 
         if (!is_readable($filename)) {
             $output->writeln("<error>Configuration file <file>$filename</file> is not readable. Please update its permissions and try again.</error>");
+
             return false;
         }
 
@@ -151,6 +147,7 @@ EOF;
         if (!is_dir($destination)) {
             if (file_exists($destination)) {
                 $output->writeln("<error>Destination <file>$destination</file> must be a directory.</error>");
+
                 return false;
             } else {
                 $question = new ConfirmationQuestion("The destination directory <file>$destination</file> does not exist. Do you want to create it? [Yes/No] [Yes]", true);
@@ -161,6 +158,7 @@ EOF;
             }
         } elseif (!is_writable($destination)) {
             $output->writeln("<error>Destination directory <file>$destination</file> is not writable. Please update its permissions and try again.</error>");
+
             return false;
         }
 
@@ -171,6 +169,7 @@ EOF;
             $this->configuration->load($filename);
         } catch (Throwable $t) {
             $output->writeln("<error>Failed to load configuration file: {$t->getMessage()}</error>");
+
             return false;
         }
 
@@ -183,11 +182,13 @@ EOF;
         $bundleDefinitionFile = $this->configuration->getPath();
         if (!file_exists($bundleDefinitionFile)) {
             $output->writeln("<error>Cannot find bundle definition file <file>$bundleDefinitionFile</file></error>");
+
             return false;
         }
 
         if (!is_readable($bundleDefinitionFile)) {
             $output->writeln("<error>Bundle definition file <file>$bundleDefinitionFile</file> is not readable. Please update its permissions and try again.</error>");
+
             return false;
         }
 
@@ -221,6 +222,7 @@ EOF;
             }
             $result = false;
         }
+
         return $result;
     }
 }

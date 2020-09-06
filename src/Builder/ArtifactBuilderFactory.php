@@ -51,7 +51,9 @@ class ArtifactBuilderFactory
         if (!empty($this->builders[$category])) {
             $builder = $this->builders[$category];
 
-            return new $builder();
+            if (!is_array($builder)) {
+                return new $builder();
+            }
         }
 
         throw new RuntimeException("No builder available for category $category and type $type");

@@ -40,13 +40,13 @@ class TemplateRegistryTest extends TestCase
         self::assertCount(11, $templates);
 
         $templates = $this->registry->listTemplates(Artifact::CONFIGURATION);
-        self::assertEmpty($templates);
+        self::assertCount(10, $templates);
 
         $templates = $this->registry->listTemplates(Artifact::DOCUMENTATION);
         self::assertCount(4, $templates);
 
         $templates = $this->registry->listTemplates(Artifact::PROJECT);
-        self::assertCount(2, $templates);
+        self::assertCount(1, $templates);
 
         $templates = $this->registry->listTemplates(Artifact::TESTS);
         self::assertEmpty($templates);

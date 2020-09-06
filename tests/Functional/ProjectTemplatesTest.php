@@ -12,7 +12,7 @@ use CodePrimer\Template\Artifact;
 class ProjectTemplatesTest extends TemplateTestCase
 {
     const SYMFONY_EXPECTED_DIR = self::EXPECTED_DIR.'project/symfony/';
-    const PHP_EXPECTED_DIR = self::EXPECTED_DIR.'project/php/';
+    const PHP_EXPECTED_DIR = self::EXPECTED_DIR.'configuration/php/';
 
     /**
      * @throws \Exception
@@ -42,7 +42,7 @@ class ProjectTemplatesTest extends TemplateTestCase
     {
         $this->initEntities();
 
-        $artifact = new Artifact(Artifact::PROJECT, 'PHP', 'json', 'composer');
+        $artifact = new Artifact(Artifact::CONFIGURATION, 'dependency manager', 'PHP', 'composer');
 
         // Extract the template to use for this artifact
         $template = $this->templateRegistry->getTemplateForArtifact($artifact);
@@ -56,6 +56,6 @@ class ProjectTemplatesTest extends TemplateTestCase
         $builder->build($this->businessBundle, $template, $this->renderer);
 
         // Make sure the right files have been generated
-        $this->assertGeneratedFile('composer.json', self::PHP_EXPECTED_DIR);
+        $this->assertGeneratedFile('composer.json', self::PHP_EXPECTED_DIR.'dependency manager/');
     }
 }

@@ -1,7 +1,7 @@
 {
-    "name": "{{ bundle.name }}",
+    "name": "FunctionalTest",
     "type": "application",
-    "description": "{{ bundle.description }}",
+    "description": "This is a sample BusinessBundle used to test CodePrimer functionality",
     "prefer-stable": true,
     "require": {
         "php": "^7.3.9",
@@ -24,12 +24,12 @@
     },
     "autoload": {
         "psr-4": {
-            "{{ bundle|namespace|replace({'\\': '\\\\'}) }}\\": ["src/", "gen-src/"]
+            "CodePrimer\\Tests\\": ["src/", "gen-src/"]
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "{{ bundle|namespace|replace({'\\': '\\\\'}) }}\\Tests\\": ["tests/", "gen-tests"]
+            "CodePrimer\\Tests\\Tests\\": ["tests/", "gen-tests"]
         }
     },
     "scripts": {
