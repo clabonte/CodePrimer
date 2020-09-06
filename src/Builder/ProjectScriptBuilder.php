@@ -20,9 +20,6 @@ class ProjectScriptBuilder implements ArtifactBuilder
     {
         $artifact = $template->getArtifact();
         $filename = strtolower($artifact->getVariant());
-        if (self::PHP_CS_FIXER_FORMAT == $artifact->getFormat()) {
-            $filename = '.php_cs';
-        }
 
         $project = [];
 

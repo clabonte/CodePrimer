@@ -105,7 +105,7 @@ class TemplateRendererTest extends TestCase
         self::assertEquals($expected, $content);
     }
 
-    public function testConstructorWithCustomerHelperShouldPass()
+    public function testConstructorWithCustomHelperShouldPass()
     {
         $stub = $this->getMockBuilder(ArtifactHelper::class)->getMock();
 
