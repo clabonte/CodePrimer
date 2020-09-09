@@ -23,7 +23,7 @@ class PrimeCommandTest extends TemplateTestCase
 
         chmod(__DIR__.'/../../fixtures/configuration/notreadable.yaml', 0222);
         chmod(__DIR__.'/../../fixtures/configuration/codeprimer/notreadable_bundle.php', 0222);
-        mkdir ('tests/output/actual/readonlydir', 0444);
+        mkdir('tests/output/actual/readonlydir', 0444);
     }
 
     public function tearDown(): void
