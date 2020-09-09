@@ -28,6 +28,10 @@ class PrimeCommandTest extends TemplateTestCase
     public function tearDown(): void
     {
         parent::tearDown();
+        if (file_exists('fixtures/configuration/codeprimer/RenamedDatasetFactory.php')) {
+            rename('fixtures/configuration/codeprimer/RenamedDatasetFactory.php', 'fixtures/configuration/codeprimer/DatasetFactory.php');
+        }
+
         chmod('fixtures/configuration/notreadable.yaml', 0666);
         chmod('fixtures/configuration/codeprimer/notreadable_bundle.php', 0666);
     }
@@ -101,7 +105,6 @@ Failed to load configuration file: You cannot define a mapping item when in a se
 
     /**
      * @dataProvider invalidConfigurationProvider
-     * @runInSeparateProcess
      */
     public function testExecuteShouldFailOnInvalidConfiguration(array $arguments, string $expectedError)
     {
@@ -138,27 +141,59 @@ Bundle definition file fixtures/configuration/codeprimer/notreadable_bundle.php 
                 "Loading configuration from file fixtures/configuration/unknown_template.yaml
 No template available for category 'code', type 'unknown', format 'php', variant ''\n",
             ],
-            'Missing factory' => [
-                [
-                    '--configuration' => 'fixtures/configuration/missing_factories.yaml',
-                    '--destination' => 'tests/output/actual/',
-                ],
-                "Loading configuration from file fixtures/configuration/missing_factories.yaml
-Failed to load configured path 'fixtures/configuration/missing_factories/bundle.php': require(DatasetFactory.php): failed to open stream: No such file or directory\n",
-            ],
         ];
     }
 
-    /**
-     * @runInSeparateProcess
-     */
-    public function testExecuteShouldPass()
+    public function testExecuteShouldFailOnMissingFactory()
     {
         $arguments = [
             '--configuration' => 'fixtures/configuration/codeprimer.yaml',
             '--destination' => 'tests/output/actual/',
         ];
+        $expectedError = "Loading configuration from file fixtures/configuration/codeprimer.yaml
+Failed to load configured path 'fixtures/configuration/codeprimer/bundle.php': require(DatasetFactory.php): failed to open stream: No such file or directory\n";
+
+        if (file_exists('fixtures/configuration/codeprimer/DatasetFactory.php')) {
+            rename('fixtures/configuration/codeprimer/DatasetFactory.php', 'fixtures/configuration/codeprimer/RenamedDatasetFactory.php');
+        }
+        self::assertEquals(Command::FAILURE, $this->commandTester->execute($arguments));
+
+        $output = $this->commandTester->getDisplay();
+        self::assertEquals($expectedError, $output);
+    }
+
+    public function testExecuteShouldPass()
+    {
+        $destDir = 'tests/output/actual/';
+        $arguments = [
+            '--configuration' => 'fixtures/configuration/codeprimer.yaml',
+            '--destination' => $destDir,
+        ];
+
+        if (file_exists('fixtures/configuration/codeprimer/RenamedDatasetFactory.php')) {
+            rename('fixtures/configuration/codeprimer/RenamedDatasetFactory.php', 'fixtures/configuration/codeprimer/DatasetFactory.php');
+        }
 
         self::assertEquals(Command::SUCCESS, $this->commandTester->execute($arguments), "Command failed with display:\n{$this->commandTester->getDisplay()}");
+
+        // Make sure all documentation files have been generated
+        self::assertFileExists($destDir.'docs/DataModel/Overview.md');
+        self::assertFileExists($destDir.'docs/Dataset/Overview.md');
+        self::assertFileExists($destDir.'docs/Process/Overview.md');
+        self::assertFileExists($destDir.'docs/Process/UserLogin.md');
+        self::assertFileExists($destDir.'docs/Process/UserLogout.md');
+        self::assertFileExists($destDir.'docs/Process/UserRegistration.md');
+
+        // Make sure all source code files have been generated
+        self::assertFileExists($destDir.'gen-src/Dataset/UserRole.php');
+        self::assertFileExists($destDir.'gen-src/Dataset/UserStatus.php');
+        self::assertFileExists($destDir.'gen-src/Event/LoginRequest.php');
+        self::assertFileExists($destDir.'gen-src/Event/LogoutRequest.php');
+        self::assertFileExists($destDir.'gen-src/Event/RegistrationRequest.php');
+        self::assertFileExists($destDir.'gen-src/Model/User.php');
+
+        // Make sure all migration files have been generated
+        self::assertFileExists($destDir.'migrations/CreateDatabase.sql');
+        self::assertFileExists($destDir.'migrations/RevertDatabase.sql');
     }
 }

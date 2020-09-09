@@ -2,7 +2,7 @@
  # Variables:
  #  - messages: Array of messages to print
  #}
-{% spaceless %}
+{% apply spaceless %}
 {% if messages is empty %}
 *N/A*
 {% elseif messages|length == 1 %}
@@ -15,4 +15,4 @@
 {% endfor %}
 </ul>
 {% endif %}
-{% endspaceless %}
+{% endapply %}

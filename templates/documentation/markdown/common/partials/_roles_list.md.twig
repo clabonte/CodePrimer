@@ -2,7 +2,7 @@
  # Variables:
  #  - roles: Array of roles to print
  #}
-{% spaceless %}
+{% apply spaceless %}
 {% if roles is empty %}
 *Anyone*
 {% elseif roles|length == 1 %}
@@ -14,4 +14,4 @@
 {% endfor %}
 </ul>
 {% endif %}
-{% endspaceless %}
+{% endapply %}
