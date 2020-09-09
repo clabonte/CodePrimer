@@ -2,11 +2,12 @@
 
 use CodePrimer\Model\BusinessBundle;
 
-require 'DatasetFactory.php';
-require 'BusinessModelFactory.php';
-require 'BusinessProcessFactory.php';
 
 if (!defined('prepareBundle')) {
+    require 'DatasetFactory.php';
+    require 'BusinessModelFactory.php';
+    require 'BusinessProcessFactory.php';
+
     function prepareBundle(string $name = 'MyProject', string $namespace = 'com.MyProject', string $description = '')
     {
         // Step 1 - Create your BusinessBundle
