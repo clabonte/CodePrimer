@@ -5,7 +5,7 @@ namespace CodePrimer\Builder;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Renderer\TemplateRenderer;
 use CodePrimer\Template\Template;
-use Doctrine\Common\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
 
 class ProjectScriptBuilder implements ArtifactBuilder
 {
@@ -23,7 +23,8 @@ class ProjectScriptBuilder implements ArtifactBuilder
 
         $project = [];
 
-        $project['name'] = Inflector::classify($businessBundle->getName());
+        $inflector = InflectorFactory::create()->build();
+        $project['name'] = $inflector->classify($businessBundle->getName());
 
         $context = [
             'project' => $project,

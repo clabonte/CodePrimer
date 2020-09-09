@@ -14,7 +14,6 @@ use CodePrimer\Model\Dataset;
 use CodePrimer\Model\DatasetElement;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\RelationshipSide;
-use Doctrine\Common\Inflector\Inflector;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
@@ -174,7 +173,7 @@ class SqlTwigExtension extends LanguageTwigExtension
     public function userFilter(BusinessBundle $businessBundle): string
     {
         $name = str_replace(['-', ' ', '.'], '_', $businessBundle->getName());
-        $name = Inflector::tableize($name);
+        $name = $this->inflector->tableize($name);
         $name = str_replace('__', '_', $name);
 
         return $name;

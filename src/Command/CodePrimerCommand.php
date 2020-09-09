@@ -64,7 +64,8 @@ abstract class CodePrimerCommand extends Command
         $builder->build($this->getBusinessBundle(), $template, $this->templateRenderer);
     }
 
-    public function errorHandler($errno, $errstr, $errfile, $errline) {
+    public function errorHandler($errno, $errstr, $errfile, $errline)
+    {
         throw new \ErrorException($errstr, $errno, 0, $errfile, $errline);
     }
 

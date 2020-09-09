@@ -6,7 +6,6 @@ use CodePrimer\Command\ProjectConfiguration;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Template\Artifact;
 use CodePrimer\Tests\Functional\TemplateTestCase;
-use PHPUnit\Framework\TestCase;
 
 class ProjectConfigurationTest extends TemplateTestCase
 {
@@ -18,7 +17,6 @@ class ProjectConfigurationTest extends TemplateTestCase
         parent::setUp();
         $this->projectConfiguration = new ProjectConfiguration();
     }
-
 
     public function testAddArtifact()
     {

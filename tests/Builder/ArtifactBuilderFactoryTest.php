@@ -38,7 +38,7 @@ class ArtifactBuilderFactoryTest extends TestCase
     public function testCreateBuilderForUnknownTypeShouldThrowException()
     {
         self::expectException(\RuntimeException::class);
-        self::expectExceptionMessage('No builder available for category code and type unknown');
+        self::expectExceptionMessage("No builder available for category 'code', type 'unknown'");
 
         $this->factory->createBuilder(new Artifact(Artifact::CODE, 'unknown', 'php'));
     }

@@ -160,8 +160,8 @@ EOF;
                 $helper = $this->getHelper('question');
                 if ($helper->ask($input, $output, $question)) {
                     mkdir($destination, 0755, true);
-                } else{
-                    $output->writeln("<error>Select another destination and try again.</error>");
+                } else {
+                    $output->writeln('<error>Select another destination and try again.</error>');
 
                     return false;
                 }
@@ -172,7 +172,7 @@ EOF;
             return false;
         }
 
-        if (strpos($destination, '/', -1) === FALSE) {
+        if (false === strpos($destination, '/', -1)) {
             $destination .= '/';
         }
 
