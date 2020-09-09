@@ -50,7 +50,7 @@
     },
     "scripts": {
         "format-code": "vendor/bin/php-cs-fixer fix",
-        "phpunit": "chmod 444 fixtures/configuration/readonlydir; vendor/bin/phpunit -c phpunit.xml.dist -d memory_limit=512M",
+        "phpunit": "vendor/bin/phpunit -c phpunit.xml.dist -d memory_limit=512M",
         "sample-app": "bin/codeprimer prime -d sample/output -c sample/codeprimer.yaml",
         "update-doc": "bin/update-doc"
     }

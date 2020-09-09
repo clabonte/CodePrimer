@@ -21,22 +21,22 @@ class PrimeCommandTest extends TemplateTestCase
         $command = $application->find('prime');
         $this->commandTester = new CommandTester($command);
 
-        chmod('fixtures/configuration/notreadable.yaml', 0222);
-        chmod('fixtures/configuration/codeprimer/notreadable_bundle.php', 0222);
-        if (is_writable('fixtures/configuration/readonlydir/')) {
-            chmod('fixtures/configuration/readonlydir/', 0444);
+        chmod(__DIR__.'/../../fixtures/configuration/notreadable.yaml', 0222);
+        chmod(__DIR__.'/../../fixtures/configuration/codeprimer/notreadable_bundle.php', 0222);
+        if (is_writable(__DIR__.'/../../fixtures/configuration/readonlydir')) {
+            chmod(__DIR__.'/../../fixtures/configuration/readonlydir', 0444);
         }
     }
 
     public function tearDown(): void
     {
         parent::tearDown();
-        if (file_exists('fixtures/configuration/codeprimer/RenamedDatasetFactory.php')) {
-            rename('fixtures/configuration/codeprimer/RenamedDatasetFactory.php', 'fixtures/configuration/codeprimer/DatasetFactory.php');
+        if (file_exists(__DIR__.'/../../fixtures/configuration/codeprimer/RenamedDatasetFactory.php')) {
+            rename(__DIR__.'/../../fixtures/configuration/codeprimer/RenamedDatasetFactory.php', __DIR__.'/../../fixtures/configuration/codeprimer/DatasetFactory.php');
         }
 
-        chmod('fixtures/configuration/notreadable.yaml', 0666);
-        chmod('fixtures/configuration/codeprimer/notreadable_bundle.php', 0666);
+        chmod(__DIR__.'/../../fixtures/configuration/notreadable.yaml', 0666);
+        chmod(__DIR__.'/../../fixtures/configuration/codeprimer/notreadable_bundle.php', 0666);
     }
 
     /**
@@ -156,8 +156,8 @@ No template available for category 'code', type 'unknown', format 'php', variant
         $expectedError = "Loading configuration from file fixtures/configuration/codeprimer.yaml
 Failed to load configured path 'fixtures/configuration/codeprimer/bundle.php': require(DatasetFactory.php): failed to open stream: No such file or directory\n";
 
-        if (file_exists('fixtures/configuration/codeprimer/DatasetFactory.php')) {
-            rename('fixtures/configuration/codeprimer/DatasetFactory.php', 'fixtures/configuration/codeprimer/RenamedDatasetFactory.php');
+        if (file_exists(__DIR__.'/../../fixtures/configuration/codeprimer/DatasetFactory.php')) {
+            rename(__DIR__.'/../../fixtures/configuration/codeprimer/DatasetFactory.php', __DIR__.'/../../fixtures/configuration/codeprimer/RenamedDatasetFactory.php');
         }
         self::assertEquals(Command::FAILURE, $this->commandTester->execute($arguments));
 
@@ -173,8 +173,8 @@ Failed to load configured path 'fixtures/configuration/codeprimer/bundle.php': r
             '--destination' => $destDir,
         ];
 
-        if (file_exists('fixtures/configuration/codeprimer/RenamedDatasetFactory.php')) {
-            rename('fixtures/configuration/codeprimer/RenamedDatasetFactory.php', 'fixtures/configuration/codeprimer/DatasetFactory.php');
+        if (file_exists(__DIR__.'/../../fixtures/configuration/codeprimer/RenamedDatasetFactory.php')) {
+            rename(__DIR__.'/../../fixtures/configuration/codeprimer/RenamedDatasetFactory.php', __DIR__.'/../../fixtures/configuration/codeprimer/DatasetFactory.php');
         }
 
         self::assertEquals(Command::SUCCESS, $this->commandTester->execute($arguments), "Command failed with display:\n{$this->commandTester->getDisplay()}");
