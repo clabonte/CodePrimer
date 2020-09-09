@@ -2,7 +2,6 @@
 
 use CodePrimer\Model\BusinessBundle;
 
-
 if (!defined('prepareBundle')) {
     require 'DatasetFactory.php';
     require 'BusinessModelFactory.php';
