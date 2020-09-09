@@ -2,6 +2,7 @@
 /tests/output/actual/
 .idea/
 /logs/
+/reports/
 /sample/output/
 /output/
 /.phpunit.result.cache
