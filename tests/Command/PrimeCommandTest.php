@@ -23,6 +23,7 @@ class PrimeCommandTest extends TemplateTestCase
 
         chmod('fixtures/configuration/notreadable.yaml', 0222);
         chmod('fixtures/configuration/codeprimer/notreadable_bundle.php', 0222);
+        chmod('fixtures/configuration/readonlydir', 0444);
     }
 
     public function tearDown(): void
