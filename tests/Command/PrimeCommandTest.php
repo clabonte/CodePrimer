@@ -23,8 +23,8 @@ class PrimeCommandTest extends TemplateTestCase
 
         chmod('fixtures/configuration/notreadable.yaml', 0222);
         chmod('fixtures/configuration/codeprimer/notreadable_bundle.php', 0222);
-        if (is_writable('fixtures/configuration/readonlydir')) {
-            chmod('fixtures/configuration/readonlydir', 0444);
+        if (is_writable('fixtures/configuration/readonlydir/')) {
+            chmod('fixtures/configuration/readonlydir/', 0444);
         }
     }
 
