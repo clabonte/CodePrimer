@@ -56,6 +56,6 @@ class ArtifactBuilderFactory
             }
         }
 
-        throw new RuntimeException("No builder available for category $category and type $type");
+        throw new RuntimeException("No builder available for category '$category', type '$type'");
     }
 }

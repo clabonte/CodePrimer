@@ -1,5 +1,5 @@
-bundle:
-    path: fixtures/configuration/codeprimer/bundle.php
+- bundle
+    path: codeprimer/bundle.php
     name: MyProject
     namespace: com.MyProject
     description: ''

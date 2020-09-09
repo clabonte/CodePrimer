@@ -71,7 +71,7 @@ class TemplateRegistry
             return $this->templates[$category][$type][$format][$variant];
         }
 
-        throw new \Exception("No template available for category $category, type $type, format $format, variant $variant");
+        throw new \Exception("No template available for category '$category', type '$type', format '$format', variant '$variant'");
     }
 
     /**

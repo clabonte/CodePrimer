@@ -6,6 +6,7 @@ use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Helper\BusinessBundleHelper;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Template\Artifact;
+use Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -77,9 +78,17 @@ EOF;
 
         $this->templateRenderer->setBaseFolder($this->destination);
 
-        require $this->configuration->getPath();
+        set_error_handler([$this, 'errorHandler']);
+        try {
+            require $this->configuration->getPath();
+        } catch (Throwable $t) {
+            $output->writeln("<error>Failed to load configured path '{$this->configuration->getPath()}': {$t->getMessage()}</error>");
+
+            return self::FAILURE;
+        }
 
         $configBundle = $this->configuration->getBusinessBundle();
+
         $this->businessBundle = prepareBundle($configBundle->getNamespace(), $configBundle->getName(), $configBundle->getDescription());
 
         $this->finalizeBundle();
@@ -151,6 +160,10 @@ EOF;
                 $helper = $this->getHelper('question');
                 if ($helper->ask($input, $output, $question)) {
                     mkdir($destination, 0755, true);
+                } else{
+                    $output->writeln("<error>Select another destination and try again.</error>");
+
+                    return false;
                 }
             }
         } elseif (!is_writable($destination)) {
@@ -195,31 +208,19 @@ EOF;
 
         // Make sure all artifacts requested exists
         $unknownTemplates = [];
-        $unknownBuilders = [];
         foreach ($this->configuration->getAllArtifacts() as $artifact) {
-            // Check if we have a template available for this artifact...
-            $template = $this->templateRegistry->getTemplateForArtifact($artifact);
-            if (null === $template) {
-                $unknownTemplates[] = $artifact;
-            } else {
-                // Check if we have a builder available for this artifact...
-                $builder = $this->builderFactory->createBuilder($artifact);
-                if (null === $builder) {
-                    $unknownBuilders[] = $artifact;
-                }
+            try {
+                $this->templateRegistry->getTemplateForArtifact($artifact);
+                $this->builderFactory->createBuilder($artifact);
+            } catch (Exception $e) {
+                $unknownTemplates[] = $e->getMessage();
             }
         }
 
         $result = true;
         if (!empty($unknownTemplates)) {
-            foreach ($unknownTemplates as $artifact) {
-                $output->writeln("<error>No template available for artifact - category: <info>{$artifact->getCategory()}</info>, format: <info>{$artifact->getFormat()}</info>, type: <info>{$artifact->getType()}</info>, variant: <info>{$artifact->getVariant()}</info></error>");
-            }
-            $result = false;
-        }
-        if (!empty($unknownBuilders)) {
-            foreach ($unknownBuilders as $artifact) {
-                $output->writeln("<error>No builder available for artifact - category: <info>{$artifact->getCategory()}</info>, format: <info>{$artifact->getFormat()}</info>, type: <info>{$artifact->getType()}</info>, variant: <info>{$artifact->getVariant()}</info></error>");
+            foreach ($unknownTemplates as $message) {
+                $output->writeln("<error>$message</error>");
             }
             $result = false;
         }

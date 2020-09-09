@@ -1,5 +1,5 @@
 bundle:
-    path: fixtures/configuration/codeprimer/bundle.php
+    path: fixtures/configuration/codeprimer/notreadable_bundle.php
     name: MyProject
     namespace: com.MyProject
     description: ''
