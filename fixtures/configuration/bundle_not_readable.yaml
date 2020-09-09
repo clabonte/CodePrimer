@@ -1,0 +1,18 @@
+bundle:
+    path: fixtures/configuration/codeprimer/notreadable_bundle.php
+    name: MyProject
+    namespace: com.MyProject
+    description: ''
+artifacts:
+    code:
+        php:
+            - dataset
+            - model
+            - event
+        mysql:
+            Migration: [CreateDatabase, RevertDatabase]
+    documentation:
+        markdown:
+            - dataset
+            - model
+            - process: [index, details]

@@ -36,11 +36,11 @@ class PhpBusinessModelTemplatesTest extends TemplateTestCase
         $builder->build($this->businessBundle, $template, $this->renderer);
 
         // Make sure the right files have been generated
-        $this->assertGeneratedFile('src/Model/User.php', self::BUSINESS_MODEL_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/Model/UserStats.php', self::BUSINESS_MODEL_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/Model/Metadata.php', self::BUSINESS_MODEL_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/Model/Post.php', self::BUSINESS_MODEL_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/Model/Topic.php', self::BUSINESS_MODEL_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/Model/Subscription.php', self::BUSINESS_MODEL_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Model/User.php', self::BUSINESS_MODEL_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Model/UserStats.php', self::BUSINESS_MODEL_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Model/Metadata.php', self::BUSINESS_MODEL_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Model/Post.php', self::BUSINESS_MODEL_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Model/Topic.php', self::BUSINESS_MODEL_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Model/Subscription.php', self::BUSINESS_MODEL_EXPECTED_DIR);
     }
 }

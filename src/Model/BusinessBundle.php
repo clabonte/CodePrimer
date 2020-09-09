@@ -39,10 +39,11 @@ class BusinessBundle
      * @param $namespace
      * @param $name
      */
-    public function __construct($namespace, $name)
+    public function __construct(string $namespace, string $name, string $description = '')
     {
         $this->setNamespace($namespace);
         $this->name = $name;
+        $this->description = $description;
     }
 
     /**

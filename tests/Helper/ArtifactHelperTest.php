@@ -32,37 +32,37 @@ class ArtifactHelperTest extends TestCase
             'PHP BusinessModel' => [
                 TestHelper::getSampleBusinessBundle(),
                 new Artifact(Artifact::CODE, 'model', 'php'),
-                'src/Model',
+                'gen-src/Model',
             ],
             'Plain PHP Entity' => [
                 TestHelper::getSampleBusinessBundle(),
                 new Artifact(Artifact::CODE, 'entity', 'php'),
-                'src/Entity',
+                'gen-src/Entity',
             ],
             'Doctrine ORM PHP Entity' => [
                 TestHelper::getSampleBusinessBundle(),
                 new Artifact(Artifact::CODE, 'entity', 'php', 'doctrineOrm'),
-                'src/Entity',
+                'gen-src/Entity',
             ],
             'Java BusinessModel' => [
                 TestHelper::getSampleBusinessBundle(),
                 new Artifact(Artifact::CODE, 'model', 'java'),
-                'src/codeprimer/tests/model',
+                'gen-src/codeprimer/tests/model',
             ],
             'Plain Java Entity' => [
                 TestHelper::getSampleBusinessBundle(),
                 new Artifact(Artifact::CODE, 'entity', 'java'),
-                'src/codeprimer/tests/entity',
+                'gen-src/codeprimer/tests/entity',
             ],
             'PHP Repository' => [
                 TestHelper::getSampleBusinessBundle(),
                 new Artifact(Artifact::CODE, 'repository', 'php'),
-                'src/Repository',
+                'gen-src/Repository',
             ],
             'Java Repository' => [
                 TestHelper::getSampleBusinessBundle(),
                 new Artifact(Artifact::CODE, 'repository', 'java'),
-                'src/codeprimer/tests/repository',
+                'gen-src/codeprimer/tests/repository',
             ],
             'PHP Unit Tests' => [
                 TestHelper::getSampleBusinessBundle(),
@@ -139,6 +139,30 @@ class ArtifactHelperTest extends TestCase
             'Markdown Documentation' => [
                 new Artifact(Artifact::DOCUMENTATION, 'model', 'markdown'),
                 '.md',
+            ],
+            'CodePrimer Configuration' => [
+                new Artifact(Artifact::CONFIGURATION, 'codeprimer', 'php', 'bundle'),
+                '.php',
+            ],
+            'GitHub Configuration' => [
+                new Artifact(Artifact::CONFIGURATION, 'github', 'php', 'validate-pr'),
+                '.yml',
+            ],
+            'PHP CS Fixer Configuration' => [
+                new Artifact(Artifact::CONFIGURATION, 'coding standards', 'php', 'PHP CS Fixer'),
+                '.dist',
+            ],
+            'PHPUnit Configuration' => [
+                new Artifact(Artifact::CONFIGURATION, 'tests', 'php', 'phpunit'),
+                '.xml.dist',
+            ],
+            'Gitignore Configuration' => [
+                new Artifact(Artifact::CONFIGURATION, 'git', 'php', 'gitignore'),
+                '',
+            ],
+            'JSON' => [
+                new Artifact(Artifact::CODE, 'any', 'json'),
+                '.json',
             ],
             'Default' => [
                 new Artifact(Artifact::DOCUMENTATION, 'any', 'any'),

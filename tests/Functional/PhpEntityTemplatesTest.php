@@ -38,12 +38,12 @@ class PhpEntityTemplatesTest extends TemplateTestCase
         $builder->build($this->businessBundle, $template, $this->renderer);
 
         // Make sure the right files have been generated
-        $this->assertGeneratedFile('src/Entity/User.php', self::PLAIN_ENTITY_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/Entity/UserStats.php', self::PLAIN_ENTITY_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/Entity/Metadata.php', self::PLAIN_ENTITY_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/Entity/Post.php', self::PLAIN_ENTITY_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/Entity/Topic.php', self::PLAIN_ENTITY_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/Entity/Subscription.php', self::PLAIN_ENTITY_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Entity/User.php', self::PLAIN_ENTITY_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Entity/UserStats.php', self::PLAIN_ENTITY_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Entity/Metadata.php', self::PLAIN_ENTITY_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Entity/Post.php', self::PLAIN_ENTITY_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Entity/Topic.php', self::PLAIN_ENTITY_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Entity/Subscription.php', self::PLAIN_ENTITY_EXPECTED_DIR);
     }
 
     /**
@@ -73,11 +73,11 @@ class PhpEntityTemplatesTest extends TemplateTestCase
         $builder->build($this->businessBundle, $template, $this->renderer);
 
         // Make sure the right files have been generated
-        $this->assertGeneratedFile('src/Entity/User.php', self::DOCTRINE_ORM_ENTITY_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/Entity/UserStats.php', self::DOCTRINE_ORM_ENTITY_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/Entity/Metadata.php', self::DOCTRINE_ORM_ENTITY_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/Entity/Post.php', self::DOCTRINE_ORM_ENTITY_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/Entity/Topic.php', self::DOCTRINE_ORM_ENTITY_EXPECTED_DIR);
-        $this->assertGeneratedFile('src/Entity/Subscription.php', self::DOCTRINE_ORM_ENTITY_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Entity/User.php', self::DOCTRINE_ORM_ENTITY_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Entity/UserStats.php', self::DOCTRINE_ORM_ENTITY_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Entity/Metadata.php', self::DOCTRINE_ORM_ENTITY_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Entity/Post.php', self::DOCTRINE_ORM_ENTITY_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Entity/Topic.php', self::DOCTRINE_ORM_ENTITY_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Entity/Subscription.php', self::DOCTRINE_ORM_ENTITY_EXPECTED_DIR);
     }
 }

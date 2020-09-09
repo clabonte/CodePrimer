@@ -43,6 +43,6 @@ class PhpMigrationTemplatesTest extends TemplateTestCase
         self::assertCount(1, $files);
 
         // Make sure the right files have been generated
-        $this->assertGeneratedFile('src/Migration/Version00000000000001.php', self::DOCTRINE_EXPECTED_DIR);
+        $this->assertGeneratedFile('gen-src/Migration/Version00000000000001.php', self::DOCTRINE_EXPECTED_DIR);
     }
 }

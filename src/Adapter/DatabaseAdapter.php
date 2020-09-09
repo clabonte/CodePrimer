@@ -9,10 +9,19 @@ use CodePrimer\Model\Field;
 use CodePrimer\Model\Relationship;
 use CodePrimer\Model\RelationshipSide;
 use Doctrine\Common\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
 use RuntimeException;
 
 class DatabaseAdapter
 {
+    /** @var Inflector */
+    protected $inflector;
+
+    public function __construct()
+    {
+        $this->inflector = InflectorFactory::create()->build();
+    }
+
     /**
      * Extracts the name of Package and transforms it to its database name equivalent.
      * Converts 'dbName', 'db-name' and 'db name' to 'db_name'.
@@ -22,8 +31,8 @@ class DatabaseAdapter
     public function getDatabaseName(BusinessBundle $businessBundle)
     {
         $dbName = $businessBundle->getNamespace().' '.$businessBundle->getName();
-        $name = str_replace(['-', ' ', '.'], '_', Inflector::singularize($dbName));
-        $name = Inflector::tableize($name);
+        $name = str_replace(['-', ' ', '.'], '_', $this->inflector->singularize($dbName));
+        $name = $this->inflector->tableize($name);
         $name = str_replace('__', '_', $name);
 
         return $name;
@@ -37,8 +46,8 @@ class DatabaseAdapter
      */
     public function getTableName($model): string
     {
-        $name = str_replace(['-', ' ', '.'], '_', Inflector::pluralize($model->getName()));
-        $name = Inflector::tableize($name);
+        $name = str_replace(['-', ' ', '.'], '_', $this->inflector->pluralize($model->getName()));
+        $name = $this->inflector->tableize($name);
         $name = str_replace('__', '_', $name);
 
         return $name;
@@ -74,7 +83,7 @@ class DatabaseAdapter
     public function getColumnName(Field $field): string
     {
         $name = str_replace(['-', ' ', '.'], '_', $field->getName());
-        $name = Inflector::tableize($name);
+        $name = $this->inflector->tableize($name);
         $name = str_replace('__', '_', $name);
 
         return $name;
@@ -86,7 +95,7 @@ class DatabaseAdapter
     public function getBusinessModelColumnName(BusinessModel $businessModel): string
     {
         $name = str_replace(['-', ' ', '.'], '_', $businessModel->getName());
-        $name = Inflector::tableize($name).'_id';
+        $name = $this->inflector->tableize($name).'_id';
         $name = str_replace('__', '_', $name);
 
         return $name;

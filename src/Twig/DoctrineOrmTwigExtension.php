@@ -4,7 +4,6 @@ namespace CodePrimer\Twig;
 
 use CodePrimer\Adapter\RelationalDatabaseAdapter;
 use CodePrimer\Helper\BusinessModelHelper;
-use CodePrimer\Helper\FieldHelper;
 use CodePrimer\Helper\FieldType;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\BusinessModel;
@@ -23,9 +22,6 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
     /** @var BusinessModelHelper */
     private $businessModelHelper;
 
-    /** @var FieldHelper */
-    private $fieldHelper;
-
     /** @var RelationalDatabaseAdapter */
     private $databaseAdapter;
 
@@ -33,7 +29,6 @@ class DoctrineOrmTwigExtension extends PhpTwigExtension
     {
         parent::__construct();
         $this->businessModelHelper = new BusinessModelHelper();
-        $this->fieldHelper = new FieldHelper();
         $this->databaseAdapter = new RelationalDatabaseAdapter();
     }
 

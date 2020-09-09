@@ -41,7 +41,7 @@ class PhpDatasetTemplatesTest extends TemplateTestCase
         // Make sure the right files have been generated
         foreach ($dataSets as $dataSet) {
             $class = $languageExtension->classFilter($dataSet);
-            $this->assertGeneratedFile("src/Dataset/$class.php", self::DATASET_EXPECTED_DIR);
+            $this->assertGeneratedFile("gen-src/Dataset/$class.php", self::DATASET_EXPECTED_DIR);
         }
     }
 }

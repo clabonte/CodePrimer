@@ -5,10 +5,12 @@ namespace CodePrimer\Builder;
 use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Renderer\TemplateRenderer;
 use CodePrimer\Template\Template;
-use Doctrine\Common\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
 
 class ProjectScriptBuilder implements ArtifactBuilder
 {
+    const PHP_CS_FIXER_FORMAT = 'PHP CS Fixer';
+
     /**
      * @return string[]
      *
@@ -21,12 +23,14 @@ class ProjectScriptBuilder implements ArtifactBuilder
 
         $project = [];
 
-        $project['name'] = Inflector::classify($businessBundle->getName());
+        $inflector = InflectorFactory::create()->build();
+        $project['name'] = $inflector->classify($businessBundle->getName());
 
         $context = [
             'project' => $project,
             'package' => $businessBundle,
             'bundle' => $businessBundle,
+            'variant' => $artifact->getVariant(),
         ];
 
         $file = $renderer->renderToFile($filename, $businessBundle, $template, $context);

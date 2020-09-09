@@ -11,7 +11,6 @@ use CodePrimer\Model\Dataset;
 use CodePrimer\Model\Field;
 use CodePrimer\Model\Relationship;
 use CodePrimer\Model\RelationshipSide;
-use Doctrine\Common\Inflector\Inflector;
 
 class RelationalDatabaseAdapter extends DatabaseAdapter
 {
@@ -49,7 +48,7 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
     {
         $name = 'id';
         if (null !== $businessModel->getField($name)) {
-            $name = Inflector::camelize($businessModel->getName()).'Id';
+            $name = $this->inflector->camelize($businessModel->getName()).'Id';
         }
         if (null !== $businessModel->getField($name)) {
             throw new \RuntimeException('Cannot generate ID field for entity '.$businessModel->getName().': "id" and "'.$name.'" fields are already defined. Did you forget to specify an identifier for this entity?');
@@ -108,7 +107,7 @@ class RelationalDatabaseAdapter extends DatabaseAdapter
             throw new \RuntimeException('No identifier available for foreign entity '.$foreignModel->getName());
         }
 
-        $name = Inflector::camelize($foreignModel->getName());
+        $name = $this->inflector->camelize($foreignModel->getName());
         if (null !== $businessModel->getField($name)) {
             throw new \RuntimeException('Cannot generate foreign key field on entity '.$businessModel->getName().': Field "'.$name.'" field is already defined. Did you provide the right type for this field?');
         }

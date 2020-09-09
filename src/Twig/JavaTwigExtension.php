@@ -7,7 +7,6 @@ use CodePrimer\Model\BusinessBundle;
 use CodePrimer\Model\Data\Data;
 use CodePrimer\Model\Data\EventData;
 use CodePrimer\Model\Field;
-use Doctrine\Common\Inflector\Inflector;
 use Twig\TwigFilter;
 
 /**
@@ -37,7 +36,7 @@ class JavaTwigExtension extends LanguageTwigExtension
     {
         $name = $this->getName($obj);
         if (is_string($name) && !empty($name)) {
-            return 'this.'.Inflector::singularize(Inflector::camelize($this->getName($obj)));
+            return 'this.'.$this->inflector->singularize($this->inflector->camelize($this->getName($obj)));
         }
 
         return $name;

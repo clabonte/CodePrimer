@@ -44,11 +44,11 @@ jobs:
       uses: slavcodev/coverage-monitor-action@1.1.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        clover_file: "logs/clover.xml"
+        clover_file: "reports/clover.xml"
         threshold_alert: 90
         threshold_warning: 95
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
       with:
-        file: ./logs/clover.xml
+        file: ./reports/clover.xml

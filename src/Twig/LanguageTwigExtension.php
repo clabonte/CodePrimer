@@ -20,6 +20,7 @@ use CodePrimer\Model\State;
 use CodePrimer\Model\StateMachine;
 use CodePrimer\Model\Transition;
 use Doctrine\Common\Inflector\Inflector;
+use Doctrine\Inflector\InflectorFactory;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigTest;
@@ -35,11 +36,15 @@ use Twig\TwigTest;
 class LanguageTwigExtension extends AbstractExtension
 {
     /** @var FieldHelper */
-    private $fieldHelper;
+    protected $fieldHelper;
+
+    /** @var Inflector */
+    protected $inflector;
 
     public function __construct()
     {
         $this->fieldHelper = new FieldHelper();
+        $this->inflector = InflectorFactory::create()->build();
     }
 
     public function getFilters()
@@ -494,7 +499,7 @@ class LanguageTwigExtension extends AbstractExtension
     {
         $name = $this->getName($obj);
         if (is_string($name)) {
-            return Inflector::pluralize($name);
+            return $this->inflector->pluralize($name);
         }
 
         return $name;
@@ -510,7 +515,7 @@ class LanguageTwigExtension extends AbstractExtension
      */
     public function singularFilter($obj)
     {
-        return Inflector::singularize($this->getName($obj));
+        return $this->inflector->singularize($this->getName($obj));
     }
 
     /**
@@ -536,7 +541,7 @@ class LanguageTwigExtension extends AbstractExtension
      */
     public function camelFilter($obj)
     {
-        return Inflector::camelize($this->getName($obj));
+        return $this->inflector->camelize($this->getName($obj));
     }
 
     /**
@@ -554,7 +559,7 @@ class LanguageTwigExtension extends AbstractExtension
         if (is_string($name)) {
             $name = str_replace(['-', ' ', '.'], '_', $name);
 
-            return str_replace('__', '_', Inflector::tableize($name));
+            return str_replace('__', '_', $this->inflector->tableize($name));
         }
 
         return $name;
@@ -570,7 +575,7 @@ class LanguageTwigExtension extends AbstractExtension
      */
     public function classFilter($obj)
     {
-        return Inflector::classify($this->getName($obj));
+        return $this->inflector->classify($this->getName($obj));
     }
 
     /**
@@ -596,7 +601,7 @@ class LanguageTwigExtension extends AbstractExtension
      */
     public function variableFilter($obj)
     {
-        return Inflector::camelize($this->getName($obj));
+        return $this->inflector->camelize($this->getName($obj));
     }
 
     /**
@@ -609,7 +614,7 @@ class LanguageTwigExtension extends AbstractExtension
      */
     public function memberFilter($obj)
     {
-        return Inflector::camelize($this->getName($obj));
+        return $this->inflector->camelize($this->getName($obj));
     }
 
     /**
@@ -711,7 +716,7 @@ class LanguageTwigExtension extends AbstractExtension
         if (is_string($name) && !empty($name)) {
             $prefix = 'add';
 
-            return $prefix.Inflector::singularize($this->classFilter($name));
+            return $prefix.$this->inflector->singularize($this->classFilter($name));
         }
 
         return $name;
@@ -728,7 +733,7 @@ class LanguageTwigExtension extends AbstractExtension
         if (is_string($name) && !empty($name)) {
             $prefix = 'remove';
 
-            return $prefix.Inflector::singularize($this->classFilter($name));
+            return $prefix.$this->inflector->singularize($this->classFilter($name));
         }
 
         return $name;
@@ -745,7 +750,7 @@ class LanguageTwigExtension extends AbstractExtension
         if (is_string($name) && !empty($name)) {
             $prefix = 'contains';
 
-            return $prefix.Inflector::singularize($this->classFilter($name));
+            return $prefix.$this->inflector->singularize($this->classFilter($name));
         }
 
         return $name;

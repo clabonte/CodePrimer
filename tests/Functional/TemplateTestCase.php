@@ -35,7 +35,7 @@ class TemplateTestCase extends TestCase
 
         $this->templateRegistry = new TemplateRegistry();
         $this->factory = new ArtifactBuilderFactory();
-        $this->businessBundle = new BusinessBundle('CodePrimer Tests', 'FunctionalTest');
+        $this->businessBundle = new BusinessBundle('CodePrimer Tests', 'FunctionalTest', 'This is a sample BusinessBundle used to test CodePrimer functionality');
         $loader = new FilesystemLoader('templates', self::ROOT);
         $this->renderer = new TemplateRenderer($loader, self::ACTUAL_DIR);
 

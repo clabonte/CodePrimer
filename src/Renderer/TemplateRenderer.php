@@ -21,6 +21,9 @@ class TemplateRenderer
     /** @var ArtifactHelper */
     private $helper;
 
+    /** @var bool Whether we should overwrite files if they already exists */
+    private $overwriteFiles = true;
+
     /**
      * TemplateHelper constructor.
      *
@@ -51,6 +54,24 @@ class TemplateRenderer
     public function setBaseFolder(string $baseFolder): TemplateRenderer
     {
         $this->baseFolder = $baseFolder;
+
+        return $this;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function isOverwriteFiles(): bool
+    {
+        return $this->overwriteFiles;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     */
+    public function setOverwriteFiles(bool $overwriteFiles): TemplateRenderer
+    {
+        $this->overwriteFiles = $overwriteFiles;
 
         return $this;
     }
@@ -124,20 +145,23 @@ class TemplateRenderer
      */
     public function renderToFile(string $filename, BusinessBundle $businessBundle, Template $template, $context = []): string
     {
-        $content = $this->renderTemplate($template, $context);
-
         $dir = $this->helper->getDirectory($businessBundle, $template->getArtifact());
         $extension = $this->helper->getFilenameExtension($template->getArtifact());
 
         $file = $this->baseFolder.$dir.'/'.$filename.$extension;
 
-        // Make sure the folder requested exist. If not, create it
-        $dir = dirname($file);
-        if (!file_exists($dir)) {
-            mkdir($dir, 0777, true);
-        }
+        if ($this->overwriteFiles || !file_exists($file)) {
+            // Make sure the folder requested exist. If not, create it
+            $dir = dirname($file);
+            if (!file_exists($dir)) {
+                mkdir($dir, 0755, true);
+            }
 
-        file_put_contents($file, $content);
+            $content = $this->renderTemplate($template, $context);
+            file_put_contents($file, $content);
+        } else {
+            fprintf(STDERR, "Skipping rendering of existing file $file...".PHP_EOL);
+        }
 
         return $file;
     }

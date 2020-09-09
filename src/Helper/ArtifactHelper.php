@@ -18,7 +18,7 @@ class ArtifactHelper
 
         switch ($artifact->getCategory()) {
             case Artifact::CODE:
-                $dir = 'src';
+                $dir = 'gen-src';
                 break;
             case Artifact::TESTS:
                 $dir = 'tests';
@@ -63,22 +63,48 @@ class ArtifactHelper
     {
         $extension = '.txt';
 
-        switch ($artifact->getFormat()) {
-            case 'php':
+        if (Artifact::CONFIGURATION == $artifact->getCategory()) {
+            if ('codeprimer' == strtolower($artifact->getType())) {
                 $extension = '.php';
-                break;
-            case 'java':
-                $extension = '.java';
-                break;
-            case 'sh':
-                $extension = '.sh';
-                break;
-            case 'mysql':
-                $extension = '.sql';
-                break;
-            case 'markdown':
-                $extension = '.md';
-                break;
+            } elseif ('github' == strtolower($artifact->getType())) {
+                $extension = '.yml';
+            } else {
+                switch (strtolower($artifact->getVariant())) {
+                    case 'composer':
+                        $extension = '.json';
+                        break;
+                    case 'php cs fixer':
+                        $extension = '.dist';
+                        break;
+                    case 'phpunit':
+                        $extension = '.xml.dist';
+                        break;
+                    case 'gitignore':
+                        $extension = '';
+                        break;
+                }
+            }
+        } else {
+            switch ($artifact->getFormat()) {
+                case 'php':
+                    $extension = '.php';
+                    break;
+                case 'java':
+                    $extension = '.java';
+                    break;
+                case 'sh':
+                    $extension = '.sh';
+                    break;
+                case 'mysql':
+                    $extension = '.sql';
+                    break;
+                case 'markdown':
+                    $extension = '.md';
+                    break;
+                case 'json':
+                    $extension = '.json';
+                    break;
+            }
         }
 
         return $extension;

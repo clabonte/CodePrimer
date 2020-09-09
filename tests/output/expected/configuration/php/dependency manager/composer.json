@@ -1,0 +1,40 @@
+{
+    "name": "FunctionalTest",
+    "type": "application",
+    "description": "This is a sample BusinessBundle used to test CodePrimer functionality",
+    "prefer-stable": true,
+    "require": {
+        "php": "^7.3.9",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "ext-intl": "*",
+        "ext-json": "*",
+        "clabonte/codeprimer": "^0.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.3",
+        "ext-xdebug": "^2.9",
+        "friendsofphp/php-cs-fixer": "^2.16"
+    },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "CodePrimer\\Tests\\": ["src/", "gen-src/"]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CodePrimer\\Tests\\Tests\\": ["tests/", "gen-tests"]
+        }
+    },
+    "scripts": {
+        "format-code": "vendor/bin/php-cs-fixer fix",
+        "phpunit": "vendor/bin/phpunit -c phpunit.xml.dist -d memory_limit=256M",
+        "prime": "vendor/bin/codeprimer prime"
+    }
+}

@@ -26,7 +26,7 @@ class TestHelper
      */
     public static function getSampleBusinessBundle($withBusinessModels = true, $withRelationships = true, $withBusinessProcesses = true): BusinessBundle
     {
-        $businessBundle = new BusinessBundle('CodePrimer Tests', 'FunctionalTest');
+        $businessBundle = new BusinessBundle('CodePrimer Tests', 'FunctionalTest', 'This is a sample BusinessBundle used to test CodePrimer functionality');
 
         if ($withBusinessModels) {
             self::addSampleBusinessModels($businessBundle);

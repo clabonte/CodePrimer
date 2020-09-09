@@ -20,10 +20,13 @@
         "ext-iconv": "*",
         "ext-intl": "*",
         "doctrine/inflector": "^1.3",
+        "symfony/console": "^5.1",
+        "symfony/yaml": "^5.1",
         "twig/twig": "^2.0"
     },
     "require-dev": {
         "ext-xdebug": "^2.7.2",
+        "friendsofphp/php-cs-fixer": "^2.16",
         "phpunit/phpunit": "^8"
     },
     "config": {
@@ -32,6 +35,9 @@
         },
         "sort-packages": true
     },
+    "bin": [
+        "bin/codeprimer"
+    ],
     "autoload": {
         "psr-4": {
             "CodePrimer\\": "src/"
@@ -43,9 +49,9 @@
         }
     },
     "scripts": {
-        "format-code": "php-cs-fixer fix",
-        "phpunit": "vendor/bin/phpunit -c phpunit.xml.dist -d memory_limit=256M",
-        "sample-app": "cd sample; php ChannelApp.php; cd ..",
-        "update-doc": "cd app; php prime.php; cd .."
+        "format-code": "vendor/bin/php-cs-fixer fix",
+        "phpunit": "vendor/bin/phpunit -c phpunit.xml.dist -d memory_limit=512M",
+        "sample-app": "bin/codeprimer prime -d sample/output -c sample/codeprimer.yaml",
+        "update-doc": "bin/update-doc"
     }
 }
