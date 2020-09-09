@@ -23,9 +23,7 @@ class PrimeCommandTest extends TemplateTestCase
 
         chmod(__DIR__.'/../../fixtures/configuration/notreadable.yaml', 0222);
         chmod(__DIR__.'/../../fixtures/configuration/codeprimer/notreadable_bundle.php', 0222);
-        if (is_writable(__DIR__.'/../../fixtures/configuration/readonlydir')) {
-            chmod(__DIR__.'/../../fixtures/configuration/readonlydir', 0444);
-        }
+        mkdir ('tests/output/actual/readonlydir', 0444);
     }
 
     public function tearDown(): void
@@ -81,10 +79,10 @@ class PrimeCommandTest extends TemplateTestCase
             'Destination is read-only' => [
                 [
                     '--configuration' => 'fixtures/configuration/codeprimer.yaml',
-                    '--destination' => 'fixtures/configuration/readonlydir',
+                    '--destination' => 'tests/output/actual/readonlydir',
                 ],
                 [],
-                "Destination directory fixtures/configuration/readonlydir is not writable. Please update its permissions and try again.\n",
+                "Destination directory tests/output/actual/readonlydir is not writable. Please update its permissions and try again.\n",
             ],
             'Unknown destination - do not create' => [
                 [
