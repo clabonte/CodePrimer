@@ -2,6 +2,8 @@
 
 use CodePrimer\Model\BusinessBundle;
 
+set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__);
+
 require 'DatasetFactory.php';
 require 'BusinessModelFactory.php';
 require 'BusinessProcessFactory.php';
