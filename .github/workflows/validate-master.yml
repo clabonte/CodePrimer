@@ -10,6 +10,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: Setup PHP with proper version and extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.3'
+          extensions: xdebug-2.7.2
+          coverage: xdebug
+          tools: composer:v1, phpunit:v8.5.8, php-cs-fixer:v2.17.3
+
       - name: PHP-CS-Fixer
         uses: docker://oskarstark/php-cs-fixer-ga
         with:
@@ -21,6 +30,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
+    - name: Setup PHP with proper version and extensions
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.3'
+        extensions: xdebug-2.7.2
+        coverage: xdebug
+        tools: composer:v1, phpunit:v8.5.8, php-cs-fixer:v2.17.3
 
     - name: Validate composer.json and composer.lock
       run: composer validate
