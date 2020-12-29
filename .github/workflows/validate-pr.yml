@@ -15,7 +15,8 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '7.3'
-          extensions: ext-xdebug
+          coverage: xdebug
+          tools: composer, phpunit, php-cs-fixer
 
       - name: PHP-CS-Fixer
         uses: docker://oskarstark/php-cs-fixer-ga
@@ -32,7 +33,8 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: '7.3'
-        extensions: ext-xdebug
+        coverage: xdebug
+        tools: composer, phpunit, php-cs-fixer
 
     - name: Validate composer.json and composer.lock
       run: composer validate
