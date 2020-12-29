@@ -3,8 +3,8 @@
 namespace CodePrimer\Tests\Twig;
 
 use CodePrimer\Helper\FieldType;
-use CodePrimer\Model\ BusinessModel;
 use CodePrimer\Model\BusinessBundle;
+use CodePrimer\Model\BusinessModel;
 use CodePrimer\Model\BusinessProcess;
 use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Data\Data;
@@ -281,7 +281,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
             ['field.name', 'Field.name'],
             ['field-name', 'FieldName'],
             ['class name', 'ClassName'],
-            [new  BusinessModel('Entities'), 'Entities'],
+            [new BusinessModel('Entities'), 'Entities'],
             [new Field('MYSQL_Field', 'int'), 'MYSQLField'],
             [new BusinessBundle('Packages', 'Package_name'), 'PackageName'],
             [new BusinessProcess('business process', 'test', new Event('event')), 'BusinessProcess'],

@@ -151,7 +151,7 @@ class TestHelper
     {
         self::addSampleDatasets($businessBundle);
 
-        $businessModel = new  BusinessModel('User', 'This entity represents a user');
+        $businessModel = new BusinessModel('User', 'This entity represents a user');
         $businessModel
             ->setAudited(true)
             ->addField(
@@ -280,7 +280,7 @@ class TestHelper
 
         $businessBundle->addBusinessModel($businessModel);
 
-        $businessModel = new  BusinessModel('Topic', 'A topic regroups a set of posts made by various authors');
+        $businessModel = new BusinessModel('Topic', 'A topic regroups a set of posts made by various authors');
         $businessModel
             ->addField(new Field('title', FieldType::STRING, 'The topic title', true))
             ->addField(new Field('description', FieldType::TEXT, 'The topic description'))
