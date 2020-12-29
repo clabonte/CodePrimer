@@ -213,16 +213,15 @@ class BusinessProcessTest extends TestCase
         self::assertArrayHasKey('message.id', $this->businessProcess->getMessages());
     }
 
-    public function testAddReturnedDataShouldWork()
+    public function testSetReturnedDataShouldWork()
     {
         self::assertFalse($this->businessProcess->isDataReturned());
         self::assertEmpty($this->businessProcess->getReturnedData());
 
-        $this->businessProcess->addReturnedData(new ReturnedDataBundle('Test'));
+        $this->businessProcess->setReturnedData(new ReturnedDataBundle('Test'));
 
         self::assertTrue($this->businessProcess->isDataReturned());
-        self::assertCount(1, $this->businessProcess->getReturnedData());
-        self::assertArrayHasKey('Test', $this->businessProcess->getReturnedData());
+        self::assertNotNull($this->businessProcess->getReturnedData());
     }
 
     public function testConstructorWithInvalidTypeThrowsException()

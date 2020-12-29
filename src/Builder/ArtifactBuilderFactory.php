@@ -18,6 +18,8 @@ class ArtifactBuilderFactory
         $this->builders = [];
 
         $this->builders[Artifact::CODE] = [
+            'databundle' => DataBundleBuilder::class,
+            'engine' => EngineBuilder::class,
             'entity' => EntityBuilder::class,
             'event' => EventBuilder::class,
             'model' => BusinessModelBuilder::class,

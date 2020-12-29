@@ -13,6 +13,7 @@ use CodePrimer\Model\Constraint;
 use CodePrimer\Model\Data\ContextDataBundle;
 use CodePrimer\Model\Data\EventDataBundle;
 use CodePrimer\Model\Data\InternalDataBundle;
+use CodePrimer\Model\Data\ReturnedDataBundle;
 use CodePrimer\Model\Dataset;
 use CodePrimer\Model\DatasetElement;
 use CodePrimer\Model\Derived\Event;
@@ -325,6 +326,7 @@ class TestHelper
         $dataBundleHelper = new DataBundleHelper($businessBundle);
         $user = $businessBundle->getBusinessModel('User');
         $post = $businessBundle->getBusinessModel('Post');
+        $topic = $businessBundle->getBusinessModel('Topic');
 
         // --------------------------------------------------------
         // Process 1: Add a simple synchronous process without data
@@ -460,6 +462,48 @@ class TestHelper
         $businessProcess->addProducedData($contextBundle);
 
         // 6. Publish a message to trigger other processes
+        // N/A
+
+        $businessBundle->addBusinessProcess($businessProcess);
+
+        // --------------------------------------------------------
+        // Process 5: Retrieve Posts for a given topic
+        // --------------------------------------------------------
+        // 1. Define the input data required for this process
+        $eventBundle = new EventDataBundle();
+        $dataBundleHelper->addFieldsAsMandatory($eventBundle, $topic, ['title']);
+
+        // 2. Define the event that will trigger this process
+        $event = new Event(
+            'Retrieve Posts',
+            'Event triggered when user wants to retrieve a list of posts for a given topic');
+        $event->addDataBundle($eventBundle);
+
+        // 3. Create the Business Process
+        $businessProcess = new BusinessProcess(
+            'Retrieve Posts for Topic',
+            'This process is triggered when a user wants to retrieve a list of posts for a given topic',
+            $event);
+
+        // Set the process attributes
+        $businessProcess
+            ->setCategory('Posts')
+            ->setType(ProcessType::RETRIEVE)
+            ->setExternalAccess(true);
+
+        // 4. Define the bundle of data required by this process
+        // N/A
+
+        // 5. Define the bundle of data produced/updated by this process
+        // N/A
+
+        // 6. Define the bundle of datq returned by this process
+        $returnedBundle = new ReturnedDataBundle();
+        $returnedBundle->setDescription('List of posts elements found');
+        $dataBundleHelper->addBusinessModelExceptFields($returnedBundle, $post, ['scheduled']);
+        $businessProcess->setReturnedData($returnedBundle);
+
+        // 7. Publish a message to trigger other processes
         // N/A
 
         $businessBundle->addBusinessProcess($businessProcess);

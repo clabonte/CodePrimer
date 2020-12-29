@@ -34,7 +34,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
     {
         $filters = $this->twigExtension->getFilters();
 
-        self::assertCount(21, $filters);
+        self::assertCount(22, $filters);
 
         $this->assertTwigFilter('plural', $filters);
         $this->assertTwigFilter('singular', $filters);
@@ -55,6 +55,7 @@ class LanguageTwigExtensionTest extends TwigExtensionTest
         $this->assertTwigFilter('addMethod', $filters);
         $this->assertTwigFilter('removeMethod', $filters);
         $this->assertTwigFilter('containsMethod', $filters);
+        $this->assertTwigFilter('onMethod', $filters);
         $this->assertTwigFilter('yesNo', $filters);
         $this->assertTwigFilter('elementGetter', $filters);
     }

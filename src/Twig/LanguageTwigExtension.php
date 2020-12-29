@@ -69,6 +69,7 @@ class LanguageTwigExtension extends AbstractExtension
             new TwigFilter('addMethod', [$this, 'addMethodFilter'], ['is_safe' => ['html']]),
             new TwigFilter('removeMethod', [$this, 'removeMethodFilter'], ['is_safe' => ['html']]),
             new TwigFilter('containsMethod', [$this, 'containsMethodFilter'], ['is_safe' => ['html']]),
+            new TwigFilter('onMethod', [$this, 'onMethodFilter'], ['is_safe' => ['html']]),
             new TwigFilter('yesNo', [$this, 'yesNoFilter'], ['is_safe' => ['html']]),
             new TwigFilter('elementGetter', [$this, 'elementGetterFilter'], ['is_safe' => ['html']]),
         ];
@@ -700,6 +701,23 @@ class LanguageTwigExtension extends AbstractExtension
             $prefix = 'set';
 
             return $prefix.$this->classFilter($name);
+        }
+
+        return $name;
+    }
+
+    /**
+     * @param mixed $obj
+     *
+     * @return string
+     */
+    public function onMethodFilter($obj)
+    {
+        $name = $this->getName($obj);
+        if (is_string($name) && !empty($name)) {
+            $prefix = 'on';
+
+            return $prefix.$this->inflector->singularize($this->classFilter($name));
         }
 
         return $name;

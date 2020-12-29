@@ -131,6 +131,10 @@ class TemplateRegistry
         $this->addTemplate(new Template('Event', new Artifact(Artifact::CODE, 'event', 'php'), $phpExtensions),
             'Generate plain PHP Event classes');
 
+        // PHP DataBundle
+        $this->addTemplate(new Template('DataBundle', new Artifact(Artifact::CODE, 'databundle', 'php'), $phpExtensions),
+            'Generate plain PHP DataBundle classes');
+
         // PHP DataSet
         $this->addTemplate(new Template('Dataset', new Artifact(Artifact::CODE, 'dataset', 'php'), $phpExtensions),
             'Generate plain PHP Dataset classes');
@@ -140,6 +144,10 @@ class TemplateRegistry
             'Generate plain PHP Entity classes', 'alpha');
         $this->addTemplate(new Template('DoctrineOrmEntity', new Artifact(Artifact::CODE, 'entity', 'php', 'doctrineOrm'), $doctrineOrmExtensions),
             'Generate Entity PHP classes using Doctrine ORM annotations', 'alpha');
+
+        // PHP Engine
+        $this->addTemplate(new Template('EngineInterface', new Artifact(Artifact::CODE, 'engine', 'php', 'interface'), $phpExtensions),
+            'Generate PHP Engine interfaces', 'beta');
 
         // PHP Repository
         $this->addTemplate(new Template('DoctrineOrmRepository', new Artifact(Artifact::CODE, 'repository', 'php', 'doctrineOrm'), $doctrineOrmExtensions),

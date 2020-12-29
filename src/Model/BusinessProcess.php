@@ -52,8 +52,8 @@ class BusinessProcess
     /** @var DataBundle[][] List of data updates produced as an outcome of this process */
     private $producedData = [];
 
-    /** @var ReturnedDataBundle[] List of data returned as output of this process */
-    private $returnedData = [];
+    /** @var ?ReturnedDataBundle Data returned as output of this process */
+    private $returnedData = null;
 
     /** @var Message[] List of messages that can be produced as an outcome of this process */
     private $messages = [];
@@ -408,10 +408,8 @@ class BusinessProcess
 
     /**
      * @codeCoverageIgnore
-     *
-     * @return ReturnedDataBundle[]
      */
-    public function getReturnedData(): array
+    public function getReturnedData(): ?ReturnedDataBundle
     {
         return $this->returnedData;
     }
@@ -419,16 +417,16 @@ class BusinessProcess
     /**
      * @codeCoverageIgnore
      */
-    public function addReturnedData(ReturnedDataBundle $dataBundle): BusinessProcess
+    public function setReturnedData(ReturnedDataBundle $dataBundle): BusinessProcess
     {
-        $this->returnedData[$dataBundle->getName()] = $dataBundle;
+        $this->returnedData = $dataBundle;
 
         return $this;
     }
 
     public function isDataReturned(): bool
     {
-        return count($this->returnedData) > 0;
+        return null !== $this->returnedData;
     }
 
     /**

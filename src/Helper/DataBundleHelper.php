@@ -195,6 +195,31 @@ class DataBundleHelper
     }
 
     /**
+     * Checks if a DataBundle can be substituted by a BusinessModel in the code generation.
+     */
+    public function isSingleBusinessModel(DataBundle $dataBundle): bool
+    {
+        $businessModels = $dataBundle->listBusinessModelNames();
+        if (1 != count($businessModels)) {
+            return false;
+        }
+
+        $businessModel = $this->businessBundle->getBusinessModel($businessModels[0]);
+        if (count($businessModel->getFields()) == count($dataBundle->listData($businessModel->getName()))) {
+            return true;
+        }
+
+        $mandatoryFields = $businessModel->getMandatoryFields();
+        foreach ($mandatoryFields as $field) {
+            if (!$dataBundle->isPresent($businessModel->getName(), $field->getName())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Adds all the unmanaged fields of a BusinessModel as input data to a bundle following the model's mandatory/optional field definition.
      */
     private function addBusinessModelAsEventData(EventDataBundle $dataBundle, BusinessModel $businessModel, string $fieldDetails = Data::REFERENCE)

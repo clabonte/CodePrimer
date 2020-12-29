@@ -37,7 +37,7 @@ class TemplateRegistryTest extends TestCase
     public function testListTemplatesByCategoryShouldPass()
     {
         $templates = $this->registry->listTemplates(Artifact::CODE);
-        self::assertCount(11, $templates);
+        self::assertCount(12, $templates);
 
         $templates = $this->registry->listTemplates(Artifact::CONFIGURATION);
         self::assertCount(10, $templates);
