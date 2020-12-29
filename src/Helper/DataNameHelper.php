@@ -24,7 +24,7 @@ class DataNameHelper
         return $this->names[$name];
     }
 
-    public function getBundleName(string $name): ?String
+    public function getBundleName(string $name): ?string
     {
         return $this->bundleNames[$name];
     }
